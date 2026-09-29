@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 8086620840,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 8086620840,
+        "token": "lsn=1/E2000AA8",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      8086620840
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-09-29T21:47:43.029398Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-01_20260929T213925Z/ab-8086620840/report.json",
+    "report_sha256": "a4c262aadb3fb5e8f70578ce4946f0fc3ba03b96abce13e61fe0892162b2c6d0",
+    "verdict_v1": "correct"
+  },
+  "completion_tokens": 2933,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T21:48:04.042521Z",
+  "freeze_sha256": "9327b9b26698b87fadffc3e8d5281fc1fdcfbedf65cc6f49f194483bc7d2530b",
+  "incident_id": "SC-01_20260929T213925Z",
+  "latency_ms": 20664,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-01_20260929T213925Z/sc01/units/M3/R0/k1/model.json",
+  "model_record_sha256": "5d1291d2f5b8638a0083136d7cf43f6e50cf86c6cc10a5306aaf9a820bc08a5a",
+  "outcome": "accepted",
+  "prompt_sha256": "13d19f07a039ae6221767620b4a9cee98a3aaa404bd9ae137477d77ce2a8edfc",
+  "prompt_tokens": 25888,
+  "raw_completion": "\n\nLooking at the evidence, I need to identify the \"damaging activity\" and find the last safe point before it began.\n\n**Identifying the damaging activity:**\nThe bulk delete of 200 seed rows (id 1\u2013200, all under xid 22817, LSNs 1/E3000028 through 1/E3003FB0) is the clearly damaging operation \u2014 it mass-deletes seed data.\n\n**Finding the last safe point before it:**\nTracing LSN order, the last safe (non-damaging) operation before the first seed delete (1/E3000028) is:\n\n- Action: U (update) on id 88000702, value \"u88000702b\"\n- LSN: **1/E2000AA8** (lsn_int 8086620840)\n- xid 22816, wall_clock 2026-09-29T21:40:06.837288Z\n\nThis is the latest point at which the WAL is still in a safe, pre-damage state.\n\nCOORDINATE: lsn=1/E2000AA8",
+  "replicate_index": 1,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R0|1"
+}

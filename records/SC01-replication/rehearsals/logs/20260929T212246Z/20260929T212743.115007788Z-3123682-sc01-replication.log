@@ -1,0 +1,3 @@
+Stage sc01-replication; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T212246Z/20260929T212743.115007788Z-3123682-sc01-replication.log
+SC-01 replication failed: SC-01 control failed: reference
+Exit 1 at 2026-09-29T21:27:52Z

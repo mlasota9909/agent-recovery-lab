@@ -1,0 +1,32 @@
+{
+  "coordinate": {
+    "lsn": "1/E2000638",
+    "resolved_by": "lsn_first",
+    "skew_bytes": 16776896,
+    "skew_ms": 1019,
+    "snapshot": "s_20260929T214004212Z_000012",
+    "wall_clock": "2026-09-29T21:40:06.049185Z"
+  },
+  "incident": "SC-01_20260929T213925Z",
+  "inputs": {
+    "injection.json": {
+      "commit_lsn": "1/E3000000",
+      "path": "/home/mlasota/agent-recovery-lab/evidence/SC-01/SC-01_20260929T213925Z/injection.json",
+      "rows_destroyed": 200,
+      "sha256": "ef567eaa7afac942bc0d086c1ca042adaa3e83f75fe7fa13031f7b58a90eeb1a"
+    },
+    "workload-manifest.jsonl": {
+      "path": "/home/mlasota/agent-recovery-lab/evidence/SC-01/SC-01_20260929T213925Z/workload-manifest.jsonl",
+      "records": 132,
+      "selected_record": {
+        "commit_lsn": "1/E2000638",
+        "commit_ts": "2026-09-29T21:40:05.997045Z",
+        "operation": "update",
+        "row_ids": [
+          88000703
+        ]
+      },
+      "sha256": "d4c8075db803c6a9fa19f2e4e058950152638a946ad2ab148fca4e7f6eb89cf5"
+    }
+  }
+}

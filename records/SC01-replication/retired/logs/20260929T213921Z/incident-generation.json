@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "bin/lab-generate-sc01"
+  ],
+  "exit_code": 1,
+  "stderr": "snapshot loop missed an interval by more than one period: gap=4.093s, period=2s\n",
+  "stdout": ""
+}

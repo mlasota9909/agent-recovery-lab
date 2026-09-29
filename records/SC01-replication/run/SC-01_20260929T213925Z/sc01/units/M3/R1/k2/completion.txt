@@ -1,0 +1,11 @@
+
+
+Looking at the evidence:
+
+- Window 15: anomaly_score ≈ 216.75 (high → damaging activity detected)
+- Window 10: anomaly_score ≈ 1.36 (low → safe)
+- Window 11: anomaly_score ≈ 1.36 (low → safe)
+
+The damaging activity is flagged at window 15. The latest safe point *before* that is window 11 (the highest-indexed window with a low anomaly score preceding the anomaly). Its `last_safe_lsn_int` is 8002734696.
+
+COORDINATE: window=11 lsn=8002734696

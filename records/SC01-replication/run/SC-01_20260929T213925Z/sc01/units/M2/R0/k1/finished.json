@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 8086620136,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 8086620136,
+        "token": "lsn=1/E20007E8",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      8086620136
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-09-29T21:44:28.371594Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-01_20260929T213925Z/ab-8086620136/report.json",
+    "report_sha256": "4da13129091b48985a0f57ce8dccef0c625946bb460f9610df65edd91f2a6aed",
+    "verdict_v1": "correct"
+  },
+  "completion_tokens": 374,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T21:45:01.502474Z",
+  "freeze_sha256": "9327b9b26698b87fadffc3e8d5281fc1fdcfbedf65cc6f49f194483bc7d2530b",
+  "incident_id": "SC-01_20260929T213925Z",
+  "latency_ms": 12000,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-01_20260929T213925Z/sc01/units/M2/R0/k1/model.json",
+  "model_record_sha256": "78d7e4ba6a688b12c01fe7b4bc18d5edd525a4b5ccda078c7e36504000032f3e",
+  "outcome": "accepted",
+  "prompt_sha256": "13d19f07a039ae6221767620b4a9cee98a3aaa404bd9ae137477d77ce2a8edfc",
+  "prompt_tokens": 27864,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the sequence of operations in the evidence.\n\nThe evidence contains a series of `D` (Delete) actions which represent the damaging activity. The first instance of a `D` action in the chronological sequence (based on `wall_clock` and `lsn_int`) occurs at:\n`{\"action\":\"D\",\"detail\":{\"id\":88000700,\"v\":\"s88000700\"},\"lsn_int\":8086620296,\"lsn_text\":\"1/E2000888\",\"natural_key\":88000700,\"object\":\"p2_probe\",\"wall_clock\":\"2026-09-29T21:40:06.812529Z\",\"xid\":22813}`\n\nThe transaction immediately preceding this damaging activity is:\n`{\"action\":\"U\",\"detail\":{\"id\":88000701,\"v\":\"u88000701b\"},\"lsn_int\":8086620136,\"lsn_text\":\"1/E20007E8\",\"natural_key\":88000701,\"object\":\"p2_probe\",\"wall_clock\":\"2026-09-29T21:40:06.807710Z\",\"xid\":22812}`\n\nThe latest safe point is the state immediately before the first `D` action in the log.\n\nCOORDINATE: lsn=1/E20007E8",
+  "replicate_index": 1,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|1"
+}

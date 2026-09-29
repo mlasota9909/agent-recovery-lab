@@ -1,0 +1,34 @@
+{
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 200,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-01_20260929T213925Z/ab-8170504872/report.json",
+    "report_sha256": "f6c6ac02d6e91f6e4f77eed6397de5132a0313bda4f322674716a766f7c00a08",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "coordinate": {
+    "arm": "arm_b",
+    "chosen_candidate_id": null,
+    "incident_id": "i_20260929T213925Z_762ee5",
+    "lsn_int": 8170504872,
+    "lsn_text": "1/E70002A8",
+    "rationale": "visible locator",
+    "representation": "n/a",
+    "selection_inputs": {
+      "approx_incident_time": null,
+      "incident_time_error_seconds": null,
+      "ledger_view": "views.analysis_view",
+      "read_injection_log": false,
+      "read_oracle_optimum": false,
+      "read_provenance": false
+    },
+    "selector_version": "revised-grammar",
+    "snapshot": "s_20260929T214014615Z_000018",
+    "wall_clock": "2026-09-29T21:40:15.388178Z"
+  },
+  "freeze_sha256": "9327b9b26698b87fadffc3e8d5281fc1fdcfbedf65cc6f49f194483bc7d2530b",
+  "incident_id": "SC-01_20260929T213925Z",
+  "outcome": "accepted",
+  "unit_id": "naive"
+}

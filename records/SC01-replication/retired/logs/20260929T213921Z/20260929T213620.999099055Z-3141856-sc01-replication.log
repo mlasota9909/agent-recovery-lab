@@ -1,0 +1,4 @@
+Stage sc01-replication; log /home/mlasota/agent-recovery-lab/logs/run/20260929T213620.999099055Z-3141856-sc01-replication.log
+SC-01 replication failed: bin/lab-generate-sc01 exited 1: snapshot loop missed an interval by more than one period: gap=4.093s, period=2s
+
+Exit 1 at 2026-09-29T21:37:18Z

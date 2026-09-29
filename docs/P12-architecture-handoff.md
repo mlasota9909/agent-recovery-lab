@@ -128,6 +128,33 @@ Findings that bear on the study of record:
   the reference lab's finished incident clusters. No record changed; the test fixture now refuses lab and
   VM commands (18ab8ac).
 
+## Database-level replication (optional SC-01 run)
+
+The mass-deletion incident was run again through `run/optional/sc01-replication.sh` in the reference
+lab: incident `SC-01_20260929T213925Z`, frozen 2026-09-29T21:42:11Z (95eaa4b) before the first call,
+45 of 45 units, revised answer grammar, verdict v1. Records: `records/SC01-replication/`.
+
+| Model | R0 | R1 | R2 |
+| --- | --- | --- | --- |
+| DeepSeek | 1 correct, 4 incorrect safe | 5 incorrect safe | 5 rule rejections (`window=` without a visible predecessor) |
+| Gemma | 5 correct | 5 incorrect safe | 5 declined |
+| Qwen | 5 correct | 5 incorrect safe | 5 incorrect safe |
+
+Totals: 35 accepted (11 correct, 24 incorrect safe, 0 incorrect corrupt), 5 rule rejections, 5 declined,
+0 execution failures. Fixed-rule ranker: incorrect safe (8 rows lost); time estimate: incorrect corrupt
+(200 damaged rows kept). Controls: reference correct, earliest incorrect safe, post-damage incorrect
+corrupt. The Primary Sweep's pooled results show the same pattern (R0 the only input with correct
+restores; R1 and R2 safe with lost work; ranker incorrect safe with 8 rows; time estimate incorrect
+corrupt with 200 rows).
+
+The path had not run in the rebuilt lab before. Rehearsals and two retired attempts found, in order: the
+generator did not restart the site heartbeat before capture (fixed); `arm()` passed an integer LSN to
+`lsn_norm` (fixed, e2e716c); the tracked model-registry template made the working tree dirty, which the
+database restore refuses (template now separate, 31ba01c); the generator never stopped decoding, so the
+decoded log changed between gate and freeze (fixed, c20b450); and the snapshot loop refused incidents on
+tick completion times although recorded snapshots were at most 2.5 s apart (rule now applied to recorded
+snapshot times, 59ecae4). Every attempt and rehearsal is kept with its reason.
+
 ## Frozen contracts
 
 The freeze (first committed at `sdd/specs/P12-file-level-test/contracts/frozen-hashes.json`, now kept at
@@ -156,4 +183,3 @@ R2), with decoding and 45 planned units. Stage 50 and stage 70 re-verify the fro
 
 ## Open operator decisions
 
-- The optional database-level replication (`run/optional/sc01-replication.sh`).

@@ -1,0 +1,3 @@
+The evidence shows a repeating pattern of operations on `p2_probe` objects. The damaging activity appears to be the large batch of `D` (delete) operations on seed rows (ids 1–200) starting at LSN `1/E3000028` (integer `8103395368`) and continuing through `1/E3003FB0` (integer `8103411632`). The last safe point before this damaging batch is the final update before that delete sequence, which is the `U` operation on `88000702` with version `u88000702b` at LSN `1/E2000AA8` (integer `8086620840`), timestamp `2026-09-29T21:40:06.837288Z`.
+
+COORDINATE: lsn=1/E2000AA8 lsn=8086620840 ts=2026-09-29T21:40:06.837288Z

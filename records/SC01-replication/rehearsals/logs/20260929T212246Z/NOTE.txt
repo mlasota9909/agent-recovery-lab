@@ -1,0 +1,4 @@
+SC-01 rehearsal 2 (incident SC-01_20260929T212252Z): stage 20 passed. Stage 30 failed three
+times: arm() passed an integer LSN to lsn_norm (fixed); the database restore refused a dirty tree
+because the model registry template was overwritten locally (fixed); the re-run then refused the
+reference control as an interrupted check, as designed. A fresh rehearsal follows.

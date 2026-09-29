@@ -1,0 +1,17 @@
+
+
+Looking at the evidence, I need to identify the "damaging activity" and find the last safe point before it began.
+
+**Identifying the damaging activity:**
+The bulk delete of 200 seed rows (id 1–200, all under xid 22817, LSNs 1/E3000028 through 1/E3003FB0) is the clearly damaging operation — it mass-deletes seed data.
+
+**Finding the last safe point before it:**
+Tracing LSN order, the last safe (non-damaging) operation before the first seed delete (1/E3000028) is:
+
+- Action: U (update) on id 88000702, value "u88000702b"
+- LSN: **1/E2000AA8** (lsn_int 8086620840)
+- xid 22816, wall_clock 2026-09-29T21:40:06.837288Z
+
+This is the latest point at which the WAL is still in a safe, pre-damage state.
+
+COORDINATE: lsn=1/E2000AA8

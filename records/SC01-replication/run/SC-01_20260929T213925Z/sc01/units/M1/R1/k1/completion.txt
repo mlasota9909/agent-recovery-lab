@@ -1,0 +1,1 @@
+COORDINATE: window=15 lsn=8086619224

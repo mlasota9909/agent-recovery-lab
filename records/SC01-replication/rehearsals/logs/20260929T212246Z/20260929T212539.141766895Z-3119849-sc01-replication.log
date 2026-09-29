@@ -1,0 +1,4 @@
+Stage sc01-replication; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T212246Z/20260929T212539.141766895Z-3119849-sc01-replication.log
+assertion failed: dirty tree; refusing to write restore report (Article XIV)
+SC-01 replication failed: 1
+Exit 1 at 2026-09-29T21:26:10Z

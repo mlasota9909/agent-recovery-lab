@@ -1,0 +1,13 @@
+To identify the latest safe point before damaging activity began, we examine the sequence of operations in the evidence.
+
+The "damaging activity" refers to the series of `D` (Delete) operations that occur in a large block starting at `lsn_int: 8103395368` (where `seed1` through `seed100` are deleted).
+
+Looking at the transactions immediately preceding this block:
+1. The last `U` (Update) operation before the mass deletion is:
+   `{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":8086620840,"lsn_text":"1/E2000AA8","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-09-29T21:40:06.837288Z","xid":22816}`
+2. The first `D` (Delete) operation in the damaging block is:
+   `{"action":"D","detail":{"id":1,"v":"seed1"},"lsn_int":8103395368,"lsn_text":"1/E3000028","natural_key":1,"object":"p2_probe","wall_clock":"2026-09-29T21:40:07.143207Z","xid":22817}`
+
+The latest safe point is the state immediately before the first deletion in that sequence.
+
+COORDINATE: lsn=1/E2000AA8

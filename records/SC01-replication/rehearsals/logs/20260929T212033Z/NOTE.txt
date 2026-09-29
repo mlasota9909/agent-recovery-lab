@@ -1,0 +1,3 @@
+SC-01 rehearsal 1: stage 20 stopped at capture start. The readiness gate needs the site
+heartbeat, which still targeted a stopped incident cluster; the SC-01 generator did not start it
+before capture. Incident SC-01_20260929T212039Z closed with bin/lab-incident --close.

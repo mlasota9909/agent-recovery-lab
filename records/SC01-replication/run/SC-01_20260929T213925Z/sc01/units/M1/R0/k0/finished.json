@@ -1,0 +1,69 @@
+{
+  "answer": {
+    "chosen_lsn_int": 8086620840,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 8086620840,
+        "token": "lsn=1/E2000AA8",
+        "type": "lsn_hex"
+      },
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 8086620840,
+        "token": "lsn=8086620840",
+        "type": "lsn_int"
+      },
+      {
+        "discard_reason": "no explicit visible commit in this UTC second",
+        "resolved_lsn_int": null,
+        "token": "ts=2026-09-29T21:40:06.837288Z",
+        "type": "ts"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex",
+      "lsn_int",
+      "ts"
+    ],
+    "locators_resolved_to": [
+      8086620840,
+      8086620840
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-09-29T21:42:18.364895Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-01_20260929T213925Z/ab-8086620840/report.json",
+    "report_sha256": "a4c262aadb3fb5e8f70578ce4946f0fc3ba03b96abce13e61fe0892162b2c6d0",
+    "verdict_v1": "correct"
+  },
+  "completion_tokens": 201,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T21:42:59.671688Z",
+  "freeze_sha256": "9327b9b26698b87fadffc3e8d5281fc1fdcfbedf65cc6f49f194483bc7d2530b",
+  "incident_id": "SC-01_20260929T213925Z",
+  "latency_ms": 19635,
+  "model_alias": "gb10a-deepseek-v4-flash",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-01_20260929T213925Z/sc01/units/M1/R0/k0/model.json",
+  "model_record_sha256": "7c7995a32c190ec8b2159784375e4a2d7054baf8714fdb94227896c550c54eb5",
+  "outcome": "accepted",
+  "prompt_sha256": "13d19f07a039ae6221767620b4a9cee98a3aaa404bd9ae137477d77ce2a8edfc",
+  "prompt_tokens": 19280,
+  "raw_completion": "The evidence shows a repeating pattern of operations on `p2_probe` objects. The damaging activity appears to be the large batch of `D` (delete) operations on seed rows (ids 1\u2013200) starting at LSN `1/E3000028` (integer `8103395368`) and continuing through `1/E3003FB0` (integer `8103411632`). The last safe point before this damaging batch is the final update before that delete sequence, which is the `U` operation on `88000702` with version `u88000702b` at LSN `1/E2000AA8` (integer `8086620840`), timestamp `2026-09-29T21:40:06.837288Z`.\n\nCOORDINATE: lsn=1/E2000AA8 lsn=8086620840 ts=2026-09-29T21:40:06.837288Z",
+  "replicate_index": 0,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gb10a-deepseek-v4-flash|R0|0"
+}

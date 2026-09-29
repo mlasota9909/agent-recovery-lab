@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 8019511976,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 8019511976,
+        "token": "lsn=8019511976",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      8019511976
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-09-29T21:49:58.084337Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 56,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-01_20260929T213925Z/ab-8019511976/report.json",
+    "report_sha256": "0e12dc4bd930a2b7492ed3303a626637c6146eb42256c808c6e8815ab623a79c",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 1139,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T21:50:27.078795Z",
+  "freeze_sha256": "9327b9b26698b87fadffc3e8d5281fc1fdcfbedf65cc6f49f194483bc7d2530b",
+  "incident_id": "SC-01_20260929T213925Z",
+  "latency_ms": 7884,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-01_20260929T213925Z/sc01/units/M3/R2/k0/model.json",
+  "model_record_sha256": "67483950e02a470a253a8dd434fa52ae09b5fb296b0b88b7e77ee56e3d8f903a",
+  "outcome": "accepted",
+  "prompt_sha256": "4bf1f89236c6a9905a35af795b3a88abfeec6231432ef389e1f96eb9462f64c6",
+  "prompt_tokens": 391,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- **Window 10** [8002732072..8002734696]: 2 DELETE, anomaly \u2248 1.36 (low, normal activity)\n- **Window 11** [8019509288..8019511976]: 2 DELETE, anomaly \u2248 1.36 (low, normal activity)\n- **Window 15** [8086619704..8103413368]: 202 DELETE, anomaly \u2248 216.75 (massive deletion \u2014 clearly the damaging activity)\n\nThe damaging activity is the 202-DELETE burst in Window 15. The latest safe point before that burst is the end of the last safe window, which is the end of Window 11 at LSN 8019511976.\n\nCOORDINATE: lsn=8019511976",
+  "replicate_index": 0,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|0"
+}

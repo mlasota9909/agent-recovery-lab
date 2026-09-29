@@ -1,0 +1,4 @@
+Stage sc01-replication; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T212033Z/20260929T212033.331345957Z-3109239-sc01-replication.log
+SC-01 replication failed: bin/lab-generate-sc01 exited 1: assertion failed: lab-capture start: lab-ready refused; naming failed readiness condition(s): slot_check,db_jsonl_growing
+
+Exit 1 at 2026-09-29T21:20:48Z

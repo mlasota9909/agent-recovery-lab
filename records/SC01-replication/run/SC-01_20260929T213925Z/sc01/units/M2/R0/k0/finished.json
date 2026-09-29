@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 8086620840,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 8086620840,
+        "token": "lsn=1/E2000AA8",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      8086620840
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-09-29T21:43:59.519751Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-01_20260929T213925Z/ab-8086620840/report.json",
+    "report_sha256": "a4c262aadb3fb5e8f70578ce4946f0fc3ba03b96abce13e61fe0892162b2c6d0",
+    "verdict_v1": "correct"
+  },
+  "completion_tokens": 396,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T21:44:28.286967Z",
+  "freeze_sha256": "9327b9b26698b87fadffc3e8d5281fc1fdcfbedf65cc6f49f194483bc7d2530b",
+  "incident_id": "SC-01_20260929T213925Z",
+  "latency_ms": 28447,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-01_20260929T213925Z/sc01/units/M2/R0/k0/model.json",
+  "model_record_sha256": "14f21c106586733542b79187979105a44dbfdd536387be058f5d7185459a9048",
+  "outcome": "accepted",
+  "prompt_sha256": "13d19f07a039ae6221767620b4a9cee98a3aaa404bd9ae137477d77ce2a8edfc",
+  "prompt_tokens": 27864,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the sequence of operations in the evidence.\n\nThe \"damaging activity\" refers to the series of `D` (Delete) operations that occur in a large block starting at `lsn_int: 8103395368` (where `seed1` through `seed100` are deleted).\n\nLooking at the transactions immediately preceding this block:\n1. The last `U` (Update) operation before the mass deletion is:\n   `{\"action\":\"U\",\"detail\":{\"id\":88000702,\"v\":\"u88000702b\"},\"lsn_int\":8086620840,\"lsn_text\":\"1/E2000AA8\",\"natural_key\":88000702,\"object\":\"p2_probe\",\"wall_clock\":\"2026-09-29T21:40:06.837288Z\",\"xid\":22816}`\n2. The first `D` (Delete) operation in the damaging block is:\n   `{\"action\":\"D\",\"detail\":{\"id\":1,\"v\":\"seed1\"},\"lsn_int\":8103395368,\"lsn_text\":\"1/E3000028\",\"natural_key\":1,\"object\":\"p2_probe\",\"wall_clock\":\"2026-09-29T21:40:07.143207Z\",\"xid\":22817}`\n\nThe latest safe point is the state immediately before the first deletion in that sequence.\n\nCOORDINATE: lsn=1/E2000AA8",
+  "replicate_index": 0,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|0"
+}

@@ -1,0 +1,11 @@
+To identify the latest safe point before damaging activity began, we examine the sequence of operations in the evidence.
+
+The evidence contains a series of `D` (Delete) actions which represent the damaging activity. The first instance of a `D` action in the chronological sequence (based on `wall_clock` and `lsn_int`) occurs at:
+`{"action":"D","detail":{"id":88000700,"v":"s88000700"},"lsn_int":8086620296,"lsn_text":"1/E2000888","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-09-29T21:40:06.812529Z","xid":22813}`
+
+The transaction immediately preceding this damaging activity is:
+`{"action":"U","detail":{"id":88000701,"v":"u88000701b"},"lsn_int":8086620136,"lsn_text":"1/E20007E8","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-09-29T21:40:06.807710Z","xid":22812}`
+
+The latest safe point is the state immediately before the first `D` action in the log.
+
+COORDINATE: lsn=1/E20007E8

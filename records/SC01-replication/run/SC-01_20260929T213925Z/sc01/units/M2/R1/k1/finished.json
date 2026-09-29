@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 8086619224,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 8086619224,
+        "token": "lsn=8086619224",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      8086619224
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-09-29T21:45:49.945145Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 8,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-01_20260929T213925Z/ab-8086619224/report.json",
+    "report_sha256": "a9ecb023530e7602cc33e89f16caa1802b061adbefe015bdf627c7aec42dd297",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 236,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T21:45:58.214279Z",
+  "freeze_sha256": "9327b9b26698b87fadffc3e8d5281fc1fdcfbedf65cc6f49f194483bc7d2530b",
+  "incident_id": "SC-01_20260929T213925Z",
+  "latency_ms": 7938,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-01_20260929T213925Z/sc01/units/M2/R1/k1/model.json",
+  "model_record_sha256": "59e99f643b04ab9f4999e51f317443da6deb00c8252505c9cd6329f27bd64fea",
+  "outcome": "accepted",
+  "prompt_sha256": "6c6cfa78351153e8c64d4f5152a9f63260abc971c058906a09aacfedb6e0d34c",
+  "prompt_tokens": 367,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the provided evidence:\n\n1.  `{\"anomaly_score\":216.7515680866952,\"last_safe_lsn_int\":8086619224,\"window_index\":15}`\n2.  `{\"anomaly_score\":1.3641205013737026,\"last_safe_lsn_int\":7985957080,\"window_index\":10}`\n3.  `{\"anomaly_score\":1.3641205013737026,\"last_safe_lsn_int\":8002734696,\"window_index\":11}`\n\nThe highest `last_safe_lsn_int` (representing the latest safe point) is `8086619224`.\n\nCOORDINATE: lsn=8086619224",
+  "replicate_index": 1,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|1"
+}

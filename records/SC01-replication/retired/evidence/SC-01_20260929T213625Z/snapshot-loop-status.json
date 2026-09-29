@@ -1,0 +1,1 @@
+{"error": "snapshot loop missed an interval by more than one period: gap=4.093s, period=2s", "first_snapshot_at": "2026-09-29T21:36:45.846019Z", "interval_s": 2.0, "last_snapshot_at": "2026-09-29T21:37:12.590064Z", "max_gap_s": 4.09251, "ok": false, "started_at": "2026-09-29T21:36:45.033935Z", "state": "failed", "stopped_at": "2026-09-29T21:37:17.422907Z", "ticks": 14}

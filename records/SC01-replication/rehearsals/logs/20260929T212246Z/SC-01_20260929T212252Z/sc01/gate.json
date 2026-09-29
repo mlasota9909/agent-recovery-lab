@@ -1,0 +1,114 @@
+{
+  "controls": [
+    {
+      "checks_complete": false,
+      "control": "reference",
+      "expected": "correct",
+      "failure_reason": "interrupted database check; no implicit retry"
+    }
+  ],
+  "incident_id": "SC-01_20260929T212252Z",
+  "ledger": {
+    "changed": false,
+    "duplicate_detail": [],
+    "duplicates": 0,
+    "gap_detail": [],
+    "gaps": 0,
+    "incident": "SC-01_20260929T212252Z",
+    "mapped": 335,
+    "mapping_sample": [
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          21216,
+          "p2_probe",
+          "I",
+          88000703
+        ],
+        "lsn": "1/87000D70",
+        "op_index": 0,
+        "table": "p2_probe",
+        "xid": 21216
+      },
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          21217,
+          "p2_probe",
+          "I",
+          88000701
+        ],
+        "lsn": "1/87003338",
+        "op_index": 1,
+        "table": "p2_probe",
+        "xid": 21217
+      },
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          21218,
+          "p2_probe",
+          "I",
+          88000700
+        ],
+        "lsn": "1/870033F8",
+        "op_index": 2,
+        "table": "p2_probe",
+        "xid": 21218
+      }
+    ],
+    "ok": true,
+    "ops": 335,
+    "principal_read": false,
+    "rules": {
+      "C-1": {
+        "duplicates": [],
+        "gaps": [],
+        "mapped": 335,
+        "ok": true,
+        "ops": 335
+      },
+      "C-2": {
+        "ok": true,
+        "rule": "C-2"
+      },
+      "C-3": {
+        "ddl_mapped": 3,
+        "ddl_ops": 3,
+        "ok": true,
+        "rule": "C-3"
+      },
+      "C-4": {
+        "ok": true,
+        "rule": "C-4"
+      },
+      "C-5": {
+        "failed": [],
+        "n": 5,
+        "ok": true,
+        "rule": "C-5"
+      },
+      "C-6": {
+        "ok": true,
+        "rule": "C-6"
+      },
+      "C-7": {
+        "errors": [],
+        "fs_ops": 0,
+        "invisible": 0,
+        "matched": 0,
+        "ok": true,
+        "rule": "C-7",
+        "unexplained_captured": 0,
+        "unexplained_captured_detail": [],
+        "unmatched_recorded": 0,
+        "unmatched_recorded_detail": [],
+        "vacuous": true
+      }
+    }
+  },
+  "ok": false
+}

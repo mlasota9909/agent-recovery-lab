@@ -1,0 +1,11 @@
+
+
+Looking at the evidence:
+
+- **Window 10** [8002732072..8002734696]: 2 DELETE, anomaly ≈ 1.36 (low, normal activity)
+- **Window 11** [8019509288..8019511976]: 2 DELETE, anomaly ≈ 1.36 (low, normal activity)
+- **Window 15** [8086619704..8103413368]: 202 DELETE, anomaly ≈ 216.75 (massive deletion — clearly the damaging activity)
+
+The damaging activity is the 202-DELETE burst in Window 15. The latest safe point before that burst is the end of the last safe window, which is the end of Window 11 at LSN 8019511976.
+
+COORDINATE: lsn=8019511976

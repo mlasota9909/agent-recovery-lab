@@ -1,0 +1,165 @@
+{
+  "controls": [
+    {
+      "checks_complete": true,
+      "control": "reference",
+      "damage_rows_retained": 0,
+      "expected": "correct",
+      "legit_rows_lost": 0,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-01_20260929T212815Z/ab-7029653504/report.json",
+      "report_sha256": "fa711b79199a612db136f704db57de59fa093bc5effec7240e770aa2ec2d22f0",
+      "verdict_v1": "correct"
+    },
+    {
+      "checks_complete": true,
+      "control": "earliest",
+      "damage_rows_retained": 0,
+      "expected": "incorrect_safe",
+      "legit_rows_lost": 84,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-01_20260929T212815Z/ab-6828393672/report.json",
+      "report_sha256": "ed54258c0c9b96c9ad8fe3f8104aa1dbf1dc29350adebdf67d800c45e5e49767",
+      "verdict_v1": "incorrect_safe"
+    },
+    {
+      "checks_complete": true,
+      "control": "post_damage",
+      "damage_rows_retained": 200,
+      "expected": "incorrect_corrupt",
+      "legit_rows_lost": 0,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-01_20260929T212815Z/ab-7046434504/report.json",
+      "report_sha256": "ca7e5ca01b5336f0a90ddc792dfd98a0a19daf3f09010d9774912e50926f97ea",
+      "verdict_v1": "incorrect_corrupt"
+    }
+  ],
+  "files": {
+    "etc/arm-b-prompt.txt": "c661ec7a959a657993607c59047a3e1167b08966309a9964b8982e73a0708a46",
+    "evidence/SC-01/SC-01_20260929T212815Z/db.jsonl": "84d8774e6feeaa1df1b68868ffb8cd794848da6799a46880420e42c78484834e",
+    "evidence/SC-01/SC-01_20260929T212815Z/fs_hashes.tsv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/SC-01/SC-01_20260929T212815Z/incident.json": "84a6d3c2ba1ac7cc49ec5dfd2133fef9641e1be798a4ff6a7c0d5be434e9c353",
+    "evidence/SC-01/SC-01_20260929T212815Z/oracle-manifest.json": "cff4cdbb068f9141d677baf5ea00f1a8905a1660745bb329e485da1f63e47c6a",
+    "evidence/SC-01/SC-01_20260929T212815Z/oracle.json": "0c6d14829eb8ebc232a232f2115f5c01405127c11d577b53d4fbea52bdcd7954",
+    "evidence/SC-01/SC-01_20260929T212815Z/p3/analytics.jsonl": "0bc10d26d5572567ee2f1dd1a679515561e6dff14c3877c1fa9045060180bb91",
+    "evidence/SC-01/SC-01_20260929T212815Z/p3/anomaly.jsonl": "f60a0c00db84ff5364b3964c74388b655f06f20b0c6c81460dca8d0d7ef5b28c",
+    "evidence/SC-01/SC-01_20260929T212815Z/p3/candidates.jsonl": "71a33b19603f03985dd991f9bd0c21a7ff3430083f4e65c18adaf07027728e4e",
+    "evidence/SC-01/SC-01_20260929T212815Z/snapshots.json": "619ae1f0cbb43daa28c2b32d4e1590629e331cccea583be93073529be07316f4",
+    "evidence/SC-01/SC-01_20260929T212815Z/workload-manifest.jsonl": "e1d39c3b1f5852214a5fe9c92803b50747e7e6b1092cbecfae7aaafa08350eef",
+    "lib/lab_arm_b_score.py": "f612a2e356944110131a384d7f9eac56d2cdb8f9de0cb1c75e2bab15dbb7fe2b",
+    "lib/lab_fl_study.py": "b7a4bcc559c6ef2312c81cc5173dba46a6a7074ed545cc6c2140dd1496e73f28",
+    "lib/lab_regrammar.py": "02af89358bbfc28699be8419aed6e3e1d2f377921bf578898c535376a0edea5a",
+    "lib/lab_sc01_replication.py": "fd0acc849f224964802afb0fd9019fc1786bffd94eff94f6aa979a9414385856",
+    "logs/dry-run/20260929T212809Z/SC-01_20260929T212815Z/sc01/R0/model-view.json": "1e705a629322bb2399b41357b2f2410148307e367e280e6d932f5b3585f42c60",
+    "logs/dry-run/20260929T212809Z/SC-01_20260929T212815Z/sc01/R0/prompt.txt": "fc013e5d8a4f7021ab965610ecbb69d84ce02bf945ea693eca8072a2680a1d75",
+    "logs/dry-run/20260929T212809Z/SC-01_20260929T212815Z/sc01/R1/model-view.json": "d8f275345d8dcd8bbb56d288e18a7f82291704ec5f66754f4465f2dcc614471e",
+    "logs/dry-run/20260929T212809Z/SC-01_20260929T212815Z/sc01/R1/prompt.txt": "b79618ecf71efdc75167f909e7a1599f0ee3b9eb22bbf70b9f8dd631d1a1ff26",
+    "logs/dry-run/20260929T212809Z/SC-01_20260929T212815Z/sc01/R2/model-view.json": "4229749ed1d8ad8fc5abc6162a7dffa111ccc575553a82c79aed86e989a89ee6",
+    "logs/dry-run/20260929T212809Z/SC-01_20260929T212815Z/sc01/R2/prompt.txt": "70fdb7d58578cbc8f6c1b236ff78a5c634d025988d792e585aed537d05f32bc1",
+    "run/optional/sc01-analysis-plan.md": "b77e709d1d547644ee9ca10e0b70de67f40249a4c37469de63f4c5017dd9ef9e",
+    "runtime/p9-model-set.json": "257a0e92f924f4fcdaf3c740c823ea5a8605f221ac8099bc155af351d564c8c9",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.amendment-1.md": "ab0e09252464bfe357c51a988378f5985bdbae8ed375419b4370f68077cdc538",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.md": "f1e1916a544f05efbc7eb2567ff2624fa5df6e1ffdf15ab307a671bab67d6769"
+  },
+  "incident_id": "SC-01_20260929T212815Z",
+  "ledger": {
+    "changed": false,
+    "duplicate_detail": [],
+    "duplicates": 0,
+    "gap_detail": [],
+    "gaps": 0,
+    "incident": "SC-01_20260929T212815Z",
+    "mapped": 335,
+    "mapping_sample": [
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          21659,
+          "p2_probe",
+          "I",
+          88000703
+        ],
+        "lsn": "1/9D000028",
+        "op_index": 0,
+        "table": "p2_probe",
+        "xid": 21659
+      },
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          21661,
+          "p2_probe",
+          "I",
+          88000701
+        ],
+        "lsn": "1/9D002240",
+        "op_index": 1,
+        "table": "p2_probe",
+        "xid": 21661
+      },
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          21662,
+          "p2_probe",
+          "I",
+          88000700
+        ],
+        "lsn": "1/9D002300",
+        "op_index": 2,
+        "table": "p2_probe",
+        "xid": 21662
+      }
+    ],
+    "ok": true,
+    "ops": 335,
+    "principal_read": false,
+    "rules": {
+      "C-1": {
+        "duplicates": [],
+        "gaps": [],
+        "mapped": 335,
+        "ok": true,
+        "ops": 335
+      },
+      "C-2": {
+        "ok": true,
+        "rule": "C-2"
+      },
+      "C-3": {
+        "ddl_mapped": 3,
+        "ddl_ops": 3,
+        "ok": true,
+        "rule": "C-3"
+      },
+      "C-4": {
+        "ok": true,
+        "rule": "C-4"
+      },
+      "C-5": {
+        "failed": [],
+        "n": 5,
+        "ok": true,
+        "rule": "C-5"
+      },
+      "C-6": {
+        "ok": true,
+        "rule": "C-6"
+      },
+      "C-7": {
+        "errors": [],
+        "fs_ops": 0,
+        "invisible": 0,
+        "matched": 0,
+        "ok": true,
+        "rule": "C-7",
+        "unexplained_captured": 0,
+        "unexplained_captured_detail": [],
+        "unmatched_recorded": 0,
+        "unmatched_recorded_detail": [],
+        "vacuous": true
+      }
+    }
+  },
+  "ok": true
+}

@@ -1,0 +1,2 @@
+Retired SC-01 attempt SC-01_20260929T213141Z before any freeze on 2026-09-29T21:36:12Z.
+Reason: the gate pinned db.jsonl while the incident's consumer was still appending heartbeat events, so the freeze found it changed; the generator now stops decoding before the window cut

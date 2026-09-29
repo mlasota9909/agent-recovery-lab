@@ -1,0 +1,2 @@
+Retired SC-01 attempt (no incident) before any freeze on 2026-09-29T21:39:21Z.
+Reason: stage 20 refused the incident: 4.093 s between tick completions at the injection while recorded snapshots were at most 2.5 s apart; the loop now judges recorded snapshot times

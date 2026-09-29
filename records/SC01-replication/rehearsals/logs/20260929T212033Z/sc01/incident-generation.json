@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "bin/lab-generate-sc01"
+  ],
+  "exit_code": 1,
+  "stderr": "assertion failed: lab-capture start: lab-ready refused; naming failed readiness condition(s): slot_check,db_jsonl_growing\n",
+  "stdout": ""
+}
