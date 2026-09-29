@@ -14,6 +14,10 @@ from lab_p11_rescore import audit, consistency, parse_cli, safety, score_positio
 
 
 def main(argv=None):
+    required = root() / 'results/scaling-runs.jsonl'
+    if not required.is_file():
+        print(json.dumps({"ok": True, "skipped": "needs the development repository's P10/P11 records: " + str(required.relative_to(root()))}))
+        return 0
     p = argparse.ArgumentParser()
     p.add_argument('--out', type=Path, default=review('R003') / 'checks.json')
     a = p.parse_args(argv)

@@ -12,6 +12,10 @@ from lab_p11_stats import interpretations, lint
 
 
 def main(argv=None):
+    required = root() / 'logs/review/R001/preregistration.json'
+    if not required.is_file():
+        print(json.dumps({"ok": True, "skipped": "needs the development repository's P10/P11 records: " + str(required.relative_to(root()))}))
+        return 0
     p = argparse.ArgumentParser()
     p.add_argument('--out', type=Path, default=review('R005') / 'checks.json')
     a = p.parse_args(argv)
