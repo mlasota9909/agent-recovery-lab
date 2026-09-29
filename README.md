@@ -192,7 +192,10 @@ For the spec's manual evidence review, run stages 00–30 separately and inspect
 log scope, `logs/dry-run/<UTC time>/`, after stage 10. A dry-run incident has
 its own evidence folder and is never frozen, studied or compared: stages other
 than 20 and 30 refuse a dry-run scope. `logs/run/` holds the one study incident.
-`run/all.sh` always uses `logs/run/` and does not rehearse.
+`run/all.sh` always uses `logs/run/` and does not rehearse. If a rehearsal
+fails after allocating its incident, run `bin/lab-incident --close` (it closes
+the incident named by `archive/current` and stops its consumer) before the next
+rehearsal; stage 20 refuses to start while an incident is open.
 
 ## Resuming and independent execution
 
