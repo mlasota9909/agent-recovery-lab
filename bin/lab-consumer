@@ -20,7 +20,7 @@ source "$SCRIPT_DIR/../lib/lab_incident_env.sh"
 EXIT_ASSERT=1
 EXIT_PRECOND=2
 EXIT_USAGE=3
-UNIT_PREFIX=lab-consumer@
+UNIT_PREFIX="${CONSUMER_UNIT:-lab-consumer}@"
 
 die() {
   local code=$1
@@ -58,8 +58,8 @@ json_print() {
 }
 
 require_unit_installed() {
-  [[ -f /etc/systemd/system/lab-consumer@.service ]] ||
-    die "$EXIT_PRECOND" "precondition failed: /etc/systemd/system/lab-consumer@.service is not installed; copy $LAB_ROOT/etc/systemd/lab-consumer@.service there and run systemctl daemon-reload"
+  [[ -f /etc/systemd/system/${UNIT_PREFIX}.service ]] ||
+    die "$EXIT_PRECOND" "precondition failed: /etc/systemd/system/${UNIT_PREFIX}.service is not installed; copy $LAB_ROOT/etc/systemd/lab-consumer@.service there and run systemctl daemon-reload"
 }
 
 slot_row() {
@@ -117,7 +117,7 @@ consumer_start() {
   [[ -f $stream_path ]] || : >>"$stream_path"
   chmod 0640 "$stream_path"
   # One slot can have one consumer. Stop any other incident instance first.
-  mapfile -t running < <(sudo -n systemctl list-units --type=service --all --no-legend 'lab-consumer@*.service' | awk '{print $1}')
+  mapfile -t running < <(sudo -n systemctl list-units --type=service --all --no-legend "${UNIT_PREFIX}*.service" | awk '{print $1}')
   local svc
   for svc in "${running[@]:-}"; do
     [[ -n $svc && $svc != "$unit" ]] || continue

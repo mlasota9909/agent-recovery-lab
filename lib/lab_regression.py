@@ -189,7 +189,7 @@ def scratch_lab_env(evidence_root: Path) -> Path:
 
 
 def systemd_dropin(enable: bool, evidence_root: Path) -> None:
-    drop_dir = Path("/etc/systemd/system/lab-consumer@.service.d")
+    drop_dir = Path(f"/etc/systemd/system/{os.environ.get('CONSUMER_UNIT', 'lab-consumer')}@.service.d")
     drop = drop_dir / "p31-scratch.conf"
     if enable:
         envfile = scratch_lab_env(evidence_root)
@@ -205,7 +205,7 @@ def systemd_dropin(enable: bool, evidence_root: Path) -> None:
         )
         subprocess.run(["sudo", "-n", "systemctl", "daemon-reload"], check=True)
         shown = subprocess.run(
-            ["systemctl", "cat", "lab-consumer@.service"],
+            ["systemctl", "cat", f"{os.environ.get('CONSUMER_UNIT', 'lab-consumer')}@.service"],
             text=True, capture_output=True, check=False,
         )
         if str(envfile) not in (shown.stdout or ""):
@@ -249,12 +249,12 @@ def restore_slot() -> dict:
 def stop_all_consumers() -> None:
     listing = subprocess.run(
         ["sudo", "-n", "systemctl", "list-units", "--type=service", "--all", "--no-legend",
-         "lab-consumer@*.service"],
+         f"{os.environ.get('CONSUMER_UNIT', 'lab-consumer')}@*.service"],
         text=True, capture_output=True, check=False,
     )
     for line in (listing.stdout or "").splitlines():
         unit = line.split()[0] if line.split() else ""
-        if unit.startswith("lab-consumer@"):
+        if unit.startswith(f"{os.environ.get('CONSUMER_UNIT', 'lab-consumer')}@"):
             subprocess.run(["sudo", "-n", "systemctl", "stop", unit], check=False)
 
 

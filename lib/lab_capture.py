@@ -313,7 +313,7 @@ def cmd_start(incident: str) -> int:
         "collectors": {
             "consumer": {
                 "name": "consumer",
-                "unit": consumer.get("unit") or f"lab-consumer@{incident}.service",
+                "unit": consumer.get("unit") or f"{os.environ.get('CONSUMER_UNIT', 'lab-consumer')}@{incident}.service",
                 "output": str(evidence_dir(incident) / "db.jsonl"),
                 "pid": None,
             },
