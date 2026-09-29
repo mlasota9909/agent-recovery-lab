@@ -12,5 +12,12 @@ source "$ROOT/etc/lab.env"
 set +a
 # shellcheck source=/dev/null
 source "$ROOT/lib/lab_env_overrides.sh"
+# Account against the named incident's own cluster (its heartbeat and ports).
+if [[ ${1:-} == SC-* && -z ${LAB_SITE_SCOPE:-} ]]; then
+  LAB_ACTIVE_INCIDENT=$1
+  export LAB_ACTIVE_INCIDENT
+  # shellcheck source=/dev/null
+  source "$ROOT/lib/lab_incident_env.sh"
+fi
 export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
 exec python3 "$ROOT/lib/lab_ledger_account.py" "$@"
