@@ -32,7 +32,7 @@ CONTRACTS = ("model-sweep-plan.md", "statistical-analysis-plan.md", "related-wor
 # sweep targets the loopback LiteLLM gateway on the lab host instead. Loopback is
 # strictly stronger than the cross-host proxy the P6.1 amendment already accepted
 # (R2a: private address). The frozen P6.1 amendment stays byte-identical.
-P9_ENDPOINT = os.environ.get("P9_ENDPOINT") or "http://127.0.0.1:4001"
+P9_ENDPOINT = os.environ.get("P9_ENDPOINT", "")
 P9_GATEWAY_PORT = urlparse(P9_ENDPOINT).port or (443 if P9_ENDPOINT.startswith("https:") else 80)
 
 # ADR-P9-3: max_tokens raised from the 512 P6.1 baseline to 8192, uniformly across
@@ -335,10 +335,8 @@ def backend_served_digest(backend: str, served_model: str) -> dict:
         if m.get("id") == served_model:
             entry = m
             break
-    if entry is None and data.get("data"):
-        entry = data["data"][0]
     if entry is None:
-        return {"ok": False, "error": "no model entry"}
+        return {"ok": False, "error": "requested served model not present"}
     ident = {
         "served_model": entry.get("id"),
         "root": entry.get("root"),

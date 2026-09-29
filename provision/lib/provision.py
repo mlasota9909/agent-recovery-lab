@@ -22,7 +22,6 @@ sys.path.insert(0, str(ROOT / "lib"))
 from lab_config import load_env, write_local_env
 
 STATE = ROOT / "var/provision"
-URI = "qemu:///system"
 USER = pwd.getpwuid(os.getuid()).pw_name
 USER_HOME = Path(pwd.getpwuid(os.getuid()).pw_dir)
 ENV: dict[str, str] = {}
@@ -38,7 +37,7 @@ def call(argv, *, check=True, stdin=None, timeout=180):
 
 
 def virsh(*args, **kwargs):
-    return call(["virsh", "--connect", URI, *args], **kwargs)
+    return call(["virsh", "--connect", ENV["PROVISION_URI"], *args], **kwargs)
 
 
 def guest(*argv, stdin=None, check=True, timeout=180):
@@ -80,7 +79,7 @@ def configured_paths():
 def validate():
     if Path(ENV["LAB_ROOT"]).resolve() != ROOT:
         raise RuntimeError("LAB_ROOT must identify this checkout")
-    if USER == "root" or ENV["HOST_ARCHIVE_USER"] != USER:
+    if USER == "root" or ENV["HOST_ARCHIVE_USER"] != USER or ENV["PROVISION_USER"] != USER:
         raise RuntimeError("Run as the host archive user, with passwordless sudo")
     if not re.fullmatch(r"[a-zA-Z][a-zA-Z0-9-]{0,62}", ENV["VM_NAME"]):
         raise RuntimeError("VM_NAME must be a hostname")
@@ -91,8 +90,10 @@ def validate():
                 "ZPOOL", "DS_PARENT", "DS_PGDATA", "DS_PROTECTED", "SANDBOX_DATASET"):
         if not re.fullmatch(r"[A-Za-z0-9_./-]+", ENV[key]):
             raise RuntimeError(f"Unsafe guest path or dataset: {key}")
-    if ENV["PG_VERSION"] != "18" or ENV["DEV_A"] != "/dev/vdb" or ENV["DEV_B"] != "/dev/vdc":
-        raise RuntimeError("Expected PostgreSQL 18, /dev/vdb and /dev/vdc")
+    devices = [ENV[key] for key in ("DEV_SYSTEM", "DEV_A", "DEV_B")]
+    if ENV["PG_VERSION"] != "18" or len(set(devices)) != 3 or any(
+            not re.fullmatch(r"/dev/vd[a-z]+", device) for device in devices):
+        raise RuntimeError("Expected PostgreSQL 18 and three distinct configured virtio devices")
     for key in ("PG_PORT", "SANDBOX_PORT"):
         if not ENV[key].isdigit() or not 1 <= int(ENV[key]) <= 65535:
             raise RuntimeError(f"Invalid port: {key}")
@@ -197,7 +198,7 @@ def host_check():
 
 
 def network():
-    net = ENV.get("PROVISION_NETWORK", "default")
+    net = ENV["PROVISION_NETWORK"]
     xml = ET.fromstring(virsh("net-dumpxml", net).stdout)
     if xml.find("forward") is None or xml.find("forward").get("mode") != "nat":
         raise RuntimeError(f"libvirt network {net} must use NAT")
@@ -304,8 +305,10 @@ def check_domain():
     targets = {node.find("target").get("dev"): node.find("source").get("file") for node in disks
                if node.find("target") is not None and node.find("source") is not None}
     if targets != {device: str(Path(data["pool_path"]) / data["volumes"][kind])
-                   for device, kind in (("vda", "system"), ("vdb", "data_a"), ("vdc", "data_b"))}:
-        raise RuntimeError("Replica disk order differs from vda=system, vdb/vdc=data")
+                   for device, kind in ((Path(ENV["DEV_SYSTEM"]).name, "system"),
+                                        (Path(ENV["DEV_A"]).name, "data_a"),
+                                        (Path(ENV["DEV_B"]).name, "data_b"))}:
+        raise RuntimeError("Replica attachments differ from the configured system/data devices")
     return data
 
 

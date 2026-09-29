@@ -16,7 +16,7 @@ from pathlib import Path
 from lab_p3_util import EXIT_ASSERT, EXIT_USAGE, die, write_json
 from lab_p9 import (
     P9_DECODING, P9_ENDPOINT, backend_served_digest, evaluate_containment,
-    is_cloud_alias, load_model_set, root,
+    is_cloud_alias, is_private_host, load_model_set, root,
 )
 from lab_p9_model import invoke
 
@@ -49,7 +49,7 @@ def _sample_egress_during(fn, pid: int):
 def verify_one(model: dict) -> dict:
     alias = model["alias"]
     # (a) digest
-    if model.get("is_p61_baseline"):
+    if model.get("model_digest_kind") == "weights_sha256":
         digest_kind = "weights_sha256"
         digest = model.get("weights_sha256")
         digest_why = "raw weights hashable on the lab host; H001 pin reused"
@@ -65,10 +65,11 @@ def verify_one(model: dict) -> dict:
     rec, sampled_peers = _sample_egress_during(
         lambda: invoke(alias, "Reply with exactly one word: ok"), os.getpid())
     peers = rec.get("outbound_public_peers") or []
-    egress_ok = not rec["public_egress_observed"]
+    sampled_public = [peer for peer in sampled_peers if not is_private_host(peer.rsplit(":", 1)[0].strip("[]"))]
+    egress_ok = not rec["public_egress_observed"] and not sampled_public
     alias_ok = rec["alias_is_pinned_local"] and not rec["cloud_alias_targeted"]
     decoding_ok = rec["temperature"] == 0 and rec["seed"] == int(P9_DECODING["seed"]) \
-        and rec["max_tokens"] == int(P9_DECODING["max_tokens"])
+        and rec["max_tokens"] == int(P9_DECODING["max_tokens"]) and rec.get("top_p") == P9_DECODING["top_p"]
     smoke_ok = bool((rec.get("completion") or "").strip()) and rec["containment_verified"]
     return {
         "alias": alias,
@@ -85,6 +86,8 @@ def verify_one(model: dict) -> dict:
         "public_egress_observed": rec["public_egress_observed"],
         "observed_public_peers_post_call": peers,
         "sampled_estab_peers_during_call": sampled_peers,
+        "sampled_public_peers": sampled_public,
+        "identity_matches": digest == model.get("model_digest"),
         "egress_ok": egress_ok,
         "alias_ok": alias_ok,
         "decoding_ok": decoding_ok,

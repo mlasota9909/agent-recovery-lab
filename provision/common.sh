@@ -19,13 +19,14 @@ load_config() {
   PROVISION_WAIT_SECONDS=${PROVISION_WAIT_SECONDS:-1800}
   PROVISION_STATE="$ROOT/var/provision"
   PROVISION_LOGS="$ROOT/logs/provision"
-  PROVISION_URI=qemu:///system
-  PROVISION_USER=$(id -un)
+  [[ $PROVISION_USER == "$(id -un)" ]] || fail 'PROVISION_USER must be the invoking host account'
   [[ $PROVISION_USER != root ]] || fail 'Run provisioning as the host user with passwordless sudo'
   [[ $HOST_ARCHIVE_USER == "$PROVISION_USER" ]] || fail 'HOST_ARCHIVE_USER must be the invoking host user'
   [[ $VM_NAME =~ ^[a-zA-Z][a-zA-Z0-9-]{0,62}$ ]] || fail 'VM_NAME must be a hostname (letters, digits, hyphens)'
   [[ $PROVISION_WAIT_SECONDS =~ ^[1-9][0-9]*$ ]] || fail 'PROVISION_WAIT_SECONDS must be a positive integer'
-  [[ $PG_VERSION == 18 && $DEV_A == /dev/vdb && $DEV_B == /dev/vdc ]] || fail 'This build requires PostgreSQL 18 and guest data disks /dev/vdb and /dev/vdc'
+  [[ $PG_VERSION == 18 ]] || fail 'This build requires PostgreSQL 18'
+  [[ $DEV_SYSTEM =~ ^/dev/vd[a-z]+$ && $DEV_A =~ ^/dev/vd[a-z]+$ && $DEV_B =~ ^/dev/vd[a-z]+$ ]] || fail 'Configure virtio guest devices in etc/lab.local.env'
+  [[ $DEV_SYSTEM != "$DEV_A" && $DEV_SYSTEM != "$DEV_B" && $DEV_A != "$DEV_B" ]] || fail 'Guest devices must be distinct'
   [[ -z ${LAB_ACTIVE_INCIDENT:-} ]] || fail 'Unset LAB_ACTIVE_INCIDENT before provisioning'
 }
 

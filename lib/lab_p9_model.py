@@ -24,7 +24,7 @@ from lab_p9 import (
 
 
 def api_key() -> str:
-    env_key = os.environ.get("MODEL_API_KEY")
+    env_key = os.environ.get(os.environ.get("MODEL_API_KEY_VAR") or "MODEL_API_KEY")
     if env_key:
         return env_key
     path = Path(os.environ.get("MODEL_API_KEY_FILE") or "").expanduser()
@@ -117,6 +117,7 @@ def invoke(alias: str, prompt: str) -> dict:
         "weights_sha256": model.get("weights_sha256"),
         "seed": int(dec["seed"]),
         "temperature": 0,
+        "top_p": float(dec["top_p"]),
         "max_tokens": int(dec["max_tokens"]),
         "endpoint": endpoint,
         "served_model": parsed.get("model") or model.get("served_model"),

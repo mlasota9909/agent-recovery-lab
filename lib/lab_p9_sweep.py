@@ -239,6 +239,8 @@ def completeness() -> dict:
 
 def main(argv: list[str]) -> int:
     p = argparse.ArgumentParser(prog="lab-p9-sweep")
+    p.add_argument("--incident", help="fresh named SC-01 replication with separate frozen outputs")
+    p.add_argument("--revised-rules", action="store_true")
     p.add_argument("--k", type=int, default=DEFAULT_K)
     p.add_argument("--force", action="store_true")
     p.add_argument("--representation", choices=REPR_IDS)
@@ -246,6 +248,14 @@ def main(argv: list[str]) -> int:
     p.add_argument("--completeness", action="store_true")
     p.add_argument("--review", default=str(root() / "logs" / "review" / "N004"))
     args = p.parse_args(argv)
+    if args.incident:
+        if not args.revised_rules or args.force or args.k != 5 or args.model or args.representation or args.completeness:
+            p.error("named replication requires --revised-rules and the complete fixed 45-unit design")
+        from lab_sc01_replication import study
+        study(args.incident)
+        return 0
+    if args.revised_rules:
+        p.error("--revised-rules requires --incident")
     review = Path(args.review)
     review.mkdir(parents=True, exist_ok=True)
     if args.completeness:

@@ -34,8 +34,14 @@ done
 [[ $HEARTBEAT_TABLE =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] ||
   die "precondition failed: HEARTBEAT_TABLE is not a PostgreSQL identifier"
 
-active_dir=$(readlink -f -- "$ARCHIVE_CURRENT") ||
-  die "precondition failed: no active incident at $ARCHIVE_CURRENT"
+if [[ -n ${LAB_ACTIVE_INCIDENT:-} ]]; then
+  [[ $LAB_ACTIVE_INCIDENT =~ ^SC-[0-9]{2}_[A-Za-z0-9_-]+$ ]] ||
+    die 'precondition failed: invalid explicit incident'
+  active_dir="$ARCHIVE_ROOT/$LAB_ACTIVE_INCIDENT"
+else
+  active_dir=$(readlink -f -- "$ARCHIVE_CURRENT") ||
+    die "precondition failed: no active incident at $ARCHIVE_CURRENT"
+fi
 case $active_dir in "$ARCHIVE_ROOT"/*) ;; *) die "precondition failed: active incident escapes ARCHIVE_ROOT" ;; esac
 records="$active_dir/snapshots.json"
 [[ -s $records ]] || die "precondition failed: no recorded snapshots for current incident"

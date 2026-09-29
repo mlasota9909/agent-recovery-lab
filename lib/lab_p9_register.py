@@ -29,7 +29,7 @@ SEED = [
         "family": "deepseek",
         "param_class": "~27B (MoE, DeepSeek-V4-Flash)",
         "quantisation": "exl3-k2",
-        "served_model": "deepseek-v4-flash-0731-exl3-k2",
+        "served_model": os.environ.get("P9_SERVED_M1", ""),
         "backend": os.environ.get("P9_BACKEND_M1", ""),
         "is_p61_baseline": True,
     },
@@ -39,7 +39,7 @@ SEED = [
         "family": "gemma",
         "param_class": "~26B (Gemma-4-26B-A4B-IT, QAT q4)",
         "quantisation": "qat-q4",
-        "served_model": "gemma4-26b-a4b-it-qat-q4",
+        "served_model": os.environ.get("P9_SERVED_M2", ""),
         "backend": os.environ.get("P9_BACKEND_M2", ""),
         "is_p61_baseline": False,
     },
@@ -49,23 +49,38 @@ SEED = [
         "family": "qwen",
         "param_class": "~27B (Qwen3.8-27B-MTP, NVFP4)",
         "quantisation": "nvfp4",
-        "served_model": "qwen38-27b-mtp-nvfp4",
+        "served_model": os.environ.get("P9_SERVED_M3", ""),
         "backend": os.environ.get("P9_BACKEND_M3", ""),
         "is_p61_baseline": False,
     },
 ]
 
 
-def build() -> dict:
+def build(served_identities: bool = False) -> dict:
     missing = ["P9_BACKEND_" + seed["slot"] for seed in SEED if not seed["backend"]]
     if missing:
         die(EXIT_ASSERT, "precondition failed: configure " + ", ".join(missing) + " in etc/lab.local.env")
-    baseline_rt = p61_baseline_runtime()
+    if any(not seed["served_model"] for seed in SEED):
+        die(EXIT_ASSERT, "configure P9_SERVED_M1..M3 in etc/lab.local.env")
+    baseline_rt = None if served_identities else p61_baseline_runtime()
     models = []
     for seed in SEED:
         m = dict(seed)
         m["backend_host"] = host_of(seed["backend"])
         m["backend_is_private"] = is_private_host(m["backend_host"])
+        if served_identities:
+            if not m["backend_is_private"] or not is_private_host(host_of(P9_ENDPOINT)):
+                die(EXIT_ASSERT, "gateway and backends must be private")
+            dg = backend_served_digest(seed["backend"], seed["served_model"])
+            if (not dg.get("ok") or not dg["identity"].get("root")
+                    or not dg["identity"].get("max_model_len")):
+                die(EXIT_ASSERT, f"incomplete served identity for {seed['alias']}")
+            m.update(model_digest=dg["model_digest"], model_digest_kind="backend_immutable_identity",
+                     backend_identity=dg["identity"],
+                     tokenizer_id=f"{seed['family']}:{dg['identity']['root']}",
+                     tokenizer_id_source="served root; no tokenizer endpoint contacted")
+            models.append(m)
+            continue
         tok = tokenizer_fingerprint(seed["backend"], seed["served_model"])
         if not tok.get("ok"):
             die(EXIT_ASSERT, f"tokenizer probe failed for {seed['alias']}: {tok.get('error')}")
@@ -91,7 +106,7 @@ def build() -> dict:
             f"LiteLLM gateway ({P9_ENDPOINT}) -> per-alias private-lab vLLM backends"
         ),
         "decoding": dict(P9_DECODING),
-        "p61_baseline_alias": baseline_rt["litellm_alias"],
+        "p61_baseline_alias": SEED[0]["alias"] if served_identities else baseline_rt["litellm_alias"],
         "models": models,
     }
 
@@ -99,6 +114,7 @@ def build() -> dict:
 def main(argv: list[str]) -> int:
     p = argparse.ArgumentParser(prog="lab-p9-modelset")
     p.add_argument("--build", action="store_true", help="probe backends and (re)write the record")
+    p.add_argument("--served-identities", action="store_true", help="record all three /models identities for a fresh P12 replica")
     p.add_argument("--validate", action="store_true", help="validate the existing record")
     p.add_argument("--file", help="validate this record instead of the canonical one (negative tests)")
     p.add_argument("--out", default=str(model_set_path()))
@@ -106,7 +122,14 @@ def main(argv: list[str]) -> int:
     if not (args.build or args.validate):
         die(EXIT_USAGE, "usage: lab-p9-modelset --build | --validate [--file F]")
     if args.build:
-        rec = build()
+        if args.served_identities:
+            freeze = root() / "sdd/specs/P12-file-level-test/contracts/frozen-hashes.json"
+            if freeze.exists() or (Path(args.out).exists() and not json.loads(Path(args.out).read_text()).get("template")):
+                die(EXIT_ASSERT, "refusing to replace recorded identities or a frozen registry")
+        rec = build(served_identities=args.served_identities)
+        report = validate_model_set(rec)
+        if not report["ok"]:
+            die(EXIT_ASSERT, "model-set registration refused: " + json.dumps(report))
         write_json(Path(args.out), rec)
     elif args.file:
         rec = json.loads(Path(args.file).read_text(encoding="utf-8"))

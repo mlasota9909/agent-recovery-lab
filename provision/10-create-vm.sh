@@ -28,7 +28,7 @@ else
   support reserve
 fi
 image_name=ubuntu-26.04-server-cloudimg-amd64.img
-image_base=https://cloud-images.ubuntu.com/releases/26.04/release
+image_base=$PROVISION_IMAGE_BASE
 image_dir="$PROVISION_STATE/image"
 run install -d -m 0700 "$image_dir"
 run curl --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 30 --max-time 1800 --retry 3 --output "$image_dir/SHA256SUMS" "$image_base/SHA256SUMS"
@@ -50,9 +50,9 @@ fi
 run virt-install --connect "$PROVISION_URI" --name "$VM_NAME" --uuid "$vm_uuid" \
   --memory 16384 --vcpus 8 --arch x86_64 --virt-type kvm --osinfo detect=on,require=off \
   --import --boot hd --cloud-init "user-data=$PROVISION_STATE/user-data,meta-data=$PROVISION_STATE/meta-data" \
-  --disk "vol=$PROVISION_STORAGE_POOL/$VM_NAME-system.qcow2,bus=virtio,format=qcow2" \
-  --disk "vol=$PROVISION_STORAGE_POOL/$VM_NAME-data-a.qcow2,bus=virtio,format=qcow2" \
-  --disk "vol=$PROVISION_STORAGE_POOL/$VM_NAME-data-b.qcow2,bus=virtio,format=qcow2" \
+  --disk "vol=$PROVISION_STORAGE_POOL/$VM_NAME-system.qcow2,bus=virtio,target=${DEV_SYSTEM##*/},format=qcow2" \
+  --disk "vol=$PROVISION_STORAGE_POOL/$VM_NAME-data-a.qcow2,bus=virtio,target=${DEV_A##*/},format=qcow2" \
+  --disk "vol=$PROVISION_STORAGE_POOL/$VM_NAME-data-b.qcow2,bus=virtio,target=${DEV_B##*/},format=qcow2" \
   --network "network=$PROVISION_NETWORK,model=virtio" --graphics none --noautoconsole
 run python3 "$ROOT/provision/lib/provision.py" wait-guest
 # The private host key is needed only to build the seed. Retain its public key
