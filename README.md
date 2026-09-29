@@ -53,9 +53,10 @@ key. Do not set `LAB_ROOT` to a different checkout. No site value belongs in an
 executable script. `run/10-preflight.sh` prints resolved configuration, with
 credential values redacted, before checking services.
 
-The committed `runtime/p9-model-set.json` is an empty identity template. The
-explicit registration command above replaces only that template with observed
-identities; it refuses an existing recorded registry or a P12 freeze. Registration
+`runtime/p9-model-set.template.json` is the empty identity template. The
+registration command above writes the untracked `runtime/p9-model-set.json`
+from observed identities, so the working tree stays clean; it refuses an
+existing recorded registry or a P12 freeze. Registration
 uses `/models`, not inference or tokenizer requests. `tokenizer_id` in this mode
 identifies the served root; it is not a measured tokenizer fingerprint. Preflight
 then compares all three actual digests with the recorded values and makes one

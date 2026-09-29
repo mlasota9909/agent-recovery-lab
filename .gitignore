@@ -18,7 +18,7 @@
 !/basebackup/.gitkeep
 /analysis-out/*
 !/analysis-out/.gitkeep
-!/runtime/p9-model-set.json
+!/runtime/p9-model-set.template.json
 /backups/
 /incidents/scaled/
 __pycache__/

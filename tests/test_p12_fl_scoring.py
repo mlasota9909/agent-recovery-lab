@@ -458,7 +458,7 @@ class FreezeTests(Fixture):
             write_json(out / "model-view.json", view)
             (out / "content.txt").write_text(view["content"] + "\n")
             (out / "prompt.txt").write_text(prompt.assemble(view))
-        self.models = json.loads((ROOT / "runtime/p9-model-set.json").read_text())
+        self.models = json.loads((ROOT / "runtime/p9-model-set.template.json").read_text())
         self.models.update(template=False, endpoint="http://127.0.0.1:4001")
         for i, row in enumerate(self.models["models"]):
             row.update(model_digest=sha(str(i)), tokenizer_id="tokenizer" + str(i))

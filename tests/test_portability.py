@@ -66,8 +66,8 @@ class SourcePortabilityTests(unittest.TestCase):
                 self.assertEqual((ROOT / name).read_bytes(), expected, name)
 
     def test_output_and_local_config_ignore_rules(self):
-        ignored = ["etc/lab.local.env"]
-        visible = ["etc/lab.env", "runtime/p9-model-set.json"]
+        ignored = ["etc/lab.local.env", "runtime/p9-model-set.json"]
+        visible = ["etc/lab.env", "runtime/p9-model-set.template.json"]
         for folder in ("evidence", "archive", "results", "logs", "var", "runtime", "basebackup", "analysis-out"):
             ignored.extend([folder + "/run.txt", folder + "/nested/run.txt"])
             visible.append(folder + "/.gitkeep")

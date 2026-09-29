@@ -95,6 +95,8 @@ def model_registry():
     override = os.environ.get("P9_MODEL_SET_JSON")
     if override and Path(override).resolve() != path.resolve():
         raise ValueError("run stages require runtime/p9-model-set.json")
+    if not path.is_file():
+        raise ValueError("record the three served identities before preflight; see README.md")
     models = read(path)
     rows = models.get("models", [])
     if (models.get("template") or models.get("decoding") != DECODING or len(rows) != 3
