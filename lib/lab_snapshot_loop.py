@@ -94,10 +94,10 @@ def run_loop(incident: str) -> int:
             status["last_snapshot_at"] = record["created_at"]
             write_status(incident, status)
             previous = now
-            deadline += interval
-            # No accumulation of work duration in the next scheduled deadline.
-            if now - deadline > interval:
-                raise RuntimeError("snapshot loop missed its deadline by more than one period")
+            # Fixed-rate schedule. A tick delayed by the snapshot lock moves the
+            # schedule instead of carrying its lag into every later deadline;
+            # check_gap still fails any gap longer than two periods.
+            deadline = max(deadline + interval, now)
             while not stop["flag"] and time.monotonic() < deadline:
                 time.sleep(min(0.1, max(0, deadline - time.monotonic())))
         gap = time.monotonic() - previous

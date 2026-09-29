@@ -418,6 +418,40 @@ class LoopTests(ScratchTest):
                  contextlib.redirect_stderr(io.StringIO()):
                 capture.stop_snapshot_loop(INCIDENT, check=True, **kwargs)
 
+    def run_with_durations(self, durations):
+        from datetime import datetime, timedelta, timezone
+        clock = [0.0]
+        ticks = []
+        handlers = {}
+        def take(_incident):
+            ticks.append(clock[0])
+            created = datetime(2026, 9, 29, tzinfo=timezone.utc) + timedelta(seconds=clock[0])
+            row = {"snapshot": str(len(ticks)), "created_at": created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                   "recorded_lsn": "0/10", "label": "loop"}
+            clock[0] += durations[len(ticks) - 1]
+            if len(ticks) == len(durations):
+                handlers[loop.signal.SIGTERM](None, None)
+            return row
+        def sleep(seconds):
+            clock[0] += seconds
+        with patch.object(loop, "take_snapshot_tick", side_effect=take), \
+             patch.object(loop.signal, "signal", side_effect=lambda sig, fn: handlers.update({sig: fn})), \
+             patch.object(loop.time, "monotonic", side_effect=lambda: clock[0]), \
+             patch.object(loop.time, "sleep", side_effect=sleep), \
+             patch.dict(os.environ, {"SNAP_INTERVAL_S": "2"}), contextlib.redirect_stderr(io.StringIO()):
+            return loop.run_loop(INCIDENT), [round(t, 3) for t in ticks]
+
+    def test_late_tick_moves_the_schedule_without_carrying_lag(self):
+        code, ticks = self.run_with_durations([1.6, 3.0, 1.6, 1.6])
+        self.assertEqual(code, 0)
+        self.assertEqual(ticks, [0, 2, 5, 7])
+
+    def test_many_slightly_slow_ticks_do_not_accumulate_into_a_failure(self):
+        code, ticks = self.run_with_durations([2.3] * 40)
+        self.assertEqual(code, 0)
+        self.assertEqual(loop.read_status(INCIDENT)["ticks"], 40)
+        self.assertLessEqual(loop.read_status(INCIDENT)["max_gap_s"], 2.3 + 1e-9)
+
     def test_loop_keeps_fixed_cadence_and_records_successful_stop(self):
         clock = [0.0]
         ticks = []
