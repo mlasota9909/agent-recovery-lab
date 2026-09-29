@@ -12,7 +12,7 @@ from lab_fl_study import collect_unit
 from lab_paths import evidence_dir, lab_root
 from lab_run_common import (DECODING, OUTCOMES, REPS, append, command, incident_id, indexed,
                             json_command, load_rows, logdir, model_registry, read, result_lock,
-                            result_path, save, sha, units, utc)
+                            result_path, run_scope, save, sha, units, utc)
 
 
 def location(incident):
@@ -283,6 +283,8 @@ def main(argv=None):
     from lab_run import incident as generate
     try:
         stages = ("00", "10", "20", "30", "40", "50", "60", "70") if args.stage == "all" else (args.stage,)
+        if run_scope() != "run" and set(stages) - {"20", "30"}:
+            raise ValueError("a dry-run scope runs only the incident and gate stages")
         name = args.incident
         for stage in stages:
             if stage in ("00", "10"):

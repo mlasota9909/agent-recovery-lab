@@ -270,6 +270,13 @@ class BoundaryTests(Scratch):
             with patch.dict(os.environ, {"LAB_RUN_SCOPE": scope}), self.assertRaisesRegex(ValueError, "LAB_RUN_SCOPE"):
                 common.logdir()
 
+    def test_database_replication_refuses_later_stages_in_a_dry_run_scope(self):
+        with patch.dict(os.environ, {"LAB_RUN_SCOPE": "dry-run/20260930T010203Z"}):
+            for stage in ("all", "40", "50", "60", "70"):
+                with patch("sys.stderr", new_callable=io.StringIO) as err:
+                    self.assertEqual(sc01.main(["--stage", stage, "--incident", "SC-01_20260930T000000Z"]), 1)
+                self.assertIn("dry-run scope runs only the incident and gate stages", err.getvalue())
+
     def test_backend_digest_never_substitutes_another_served_model(self):
         response = io.BytesIO(json.dumps({"data": [{"id": "different", "root": "root", "max_model_len": 99}]}).encode())
         with patch.object(p9, "_urlopen", return_value=response):
