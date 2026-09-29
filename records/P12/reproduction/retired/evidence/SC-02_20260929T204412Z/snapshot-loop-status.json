@@ -1,0 +1,1 @@
+{"first_snapshot_at": "2026-09-29T20:44:46.435567Z", "interval_s": 2.0, "last_snapshot_at": "2026-09-29T20:46:09.937758Z", "max_gap_s": 3.234633, "ok": true, "started_at": "2026-09-29T20:44:45.790394Z", "state": "stopped", "stopped_at": "2026-09-29T20:46:10.722482Z", "ticks": 41}

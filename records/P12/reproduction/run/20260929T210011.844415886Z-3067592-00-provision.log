@@ -1,0 +1,3 @@
+Stage 00-provision; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T210011.844415886Z-3067592-00-provision.log
+Provisioning skipped: the replica already holds experiment incidents; stage 10 checks the lab.
+Exit 0 at 2026-09-29T21:00:11Z

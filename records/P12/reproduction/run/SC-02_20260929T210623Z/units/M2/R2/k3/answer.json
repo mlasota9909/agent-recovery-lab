@@ -1,0 +1,6 @@
+{
+  "locators": [],
+  "outcome": "declined",
+  "reason": "The evidence only provides snapshots that are part of intervals already containing damaging file activity.",
+  "snapshot": null
+}

@@ -1,0 +1,3 @@
+Stage retire-attempt; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T204130.988509198Z-3021730-retire-attempt.log
+Retired the attempt; records in logs/superseded/20260929T204132Z
+Exit 0 at 2026-09-29T20:41:32Z

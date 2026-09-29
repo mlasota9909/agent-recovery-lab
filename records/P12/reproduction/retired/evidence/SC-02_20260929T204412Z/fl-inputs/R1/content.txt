@@ -1,0 +1,4 @@
+{"intervals":[{"interval":9,"from_snapshot":"s_20260929T204500009Z_000009","to_snapshot":"s_20260929T204501889Z_000010","from_time":"2026-09-29T20:45:00.567374Z","to_time":"2026-09-29T20:45:02.477076Z"},{"interval":33,"from_snapshot":"s_20260929T204548791Z_000033","to_snapshot":"s_20260929T204551145Z_000034","from_time":"2026-09-29T20:45:49.283430Z","to_time":"2026-09-29T20:45:51.629871Z"},{"interval":38,"from_snapshot":"s_20260929T204558241Z_000038","to_snapshot":"s_20260929T204600517Z_000039","from_time":"2026-09-29T20:45:58.761692Z","to_time":"2026-09-29T20:46:01.041617Z"}]}
+{"interval":9,"anomaly_score":0.21621621621621623,"last_safe_snapshot":"s_20260929T204500009Z_000009"}
+{"interval":33,"anomaly_score":1.2162162162162162,"last_safe_snapshot":"s_20260929T204548791Z_000033"}
+{"interval":38,"anomaly_score":12.216216216216216,"last_safe_snapshot":"s_20260929T204558241Z_000038"}

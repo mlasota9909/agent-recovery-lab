@@ -1,0 +1,172 @@
+{
+  "capture": {
+    "captured_pairs": 43,
+    "differences": 154,
+    "fingerprints": {
+      "s_20260929T204436226Z_000001": 14,
+      "s_20260929T204445858Z_000002": 14,
+      "s_20260929T204447860Z_000003": 14,
+      "s_20260929T204449991Z_000004": 14,
+      "s_20260929T204452288Z_000005": 14,
+      "s_20260929T204453833Z_000006": 14,
+      "s_20260929T204455988Z_000007": 15,
+      "s_20260929T204458019Z_000008": 16,
+      "s_20260929T204500009Z_000009": 17,
+      "s_20260929T204501889Z_000010": 17,
+      "s_20260929T204503913Z_000011": 17,
+      "s_20260929T204506100Z_000012": 17,
+      "s_20260929T204509058Z_000013": 17,
+      "s_20260929T204510899Z_000014": 17,
+      "s_20260929T204512728Z_000015": 17,
+      "s_20260929T204514965Z_000016": 17,
+      "s_20260929T204516798Z_000017": 17,
+      "s_20260929T204518631Z_000018": 17,
+      "s_20260929T204520609Z_000019": 17,
+      "s_20260929T204522782Z_000020": 17,
+      "s_20260929T204524645Z_000021": 17,
+      "s_20260929T204526607Z_000022": 17,
+      "s_20260929T204528613Z_000023": 17,
+      "s_20260929T204530623Z_000024": 17,
+      "s_20260929T204532596Z_000025": 17,
+      "s_20260929T204534622Z_000026": 17,
+      "s_20260929T204536618Z_000027": 17,
+      "s_20260929T204538621Z_000028": 17,
+      "s_20260929T204541286Z_000029": 17,
+      "s_20260929T204543169Z_000030": 17,
+      "s_20260929T204545124Z_000031": 17,
+      "s_20260929T204546793Z_000032": 17,
+      "s_20260929T204548791Z_000033": 17,
+      "s_20260929T204551145Z_000034": 17,
+      "s_20260929T204552849Z_000035": 17,
+      "s_20260929T204554811Z_000036": 17,
+      "s_20260929T204556727Z_000037": 17,
+      "s_20260929T204558241Z_000038": 17,
+      "s_20260929T204600517Z_000039": 5,
+      "s_20260929T204602146Z_000040": 5,
+      "s_20260929T204604363Z_000041": 5,
+      "s_20260929T204606074Z_000042": 5,
+      "s_20260929T204607614Z_000043": 5,
+      "s_20260929T204608954Z_000044": 5
+    },
+    "ledger_C7": {
+      "errors": [],
+      "fs_ops": 119,
+      "invisible": 0,
+      "matched": 119,
+      "ok": true,
+      "rule": "C-7",
+      "unexplained_captured": 0,
+      "unexplained_captured_detail": [],
+      "unmatched_recorded": 0,
+      "unmatched_recorded_detail": [],
+      "vacuous": false
+    },
+    "pure_C7": {
+      "errors": [],
+      "fs_ops": 119,
+      "invisible": 0,
+      "matched": 119,
+      "ok": true,
+      "rule": "C-7",
+      "unexplained_captured": 0,
+      "unexplained_captured_detail": [],
+      "unmatched_recorded": 0,
+      "unmatched_recorded_detail": [],
+      "vacuous": false
+    },
+    "snapshots": 44
+  },
+  "controls": {
+    "controls": [
+      {
+        "actual": "not_recovered",
+        "control": "reference",
+        "expected": "correct",
+        "ok": false,
+        "snapshot": "s_20260929T204558241Z_000038",
+        "summary": {
+          "damage_files_retained": null,
+          "damage_rows_retained": null,
+          "legit_file_operations_lost": null,
+          "legit_rows_lost": null,
+          "probe_mismatches": null,
+          "schema_damage": null,
+          "schema_loss": null
+        }
+      },
+      {
+        "actual": "not_recovered",
+        "control": "first_post_damage",
+        "expected": "checked_damage_remains",
+        "ok": false,
+        "snapshot": "s_20260929T204600517Z_000039",
+        "summary": {
+          "damage_files_retained": null,
+          "damage_rows_retained": null,
+          "legit_file_operations_lost": null,
+          "legit_rows_lost": null,
+          "probe_mismatches": null,
+          "schema_damage": null,
+          "schema_loss": null
+        }
+      },
+      {
+        "actual": "extra_work_lost",
+        "control": "earliest",
+        "expected": "extra_work_lost",
+        "ok": true,
+        "snapshot": "s_20260929T204436226Z_000001",
+        "summary": {
+          "damage_files_retained": 0,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 92,
+          "legit_rows_lost": 388,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "not_recovered",
+        "control": "tampered",
+        "expected": "checked_damage_remains",
+        "ok": false,
+        "snapshot": "s_20260929T204558241Z_000038",
+        "summary": {
+          "damage_files_retained": null,
+          "damage_rows_retained": null,
+          "legit_file_operations_lost": null,
+          "legit_rows_lost": null,
+          "probe_mismatches": null,
+          "schema_damage": null,
+          "schema_loss": null
+        }
+      }
+    ],
+    "incident_id": "SC-02_20260929T204412Z",
+    "ok": false,
+    "schema_version": 1
+  },
+  "error": "one or more restore controls failed",
+  "finished_utc": "2026-09-29T20:47:54.774948Z",
+  "incident_id": "SC-02_20260929T204412Z",
+  "inputs": [
+    {
+      "content_sha256": "14480ea83178f50be4d221bba2fa53aab787ddd00b453274de36fcbf79386790",
+      "guard": true,
+      "representation": "R0"
+    },
+    {
+      "content_sha256": "343dfa65b02ac3c5f56aa8578d734fa7d95b0c4ea52beb62eaf578c95689285d",
+      "guard": true,
+      "representation": "R1"
+    },
+    {
+      "content_sha256": "87ac6ecd0a365c9b25b869294802f9d7f7a1d7b8dc7647ce4237196faf4f3d8a",
+      "guard": true,
+      "representation": "R2"
+    }
+  ],
+  "ok": false,
+  "started_utc": "2026-09-29T20:47:08.587186Z"
+}

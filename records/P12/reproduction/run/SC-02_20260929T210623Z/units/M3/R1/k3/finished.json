@@ -1,0 +1,65 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20260929T210811887Z_000038",
+        "token": "interval=38"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20260929T210811887Z_000038",
+        "token": "snapshot=s_20260929T210811887Z_000038"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20260929T210811887Z_000038",
+        "token": "ts=2026-09-29T21:08:12.509367Z"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20260929T210811887Z_000038"
+  },
+  "call_started_utc": "2026-09-29T21:16:47.899401Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-proof/evidence/SC-02/SC-02_20260929T210623Z/fl-checks/s_20260929T210811887Z_000038.json",
+    "report_sha256": "716b6e19737c6255be5bbd8e80d2038bb52fceb61bf0bc79437347b1ea72197c",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 0,
+      "legit_rows_lost": 0,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "correct"
+  },
+  "completion_tokens": 1597,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T21:16:58.943287Z",
+  "freeze_sha256": "8006f1bb6140909d21314e498fc89baee313fb0f6298fab5d38e0745f0677201",
+  "incident_id": "SC-02_20260929T210623Z",
+  "latency_ms": 10538,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-proof/logs/run/SC-02_20260929T210623Z/units/M3/R1/k3/model.json",
+  "model_record_sha256": "c6a582b48d1b17529d480a4aa78f2469344d25807f0c62d0e65d58851cab676c",
+  "outcome": "accepted",
+  "prompt_sha256": "6adb9ae6190c71cd7bc52d923a3dace6530e00de64d412cb168c000dbc9de75a",
+  "prompt_tokens": 842,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- Intervals 20 and 32 have low anomaly scores (~1.19), indicating normal/safe activity.\n- Interval 38 has a sharply elevated anomaly score (12.19), marking the onset of damaging file activity.\n- The `last_safe_snapshot` for interval 38 is `s_20260929T210811887Z_000038`, which is the start snapshot of that interval (from_snapshot).\n\nThis is the latest safe snapshot recorded before the damaging activity began.\n\nAll three locator forms resolve to the same snapshot:\n- `interval=38` \u2192 its start snapshot = `s_20260929T210811887Z_000038`\n- `snapshot=s_20260929T210811887Z_000038`\n- `ts=2026-09-29T21:08:12.509367Z` \u2192 the from_time of interval 38, which is the recorded time of that snapshot.\n\nCOORDINATE: interval=38 snapshot=s_20260929T210811887Z_000038 ts=2026-09-29T21:08:12.509367Z",
+  "replicate_index": 3,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R1|3"
+}

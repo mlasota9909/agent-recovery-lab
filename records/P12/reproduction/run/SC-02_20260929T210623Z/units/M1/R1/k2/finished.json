@@ -1,0 +1,55 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20260929T210811887Z_000038",
+        "token": "snapshot=s_20260929T210811887Z_000038"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20260929T210811887Z_000038"
+  },
+  "call_started_utc": "2026-09-29T21:11:25.724038Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-proof/evidence/SC-02/SC-02_20260929T210623Z/fl-checks/s_20260929T210811887Z_000038.json",
+    "report_sha256": "716b6e19737c6255be5bbd8e80d2038bb52fceb61bf0bc79437347b1ea72197c",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 0,
+      "legit_rows_lost": 0,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "correct"
+  },
+  "completion_tokens": 20,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T21:11:27.176566Z",
+  "freeze_sha256": "8006f1bb6140909d21314e498fc89baee313fb0f6298fab5d38e0745f0677201",
+  "incident_id": "SC-02_20260929T210623Z",
+  "latency_ms": 967,
+  "model_alias": "gb10a-deepseek-v4-flash",
+  "model_record": "/home/mlasota/agent-recovery-lab-proof/logs/run/SC-02_20260929T210623Z/units/M1/R1/k2/model.json",
+  "model_record_sha256": "15935c8d4f663a398fff6609c5bc02c5862c3253b1c62ddfd615e401c4cab434",
+  "outcome": "accepted",
+  "prompt_sha256": "6adb9ae6190c71cd7bc52d923a3dace6530e00de64d412cb168c000dbc9de75a",
+  "prompt_tokens": 616,
+  "raw_completion": "COORDINATE: snapshot=s_20260929T210811887Z_000038",
+  "replicate_index": 2,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gb10a-deepseek-v4-flash|R1|2"
+}

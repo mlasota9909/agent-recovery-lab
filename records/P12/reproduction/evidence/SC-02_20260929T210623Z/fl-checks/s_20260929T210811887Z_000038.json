@@ -1,0 +1,113 @@
+{
+  "cache_key": "4e7c80056bec38821d61abea98f1e8c521a12af2fe52d4ba3aad96cdb34abe3f",
+  "coordinate": {
+    "lsn": "E59D/2D000B08",
+    "lsn_int": 252463227603720,
+    "snapshot": "s_20260929T210811887Z_000038",
+    "time": "2026-09-29T21:08:12.509367Z"
+  },
+  "db_validation": {
+    "content_hash": "e88373ec829f5a0e91a07f51c86ff3ae1ef40cebe41d33f261e47560cf09149d",
+    "ddl": [
+      "id bigint",
+      "v text"
+    ],
+    "ddl_match": true,
+    "missing_destroyed_row_ids": [],
+    "missing_legitimate_row_ids": [],
+    "p3_analytical_legit_rows_lost": 56,
+    "relation": "p2_probe",
+    "row_count": 404
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20260929T210811887Z_000038",
+    "files_compared": 17,
+    "files_matched": 17,
+    "mismatches": []
+  },
+  "incident_id": "SC-02_20260929T210623Z",
+  "probe_sha256": null,
+  "restore": {
+    "coordinate": {
+      "lsn": "E59D/2D000B08",
+      "lsn_int": 252463227603720,
+      "snapshot": "s_20260929T210811887Z_000038",
+      "time": "2026-09-29T21:08:12.509367Z"
+    },
+    "db_restore": {
+      "beyond": {
+        "absent_ok": true,
+        "inject_lsn_int": 252463244380024,
+        "kind": "before_inject",
+        "present": null,
+        "row_id": null
+      },
+      "beyond_target_absent": true,
+      "changed": true,
+      "in_recovery": true,
+      "incident": "SC-02_20260929T210623Z",
+      "ok": true,
+      "replay_lsn": "E59D/2E000000",
+      "replay_lsn_int": 252463244378112,
+      "restore_target": {
+        "fs_clone_dataset": null,
+        "pgdata_dataset": "labpool/sandbox/SC-02_20260929T210623Z/fl_4e7c80056bec38821d61abea/pgdata",
+        "sandbox_pgdata": "/labpool/sandbox/SC-02_20260929T210623Z/fl_4e7c80056bec38821d61abea/pgdata/data",
+        "sandbox_port": 55518,
+        "tag": "fl_4e7c80056bec38821d61abea"
+      },
+      "snapshot": "s_20260929T210811887Z_000038",
+      "state": "created",
+      "stopped_at_target": true,
+      "target_lsn": "E59D/2D000B08",
+      "target_lsn_int": 252463227603720,
+      "victim_zfs_after": "340a6df23892f8283327081ce069b4247b1e144b8ef64bf04399f1b22d45087b",
+      "victim_zfs_before": "340a6df23892f8283327081ce069b4247b1e144b8ef64bf04399f1b22d45087b",
+      "wal_segments": [
+        "000000010000E59D0000002B",
+        "000000010000E59D0000002C",
+        "000000010000E59D0000002D",
+        "000000010000E59D0000002E"
+      ]
+    },
+    "fs_restore": {
+      "changed": true,
+      "clone_dataset": "labpool/sandbox/SC-02_20260929T210623Z/fl_4e7c80056bec38821d61abea/protected",
+      "mountpoint": "/labpool/sandbox/SC-02_20260929T210623Z/fl_4e7c80056bec38821d61abea/protected",
+      "ok": true,
+      "snapshot": "s_20260929T210811887Z_000038",
+      "snapshot_list_unchanged": true,
+      "victim_zfs_after": "340a6df23892f8283327081ce069b4247b1e144b8ef64bf04399f1b22d45087b",
+      "victim_zfs_before": "340a6df23892f8283327081ce069b4247b1e144b8ef64bf04399f1b22d45087b"
+    },
+    "incident_id": "SC-02_20260929T210623Z",
+    "restore_of": "fl_4e7c80056bec38821d61abea",
+    "restore_target": {
+      "fs_clone_dataset": "labpool/sandbox/SC-02_20260929T210623Z/fl_4e7c80056bec38821d61abea/protected",
+      "fs_mount": "/labpool/sandbox/SC-02_20260929T210623Z/fl_4e7c80056bec38821d61abea/protected",
+      "pgdata_dataset": "labpool/sandbox/SC-02_20260929T210623Z/fl_4e7c80056bec38821d61abea/pgdata",
+      "sandbox_pgdata": "/labpool/sandbox/SC-02_20260929T210623Z/fl_4e7c80056bec38821d61abea/pgdata/data",
+      "sandbox_port": 55518,
+      "tag": "fl_4e7c80056bec38821d61abea"
+    }
+  },
+  "restore_of": "fl_4e7c80056bec38821d61abea",
+  "restore_ok": true,
+  "schema_version": 2,
+  "source_sha256": {
+    "fl-reference.json": "44f2bdaacdf44fc8d1e36dc502fc507f0037fd29166842a81156f0b25e3631fa",
+    "oracle-manifest.json": "bf86686811631c840eaab80a26da19a1215f5d69030c6162259d88c470da6691",
+    "workload-manifest.jsonl": "abb5354e083008669ce92305729b6744b7a2b869e5e0d2907a9bc1f3751d095a"
+  },
+  "summary": {
+    "damage_files_retained": 0,
+    "damage_rows_retained": 0,
+    "legit_file_operations_lost": 0,
+    "legit_rows_lost": 0,
+    "probe_mismatches": 0,
+    "schema_damage": 0,
+    "schema_loss": 0
+  },
+  "tampered_control": false,
+  "verdict_v2": "correct"
+}

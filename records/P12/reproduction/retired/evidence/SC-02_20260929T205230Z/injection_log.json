@@ -1,0 +1,126 @@
+{
+  "commit_lsn": "0/31000778",
+  "fs_ops": [
+    {
+      "kind": "file",
+      "operation": "overwrite",
+      "path": "workspace/config/settings.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981240Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f1.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981263Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f10.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981275Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f11.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981286Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f12.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981296Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f2.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981306Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f3.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981315Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f4.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981325Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f5.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981334Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f6.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981344Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f7.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981353Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f8.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981362Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/records/f9.txt",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981371Z"
+    },
+    {
+      "kind": "directory",
+      "operation": "delete",
+      "path": "workspace/records/nested",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981380Z"
+    },
+    {
+      "kind": "directory",
+      "operation": "delete",
+      "path": "workspace/records",
+      "source": "injection",
+      "ts": "2026-09-29T20:54:18.981390Z"
+    }
+  ],
+  "guest_check": "GONE\nOW",
+  "incident": "SC-02_20260929T205230Z",
+  "inject_stdout": "sc02-inject-ok overwrite+rm",
+  "lsn_end": "0/31000778",
+  "lsn_start": "0/30000528",
+  "ops": [
+    "recursive_delete",
+    "overwrite"
+  ],
+  "principal": "lab_agent",
+  "reference_snapshot": "s_20260929T205417116Z_000038",
+  "scenario_id": "SC-02",
+  "t_end": "2026-09-29T20:54:19.395515Z",
+  "t_start": "2026-09-29T20:54:18.981025Z",
+  "timing_pattern": "near_instant",
+  "tree": "/srv/lab-incidents/i_20260929T205230Z_aaafdc/protected/workspace"
+}

@@ -1,0 +1,14 @@
+{
+  "comparator": "rank",
+  "coordinate": {
+    "lsn": "E59D/2D000B08",
+    "lsn_int": 252463227603720,
+    "snapshot": "s_20260929T210811887Z_000038",
+    "time": "2026-09-29T21:08:12.509367Z"
+  },
+  "first_flagged_interval": 38,
+  "incident_id": "SC-02_20260929T210623Z",
+  "outcome": "accepted",
+  "reason": "start snapshot of first flagged interval",
+  "schema_version": 1
+}

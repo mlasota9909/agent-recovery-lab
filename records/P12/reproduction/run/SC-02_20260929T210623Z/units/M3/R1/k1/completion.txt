@@ -1,0 +1,16 @@
+
+
+Looking at the evidence:
+
+- Intervals 20 and 32 have low anomaly scores (~1.19), indicating normal/safe activity.
+- Interval 38 has a sharply elevated anomaly score (12.19), marking the onset of damaging file activity.
+- The `last_safe_snapshot` for interval 38 is `s_20260929T210811887Z_000038`, which is the start snapshot of that interval (from_snapshot).
+
+This is the latest safe snapshot recorded before the damaging activity began.
+
+All three locator forms resolve to the same snapshot:
+- `interval=38` → its start snapshot = `s_20260929T210811887Z_000038`
+- `snapshot=s_20260929T210811887Z_000038`
+- `ts=2026-09-29T21:08:12.509367Z` → the from_time of interval 38, which is the recorded time of that snapshot.
+
+COORDINATE: interval=38 snapshot=s_20260929T210811887Z_000038 ts=2026-09-29T21:08:12.509367Z

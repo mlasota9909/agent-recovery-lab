@@ -1,0 +1,3 @@
+Stage 30-incident-gate; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T205527.841944044Z-3059736-30-incident-gate.log
+run gate failed: one or more restore controls failed
+Exit 1 at 2026-09-29T20:56:13Z

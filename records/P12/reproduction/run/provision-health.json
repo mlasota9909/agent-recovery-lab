@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "provision/40-healthcheck.sh"
+  ],
+  "exit_code": 1,
+  "stderr": "",
+  "stdout": "FAIL: AC-1: Current configuration and replica ownership\nFAIL: lab-ready: Read-only readiness gate\n{\"ok\": false, \"summary\": \"/home/mlasota/agent-recovery-lab-proof/logs/provision/health-20260929T204146.326002Z.json\"}\n"
+}

@@ -1,0 +1,2 @@
+Retired before any freeze on 2026-09-29T20:41:32Z.
+Reason: stage 20 refused the incident: the snapshot loop measured 4.044 s between tick completions at the injection (limit 4 s, two periods); recorded snapshot gaps were at most 2.73 s

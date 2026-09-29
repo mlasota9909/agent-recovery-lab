@@ -1,0 +1,16 @@
+{
+  "approx_incident_time": "2026-09-29T21:08:10.570406Z",
+  "comparator": "naive",
+  "coordinate": {
+    "lsn": "E59D/33000168",
+    "lsn_int": 252463328264552,
+    "snapshot": "s_20260929T210822835Z_000044",
+    "time": "2026-09-29T21:08:23.618434Z"
+  },
+  "cutoff": "2026-09-29T21:08:30.570406Z",
+  "declared_error_seconds": 20,
+  "incident_id": "SC-02_20260929T210623Z",
+  "outcome": "accepted",
+  "reason": "latest snapshot at or before estimate",
+  "schema_version": 1
+}

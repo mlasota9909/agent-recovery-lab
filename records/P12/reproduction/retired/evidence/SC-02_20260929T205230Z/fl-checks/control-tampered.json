@@ -1,0 +1,31 @@
+{
+  "cache_key": "e6605bdfeb3b679147ac01786c1e114c9526ba3b78b15deb653d48016cc8c920",
+  "coordinate": {
+    "lsn": "0/30000B38",
+    "lsn_int": 805309240,
+    "snapshot": "s_20260929T205417116Z_000038",
+    "time": "2026-09-29T20:54:17.721755Z"
+  },
+  "failure_reason": "2",
+  "incident_id": "SC-02_20260929T205230Z",
+  "probe_sha256": null,
+  "restore_of": "fl_e6605bdfeb3b679147ac0178",
+  "restore_ok": false,
+  "schema_version": 2,
+  "source_sha256": {
+    "fl-reference.json": "d7b678101486729d8058c10a56522de84707d62e9476522de384c729f4e035da",
+    "oracle-manifest.json": "40d26e138170fcdb4cc2fea5146a877ada08b8f63592b864205813b43ac57986",
+    "workload-manifest.jsonl": "6d1a1764cb5d90880c0cd79564a34a93e29d3770245f7e3225feec3e294e0323"
+  },
+  "summary": {
+    "damage_files_retained": null,
+    "damage_rows_retained": null,
+    "legit_file_operations_lost": null,
+    "legit_rows_lost": null,
+    "probe_mismatches": null,
+    "schema_damage": null,
+    "schema_loss": null
+  },
+  "tampered_control": true,
+  "verdict_v2": "not_recovered"
+}

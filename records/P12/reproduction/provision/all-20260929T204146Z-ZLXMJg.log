@@ -1,0 +1,45 @@
+OK: site configuration
+OK: configuration
+OK: virsh
+OK: virt-install
+OK: qemu-img
+OK: cloud-localds
+OK: genisoimage
+OK: curl
+OK: python3
+OK: ssh
+OK: ssh-keygen
+OK: pg_recvlogical
+OK: psql
+OK: pg_basebackup
+OK: duckdb
+OK: rg
+OK: ip
+OK: flock
+OK: sudo
+OK: systemctl
+OK: sha256sum
+OK: rsync
+OK: Ubuntu 26.04
+OK: passwordless sudo
+OK: libvirt group
+OK: KVM device
+OK: libvirt KVM support
+OK: libvirt >= 11
+OK: virt-install >= 5.1
+OK: pg_recvlogical 18
+OK: psql 18
+OK: pg_basebackup 18
+OK: DuckDB version: v1.3.2 (Ossivalis) 0b83e5d2f6
+OK: system libvirt access
+OK: libvirt NAT network: 192.168.122.1
+OK: storage pool and free space: /var/lib/libvirt/images/reclab02
+OK: checkout free space
+OK: host SSH key
+OK: host SSH public key format
+OK: host SSH service
+OK: host SSH public key
+provision: replica reclab02 already belongs to this checkout; skipping creation
+Guest ready: lab-provision-reclab02-e8efcd46 (192.168.122.41); host source 192.168.122.1
+provision: An experiment replaced the provisioning archive scope; refusing guest configuration
+provision exit=1 log=/home/mlasota/agent-recovery-lab-proof/logs/provision/all-20260929T204146Z-ZLXMJg.log

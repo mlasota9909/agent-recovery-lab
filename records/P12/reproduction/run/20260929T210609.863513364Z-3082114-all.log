@@ -1,0 +1,185 @@
+Stage all; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T210609.863513364Z-3082114-all.log
+Stage 00-provision; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T210609.906022004Z-3082150-00-provision.log
+Provisioning skipped: the replica already holds experiment incidents; stage 10 checks the lab.
+Exit 0 at 2026-09-29T21:06:10Z
+Stage 10-preflight; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T210610.046306574Z-3082163-10-preflight.log
+ARCHIVE_CURRENT=/home/mlasota/agent-recovery-lab-proof/archive/current
+ARCHIVE_MOUNT_IN_VM=/var/lib/postgresql/archive_sink
+ARCHIVE_ROOT=/home/mlasota/agent-recovery-lab-proof/archive
+ARM_B_K=5
+ARM_B_PROMPT_TEMPLATE=/home/mlasota/agent-recovery-lab-proof/etc/arm-b-prompt.txt
+BARRIER_TIMEOUT_S=120
+BASEBACKUP_ROOT=/home/mlasota/agent-recovery-lab-proof/basebackup
+CONSUMER_UNIT=reclab2-consumer
+DB_NAME=labdb
+DDL_AUDIT_TABLE=lab_ddl_audit
+DEV_A=/dev/vdb
+DEV_B=/dev/vdc
+DEV_LOCATION=guest
+DEV_SYSTEM=/dev/vda
+DS_PARENT=labpool/victim
+DS_PGDATA=labpool/victim/pgdata
+DS_PROTECTED=labpool/victim/protected
+DUCKDB_BIN=duckdb
+EVIDENCE_ROOT=/home/mlasota/agent-recovery-lab-proof/evidence
+GUEST_KERNEL=
+GUEST_OS=
+HARNESS_COMMIT_AT_P1_OPEN=
+HEARTBEAT_HZ=1
+HEARTBEAT_TABLE=lab_heartbeat
+HOST_ARCHIVE_USER=mlasota
+HOST_KERNEL=
+HOST_OS=
+HOST_PG_CIDR=192.168.122.1/32
+INCIDENT_PORT_BASE=56000
+INCIDENT_PORT_COUNT=4000
+LAB_FORBIDDEN_CLOUD_ALIAS=deepseek-v4-pro
+LAB_HOST=192.168.122.1
+LAB_HOSTS=localhost,reclab02
+LAB_PRIVATE_CIDRS=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,100.64.0.0/10,fd00::/8,fe80::/10
+LAB_ROOT=/home/mlasota/agent-recovery-lab-proof
+LAB_SNAPSHOT_LOOP_HOOK=lsn
+MNT_PROTECTED=/srv/protected
+MODEL_API_KEY_FILE=/home/mlasota/agent-recovery-lab-proof/var/model/litellm.key
+MODEL_API_KEY_VAR=MODEL_API_KEY
+MODEL_CONTEXT=262144
+MODEL_ENDPOINT=http://model-gateway:4001
+MODEL_ID=gb10a-deepseek-v4-flash
+MODEL_LITELLM_HOST=model-gateway
+MODEL_LITELLM_PORT=4001
+MODEL_MAX_TOKENS=512
+MODEL_QUANT=exl3-k2
+MODEL_RUNTIME=litellm+vllm
+MODEL_RUNTIME_JSON=/home/mlasota/agent-recovery-lab-proof/var/model/model-runtime.json
+MODEL_SEED=42
+MODEL_WEIGHTS_SHA256=c5da6dd1f48fc7eed95333921709c5139bb0c59a5a616417094088dd81a31187
+OS_USER_AGENT=lab_agent
+OS_USER_APP=lab_app
+P9_BACKEND_M1=http://192.168.1.237:8000/v1
+P9_BACKEND_M2=http://100.70.64.14:8090/v1
+P9_BACKEND_M3=http://192.168.1.168:8010/v1
+P9_ENDPOINT=http://127.0.0.1:4001
+P9_SERVED_M1=deepseek-v4-flash-0731-exl3-k2
+P9_SERVED_M2=gemma4-26b-a4b-it-qat-q4
+P9_SERVED_M3=qwen38-27b-mtp-nvfp4
+PG_BIN=/usr/lib/postgresql/18/bin
+PG_DATA=/var/lib/postgresql/18/main
+PG_PORT=5432
+PG_SERVER_VERSION=
+PG_VERSION=18
+PROVISION_DATA_A_VOLUME=reclab02-data-a.qcow2
+PROVISION_DATA_B_VOLUME=reclab02-data-b.qcow2
+PROVISION_IMAGE_BASE=https://cloud-images.ubuntu.com/releases/26.04/release
+PROVISION_NETWORK=default
+PROVISION_SSH_KEY=/home/mlasota/.ssh/id_ed25519
+PROVISION_STORAGE_PATH=/var/lib/libvirt/images/reclab02
+PROVISION_STORAGE_POOL=reclab02
+PROVISION_SYSTEM_VOLUME=reclab02-system.qcow2
+PROVISION_URI=qemu:///system
+PROVISION_USER=mlasota
+PROVISION_VM_UUID=e8efcd46-ef81-4796-bd35-dc95fefe68d6
+RESULTS_FILE_MODE=0444
+RESULTS_GLOB=results/*.jsonl
+RESULTS_ROOT=/home/mlasota/agent-recovery-lab-proof/results
+RESULTS_SCHEMA=/home/mlasota/agent-recovery-lab-proof/etc/results-row.schema.json
+ROLE_AGENT=lab_agent
+ROLE_APP=lab_app
+SANDBOX_DATASET=labpool/sandbox
+SANDBOX_MNT=/labpool/sandbox
+SANDBOX_PORT=55432
+SC01_BASELINE_S=10
+SC01_INJECT_ROWS=200
+SC01_MIX=insert:60,update:30,delete:10
+SC01_MIX_TOLERANCE=0.15
+SC01_SCENARIO_CONFIG=/home/mlasota/agent-recovery-lab-proof/etc/scenarios/sc01.env
+SC01_SEED_ROWS=50000
+SC01_TPS=20
+SC01_TPS_TOLERANCE=0.25
+SLOT_MAX_WAL_KEEP=8GB
+SLOT_MIN_FREE=20GB
+SLOT_NAME=lab_slot
+SLOT_PLUGIN=wal2json
+SLOT_STEADY_RETAINED_BYTES=
+SLOT_WARN_RETAINED=64MB
+SNAP_INTERVAL_S=2
+SNAP_POST_CAPTURE=post_capture
+SNAP_PREFIX=s_
+SNAP_PRE_INJECTION=pre_injection
+SNAP_PRISTINE=pristine
+TOKENIZER_NAME=lab-ws-punct
+TOKENIZER_PATH=/home/mlasota/agent-recovery-lab-proof/vendor/tokenizer/lab-ws-punct-1.json
+TOKENIZER_VERSION=1
+VM_ADDR=192.168.122.41
+VM_NAME=reclab02
+VM_SSH=lab-provision-reclab02-e8efcd46
+WAL2JSON_VERSION=2.6-3
+ZFS_KMOD_VERSION=
+ZFS_VERSION=2.4.1-1ubuntu5.1
+ZPOOL=labpool
+Preflight passed: three matching identities, contained gateway calls and lab health.
+Exit 0 at 2026-09-29T21:06:12Z
+Stage 20-incident; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T210612.669431813Z-3082242-20-incident.log
+SC-02_20260929T210623Z
+Exit 0 at 2026-09-29T21:09:24Z
+Stage 30-incident-gate; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T210924.114679195Z-3093214-30-incident-gate.log
+{"ok": true, "gate": "/home/mlasota/agent-recovery-lab-proof/logs/run/SC-02_20260929T210623Z/gate.json"}
+Exit 0 at 2026-09-29T21:11:02Z
+Stage 40-freeze; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T211102.693314072Z-3095648-40-freeze.log
+{"decoding": {"max_tokens": 8192, "seed": 42, "temperature": 0, "top_p": 1}, "files": {"contract:fl-analysis-plan.md": {"path": "sdd/specs/P12-file-level-test/contracts/fl-analysis-plan.md", "sha256": "eed4525f3575d00e34deffaef94a67cae88595ec68cb847bfada35bce7cfcad6"}, "contract:fl-answer-rules.md": {"path": "sdd/specs/P12-file-level-test/contracts/fl-answer-rules.md", "sha256": "6d8b1701a614b1d558a3927c5d0dc7b16f763f1c86897c06b05ca88639e60b8f"}, "contract:fl-checks.md": {"path": "sdd/specs/P12-file-level-test/contracts/fl-checks.md", "sha256": "c98505f864d06d51a5e53481fef1ab8405dd5d4241601e569112530930b7a012"}, "contract:fl-inputs.md": {"path": "sdd/specs/P12-file-level-test/contracts/fl-inputs.md", "sha256": "e85d01f38d3b58048b969c5c15b7371adc86de5390082baee01e0abd3174d667"}, "contract:fl-prompt.md": {"path": "sdd/specs/P12-file-level-test/contracts/fl-prompt.md", "sha256": "c82119e77241c2e9b2745252a11f47224147b5820ea1f9068ebb272c3ed33eb1"}, "design:plan": {"path": "sdd/specs/P12-file-level-test/plan.md", "sha256": "4f4fe199592f5070510722df1369de992e1ded051e3ef67f3e1a17da8caf3302"}, "design:spec": {"path": "sdd/specs/P12-file-level-test/spec.md", "sha256": "20bc1d27e8c8971503cdbc4f63cb2f8d5d07c409890a26387316f27cfb2a6541"}, "input:R0/content.txt": {"path": "evidence/SC-02/SC-02_20260929T210623Z/fl-inputs/R0/content.txt", "sha256": "5c0c85960944c3f3d76932129eea7e62485b840d2e9c0f1d3deb996e414270a3"}, "input:R0/model-view.json": {"path": "evidence/SC-02/SC-02_20260929T210623Z/fl-inputs/R0/model-view.json", "sha256": "7fdd0daa229bbf1f5a9f2ed672b57d327918a09bfae8cb9d99cbfc56e3db9277"}, "input:R0/prompt.txt": {"path": "evidence/SC-02/SC-02_20260929T210623Z/fl-inputs/R0/prompt.txt", "sha256": "c52745bdde1ebb24a142e856bc34691eadaadc564946c211cbfe24b09b42f59e"}, "input:R1/content.txt": {"path": "evidence/SC-02/SC-02_20260929T210623Z/fl-inputs/R1/content.txt", "sha256": "f53a3d8f7216ab45b0a5a16bc7164ad7202850a4eb031ac4151334a859454a47"}, "input:R1/model-view.json": {"path": "evidence/SC-02/SC-02_20260929T210623Z/fl-inputs/R1/model-view.json", "sha256": "8ac103196329f136786e6c782cb1c5f0bc0927ccf85d15198718219fb392262c"}, "input:R1/prompt.txt": {"path": "evidence/SC-02/SC-02_20260929T210623Z/fl-inputs/R1/prompt.txt", "sha256": "6adb9ae6190c71cd7bc52d923a3dace6530e00de64d412cb168c000dbc9de75a"}, "input:R2/content.txt": {"path": "evidence/SC-02/SC-02_20260929T210623Z/fl-inputs/R2/content.txt", "sha256": "fb43fe5d3155cbaeef06bfac8a8cb8b2d68d652ef14c556d63b0ddf16491aa69"}, "input:R2/model-view.json": {"path": "evidence/SC-02/SC-02_20260929T210623Z/fl-inputs/R2/model-view.json", "sha256": "ab3701e460d67dd4b839bba3099a7d4bfc519fba480abb910436614ab0d7e27e"}, "input:R2/prompt.txt": {"path": "evidence/SC-02/SC-02_20260929T210623Z/fl-inputs/R2/prompt.txt", "sha256": "766d0c4f19bb145066c8231dc0f770838b87ee1e742c0c3ce52d75fc7be102bb"}, "models": {"path": "runtime/p9-model-set.json", "sha256": "257a0e92f924f4fcdaf3c740c823ea5a8605f221ac8099bc155af351d564c8c9"}}, "frozen_utc": "2026-09-29T21:11:02.902089Z", "incident_id": "SC-02_20260929T210623Z", "planned_units": 45, "schema_version": 1, "study_output": "fl-study-runs.jsonl", "study_output_present": false}
+
+Exit 0 at 2026-09-29T21:11:02Z
+Stage 50-study; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T211103.039943751Z-3095668-50-study.log
+Recorded gb10a-deepseek-v4-flash|R0|0: accepted
+Recorded gb10a-deepseek-v4-flash|R0|1: accepted
+Recorded gb10a-deepseek-v4-flash|R0|2: accepted
+Recorded gb10a-deepseek-v4-flash|R0|3: accepted
+Recorded gb10a-deepseek-v4-flash|R0|4: accepted
+Recorded gb10a-deepseek-v4-flash|R1|0: accepted
+Recorded gb10a-deepseek-v4-flash|R1|1: accepted
+Recorded gb10a-deepseek-v4-flash|R1|2: accepted
+Recorded gb10a-deepseek-v4-flash|R1|3: accepted
+Recorded gb10a-deepseek-v4-flash|R1|4: accepted
+Recorded gb10a-deepseek-v4-flash|R2|0: accepted
+Recorded gb10a-deepseek-v4-flash|R2|1: accepted
+Recorded gb10a-deepseek-v4-flash|R2|2: accepted
+Recorded gb10a-deepseek-v4-flash|R2|3: accepted
+Recorded gb10a-deepseek-v4-flash|R2|4: accepted
+Recorded gympc-gemma4-26b|R0|0: accepted
+Recorded gympc-gemma4-26b|R0|1: accepted
+Recorded gympc-gemma4-26b|R0|2: accepted
+Recorded gympc-gemma4-26b|R0|3: accepted
+Recorded gympc-gemma4-26b|R0|4: accepted
+Recorded gympc-gemma4-26b|R1|0: accepted
+Recorded gympc-gemma4-26b|R1|1: accepted
+Recorded gympc-gemma4-26b|R1|2: accepted
+Recorded gympc-gemma4-26b|R1|3: accepted
+Recorded gympc-gemma4-26b|R1|4: accepted
+Recorded gympc-gemma4-26b|R2|0: declined
+Recorded gympc-gemma4-26b|R2|1: declined
+Recorded gympc-gemma4-26b|R2|2: declined
+Recorded gympc-gemma4-26b|R2|3: declined
+Recorded gympc-gemma4-26b|R2|4: declined
+Recorded alienware-qwen38-27b|R0|0: accepted
+Recorded alienware-qwen38-27b|R0|1: accepted
+Recorded alienware-qwen38-27b|R0|2: accepted
+Recorded alienware-qwen38-27b|R0|3: accepted
+Recorded alienware-qwen38-27b|R0|4: accepted
+Recorded alienware-qwen38-27b|R1|0: accepted
+Recorded alienware-qwen38-27b|R1|1: accepted
+Recorded alienware-qwen38-27b|R1|2: accepted
+Recorded alienware-qwen38-27b|R1|3: accepted
+Recorded alienware-qwen38-27b|R1|4: accepted
+Recorded alienware-qwen38-27b|R2|0: accepted
+Recorded alienware-qwen38-27b|R2|1: accepted
+Recorded alienware-qwen38-27b|R2|2: accepted
+Recorded alienware-qwen38-27b|R2|3: accepted
+Recorded alienware-qwen38-27b|R2|4: accepted
+Exit 0 at 2026-09-29T21:17:51Z
+Stage 60-comparators; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T211751.513301699Z-3105097-60-comparators.log
+Recorded comparator rank: accepted
+Recorded comparator naive: accepted
+Exit 0 at 2026-09-29T21:18:17Z
+Stage 70-analysis; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T211817.401790052Z-3105783-70-analysis.log
+{"complete": true, "output": "/home/mlasota/agent-recovery-lab-proof/analysis-out/fl", "totals": {"accepted": 40, "checked_damage_remains": 0, "cleanup_failures": 0, "correct": 33, "declined": 5, "execution_failure": 0, "extra_work_lost": 7, "missing": 0, "not_recovered": 0, "pending_checks": 0, "planned": 45, "recorded": 45, "rule_rejection": 0}}
+Exit 0 at 2026-09-29T21:18:18Z
+Exit 0 at 2026-09-29T21:18:18Z

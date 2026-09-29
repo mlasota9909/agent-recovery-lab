@@ -1,0 +1,2 @@
+Retired before any freeze on 2026-09-29T21:00:10Z.
+Reason: stage 30 refused the incident: restores could not replay past WAL segment 22 because the site cluster, whose WAL on this fresh replica was also near segment 23, archived a segment with the same name into this incident's archive

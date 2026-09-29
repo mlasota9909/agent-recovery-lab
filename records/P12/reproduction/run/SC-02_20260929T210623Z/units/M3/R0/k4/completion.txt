@@ -1,0 +1,15 @@
+
+
+Looking at the evidence, I need to identify when "damaging file activity" began.
+
+**Interval 38** contains the clearly damaging activity: deletion of the entire `workspace/records` directory tree (f1–f12, nested subdirectory), modification of `workspace/config/settings.txt`, and deletion of `workspace/build/t30.txt`. This is the point where destructive, irreversible file removals occur.
+
+The latest safe snapshot **before** that damaging activity is the `from_snapshot` of interval 38:
+
+- **Interval locator:** interval=38 → resolves to from_snapshot `s_20260929T210811887Z_000038`
+- **Snapshot name:** `s_20260929T210811887Z_000038`
+- **Timestamp:** `2026-09-29T21:08:12.509367Z` (the from_time of interval 38; the latest visible snapshot at or before this time is `s_20260929T210811887Z_000038`)
+
+All three locators resolve to the same snapshot.
+
+COORDINATE: interval=38 snapshot=s_20260929T210811887Z_000038 ts=2026-09-29T21:08:12.509367Z

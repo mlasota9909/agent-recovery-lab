@@ -1,0 +1,76 @@
+{
+  "criteria": [
+    {
+      "description": "Current configuration and replica ownership",
+      "error": "Active archive is not this replica's provisioning scope",
+      "id": "AC-1",
+      "result": "FAIL"
+    },
+    {
+      "description": "Read-only readiness gate",
+      "id": "lab-ready",
+      "observed": {
+        "command": [
+          "lab-ready"
+        ],
+        "exit_code": 1,
+        "output": {
+          "changed": false,
+          "consumer": {
+            "confirmed_flush_lsn": "0/30014ED0",
+            "healthy": false,
+            "incident": "SC-02_20260929T203646Z",
+            "invalidation_reason": null,
+            "slot_active": false,
+            "stream": "/home/mlasota/agent-recovery-lab-proof/evidence/SC-02/SC-02_20260929T203646Z/db.jsonl",
+            "unit": "reclab2-consumer@SC-02_20260929T203646Z.service",
+            "unit_state": "inactive\ninactive"
+          },
+          "consumer_unit_state": "inactive",
+          "db_jsonl_bytes_after": 393024,
+          "db_jsonl_bytes_before": 393024,
+          "db_jsonl_growing": false,
+          "db_jsonl_path": "/home/mlasota/agent-recovery-lab-proof/evidence/SC-02/SC-02_20260929T203646Z/db.jsonl",
+          "db_jsonl_present": true,
+          "failed": [
+            "consumer_unit_state",
+            "slot_active",
+            "slot_check",
+            "db_jsonl_growing"
+          ],
+          "growth_signal": "none",
+          "growth_window_s": 2.0,
+          "incident": "SC-02_20260929T203646Z",
+          "invalidation_reason": null,
+          "ok": false,
+          "ready": false,
+          "retained_bytes": 5600,
+          "retention_below_warn": true,
+          "slot_active": false,
+          "slot_after": {
+            "confirmed_flush_lsn": "0/30014ED0"
+          },
+          "slot_check": "fail",
+          "slot_check_exit": 1,
+          "slot_name": "lab_20260929t203646z_f7b5d1",
+          "warn_threshold_bytes": 67108864
+        },
+        "stderr": ""
+      },
+      "result": "FAIL"
+    }
+  ],
+  "historical_attestations_used": false,
+  "ok": false,
+  "omitted": {
+    "AC-11": "Historical two-principal provenance review is not reused.",
+    "AC-17": "Destructive reset review is deferred; the three undamaged reset labels are provisioned.",
+    "AC-3": "Snapshot/rollback timing review is not imported from the original lab.",
+    "AC-4": "Historical snapshot-read proof; run T013 for a new review bundle.",
+    "AC-5": "Historical filesystem difference proof; run T013 for a new review bundle.",
+    "AC-7": "Historical interleaved DDL/DML review; run T014 for a new review bundle.",
+    "AC-9": "Successive incident/reset archive scoping is outside this one fresh provisioning scope."
+  },
+  "recorded_at": "2026-09-29T20:41:46.325847+00:00",
+  "suite": "P0 fresh-lab subset"
+}

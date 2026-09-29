@@ -1,0 +1,17 @@
+To identify the latest safe recorded snapshot before damaging file activity began, we examine the provided intervals and their associated changes:
+
+1.  **Interval 20**: Contains changes (M, -, +) in `workspace/build`.
+2.  **Interval 32**: Contains changes (M, -, +) in `workspace/build`.
+3.  **Interval 38**: Contains changes (M, -, +) in `workspace/build`, `workspace/config/settings.txt`, and `workspace/records`.
+
+The damaging activity (deletions and modifications) begins in Interval 20. To find the latest safe snapshot, we must look for the snapshot taken immediately before the first interval containing damaging activity.
+
+The first interval with activity is Interval 20. The `from_snapshot` of Interval 20 is `s_20260929T210735201Z_000020`. However, the task asks for the latest safe snapshot *before* damaging activity began. Since Interval 20 contains the first recorded changes, the snapshot immediately preceding it is the last safe state.
+
+Looking at the interval catalogue:
+- Interval 20 starts at `s_20260929T210735201Z_000020`.
+- The snapshot before the start of the first interval (Interval 20) is not explicitly named as a "to_snapshot" of a previous interval in the provided list, but the `from_snapshot` of the first interval represents the state at the start of that interval.
+
+Wait, looking closer at the logic: The "damaging activity" starts at Interval 20. The snapshot that represents the state *before* Interval 20's changes is the `from_snapshot` of Interval 20.
+
+COORDINATE: snapshot=s_20260929T210735201Z_000020

@@ -1,0 +1,65 @@
+{
+  "approx_incident_time": "2026-09-29T20:45:57.223196Z",
+  "archive_incident": "SC-02_20260929T204412Z",
+  "checkpoint_gap_seconds": 2.564121961593628,
+  "checkpoint_snapshot": "s_20260929T204556727Z_000037",
+  "close_coordinate": {
+    "lsn": "0/340002A8",
+    "resolved_by": "snapshot_first",
+    "skew_bytes": 0,
+    "skew_ms": 0,
+    "snapshot": "s_20260929T204607614Z_000043",
+    "wall_clock": "2026-09-29T20:46:08.184001Z"
+  },
+  "definition_path": "/home/mlasota/agent-recovery-lab-proof/scenarios/sc02/definition.json",
+  "fs_db_skew_ms": 945,
+  "incident_id": "i_20260929T204412Z_84b470",
+  "incident_runtime": {
+    "INC_DS": "labpool/victim/inc_i_20260929T204412Z_84b470",
+    "INC_HEARTBEAT_PORT": "56956",
+    "INC_ID": "i_20260929T204412Z_84b470",
+    "INC_PGDATA": "/var/lib/postgresql/18/lab-incidents/i_20260929T204412Z_84b470/data",
+    "INC_PG_PORT": "56956",
+    "INC_PG_SOCKET": "/var/run/postgresql",
+    "INC_PROTECTED": "/srv/lab-incidents/i_20260929T204412Z_84b470/protected",
+    "INC_SLOT": "lab_20260929t204412z_84b470"
+  },
+  "ledger_account": {
+    "duplicates": 0,
+    "gaps": 0,
+    "mapped": 447,
+    "ops": 447
+  },
+  "ledger_integrity_ok": true,
+  "open_coordinate": {
+    "lsn": "0/80A6BE8",
+    "resolved_by": "snapshot_first",
+    "skew_bytes": 0,
+    "skew_ms": 0,
+    "snapshot": "s_20260929T204436226Z_000001",
+    "wall_clock": "2026-09-29T20:44:36.823024Z"
+  },
+  "oracle_coordinate": {
+    "lsn": "0/2E0036B0",
+    "resolved_by": "live_heartbeat",
+    "skew_bytes": 0,
+    "skew_ms": 58,
+    "snapshot": "s_20260929T204556727Z_000037",
+    "wall_clock": "2026-09-29T20:45:57.165299Z"
+  },
+  "quiescent_baseline": {
+    "baseline_s": 60,
+    "lsn_end_exclusive": "0/2F000760",
+    "lsn_start": "0/80A6BE8",
+    "t_end": "2026-09-29T20:45:59.787318Z",
+    "t_start": "2026-09-29T20:44:54.666813Z",
+    "window_s": 2
+  },
+  "scenario_id": "SC-02",
+  "snapshot_open": "s_20260929T204436226Z_000001",
+  "snapshot_post_capture": "s_20260929T204607614Z_000043",
+  "snapshot_pre_injection": "s_20260929T204556727Z_000037",
+  "timing_pattern": "near_instant",
+  "workload_mix": "lab_app-file-churn+lab_app-dml+lab_agent-rm-overwrite",
+  "workload_rate_tps": 6.0
+}

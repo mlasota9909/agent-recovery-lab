@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "provision/all.sh"
+  ],
+  "exit_code": 1,
+  "stderr": "",
+  "stdout": "OK: site configuration\nOK: configuration\nOK: virsh\nOK: virt-install\nOK: qemu-img\nOK: cloud-localds\nOK: genisoimage\nOK: curl\nOK: python3\nOK: ssh\nOK: ssh-keygen\nOK: pg_recvlogical\nOK: psql\nOK: pg_basebackup\nOK: duckdb\nOK: rg\nOK: ip\nOK: flock\nOK: sudo\nOK: systemctl\nOK: sha256sum\nOK: rsync\nOK: Ubuntu 26.04\nOK: passwordless sudo\nOK: libvirt group\nOK: KVM device\nOK: libvirt KVM support\nOK: libvirt >= 11\nOK: virt-install >= 5.1\nOK: pg_recvlogical 18\nOK: psql 18\nOK: pg_basebackup 18\nOK: DuckDB version: v1.3.2 (Ossivalis) 0b83e5d2f6\nOK: system libvirt access\nOK: libvirt NAT network: 192.168.122.1\nOK: storage pool and free space: /var/lib/libvirt/images/reclab02\nOK: checkout free space\nOK: host SSH key\nOK: host SSH public key format\nOK: host SSH service\nOK: host SSH public key\nprovision: replica reclab02 already belongs to this checkout; skipping creation\nGuest ready: lab-provision-reclab02-e8efcd46 (192.168.122.41); host source 192.168.122.1\nprovision: An experiment replaced the provisioning archive scope; refusing guest configuration\nprovision exit=1 log=/home/mlasota/agent-recovery-lab-proof/logs/provision/all-20260929T204146Z-ZLXMJg.log\n"
+}

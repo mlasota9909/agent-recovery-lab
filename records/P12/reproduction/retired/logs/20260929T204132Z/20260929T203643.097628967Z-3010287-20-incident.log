@@ -1,0 +1,4 @@
+Stage 20-incident; log /home/mlasota/agent-recovery-lab-proof/logs/run/20260929T203643.097628967Z-3010287-20-incident.log
+run incident failed: bin/lab-generate-p7 exited 1: snapshot loop missed an interval by more than one period: gap=4.044s, period=2s
+
+Exit 1 at 2026-09-29T20:38:45Z

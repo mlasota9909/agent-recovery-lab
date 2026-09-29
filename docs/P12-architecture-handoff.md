@@ -95,6 +95,39 @@ Tasks A to E were implemented and reviewed in order; task F ran on replica VM `r
 
 Rehearsal records are under `logs/dry-run/<UTC time>/`, each failed one with a `NOTE.txt`.
 
+## Reproduction from a fresh clone
+
+The repository was cloned at `b35bf94` into a new directory and run with `run/all.sh` on a new VM,
+`reclab02`, which stage 00 provisioned from the cloud image (about 7 minutes). The site file differed
+from the reference only in the VM name, storage pool, consumer unit name, checkout path and host list.
+Each refused attempt was retired with `run/retire-attempt.sh` before any freeze; its records and reason
+are kept.
+
+| Attempt | Outcome | Cause and fix |
+| --- | --- | --- |
+| 1 | Stage 20 refused | The loop measured 4.044 s between tick completions at the injection (limit 4 s); recorded snapshot gaps were at most 2.73 s. Rule unchanged; retired (`run/retire-attempt.sh`, 244ffa0, e9c14a1). |
+| 2 | Stage 00 failed | The provisioning health check applies only to a fresh replica, so stage 00 tried to re-provision; it now skips once experiments exist (d029df9). |
+| 3 | Stage 30 refused | Three controls could not replay: the retired attempt's cluster, still running, had archived WAL segments with the same names into the new incident's archive. Finished incident clusters are now stopped before a new incident (42c24bf). |
+| 4 | Stage 30 refused | The site cluster, whose WAL on the fresh replica was at a similar position, archived a segment with the same name. Each incident cluster now writes WAL under its own log number (its port) (b7329c9). |
+| 5 | Stage 20 refused | Ledger rule C-5 read the site cluster's heartbeat; accounting now uses the incident's cluster (b35bf94). |
+| 6 | Completed | Incident `SC-02_20260929T210623Z`; 45 of 45 units. |
+
+Result (verdict v2): 33 correct, 7 extra work lost, 0 checked damage remains, 5 declined, 0 rule
+rejections, 0 execution failures. Qwen 15 of 15 correct; Gemma correct only with R1 (R0 all extra work
+lost, R2 all declined); DeepSeek R0 and R1 correct, R2 3 correct and 2 extra work lost. Ranker correct;
+time estimate kept the damage. The incident matched the study's shape (44 snapshots, 156 differences,
+C-7 122 of 122, only interval 38 flagged at 12.19). Records: `records/P12/reproduction/`.
+
+Findings that bear on the study of record:
+- Rule C-5 (heartbeat) in the study of record read the site cluster's latest heartbeats, which also exist
+  in the incident's copied database, so it passed without testing the incident's heartbeat. The incident's
+  own heartbeat ran (91 heartbeat events in its decoded log). No file-level verdict uses C-5.
+- The archive collisions above did not affect the study of record: every restore replayed to its exact
+  target, and PostgreSQL rejects WAL from another cluster.
+- On 2026-09-29 at 20:51 UTC a unit test ran the SC-01 generator with an unmocked cluster stop and stopped
+  the reference lab's finished incident clusters. No record changed; the test fixture now refuses lab and
+  VM commands (18ab8ac).
+
 ## Frozen contracts
 
 The freeze (first committed at `sdd/specs/P12-file-level-test/contracts/frozen-hashes.json`, now kept at
@@ -123,6 +156,4 @@ R2), with decoding and 45 planned units. Stage 50 and stage 70 re-verify the fro
 
 ## Open operator decisions
 
-- A complete `run/all.sh` from a fresh clone on a second VM (acceptance criterion 10), leaving `reclab01`
-  and its incident snapshots in place.
 - The optional database-level replication (`run/optional/sc01-replication.sh`).

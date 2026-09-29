@@ -1,0 +1,2 @@
+Retired before any freeze on 2026-09-29T20:52:05Z.
+Reason: stage 30 refused the incident: three restore controls could not replay past WAL segment 1B because the retired attempt's still-running cluster had archived segments with the same names into this incident's archive
