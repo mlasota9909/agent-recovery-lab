@@ -47,3 +47,25 @@ writes, how long each stage takes, and how to tear down (`provision/99-destroy-v
 
 ## Report
 Stage list with inputs and outputs, resumability behaviour, and anything that needs live confirmation.
+
+## Reference environment values (verified 2026-09-29; use them in the README table as the reference column)
+- Host: r740core, Ubuntu 26.04, libvirt 11, virt-install 5.1; libvirt network `default` (NAT, gateway
+  192.168.122.1, DHCP); storage pool `reclab` at `/var/lib/libvirt/images/reclab`.
+- Replica VM: `VM_NAME=reclab01`; address by DHCP (192.168.122.23 in the verified build, 192.168.122.3 in an
+  earlier build: always read from `etc/lab.local.env`, written by provisioning); SSH alias written by provisioning
+  (`lab-provision-reclab01-<uuid prefix>`); `LAB_HOST=192.168.122.1` (host address as seen from the guest);
+  `HOST_ARCHIVE_USER=mlasota`; `CONSUMER_UNIT=reclab-consumer` (unique per checkout on a shared host);
+  `PROVISION_SSH_KEY=~/.ssh/id_ed25519`.
+- Guest software installed by provisioning: Ubuntu 26.04 cloud image, PostgreSQL 18.6, wal2json 2.6,
+  ZFS 2.4.1. PostgreSQL builds with the `output_plugin_libraries` setting must list wal2json (lab-wal-config does).
+- Model gateway: LiteLLM at `http://127.0.0.1:4001` on the host (reference environment: a local k3s service), key in
+  `var/model/litellm.key` (not tracked). Aliases (must exist on any gateway; they are the recorded model identities):
+  `gb10a-deepseek-v4-flash` -> backend `http://192.168.1.237:8000/v1` served `deepseek-v4-flash-0731-exl3-k2`;
+  `gympc-gemma4-26b` -> `http://100.70.64.14:8090/v1` served `gemma4-26b-a4b-it-qat-q4`;
+  `alienware-qwen38-27b` -> `http://192.168.1.168:8010/v1` served `qwen38-27b-mtp-nvfp4`.
+  Backends are set as `P9_BACKEND_M1..M3` (model-set order: DeepSeek, Gemma, Qwen) and used only for identity
+  digests (served id, root, maximum length); inference always goes through the gateway.
+- Run-through commands to orchestrate (already implemented and tested): `bin/lab-generate-p7 --scenario SC-02`,
+  `bin/lab-fl-intervals`, `bin/lab-fl-inputs`, `bin/lab-fl-reference`, `bin/lab-fl-controls`, `bin/lab-fl-freeze`,
+  `bin/lab-fl-read-answer`, `bin/lab-fl-check`, `bin/lab-fl-rank`, `bin/lab-fl-naive`; model invocation through the
+  existing Primary Sweep model call (`bin/lab-p9-model`, containment verified per call).
