@@ -53,8 +53,23 @@ def result(code=0, stdout="", stderr=""):
     return subprocess.CompletedProcess([], code, stdout, stderr)
 
 
+REAL_RUN = subprocess.run
+
+
+def refuse_lab_commands(args, *rest, **kwargs):
+    """Tests run against the real checkout path, so never let a lab or VM command through."""
+    argv = [str(a) for a in (args if isinstance(args, (list, tuple)) else [args])]
+    first = argv[0] if argv else ""
+    if first == "ssh" or any(first.startswith(str(ROOT / d)) for d in ("bin", "provision", "run")):
+        raise AssertionError("test attempted a lab command: " + " ".join(argv)[:200])
+    return REAL_RUN(args, *rest, **kwargs)
+
+
 class ScratchTest(unittest.TestCase):
     def setUp(self):
+        guard = patch.object(subprocess, "run", side_effect=refuse_lab_commands)
+        guard.start()
+        self.addCleanup(guard.stop)
         scratch = ROOT / "var/p12-tests"
         scratch.mkdir(parents=True, exist_ok=True)
         self.tmp = tempfile.TemporaryDirectory(dir=scratch)
@@ -211,6 +226,7 @@ class CaptureTests(ScratchTest):
                                 ("ssh_psql", result()), ("ConcurrentApp", app), ("apply_group", []),
                                 ("plan_sc01_ddl", [])):
                 stack.enter_context(patch.object(sc01, name, return_value=value))
+            stack.enter_context(patch("lab_incident_runtime.stop_finished_incident_clusters", return_value=[]))
             stack.enter_context(patch.object(sc01.time, "sleep"))
             stack.enter_context(patch.object(sc01, "run_bin", side_effect=run))
             stack.enter_context(patch.object(sc01, "run_json", side_effect=run_json))
