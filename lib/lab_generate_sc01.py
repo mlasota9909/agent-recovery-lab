@@ -23,7 +23,7 @@ def bin_path(name: str) -> str:
 def empty_ledger_files(incident: str) -> None:
     ed = evidence_dir(incident)
     ed.mkdir(parents=True, exist_ok=True)
-    for name in ("fs_diff.tsv", "fs_hashes.tsv", "workload.jsonl"):
+    for name in ("workload.jsonl",):
         path = ed / name
         if not path.exists():
             path.write_text("", encoding="utf-8")
@@ -70,134 +70,131 @@ def generate(log: list[dict]) -> dict:
     incident = allocated["incident"]
     add({"step": 1, "action": "incident_new", "result": allocated})
     empty_ledger_files(incident)
-    open_snap = run_json("lab-snapshot", ["--label", "open"])
+    open_snap = run_json("lab-snapshot", ["--label", "open", "--incident", incident])
     add({"step": 3, "action": "snapshot_open", "result": open_snap})
-    capture = run_bin("lab-capture", ["start", incident], timeout=90)
-    add({"step": 2, "action": "capture_start", "exit": capture.returncode,
-         "stdout": capture.stdout[-1500:], "stderr": capture.stderr[-500:]})
-    if capture.returncode != 0:
-        die(EXIT_ASSERT, f"assertion failed: lab-capture start: {capture.stderr.strip() or capture.stdout.strip()}")
-    baseline_s = int(cfg.get("SC01_BASELINE_S", "10"))
-    after_s = int(cfg.get("SC01_AFTER_INJECT_S", "4"))
-    tps = float(cfg.get("SC01_WORKLOAD_TPS", "8"))
-    wseed = int(cfg.get("SC01_WORKLOAD_SEED", "7"))
-    app = ConcurrentApp(wseed, relation, tps)
-    baseline_started = utc_now()
-    app.start()
-    add({"step": 4, "action": "workload_start", "tps": tps, "seed": wseed})
-    time.sleep(baseline_s)
-    pre = run_json("lab-snapshot", ["--label", "pre_injection"])
-    add({"step": 5, "action": "snapshot_pre_injection", "result": pre})
-    inj = run_json("lab-inject-sc01", [incident, "--relation", relation,
-                                       "--rows", cfg.get("SC01_INJECT_ROWS", "200")])
-    add({"step": 6, "action": "inject", "result": inj})
-    time.sleep(after_s)
-    app_rows = app.stop()
-    add({"step": 7, "action": "workload_stop", "app_ops": len(app_rows)})
-    ddl_planned = plan_sc01_ddl()
-    ddl_rows = apply_group(ddl_planned)
-    add({"step": 7, "action": "ddl", "ops": len(ddl_rows)})
-    post = run_json("lab-snapshot", ["--label", "post_capture"])
-    add({"step": 7, "action": "snapshot_post_capture", "result": post})
+    try:
+        capture = run_bin("lab-capture", ["start", incident], timeout=90)
+        add({"step": 2, "action": "capture_start", "exit": capture.returncode,
+             "stdout": capture.stdout[-1500:], "stderr": capture.stderr[-500:]})
+        if capture.returncode != 0:
+            die(EXIT_ASSERT, f"assertion failed: lab-capture start: {capture.stderr.strip() or capture.stdout.strip()}")
+        baseline_s = int(cfg.get("SC01_BASELINE_S", "10"))
+        after_s = int(cfg.get("SC01_AFTER_INJECT_S", "4"))
+        tps = float(cfg.get("SC01_WORKLOAD_TPS", "8"))
+        wseed = int(cfg.get("SC01_WORKLOAD_SEED", "7"))
+        app = ConcurrentApp(wseed, relation, tps)
+        baseline_started = utc_now()
+        app.start()
+        add({"step": 4, "action": "workload_start", "tps": tps, "seed": wseed})
+        time.sleep(baseline_s)
+        pre = run_json("lab-snapshot", ["--label", "pre_injection", "--incident", incident])
+        add({"step": 5, "action": "snapshot_pre_injection", "result": pre})
+        inj = run_json("lab-inject-sc01", [incident, "--relation", relation,
+                                           "--rows", cfg.get("SC01_INJECT_ROWS", "200")])
+        add({"step": 6, "action": "inject", "result": inj})
+        time.sleep(after_s)
+        app_rows = app.stop()
+        add({"step": 7, "action": "workload_stop", "app_ops": len(app_rows)})
+        ddl_planned = plan_sc01_ddl()
+        ddl_rows = apply_group(ddl_planned)
+        add({"step": 7, "action": "ddl", "ops": len(ddl_rows)})
+        post = run_json("lab-snapshot", ["--label", "post_capture", "--incident", incident])
+        add({"step": 7, "action": "snapshot_post_capture", "result": post})
+        from lab_capture import stop_snapshot_loop
+        stop_snapshot_loop(incident, check=True, required_from=baseline_started,
+                           required_until=post["created_at"])
 
-    inj_doc = json.loads((evidence_dir(incident) / "injection_log.json").read_text(encoding="utf-8"))
-    inj_ops = inj_doc["ops"]
-    for rec in inj_ops:
-        rec["commit_lsn"] = inj_doc["commit_lsn"]
-        rec["operation"] = "delete"
-        rec["row_ids"] = [rec["natural_key"]]
-        rec["row_count"] = 1
-        rec["relation"] = rec.get("table")
-    combined = []
-    for rec in app_rows + inj_ops + ddl_rows:
-        combined.append(rec)
-    combined.sort(key=lambda r: (lsn_int(r["commit_lsn"]) if r.get("commit_lsn") else 0, r.get("xid") or 0, r.get("natural_key") or 0))
-    for i, rec in enumerate(combined):
-        rec["op_index"] = i
-    ed = evidence_dir(incident)
-    write_jsonl(ed / "workload.jsonl", [{k: v for k, v in rec.items()
-                                         if k not in {"operation", "row_ids", "row_count", "relation", "commit_lsn"}}
-                                        for rec in combined])
-    # P1 oracle manifest (legitimate commits only).
-    man = []
-    for rec in app_rows:
-        if rec.get("commit_lsn") and rec.get("action") in {"I", "U", "D"}:
-            man.append({
-                "commit_lsn": rec["commit_lsn"],
-                "commit_ts": rec["wall_clock"],
-                "operation": rec.get("operation"),
-                "relation": rec.get("relation") or rec.get("table"),
-                "row_ids": rec.get("row_ids") or ([rec["natural_key"]] if rec.get("natural_key") is not None else []),
-                "row_count": rec.get("row_count") or 1,
-                "principal": rec.get("principal"),
-            })
-    write_jsonl(ed / "workload-manifest.jsonl", man)
+        inj_doc = json.loads((evidence_dir(incident) / "injection_log.json").read_text(encoding="utf-8"))
+        inj_ops = inj_doc["ops"]
+        for rec in inj_ops:
+            rec["commit_lsn"] = inj_doc["commit_lsn"]
+            rec["operation"] = "delete"
+            rec["row_ids"] = [rec["natural_key"]]
+            rec["row_count"] = 1
+            rec["relation"] = rec.get("table")
+        combined = []
+        for rec in app_rows + inj_ops + ddl_rows:
+            combined.append(rec)
+        combined.sort(key=lambda r: (lsn_int(r["commit_lsn"]) if r.get("commit_lsn") else 0, r.get("xid") or 0, r.get("natural_key") or 0))
+        for i, rec in enumerate(combined):
+            rec["op_index"] = i
+        ed = evidence_dir(incident)
+        write_jsonl(ed / "workload.jsonl", [{k: v for k, v in rec.items()
+                                             if k not in {"operation", "row_ids", "row_count", "relation", "commit_lsn"}}
+                                            for rec in combined])
+        # P1 oracle manifest (legitimate commits only).
+        man = []
+        for rec in app_rows:
+            if rec.get("commit_lsn") and rec.get("action") in {"I", "U", "D"}:
+                man.append({
+                    "commit_lsn": rec["commit_lsn"],
+                    "commit_ts": rec["wall_clock"],
+                    "operation": rec.get("operation"),
+                    "relation": rec.get("relation") or rec.get("table"),
+                    "row_ids": rec.get("row_ids") or ([rec["natural_key"]] if rec.get("natural_key") is not None else []),
+                    "row_count": rec.get("row_count") or 1,
+                    "principal": rec.get("principal"),
+                })
+        write_jsonl(ed / "workload-manifest.jsonl", man)
 
-    fs = run_bin("lab-fs-capture", [incident], timeout=120)
-    add({"step": 8, "action": "fs_capture", "exit": fs.returncode, "stdout": fs.stdout[-800:]})
-    if not (ed / "fs_diff.tsv").is_file():
-        (ed / "fs_diff.tsv").write_text("", encoding="utf-8")
-    if not (ed / "fs_hashes.tsv").is_file():
-        (ed / "fs_hashes.tsv").write_text("", encoding="utf-8")
-    # Copy archive snapshots into evidence P2 shape for C-6 / lab-query.
-    arch = Path(env("ARCHIVE_ROOT")) / incident / "snapshots.json"
-    if arch.is_file():
-        p1 = json.loads(arch.read_text(encoding="utf-8"))
-        p2 = [{"snapshot": r["snapshot"], "wall_clock": r.get("created_at") or r.get("lsn_recorded_at"),
-               "lsn": r.get("recorded_lsn")} for r in p1]
-        write_text(ed / "snapshots.json", json.dumps(p2, sort_keys=True) + "\n")
+        from lab_file_evidence import capture_file_evidence
+        capture_file_evidence(incident, log, runner=run_bin)
 
-    barrier = run_bin("lab-barrier", [], timeout=150)
-    add({"step": 9, "action": "barrier", "exit": barrier.returncode})
-    from lab_generate_incident import window_ledger
-    dropped = window_ledger(ed / "db.jsonl", open_snap["recorded_lsn"], post["recorded_lsn"])
-    add({"step": 9, "action": "ledger_window", "dropped": dropped,
-         "open": open_snap.get("recorded_lsn"), "close": post.get("recorded_lsn")})
-    account = run_json("lab-ledger-account", [incident], timeout=60)
-    add({"step": 10, "action": "ledger_account", "result": account})
-    if account.get("gaps") != 0 or account.get("duplicates") != 0 or not account.get("ok"):
-        die(EXIT_ASSERT, "assertion failed: SC-01 incident did not reconcile exactly-once: " + canonical_json(account))
+        barrier = run_bin("lab-barrier", [], timeout=150)
+        add({"step": 9, "action": "barrier", "exit": barrier.returncode})
+        from lab_generate_incident import window_ledger
+        dropped = window_ledger(ed / "db.jsonl", open_snap["recorded_lsn"], post["recorded_lsn"])
+        add({"step": 9, "action": "ledger_window", "dropped": dropped,
+             "open": open_snap.get("recorded_lsn"), "close": post.get("recorded_lsn")})
+        account = run_json("lab-ledger-account", [incident], timeout=60)
+        add({"step": 10, "action": "ledger_account", "result": account})
+        if account.get("gaps") != 0 or account.get("duplicates") != 0 or not account.get("ok"):
+            die(EXIT_ASSERT, "assertion failed: SC-01 incident did not reconcile exactly-once: " + canonical_json(account))
 
-    ora = run_json("lab-oracle", ["--incident", incident], timeout=60)
-    add({"step": 11, "action": "oracle", "result": ora})
+        ora = run_json("lab-oracle", ["--incident", incident], timeout=60)
+        add({"step": 11, "action": "oracle", "result": ora})
 
-    def coord_snap(name: str) -> dict:
-        raw = run_json("lab-coordinate", ["--snapshot", name])
-        return {k: raw[k] for k in ("wall_clock", "lsn", "snapshot", "skew_ms", "skew_bytes", "resolved_by")}
+        def coord_snap(name: str) -> dict:
+            raw = run_json("lab-coordinate", ["--snapshot", name])
+            return {k: raw[k] for k in ("wall_clock", "lsn", "snapshot", "skew_ms", "skew_bytes", "resolved_by")}
 
-    rec = {
-        "incident_id": results_incident_id(incident),
-        "archive_incident": incident,
-        "scenario_id": "SC-01",
-        "relation": relation,
-        "open_coordinate": coord_snap(open_snap["snapshot"]),
-        "close_coordinate": coord_snap(post["snapshot"]),
-        "snapshot_open": open_snap["snapshot"],
-        "snapshot_pre_injection": pre["snapshot"],
-        "snapshot_post_capture": post["snapshot"],
-        "workload_rate_tps": tps,
-        "workload_mix": "repeated-keys:lab_app+sc01-inject:lab_agent",
-        "oracle_coordinate": ora.get("coordinate"),
-        "ledger_integrity_ok": True,
-        "quiescent_baseline": {
-            "t_start": baseline_started,
-            "t_end": inj_doc["t_start"],
-            "lsn_start": open_snap.get("recorded_lsn"),
-            "lsn_end_exclusive": inj_doc["lsn_start"],
-            "declared_in": "etc/scenarios/sc01.env",
-            "window_s": int(cfg["SC01_WINDOW_S"]),
-            "baseline_s": baseline_s,
-        },
-        "naive_time_error_seconds": int(cfg["SC01_NAIVE_TIME_ERROR_SECONDS"]),
-        "approx_incident_time": pre.get("created_at") or pre.get("lsn_recorded_at"),
-        "workload_seed": wseed,
-        "analytics_version": cfg.get("SC01_ANALYTICS_VERSION", "p3-analytics-1"),
-        "ledger_account": {"ops": account["ops"], "mapped": account["mapped"],
-                           "gaps": account["gaps"], "duplicates": account["duplicates"]},
-    }
-    write_json(ed / "incident.json", rec)
-    write_json(ed / "generate-commands.json", log)
-    return rec
+        rec = {
+            "incident_id": results_incident_id(incident),
+            "archive_incident": incident,
+            "scenario_id": "SC-01",
+            "relation": relation,
+            "open_coordinate": coord_snap(open_snap["snapshot"]),
+            "close_coordinate": coord_snap(post["snapshot"]),
+            "snapshot_open": open_snap["snapshot"],
+            "snapshot_pre_injection": pre["snapshot"],
+            "snapshot_post_capture": post["snapshot"],
+            "workload_rate_tps": tps,
+            "workload_mix": "repeated-keys:lab_app+sc01-inject:lab_agent",
+            "oracle_coordinate": ora.get("coordinate"),
+            "ledger_integrity_ok": True,
+            "quiescent_baseline": {
+                "t_start": baseline_started,
+                "t_end": inj_doc["t_start"],
+                "lsn_start": open_snap.get("recorded_lsn"),
+                "lsn_end_exclusive": inj_doc["lsn_start"],
+                "declared_in": "etc/scenarios/sc01.env",
+                "window_s": int(cfg["SC01_WINDOW_S"]),
+                "baseline_s": baseline_s,
+            },
+            "naive_time_error_seconds": int(cfg["SC01_NAIVE_TIME_ERROR_SECONDS"]),
+            "approx_incident_time": pre.get("created_at") or pre.get("lsn_recorded_at"),
+            "workload_seed": wseed,
+            "analytics_version": cfg.get("SC01_ANALYTICS_VERSION", "p3-analytics-1"),
+            "ledger_account": {"ops": account["ops"], "mapped": account["mapped"],
+                               "gaps": account["gaps"], "duplicates": account["duplicates"]},
+        }
+        write_json(ed / "incident.json", rec)
+        write_json(ed / "generate-commands.json", log)
+        return rec
+
+    finally:
+        from lab_capture import stop_snapshot_loop
+        stop_snapshot_loop(incident)
 
 
 def main(argv: list[str]) -> int:

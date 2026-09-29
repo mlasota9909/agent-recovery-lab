@@ -57,13 +57,21 @@ def rec_rows(rec: dict) -> int:
     return int(rec.get("row_count") or len(rec.get("row_ids") or []))
 
 
-def parse_hash_lines(text: str) -> list[tuple[str, str]]:
+def parse_hash_lines(text: str, snapshot: str | None = None) -> list[tuple[str, str]]:
     out = []
     for line in text.splitlines():
         line = line.strip()
         if not line:
             continue
         if "\t" in line:
+            columns = line.split("\t")
+            if len(columns) == 3:
+                snap, path, digest = columns
+                if snapshot is None:
+                    raise ValueError("snapshot is required for three-column file fingerprints")
+                if snap == snapshot:
+                    out.append((path, digest.lower()))
+                continue
             left, right = line.split("\t", 1)
             if len(left) == 64 and all(c in "0123456789abcdef" for c in left.lower()):
                 out.append((right.strip(), left.strip().lower()))
@@ -81,6 +89,14 @@ def guest_sha256(path: str) -> str | None:
     if proc.returncode != 0 or not proc.stdout.strip():
         return None
     return proc.stdout.split()[0].lower()
+
+
+def expected_fingerprints(ev: Path) -> tuple[str, list[tuple[str, str]]]:
+    """Expected file state = fingerprints captured at the reference snapshot (oracle.json), never the
+    snapshot being restored, which would make the comparison vacuous."""
+    reference = json.loads((ev / "oracle.json").read_text())["coordinate"]["snapshot"]
+    text = (ev / "fs_hashes.tsv").read_text() if (ev / "fs_hashes.tsv").is_file() else ""
+    return reference, parse_hash_lines(text, snapshot=reference)
 
 
 def validate(incident: str, restore_of: str, task: str = "E005") -> dict:
@@ -149,12 +165,12 @@ def validate(incident: str, restore_of: str, task: str = "E005") -> dict:
         listing = ssh_sudo(f"find '{fs_mnt}' -type f ! -path '*/.zfs/*' | sort")
         paths = [ln for ln in listing.stdout.splitlines() if ln.strip()]
         files_checked = len(paths)
-    expected_files = parse_hash_lines(
-        (ev / "fs_hashes.tsv").read_text() if (ev / "fs_hashes.tsv").is_file() else ""
-    )
+    reference_snapshot, expected_files = expected_fingerprints(ev)
+    files_compared = len(expected_files)
     probe = restore_root(incident, restore_of) / "fs_probe.tsv"
     if probe.is_file():
         expected_files.extend(parse_hash_lines(probe.read_text()))
+        files_compared = len(expected_files)
     for rel_or_abs, expected_hash in expected_files:
         path = rel_or_abs if rel_or_abs.startswith("/") else (fs_mnt.rstrip("/") + "/" + rel_or_abs.lstrip("/"))
         actual = guest_sha256(path)
@@ -177,6 +193,8 @@ def validate(incident: str, restore_of: str, task: str = "E005") -> dict:
             })
     fs_block = {
         "files_checked": files_checked,
+        "expected_snapshot": reference_snapshot,
+        "files_compared": files_compared,
         "files_matched": files_checked - len(fs_mismatches) if files_checked else 0,
         "mismatches": fs_mismatches,
     }

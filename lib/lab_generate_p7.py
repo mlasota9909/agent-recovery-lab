@@ -24,7 +24,7 @@ COORD_FIELDS = ("wall_clock", "lsn", "snapshot", "skew_ms", "skew_bytes", "resol
 def empty_ledger_files(incident: str) -> None:
     ed = evidence_dir(incident)
     ed.mkdir(parents=True, exist_ok=True)
-    for name in ("fs_diff.tsv", "fs_hashes.tsv", "workload.jsonl"):
+    for name in ("workload.jsonl",):
         path = ed / name
         if not path.exists():
             path.write_text("", encoding="utf-8")
@@ -37,32 +37,22 @@ def coord_snap(name: str) -> dict:
 
 
 def copy_snapshots(incident: str) -> None:
-    arch = Path(env("ARCHIVE_ROOT")) / incident / "snapshots.json"
-    ed = evidence_dir(incident)
-    if arch.is_file():
-        p1 = json.loads(arch.read_text(encoding="utf-8"))
-        p2 = [{"snapshot": r["snapshot"], "wall_clock": r.get("created_at") or r.get("lsn_recorded_at"),
-               "lsn": r.get("recorded_lsn")} for r in p1]
-        write_text(ed / "snapshots.json", json.dumps(p2, sort_keys=True) + "\n")
+    from lab_snapshot_tick import merge_snapshot_records
+    merge_snapshot_records(incident)
 
 
 def freeze_common(incident: str, scenario: str, definition: dict, log: list[dict],
                   open_snap: dict, pre: dict, post: dict, tps: float, mix: str,
                   oracle_coord: dict, extra: dict) -> dict:
     ed = evidence_dir(incident)
-    fs = run_bin("lab-fs-capture", [incident], timeout=120)
-    log.append({"step": "fs_capture", "exit": fs.returncode, "stdout": (fs.stdout or "")[-800:]})
-    if not (ed / "fs_diff.tsv").is_file():
-        (ed / "fs_diff.tsv").write_text("", encoding="utf-8")
-    if not (ed / "fs_hashes.tsv").is_file():
-        (ed / "fs_hashes.tsv").write_text("", encoding="utf-8")
-    copy_snapshots(incident)
+    from lab_capture import stop_snapshot_loop
+    from lab_file_evidence import capture_file_evidence
+    stop_snapshot_loop(incident, check=True)
+    capture_file_evidence(incident, log, runner=run_bin)
     barrier = run_bin("lab-barrier", [], timeout=150)
     log.append({"step": "barrier", "exit": barrier.returncode})
     # Stop decode before the window cut so post-close commits cannot land in db.jsonl.
     run_bin("lab-consumer", ["stop", incident], timeout=60)
-    from lab_capture import stop_snapshot_loop
-    stop_snapshot_loop(incident)
     dropped = window_ledger(ed / "db.jsonl", open_snap["recorded_lsn"], post["recorded_lsn"])
     log.append({"step": "ledger_window", "dropped": dropped,
                 "open": open_snap.get("recorded_lsn"), "close": post.get("recorded_lsn")})
@@ -179,14 +169,6 @@ def generate(scenario: str, log: list[dict]) -> dict:
     else:
         die(EXIT_PRECOND, "precondition failed: lab-ready never reached 0 after incident allocation")
     add({"step": 1, "action": "lab_ready_wait", "attempts": len(ready_wait)})
-    open_snap = run_json("lab-snapshot", ["--label", "open"])
-    add({"step": 3, "action": "snapshot_open", "result": open_snap})
-    capture = run_bin("lab-capture", ["start", incident], timeout=90)
-    add({"step": 2, "action": "capture_start", "exit": capture.returncode,
-         "stdout": (capture.stdout or "")[-1500:], "stderr": (capture.stderr or "")[-500:]})
-    if capture.returncode != 0:
-        die(EXIT_ASSERT, f"assertion failed: lab-capture start: {capture.stderr.strip() or capture.stdout.strip()}")
-
     if scenario == "SC-02":
         from lab_sc02 import prepare as prep, inject as inj, start_confounder, stop_confounder, oracle as ora
     elif scenario == "SC-03":
@@ -196,65 +178,86 @@ def generate(scenario: str, log: list[dict]) -> dict:
     else:
         die(EXIT_USAGE, f"usage: unknown scenario {scenario}")
 
-    prep_rec = prep(incident)
-    add({"step": 0, "action": "prepare", "result": prep_rec})
-    # SC-02's confounder already runs ConcurrentApp on p2_probe; a second
-    # instance with the same seed collides on p2_probe_pkey.
-    db_app = None
-    if scenario != "SC-02":
-        db_app = ConcurrentApp(
-            int(prep_rec.get("seed") or 11),
-            os.environ.get("SC01_RELATION") or "p2_probe",
-            float(prep_rec.get("tps") or 6),
+    if scenario == "SC-02":
+        prep_rec = prep(incident)
+        add({"step": 0, "action": "prepare", "result": prep_rec})
+    open_snap = run_json("lab-snapshot", ["--label", "open", "--incident", incident])
+    add({"step": 3, "action": "snapshot_open", "result": open_snap})
+    try:
+        capture = run_bin("lab-capture", ["start", incident], timeout=90)
+        add({"step": 2, "action": "capture_start", "exit": capture.returncode,
+             "stdout": (capture.stdout or "")[-1500:], "stderr": (capture.stderr or "")[-500:]})
+        if capture.returncode != 0:
+            die(EXIT_ASSERT, f"assertion failed: lab-capture start: {capture.stderr.strip() or capture.stdout.strip()}")
+        if scenario != "SC-02":
+            prep_rec = prep(incident)
+            add({"step": 0, "action": "prepare", "result": prep_rec})
+
+        # SC-02's confounder already runs ConcurrentApp on p2_probe; a second
+        # instance with the same seed collides on p2_probe_pkey.
+        db_app = None
+        if scenario != "SC-02":
+            db_app = ConcurrentApp(
+                int(prep_rec.get("seed") or 11),
+                os.environ.get("SC01_RELATION") or "p2_probe",
+                float(prep_rec.get("tps") or 6),
+            )
+            db_app.start()
+        prep_rec["baseline_started"] = utc_now()
+        confounder = start_confounder(incident)
+        add({"step": 4, "action": "confounder_start", "result": {"started": True, "db_app": db_app is not None}})
+        baseline_s = int(prep_rec.get("baseline_s") or 8)
+        time.sleep(baseline_s)
+        pre = run_json("lab-snapshot", ["--label", "pre_injection", "--incident", incident])
+        add({"step": 5, "action": "snapshot_pre_injection", "result": pre})
+        inj_rec = inj(incident)
+        add({"step": 6, "action": "inject", "result": {k: inj_rec[k] for k in inj_rec if k != "ops"}})
+        time.sleep(int(prep_rec.get("after_s") or 4))
+        scenario_rows = stop_confounder(confounder)
+        app_rows = db_app.stop() if db_app is not None else []
+        ddl_rows = apply_group(plan_sc01_ddl())
+        add({"step": 7, "action": "confounder_stop",
+             "app_ops": len(app_rows), "scenario_ops": len(scenario_rows) if isinstance(scenario_rows, list) else scenario_rows,
+             "ddl_ops": len(ddl_rows)})
+        post = run_json("lab-snapshot", ["--label", "post_capture", "--incident", incident])
+        add({"step": 7, "action": "snapshot_post_capture", "result": post})
+        from lab_capture import stop_snapshot_loop
+        stop_snapshot_loop(incident, check=True, required_from=prep_rec["baseline_started"],
+                           required_until=post["created_at"])
+
+        scenario_dml = scenario_rows if isinstance(scenario_rows, list) else []
+        combined = []
+        for rec in app_rows + scenario_dml + ddl_rows:
+            combined.append(rec)
+        combined.sort(key=lambda r: (lsn_int(r["commit_lsn"]) if r.get("commit_lsn") else 0, r.get("xid") or 0))
+        ed = evidence_dir(incident)
+        write_jsonl(ed / "workload.jsonl", combined)
+
+        ora_rec = ora(incident, inj_rec, scenario_rows if isinstance(scenario_rows, list) else app_rows,
+                      open_snap, pre, post)
+        add({"step": 11, "action": "oracle", "result": {k: ora_rec[k] for k in ora_rec if k not in {"files", "malicious_set"}}})
+        extra = {
+            "quiescent_baseline": {
+                "t_start": prep_rec.get("baseline_started") or utc_now(),
+                "t_end": inj_rec.get("t_start"),
+                "lsn_start": open_snap.get("recorded_lsn"),
+                "lsn_end_exclusive": inj_rec.get("lsn_start"),
+                "window_s": 2,
+                "baseline_s": baseline_s,
+            },
+            "approx_incident_time": pre.get("created_at") or pre.get("lsn_recorded_at"),
+            **(ora_rec.get("incident_extra") or {}),
+        }
+        rec = freeze_common(
+            incident, scenario, definition, log, open_snap, pre, post,
+            float(prep_rec.get("tps") or 8), str(prep_rec.get("mix") or "lab_app-confounder+agent-inject"),
+            ora_rec["coordinate"], extra,
         )
-        db_app.start()
-    confounder = start_confounder(incident)
-    add({"step": 4, "action": "confounder_start", "result": {"started": True, "db_app": db_app is not None}})
-    baseline_s = int(prep_rec.get("baseline_s") or 8)
-    time.sleep(baseline_s)
-    pre = run_json("lab-snapshot", ["--label", "pre_injection"])
-    add({"step": 5, "action": "snapshot_pre_injection", "result": pre})
-    inj_rec = inj(incident)
-    add({"step": 6, "action": "inject", "result": {k: inj_rec[k] for k in inj_rec if k != "ops"}})
-    time.sleep(int(prep_rec.get("after_s") or 4))
-    scenario_rows = stop_confounder(confounder)
-    app_rows = db_app.stop() if db_app is not None else []
-    ddl_rows = apply_group(plan_sc01_ddl())
-    add({"step": 7, "action": "confounder_stop",
-         "app_ops": len(app_rows), "scenario_ops": len(scenario_rows) if isinstance(scenario_rows, list) else scenario_rows,
-         "ddl_ops": len(ddl_rows)})
-    post = run_json("lab-snapshot", ["--label", "post_capture"])
-    add({"step": 7, "action": "snapshot_post_capture", "result": post})
+        return rec
 
-    scenario_dml = scenario_rows if isinstance(scenario_rows, list) else []
-    combined = []
-    for rec in app_rows + scenario_dml + ddl_rows:
-        combined.append(rec)
-    combined.sort(key=lambda r: (lsn_int(r["commit_lsn"]) if r.get("commit_lsn") else 0, r.get("xid") or 0))
-    ed = evidence_dir(incident)
-    write_jsonl(ed / "workload.jsonl", combined)
-
-    ora_rec = ora(incident, inj_rec, scenario_rows if isinstance(scenario_rows, list) else app_rows,
-                  open_snap, pre, post)
-    add({"step": 11, "action": "oracle", "result": {k: ora_rec[k] for k in ora_rec if k not in {"files", "malicious_set"}}})
-    extra = {
-        "quiescent_baseline": {
-            "t_start": prep_rec.get("baseline_started") or utc_now(),
-            "t_end": inj_rec.get("t_start"),
-            "lsn_start": open_snap.get("recorded_lsn"),
-            "lsn_end_exclusive": inj_rec.get("lsn_start"),
-            "window_s": 2,
-            "baseline_s": baseline_s,
-        },
-        "approx_incident_time": pre.get("created_at") or pre.get("lsn_recorded_at"),
-        **(ora_rec.get("incident_extra") or {}),
-    }
-    rec = freeze_common(
-        incident, scenario, definition, log, open_snap, pre, post,
-        float(prep_rec.get("tps") or 8), str(prep_rec.get("mix") or "lab_app-confounder+agent-inject"),
-        ora_rec["coordinate"], extra,
-    )
-    return rec
+    finally:
+        from lab_capture import stop_snapshot_loop
+        stop_snapshot_loop(incident)
 
 
 def main(argv: list[str]) -> int:

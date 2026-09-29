@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from lab_paths import bin_path, current_incident, env, evidence_dir, lab_root
-from lab_snapshot_loop import alive_file, pid_file
+from lab_snapshot_loop import alive_file, pid_file, read_status, status_file
 
 EXIT_ASSERT = 1
 EXIT_PRECOND = 2
@@ -95,6 +95,8 @@ def start_snapshot_loop(incident: str) -> tuple[int, bool]:
         return existing, False
     log = evidence_dir(incident) / "snapshot-loop.log"
     log.parent.mkdir(parents=True, exist_ok=True)
+    status_file(incident).unlink(missing_ok=True)
+    alive_file(incident).unlink(missing_ok=True)
     child_env = os.environ.copy()
     lib = str(lab_root() / "lib")
     child_env["PYTHONPATH"] = lib + (os.pathsep + child_env["PYTHONPATH"] if child_env.get("PYTHONPATH") else "")
@@ -106,40 +108,47 @@ def start_snapshot_loop(incident: str) -> tuple[int, bool]:
         start_new_session=True,
         env=child_env,
     )
-    deadline = time.monotonic() + 5
+    deadline = time.monotonic() + 30
     pid = None
     while time.monotonic() < deadline:
         pid = snapshot_loop_pid(incident)
-        if pid is not None:
+        status = read_status(incident)
+        if proc.poll() is not None or status.get("state") == "failed":
+            die(EXIT_ASSERT, status.get("error") or f"assertion failed: snapshot loop exited for {incident}")
+        if pid is not None and status.get("ticks", 0) > 0:
             break
         time.sleep(0.05)
-    if pid is None:
-        proc.poll()
-        die(EXIT_ASSERT, f"assertion failed: snapshot loop did not write pid file for {incident}")
+    else:
+        stop_snapshot_loop(incident)
+        die(EXIT_ASSERT, f"assertion failed: snapshot loop did not record its first snapshot for {incident}")
     return pid, True
 
 
-def stop_snapshot_loop(incident: str) -> bool:
+def stop_snapshot_loop(incident: str, *, check: bool = False,
+                       required_from: str | None = None, required_until: str | None = None) -> bool:
     pid = snapshot_loop_pid(incident)
-    if pid is None:
-        try:
-            pid_file(incident).unlink()
-        except FileNotFoundError:
-            pass
-        return False
-    os.kill(pid, signal.SIGTERM)
-    deadline = time.monotonic() + 5
-    while time.monotonic() < deadline:
-        if not pid_alive(pid):
-            break
-        time.sleep(0.05)
-    if pid_alive(pid):
-        os.kill(pid, signal.SIGKILL)
-    try:
-        pid_file(incident).unlink()
-    except FileNotFoundError:
-        pass
-    return True
+    if pid is not None:
+        os.kill(pid, signal.SIGTERM)
+        deadline = time.monotonic() + 30
+        while time.monotonic() < deadline:
+            if not pid_file(incident).exists() or not pid_alive(pid):
+                break
+            time.sleep(0.05)
+        else:
+            os.kill(pid, signal.SIGKILL)
+            if check:
+                die(EXIT_ASSERT, "assertion failed: snapshot loop required forced termination")
+    pid_file(incident).unlink(missing_ok=True)
+    status = read_status(incident)
+    if check and (status.get("state") != "stopped" or not status.get("ok") or not status.get("ticks")):
+        die(EXIT_ASSERT, status.get("error") or "assertion failed: snapshot loop has no successful completion record")
+    if check:
+        from lab_fs_reconcile import timestamp
+        if required_from and timestamp(status["first_snapshot_at"]) > timestamp(required_from):
+            die(EXIT_ASSERT, "assertion failed: snapshot loop started after the baseline")
+        if required_until and timestamp(status["stopped_at"]) < timestamp(required_until):
+            die(EXIT_ASSERT, "assertion failed: snapshot loop stopped before post-capture")
+    return pid is not None
 
 
 def current_wal_lsn() -> str:

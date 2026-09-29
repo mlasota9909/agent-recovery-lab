@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import shlex
 import threading
 import time
 from datetime import datetime, timezone
@@ -12,6 +13,8 @@ from lab_p3_util import EXIT_ASSERT, die, ssh_psql, utc_now, write_json, write_j
 from lab_p7 import ssh
 from lab_paths import env, evidence_dir, lab_root
 from lab_sc01_workload import ConcurrentApp
+from lab_fs_workload import record_operations
+from lab_snapshot_tick import snapshot_lock, ledger_path, load_array
 from lsn import lsn_norm
 
 _protected = os.environ.get("INC_PROTECTED")
@@ -53,7 +56,8 @@ def prepare(incident: str) -> dict:
 
 
 class _FileChurn:
-    def __init__(self) -> None:
+    def __init__(self, incident: str) -> None:
+        self.incident = incident
         self.stop_event = threading.Event()
         self.ops: list[dict] = []
         self.thread: threading.Thread | None = None
@@ -67,7 +71,9 @@ class _FileChurn:
     def stop(self) -> list[dict]:
         self.stop_event.set()
         if self.thread:
-            self.thread.join(timeout=20)
+            self.thread.join(timeout=30)
+            if self.thread.is_alive():
+                die(EXIT_ASSERT, "assertion failed: SC-02 file churn did not stop")
         if self.error:
             die(EXIT_ASSERT, self.error)
         return list(self.ops)
@@ -78,22 +84,28 @@ class _FileChurn:
             while not self.stop_event.is_set():
                 n = self.n
                 self.n += 1
-                cmd = (
-                    f"sudo -n -u {user} bash -c '"
-                    f"echo body-{n} > {BUILD}/t{n}.txt; "
-                    f"echo mut-{n} >> {BUILD}/t{max(0, n-1)}.txt 2>/dev/null || true; "
-                    f"rm -f {BUILD}/t{max(0, n-3)}.txt'"
-                )
-                ssh(cmd, timeout=15)
-                self.ops.append({"op": "churn", "n": n, "ts": utc_now()})
-                time.sleep(0.4)
+                operations = [{"path": f"sc02-work/build/t{n}.txt", "operation": "create", "kind": "file"}]
+                commands = [f"printf 'body-{n}\\n' > {shlex.quote(BUILD + f'/t{n}.txt')}"]
+                if n > 0:
+                    operations.append({"path": f"sc02-work/build/t{n-1}.txt", "operation": "append", "kind": "file"})
+                    commands.append(f"printf 'mut-{n}\\n' >> {shlex.quote(BUILD + f'/t{n-1}.txt')}")
+                if n >= 3:
+                    operations.append({"path": f"sc02-work/build/t{n-3}.txt", "operation": "delete", "kind": "file"})
+                    commands.append(f"rm -- {shlex.quote(BUILD + f'/t{n-3}.txt')}")
+                with snapshot_lock(self.incident):
+                    self.ops.extend(record_operations(self.incident, operations, "legitimate"))
+                    script = "set -euo pipefail; " + "; ".join(commands)
+                    proc = ssh(f"sudo -n -u {shlex.quote(user)} bash -c {shlex.quote(script)}", timeout=15)
+                    if proc.returncode:
+                        raise RuntimeError(proc.stderr.strip() or proc.stdout.strip())
+                self.stop_event.wait(0.4)
         except BaseException as exc:
             self.error = f"assertion failed: sc02 file churn: {exc}"
 
 
 def start_confounder(incident: str) -> dict:
     app = ConcurrentApp(11, os.environ.get("SC01_RELATION") or "p2_probe", 6.0)
-    fs = _FileChurn()
+    fs = _FileChurn(incident)
     app.start()
     fs.start()
     return {"app": app, "fs": fs, "incident": incident}
@@ -108,21 +120,53 @@ def stop_confounder(handle: dict) -> list[dict]:
     return app_rows
 
 
+
+def enumerate_damage_targets(reference_root: str) -> list[dict]:
+    """Expand every removed file and directory from the locked reference."""
+    script = """import json, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+victim = root / 'sc02-work/victim'
+overwrite = root / 'sc02-work/keep/will-overwrite.txt'
+if not victim.is_dir() or not overwrite.is_file():
+    raise SystemExit('reference damage targets are absent')
+rows = [{'path': str(overwrite.relative_to(root)), 'operation': 'overwrite', 'kind': 'file'}]
+for path in sorted([victim, *victim.rglob('*')], key=lambda p: (-len(p.parts), str(p))):
+    rows.append({'path': str(path.relative_to(root)), 'operation': 'delete',
+                 'kind': 'directory' if path.is_dir() else 'file'})
+print(json.dumps(rows))
+"""
+    proc = ssh("sudo -n python3 -c " + shlex.quote(script) + " " + shlex.quote(reference_root), timeout=30)
+    if proc.returncode:
+        die(EXIT_ASSERT, "assertion failed: SC-02 reference enumeration: " + (proc.stderr.strip() or proc.stdout.strip()))
+    return json.loads(proc.stdout)
+
+
 def inject(incident: str) -> dict:
     ed = evidence_dir(incident)
     lsn_start = lsn_norm(_pg("SELECT pg_current_wal_lsn();").upper())
-    t_start = utc_now()
-    script = lab_root() / "scenarios" / "sc02" / "inject.sh"
-    text = script.read_text(encoding="utf-8")
-    import subprocess
-    p = subprocess.run(
-        ["ssh", "-o", "BatchMode=yes", env("VM_SSH"),
-         f"sudo -n -u {env('OS_USER_AGENT')} env TREE={TREE} KEEP={KEEP} VICTIM={VICTIM} bash -s"],
-        input=text, text=True, capture_output=True, check=False, timeout=30,
-    )
-    if p.returncode != 0:
-        die(EXIT_ASSERT, f"assertion failed: SC-02 inject: {p.stderr.strip() or p.stdout.strip()}")
-    t_end = utc_now()
+    # Lock across reference enumeration, intention recording, and damage so no
+    # snapshot can divide a recorded batch from its effects.
+    with snapshot_lock(incident):
+        snaps = [r for r in load_array(ledger_path(incident)) if not r.get("invalidated")]
+        if not snaps:
+            die(EXIT_ASSERT, "assertion failed: SC-02 injection has no reference snapshot")
+        reference = max(snaps, key=lambda r: r["created_at"])
+        reference_root = f"{_protected}/.zfs/snapshot/{reference['snapshot']}"
+        targets = enumerate_damage_targets(reference_root)
+        t_start = utc_now()
+        fs_ops = record_operations(incident, targets, "injection")
+        script = lab_root() / "scenarios" / "sc02" / "inject.sh"
+        text = script.read_text(encoding="utf-8")
+        import subprocess
+        p = subprocess.run(
+            ["ssh", "-o", "BatchMode=yes", env("VM_SSH"),
+             f"sudo -n -u {shlex.quote(env('OS_USER_AGENT'))} env "
+             f"TREE={shlex.quote(TREE)} KEEP={shlex.quote(KEEP)} VICTIM={shlex.quote(VICTIM)} bash -s"],
+            input=text, text=True, capture_output=True, check=False, timeout=30,
+        )
+        if p.returncode != 0:
+            die(EXIT_ASSERT, f"assertion failed: SC-02 inject: {p.stderr.strip() or p.stdout.strip()}")
+        t_end = utc_now()
     lsn_end = lsn_norm(_pg("SELECT pg_current_wal_lsn();").upper())
     check = ssh(
         f"test -d {VICTIM} && echo STILL || echo GONE; "
@@ -141,6 +185,8 @@ def inject(incident: str) -> dict:
         "timing_pattern": "near_instant",
         "ops": ["recursive_delete", "overwrite"],
         "inject_stdout": p.stdout.strip(),
+        "reference_snapshot": reference["snapshot"],
+        "fs_ops": fs_ops,
         "guest_check": check.stdout.strip(),
         "tree": TREE,
     }

@@ -1,14 +1,15 @@
 """lab-fs-capture: zfs diff walker + .zfs/snapshot tree hasher. JSON on stdout."""
 from __future__ import annotations
 
-import hashlib
 import json
 import os
+import shlex
 import subprocess
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
-from lab_paths import current_incident, env, evidence_dir, lab_root
+from lab_incident_runtime import incident_runtime
+from lab_paths import current_incident, evidence_dir, lab_root
 
 EXIT_ASSERT = 1
 EXIT_PRECOND = 2
@@ -25,10 +26,10 @@ def emit(obj: dict) -> None:
     print(json.dumps(obj, sort_keys=True))
 
 
-def ssh(script: str) -> subprocess.CompletedProcess[str]:
+def ssh(script: str, runtime: dict) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=20", env("VM_SSH"), script],
-        text=True, capture_output=True, check=False,
+        ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=20", runtime["VM_SSH"], script],
+        text=True, capture_output=True, check=False, timeout=90,
     )
 
 
@@ -64,9 +65,24 @@ def existing_hash_snaps(path: Path) -> set[str]:
     return snaps
 
 
-def zfs_diff_rows(snap_from: str, snap_to: str) -> list[tuple[str, str]]:
-    ds = env("DS_PROTECTED")
-    proc = ssh(f"sudo -n zfs diff -H '{ds}@{snap_from}' '{ds}@{snap_to}'")
+def relative_path(path: str, mount: str) -> str:
+    try:
+        rel = str(PurePosixPath(path).relative_to(PurePosixPath(mount)))
+    except ValueError:
+        die(EXIT_ASSERT, f"assertion failed: diff path outside protected root: {path!r}")
+    if any(c in rel for c in "\t\r\n") or ".." in PurePosixPath(rel).parts:
+        die(EXIT_ASSERT, f"assertion failed: unrepresentable diff path: {path!r}")
+    return rel
+
+
+def check_snapshot_name(snap: str) -> None:
+    if not snap or not all(c.isalnum() or c in "._-" for c in snap):
+        die(EXIT_USAGE, f"usage: unsafe snapshot name {snap!r}")
+
+
+def zfs_diff_rows(snap_from: str, snap_to: str, runtime: dict) -> list[tuple[str, str]]:
+    ds = runtime["DS_PROTECTED"]
+    proc = ssh(f"sudo -n zfs diff -H {shlex.quote(ds + '@' + snap_from)} {shlex.quote(ds + '@' + snap_to)}", runtime)
     if proc.returncode != 0:
         die(EXIT_ASSERT, f"assertion failed: zfs diff: {proc.stderr.strip() or proc.stdout.strip()}")
     # Reuse the P0 parser for quoting/renames.
@@ -82,20 +98,23 @@ def zfs_diff_rows(snap_from: str, snap_to: str) -> list[tuple[str, str]]:
         ctype = item["change_type"]
         if ctype not in CHANGE_TYPES:
             die(EXIT_ASSERT, f"assertion failed: unsupported change type {ctype!r}")
-        path = item["path"]
+        path = relative_path(item["path"], runtime["MNT_PROTECTED"])
         if ctype == "R" and item.get("old_path"):
-            path = f"{item['old_path']} -> {item['path']}"
+            path = f"{relative_path(item['old_path'], runtime['MNT_PROTECTED'])} -> {path}"
         rows.append((ctype, path))
     return rows
 
 
 def cmd_diff(incident: str, snap_from: str, snap_to: str) -> int:
+    runtime = incident_runtime(incident)
+    check_snapshot_name(snap_from)
+    check_snapshot_name(snap_to)
     out = diff_path(incident)
     if (snap_from, snap_to) in existing_diff_pairs(out):
         emit({"ok": True, "changed": False, "action": "diff", "incident": incident,
               "snap_from": snap_from, "snap_to": snap_to, "output": str(out)})
         return 0
-    rows = zfs_diff_rows(snap_from, snap_to)
+    rows = zfs_diff_rows(snap_from, snap_to, runtime)
     lines = [f"{snap_from}\t{snap_to}\t{ctype}\t{path}\n" for ctype, path in rows]
     out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("a", encoding="utf-8") as handle:
@@ -109,22 +128,24 @@ def cmd_diff(incident: str, snap_from: str, snap_to: str) -> int:
 
 
 def cmd_hash(incident: str, snap: str) -> int:
+    runtime = incident_runtime(incident)
+    check_snapshot_name(snap)
     out = hash_path(incident)
     if snap in existing_hash_snaps(out):
         emit({"ok": True, "changed": False, "action": "hash", "incident": incident,
               "snapshot": snap, "output": str(out)})
         return 0
-    mount = env("MNT_PROTECTED")
-    if not all(c.isalnum() or c in "._-" for c in snap):
-        die(EXIT_USAGE, f"usage: unsafe snapshot name {snap!r}")
+    mount = runtime["MNT_PROTECTED"]
     remote = (
         "set -euo pipefail\n"
-        f"root='{mount}/.zfs/snapshot/{snap}'\n"
+        f"root={shlex.quote(mount + '/.zfs/snapshot/' + snap)}\n"
         'test -d "$root" || { echo "precondition failed: snapshot root missing: $root" >&2; exit 2; }\n'
         'python3 - "$root" <<\'PY\'\n'
         "import hashlib, os, sys\n"
         "root = sys.argv[1]\n"
-        "for directory, directories, filenames in os.walk(root):\n"
+        "def fail(error):\n"
+        "    raise error\n"
+        "for directory, directories, filenames in os.walk(root, onerror=fail):\n"
         "    directories[:] = [d for d in sorted(directories) if d != '.zfs']\n"
         "    for filename in sorted(filenames):\n"
         "        path = os.path.join(directory, filename)\n"
@@ -135,13 +156,15 @@ def cmd_hash(incident: str, snap: str) -> int:
         "            for block in iter(lambda: handle.read(1024 * 1024), b''):\n"
         "                digest.update(block)\n"
         "        rel = os.path.relpath(path, root)\n"
+        "        if any(c in rel for c in '\\t\\r\\n'):\n"
+        "            raise SystemExit('unrepresentable hash path: ' + repr(rel))\n"
         "        print(rel + '\\t' + digest.hexdigest())\n"
         "PY\n"
     )
     proc = subprocess.run(
-        ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=30", env("VM_SSH"),
+        ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=30", runtime["VM_SSH"],
          "sudo -n bash -s"],
-        input=remote, text=True, capture_output=True, check=False,
+        input=remote, text=True, capture_output=True, check=False, timeout=90,
     )
     if proc.returncode != 0:
         die(EXIT_ASSERT, f"assertion failed: tree hash: {proc.stderr.strip() or proc.stdout.strip()}")

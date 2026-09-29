@@ -159,19 +159,36 @@ def heartbeat_ok(incident: str) -> dict:
     return {"ok": ok and bool(samples), "n": len(samples), "rule": "C-5", "failed": [s for s in samples if s["exit"] != 0][:5]}
 
 
-def fs_coverage(incident: str, ops: list[dict]) -> dict:
-    fs_ops = [o for o in ops if str(o.get("action", "")).startswith("FS")]
-    if not fs_ops:
-        return {"ok": True, "fs_ops": 0, "vacuous": True, "rule": "C-7"}
-    diff = evidence_dir(incident) / "fs_diff.tsv"
-    text = diff.read_text(encoding="utf-8") if diff.is_file() else ""
-    missing = []
-    for op in fs_ops:
-        path = op.get("path")
-        if path and path not in text:
-            missing.append(path)
-    return {"ok": not missing, "fs_ops": len(fs_ops), "missing": missing, "vacuous": False, "rule": "C-7"}
-
+def fs_coverage(incident: str, ops: list[dict] | None = None) -> dict:
+    from lab_fs_reconcile import reconcile_file_operations
+    from lab_snapshot_tick import load_array
+    ed = evidence_dir(incident)
+    scenario = incident.split("_", 1)[0]
+    definition_path = lab_root() / "scenarios" / scenario.lower().replace("-", "") / "definition.json"
+    definition = json.loads(definition_path.read_text()) if definition_path.is_file() else {}
+    declared = scenario == "SC-02" or definition.get("damage_class") == "filesystem_data"
+    path = ed / "fs-workload.jsonl"
+    file_ops = load_jsonl(path) if path.is_file() else []
+    diff_path = ed / "fs_diff.tsv"
+    differences, malformed = [], []
+    for number, line in enumerate(diff_path.read_text().splitlines() if diff_path.is_file() else [], 1):
+        if not line:
+            continue
+        fields = line.split("\t")
+        if len(fields) != 4:
+            malformed.append(number)
+            continue
+        a, b, change, path = fields
+        differences.append({"from_snapshot": a, "to_snapshot": b, "change_type": change, "path": path})
+    report = reconcile_file_operations(load_array(ed / "snapshots.json"), file_ops, differences, declared=declared)
+    if malformed:
+        report["ok"] = False
+        report["unexplained_captured"] += len(malformed)
+        report["errors"].append(f"malformed fs_diff.tsv lines: {malformed}")
+    if declared and not diff_path.is_file():
+        report["ok"] = False
+        report["errors"].append("missing fs_diff.tsv")
+    return report
 
 def main(argv: list[str]) -> int:
     incident = argv[0] if argv else current_incident()
@@ -193,7 +210,7 @@ def main(argv: list[str]) -> int:
     c3 = {"ok": len(ddl_mapped) == len(ddl_ops) and bool(ddl_ops), "rule": "C-3",
           "ddl_ops": len(ddl_ops), "ddl_mapped": len(ddl_mapped)}
     c5 = heartbeat_ok(incident)
-    c7 = fs_coverage(incident, ops)
+    c7 = fs_coverage(incident)
     c1_ok = coverage["mapped"] == coverage["ops"] and not coverage["gaps"] and not coverage["duplicates"]
     rules = {
         "C-1": {"ok": c1_ok, **{k: coverage[k] for k in ("ops", "mapped", "gaps", "duplicates")}},
