@@ -132,6 +132,9 @@ def generate(scenario: str, log: list[dict]) -> dict:
             # (C009 teardown) and would make the next lab-incident --new fail.
             run_bin("lab-consumer", ["stop", old], timeout=60)
             add({"step": 0, "action": "stop_throwaway_consumer", "incident": old})
+    from lab_incident_runtime import stop_finished_incident_clusters
+    for stopped in stop_finished_incident_clusters():
+        add({"step": 0, "action": "stop_finished_incident_cluster", "result": stopped})
     slot = run_json("lab-slot", ["--create"], timeout=90)
     add({"step": 0, "action": "slot_ensure", "result": slot})
     allocated = run_json("lab-incident", ["--new", "--scenario", scenario])

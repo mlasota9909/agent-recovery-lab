@@ -66,6 +66,9 @@ def generate(log: list[dict]) -> dict:
     if cleanup.returncode != 0:
         die(EXIT_ASSERT, f"assertion failed: key-range cleanup: {cleanup.stderr.strip()}")
 
+    from lab_incident_runtime import stop_finished_incident_clusters
+    for stopped in stop_finished_incident_clusters():
+        add({"step": 0, "action": "stop_finished_incident_cluster", "result": stopped})
     allocated = run_json("lab-incident", ["--new", "--scenario", "SC-01"])
     incident = allocated["incident"]
     add({"step": 1, "action": "incident_new", "result": allocated})

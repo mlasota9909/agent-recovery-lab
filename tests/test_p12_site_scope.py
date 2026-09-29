@@ -49,5 +49,29 @@ class SiteScopeTests(unittest.TestCase):
         self.assertEqual(self.select(LAB_SITE_SCOPE="1", LAB_ACTIVE_INCIDENT=INCIDENT)[0], "2")
 
 
+class FinishedClusterTests(unittest.TestCase):
+    def test_every_recorded_incident_cluster_is_stopped_outside_the_site_scope(self):
+        import sys
+        from unittest.mock import patch
+        sys.path.insert(0, str(ROOT / "lib"))
+        import lab_incident_runtime as runtime
+        root = Path(tempfile.mkdtemp(dir=ROOT / "var"))
+        self.addCleanup(shutil.rmtree, root, ignore_errors=True)
+        (root / "runtime/incidents").mkdir(parents=True)
+        for name in ("SC-02_20260101T000000Z", "SC-02_20260102T000000Z"):
+            (root / "runtime/incidents" / (name + ".env")).write_text(f"ARCHIVE_INCIDENT={name}\nINC_ID=x\n")
+        calls = []
+        def fake(argv, env, **_):
+            calls.append((argv[1:], "LAB_SITE_SCOPE" in env))
+            return subprocess.CompletedProcess(argv, 0, stdout='{"changed":true,"ok":true}\n', stderr="")
+        with patch.object(runtime, "lab_root", return_value=root), patch.object(runtime.subprocess, "run", side_effect=fake), \
+             patch.dict(os.environ, {"LAB_SITE_SCOPE": "1"}):
+            stopped = runtime.stop_finished_incident_clusters()
+        self.assertEqual([c[0] for c in calls], [["stop", "--incident", "SC-02_20260101T000000Z"],
+                                                  ["stop", "--incident", "SC-02_20260102T000000Z"]])
+        self.assertFalse(any(c[1] for c in calls))
+        self.assertEqual(len(stopped), 2)
+
+
 if __name__ == "__main__":
     unittest.main()
