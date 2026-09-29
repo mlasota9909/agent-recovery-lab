@@ -511,11 +511,14 @@ def consumer_unit():
     validate()
     rendered = call([ROOT / "bin/lab-consumer-unit"]).stdout
     target = Path(f"/etc/systemd/system/{ENV.get('CONSUMER_UNIT', 'lab-consumer')}@.service")
-    if target.exists() and target.read_text() != rendered:
+    record = STATE / target.name
+    ours = target.exists() and record.exists() and target.read_text() == record.read_text()
+    if target.exists() and target.read_text() != rendered and not ours:
         # The legacy consumer has a single global template. Do not take it
         # away from a second checkout or interrupt its active experiments.
         raise RuntimeError(f"Existing {target.name} differs from this checkout; set a unique CONSUMER_UNIT or remove it; refusing to replace it")
-    if not target.exists():
+    if not target.exists() or (ours and target.read_text() != rendered):
+        # Install, or replace this checkout's own earlier rendering (recorded copy matches).
         source = STATE / target.name
         atomic(source, rendered, 0o644)
         call(["sudo", "-n", "install", "-m", "0644", source, target])

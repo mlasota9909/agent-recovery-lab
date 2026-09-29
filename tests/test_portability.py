@@ -189,7 +189,8 @@ class RelocatedCheckoutTests(unittest.TestCase):
         (self.checkout / "etc/lab.local.env").write_text("HOST_ARCHIVE_USER=archive-test\n")
         proc = subprocess.run([str(self.checkout / "bin/lab-consumer-unit")], cwd=ROOT, env=self.env,
                               text=True, capture_output=True, check=True)
-        self.assertIn('User="archive-test"', proc.stdout)
+        self.assertIn('User=archive-test\n', proc.stdout)
+        self.assertIn('WorkingDirectory=' + str(self.checkout) + '\n', proc.stdout)
         self.assertIn(str(self.checkout / "bin/lab-consumer").replace("$", "$$"), proc.stdout)
         self.assertNotIn("@LAB_", proc.stdout)
         self.assertNotIn("EnvironmentFile=", proc.stdout)

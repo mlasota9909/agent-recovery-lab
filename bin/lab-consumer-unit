@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Print the consumer service with paths and owner from this checkout."""
+import re
 import sys
 from pathlib import Path
 
@@ -14,18 +15,29 @@ def systemd_quote(value: str, command: bool = False) -> str:
     return '"' + value.replace("\\", "\\\\").replace('"', '\\"').replace("%", "%%") + '"'
 
 
+def systemd_path(value: str) -> str:
+    """WorkingDirectory= takes an unquoted absolute path; only % needs escaping."""
+    if not value.startswith("/") or any(ord(c) < 32 for c in value) or value != value.rstrip():
+        raise SystemExit(f"lab-consumer-unit: checkout path must be absolute, without control characters or trailing space: {value!r}")
+    return value.replace("%", "%%")
+
+
+def systemd_user(value: str) -> str:
+    """User= takes an unquoted user name."""
+    if not re.fullmatch(r"[a-z_][a-z0-9_-]*[$]?", value or ""):
+        raise SystemExit(f"lab-consumer-unit: HOST_ARCHIVE_USER is not a valid user name: {value!r}")
+    return value
+
+
 def main() -> int:
     if len(sys.argv) != 1:
         print("usage: lab-consumer-unit", file=sys.stderr)
         return 3
     config = load_env(ROOT)
     unit = (ROOT / "etc/systemd/lab-consumer@.service").read_text()
-    for token, value in {
-        "@LAB_ROOT@": str(ROOT),
-        "@LAB_CONSUMER@": str(ROOT / "bin/lab-consumer"),
-        "@LAB_USER@": config["HOST_ARCHIVE_USER"],
-    }.items():
-        unit = unit.replace(token, systemd_quote(value, command=token == "@LAB_CONSUMER@"))
+    unit = unit.replace("@LAB_ROOT@", systemd_path(str(ROOT)))
+    unit = unit.replace("@LAB_USER@", systemd_user(config["HOST_ARCHIVE_USER"]))
+    unit = unit.replace("@LAB_CONSUMER@", systemd_quote(str(ROOT / "bin/lab-consumer"), command=True))
     print(unit, end="")
     return 0
 
