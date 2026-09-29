@@ -76,6 +76,11 @@ max_replication_slots = 4
 wal_keep_size = $wal_keep_size
 archive_timeout = $archive_timeout
 EOF
+# PostgreSQL releases with output_plugin_libraries allow only listed libraries as logical-decoding
+# output plugins for replication users; the lab decodes with wal2json (incident clusters set the same).
+if [[ $(sudo -u postgres psql -X -At -p "$pg_port" -d postgres -c "select count(*) from pg_settings where name = 'output_plugin_libraries'") == 1 ]]; then
+  printf "%s\n" "output_plugin_libraries = 'wal2json'" >>"$tmp_conf"
+fi
 if ! test -f "$conf_file" || ! cmp -s "$tmp_conf" "$conf_file"; then
   install -m 0644 "$tmp_conf" "$conf_file"
   changed=true
