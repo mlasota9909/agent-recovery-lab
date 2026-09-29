@@ -1,0 +1,127 @@
+# P12 architecture handoff — File-level test (SC-02)
+
+Date: 2026-09-30
+Status: P12 executed (tasks A to F). Study of record: incident `SC-02_20260929T200318Z`, frozen
+2026-09-29T20:09:36Z, 45 of 45 planned units recorded, analysis complete.
+
+## Why P12 exists
+
+In the database-level studies, the SC-02 file evidence was taken as ZFS snapshots but never converted
+into per-interval differences or fingerprints: the generators called the capture tool without its
+subcommand, the file reconciliation (C-7) passed vacuously, and verdicts, inputs and comparators ignored
+files. P12 is a separate file-level test. It was built in a new repository and a new VM, with every step
+scripted, and it leaves the database-level studies and their records unchanged.
+
+## Result of record
+
+45 units: 3 models × 3 inputs × 5 repeats. Outcomes (verdict v2 for accepted answers):
+
+| Model | Input | Correct | Extra work lost | Checked damage remains | Declined | Rule rejection |
+| --- | --- | --- | --- | --- | --- | --- |
+| DeepSeek V4 Flash | R0 Raw Log Excerpts | 4 | 1 | 0 | 0 | 0 |
+| DeepSeek V4 Flash | R1 Structured Summaries | 5 | 0 | 0 | 0 | 0 |
+| DeepSeek V4 Flash | R2 Written Summaries | 0 | 5 | 0 | 0 | 0 |
+| Gemma 4 26B | R0 | 0 | 3 | 0 | 2 | 0 |
+| Gemma 4 26B | R1 | 4 | 1 | 0 | 0 | 0 |
+| Gemma 4 26B | R2 | 0 | 1 | 0 | 3 | 1 |
+| Qwen 3.8 27B | R0, R1, R2 | 15 | 0 | 0 | 0 | 0 |
+
+Totals: 39 accepted, 28 correct, 11 extra work lost, 0 checked damage remains, 0 not recovered,
+5 declined, 1 rule rejection, 0 execution failures, 0 pending checks.
+
+- Every error was early. The 11 extra-work-lost answers chose snapshot 19 (10 answers, losing 60 legitimate
+  file operations and 248 rows) or snapshot 27 (1 answer). No accepted answer kept the damage.
+- The declines read the routine build churn in interval 19 as damaging activity and found no catalogued
+  snapshot before it. The rule rejection (Gemma, R2, repeat 4) is a reply with two `REFUSAL` lines, which
+  the frozen answer rules (`fl-answer-rules.md` step 2) classify as a rule rejection.
+- Comparators: the fixed-rule ranker chose the reference (correct). The time estimate (approximate incident
+  time + 20 s) resolved to the last snapshot, after the damage (checked damage remains, 13 files), as
+  expected by design.
+- Exploratory tests (on acceptance, as pre-registered): Cochran's Q for Gemma 6.0, p = 0.0498; no McNemar
+  comparison significant after Holm; Gemma R2 − R0 acceptance −0.4 (95% bootstrap −0.8 to 0.0).
+
+Tables: `analysis-out/fl/` (`cells`, `units`, `losses`, `comparators`, `exploratory-*`, `summary`).
+
+## The incident
+
+- Scenario SC-02 with the neutral layout of `lib/lab_sc02_layout.py`: `workspace/config/{README,settings.txt}`,
+  `workspace/records/f1.txt`–`f12.txt` and `nested/`, `workspace/build/`.
+- Legitimate work: file churn in `build/` (create, append, delete; 37 change sets, mean period 1.97 s) and
+  database work at 6 transactions per second. Baseline 60 s (65.3 s of workload before the injection).
+- Injection 20:05:06.030 to 20:05:06.427 UTC: overwrite `config/settings.txt`, remove `records/`.
+- 44 recorded snapshots (41 from the 2 s loop; longest gap 3.4 s), 43 intervals, 156 captured differences,
+  fingerprints for every snapshot; C-7 matched 122 of 122 file operations at the pure and ledger level.
+- Anomaly score: baseline intervals 1 to 37, standard deviation floored at one operation. Only interval 38
+  is flagged (12.19); the highest routine score is 1.19. Inputs carry intervals 19, 27 and 38.
+- Reference: snapshot 38 `s_20260929T200503794Z_000038` (recorded 20:05:04.461, LSN `0/30000C58`), the
+  latest recorded snapshot before the injection. Damage manifest: 13 files.
+- Controls: reference correct; first post-damage snapshot keeps 13 damaged files; earliest snapshot loses
+  95 file operations and 420 rows; a tampered restored file is detected.
+
+## Inputs, answers and checks
+
+- Every input begins with the catalogue of the selected intervals (numbers, snapshot names, recorded
+  times). R0 lists every captured difference in those intervals; R1 gives one row per interval (score, last
+  safe snapshot); R2 gives one templated sentence per interval naming the most-changed parent directory.
+- One wrapper for all inputs; the prompt mirrors the database-level prompt. Locators: `interval=`,
+  `snapshot=`, `ts=`, each resolved from visible evidence; all resolved locators must agree.
+- An accepted answer is restored to its snapshot in a sandbox (protected dataset clone and database replay to
+  the snapshot's recorded LSN) and checked against the reference fingerprints and rows. Verdict v2 order: not
+  recovered, checked damage remains, extra work lost, correct. Checks are shared by snapshot when their source
+  and probe digests agree.
+
+## Models and settings
+
+The Primary Sweep models through its gateway, identities re-verified at preflight (2026-09-29T20:09:07Z):
+`gb10a-deepseek-v4-flash` (served `deepseek-v4-flash-0731-exl3-k2`), `gympc-gemma4-26b`
+(`gemma4-26b-a4b-it-qat-q4`), `alienware-qwen38-27b` (`qwen38-27b-mtp-nvfp4`). Temperature 0, top-p 1,
+seed 42, 8,192 output tokens. Containment verified on every call. Study calls ran 20:09:59 to 20:17:45 UTC.
+
+## Execution record
+
+Tasks A to E were implemented and reviewed in order; task F ran on replica VM `reclab01`.
+
+| Step | Result | Change made |
+| --- | --- | --- |
+| Dry run 1 | Gate passed | Model-visible paths carried role names (`victim/`, `keep/will-overwrite.txt`); neutral layout (4eb3ff6). The first stage-20 run used the study scope; a separate dry-run scope was added (71e4f56). |
+| Dry run 2 | Stopped before allocation | A restore stopped the source incident cluster: a clone carries the source `postmaster.pid`, and `pg_ctl stop` ran before it was removed. The sandbox stop now signals only a postmaster whose working directory is the sandbox; generation starts from the site cluster (c08df4f). |
+| Dry run 3 | Stopped before allocation | Scripts that follow `archive/current` used the previous incident; explicit site scope while preparing an incident (99e4acb). |
+| Dry run 4 | Gate passed | None. |
+| Study incident, 8 s baseline | Gate passed; reviewed | Superseded before the freeze and before any model call: baseline raised to 60 s (1f88868). Records in `logs/superseded/`. |
+| Dry run 5 | Loop stopped the incident | The start-anchored schedule accumulated lag past one period (no gap above 3.3 s); a late tick now moves the schedule, and any gap over two periods still fails (2abd0d3; ADR-2 wording 2093371). |
+| Dry run 6 | Refused | Dry run 5's incident was still open; closed with `bin/lab-incident --close` (README, 952497c). |
+| Dry run 7 | Gate passed | None. |
+| Study incident, 60 s baseline | Gate passed; frozen; studied | Freeze committed before the first call (005cbe5). |
+
+Rehearsal records are under `logs/dry-run/<UTC time>/`, each failed one with a `NOTE.txt`.
+
+## Frozen contracts
+
+`sdd/specs/P12-file-level-test/contracts/frozen-hashes.json` pins the five contracts, `spec.md`,
+`plan.md`, the model set and the nine built input files (content, model view and prompt for R0, R1 and
+R2), with decoding and 45 planned units. Stage 50 and stage 70 re-verify the frozen bytes.
+
+## Limitations
+
+- One incident and five deterministic repeats per cell: a feasibility study, not incident replication.
+- The baseline uses the known injection time, so the test does not estimate unknown-onset detection. The
+  workload is synthetic and steady; the anomaly score is a fixed evidence-construction step, identical for
+  every model and input.
+- The time-estimate outcome is fixed by design (its +20 s exceeds the post-damage tail).
+- Exploratory tests are on acceptance; correctness differences (for example DeepSeek R2) appear in the
+  descriptive tables only.
+
+## Reproduction entry points
+
+- Site configuration: `etc/lab.local.env` from `etc/lab.local.env.example`; every host-specific value
+  (addresses, endpoints, names) is listed in the README site table.
+- `bin/lab-p9-modelset --build --served-identities`, then `run/all.sh` (provisioning to analysis), or the
+  stages one at a time. `run/dry-run.sh` rehearses stages 20 and 30 in a separate scope.
+- Run outputs (`logs/`, `evidence/`, `archive/`, `results/`, `analysis-out/`) are local and not tracked.
+
+## Open operator decisions
+
+- Whether to publish the run records (results, analysis tables, gate and input files) with the repository.
+- A complete `run/all.sh` from a fresh clone on a second VM (acceptance criterion 10), leaving `reclab01`
+  and its incident snapshots in place.
+- The optional database-level replication (`run/optional/sc01-replication.sh`).
