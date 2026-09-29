@@ -42,6 +42,10 @@ class SourcePortabilityTests(unittest.TestCase):
     def test_no_absolute_home_paths_except_unchanged_frozen_contracts(self):
         violations = []
         for name in source_files():
+            # Run records are verbatim data from the reference checkout, not source;
+            # records/P12/verify.py checks them against the freeze.
+            if name.startswith("records/"):
+                continue
             data = (ROOT / name).read_bytes()
             if name in FROZEN_EXCEPTIONS:
                 self.assertEqual(hashlib.sha256(data).hexdigest(), FROZEN_EXCEPTIONS[name], name)
