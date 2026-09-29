@@ -1,0 +1,9 @@
+Stage dry-run; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T160424Z/20260929T160424.148651597Z-2616195-dry-run.log
+Stage 20-incident; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T160424Z/20260929T160424.201116600Z-2616210-20-incident.log
+SC-02_20260929T160427Z
+Exit 0 at 2026-09-29T16:06:02Z
+Stage 30-incident-gate; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T160424Z/20260929T160602.689416970Z-2622836-30-incident-gate.log
+{"ok": true, "gate": "/home/mlasota/agent-recovery-lab/logs/dry-run/20260929T160424Z/SC-02_20260929T160427Z/gate.json"}
+Exit 0 at 2026-09-29T16:07:40Z
+Dry run SC-02_20260929T160427Z passed the incident gate; records in logs/dry-run/20260929T160424Z
+Exit 0 at 2026-09-29T16:07:40Z

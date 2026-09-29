@@ -1,0 +1,166 @@
+{
+  "n": 23,
+  "ops": [
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "workspace/build/t0.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:11.052845Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "workspace/build/t1.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:13.109237Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "workspace/build/t0.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:13.109311Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "workspace/build/t2.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:15.076218Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "workspace/build/t1.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:15.076314Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "workspace/build/t3.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:17.048081Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "workspace/build/t2.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:17.048152Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/build/t0.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:17.048168Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "workspace/build/t4.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:18.874418Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "workspace/build/t3.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:18.874489Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/build/t1.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:18.874502Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "workspace/build/t5.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:21.850020Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "workspace/build/t4.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:21.850067Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/build/t2.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:21.850073Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "workspace/build/t6.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:24.313496Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "workspace/build/t5.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:24.313574Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/build/t3.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:24.313593Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "workspace/build/t7.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:26.379003Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "workspace/build/t6.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:26.379080Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/build/t4.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:26.379099Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "workspace/build/t8.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:28.053646Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "workspace/build/t7.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:28.053725Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "workspace/build/t5.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T16:09:28.053743Z"
+    }
+  ]
+}

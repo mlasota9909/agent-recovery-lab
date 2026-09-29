@@ -1,0 +1,4 @@
+| comparator | outcome | coordinate | verdict_v2 | damage_files_retained | damage_rows_retained | legit_file_operations_lost | legit_rows_lost | schema_damage | schema_loss | probe_mismatches | failure_reason |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| rank | accepted | {'lsn': '0/30000C58', 'lsn_int': 805309528, 'snapshot': 's_20260929T200503794Z_000038', 'time': '2026-09-29T20:05:04.461301Z'} | correct | 0 | 0 | 0 | 0 | 0 | 0 | 0 | null |
+| naive | accepted | {'lsn': '0/36000320', 'lsn_int': 905970464, 'snapshot': 's_20260929T200515776Z_000044', 'time': '2026-09-29T20:05:16.503389Z'} | checked_damage_remains | 13 | 0 | 0 | 0 | 0 | 0 | 0 | null |

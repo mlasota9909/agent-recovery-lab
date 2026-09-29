@@ -1,0 +1,10 @@
+{
+  "content": "{\"intervals\":[{\"interval\":6,\"from_snapshot\":\"s_20260929T153948782Z_000006\",\"to_snapshot\":\"s_20260929T153951428Z_000007\",\"from_time\":\"2026-09-29T15:39:49.319694Z\",\"to_time\":\"2026-09-29T15:39:52.278185Z\"},{\"interval\":8,\"from_snapshot\":\"s_20260929T153953425Z_000008\",\"to_snapshot\":\"s_20260929T153955076Z_000009\",\"from_time\":\"2026-09-29T15:39:53.961008Z\",\"to_time\":\"2026-09-29T15:39:55.526070Z\"},{\"interval\":12,\"from_snapshot\":\"s_20260929T153959791Z_000012\",\"to_snapshot\":\"s_20260929T154002420Z_000013\",\"from_time\":\"2026-09-29T15:40:00.465184Z\",\"to_time\":\"2026-09-29T15:40:02.902265Z\"}]}\n{\"interval\":6,\"anomaly_score\":1.4545454545454546,\"last_safe_snapshot\":\"s_20260929T153948782Z_000006\"}\n{\"interval\":8,\"anomaly_score\":0.7272727272727273,\"last_safe_snapshot\":\"s_20260929T153953425Z_000008\"}\n{\"interval\":12,\"anomaly_score\":12.727272727272727,\"last_safe_snapshot\":\"s_20260929T153959791Z_000012\"}",
+  "incident_id": "SC-02_20260929T153907Z",
+  "params": {
+    "top_n": 3
+  },
+  "probe_id": "FL-intervals",
+  "representation": "R1",
+  "telemetry": {}
+}

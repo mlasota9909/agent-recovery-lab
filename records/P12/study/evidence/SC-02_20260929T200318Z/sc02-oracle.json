@@ -1,0 +1,21 @@
+{
+  "checkpoint_gap_seconds": 3.047313928604126,
+  "checkpoint_snapshot": "s_20260929T200502455Z_000037",
+  "computed_from": "archive snapshots.json recorded_lsn <= damage lsn_start",
+  "coordinate": {
+    "lsn": "0/2F0563B8",
+    "resolved_by": "live_heartbeat",
+    "skew_bytes": 0,
+    "skew_ms": 345,
+    "snapshot": "s_20260929T200502455Z_000037",
+    "wall_clock": "2026-09-29T20:05:02.637651Z"
+  },
+  "files_lost_if_restored_to_checkpoint": null,
+  "fs_db_skew_ms": 1694,
+  "incident_extra": {
+    "checkpoint_gap_seconds": 3.047313928604126,
+    "checkpoint_snapshot": "s_20260929T200502455Z_000037",
+    "fs_db_skew_ms": 1694
+  },
+  "malicious_deletions_retained_if_later": null
+}

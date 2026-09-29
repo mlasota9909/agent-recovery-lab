@@ -1,0 +1,187 @@
+{
+  "n": 26,
+  "ops": [
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "sc02-work/build/t0.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:50.015568Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "sc02-work/build/t1.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:50.741370Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "sc02-work/build/t0.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:50.741428Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "sc02-work/build/t2.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:53.035120Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "sc02-work/build/t1.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:53.035191Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "sc02-work/build/t3.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:54.692135Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "sc02-work/build/t2.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:54.692193Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "sc02-work/build/t0.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:54.692206Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "sc02-work/build/t4.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:56.261015Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "sc02-work/build/t3.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:56.261072Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "sc02-work/build/t1.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:56.261085Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "sc02-work/build/t5.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:58.197009Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "sc02-work/build/t4.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:58.197070Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "sc02-work/build/t2.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:39:58.197085Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "sc02-work/build/t6.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:01.186632Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "sc02-work/build/t5.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:01.186700Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "sc02-work/build/t3.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:01.186715Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "sc02-work/build/t7.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:03.626226Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "sc02-work/build/t6.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:03.626290Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "sc02-work/build/t4.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:03.626307Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "sc02-work/build/t8.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:05.503507Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "sc02-work/build/t7.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:05.503569Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "sc02-work/build/t5.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:05.503590Z"
+    },
+    {
+      "kind": "file",
+      "operation": "create",
+      "path": "sc02-work/build/t9.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:07.783324Z"
+    },
+    {
+      "kind": "file",
+      "operation": "append",
+      "path": "sc02-work/build/t8.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:07.783404Z"
+    },
+    {
+      "kind": "file",
+      "operation": "delete",
+      "path": "sc02-work/build/t6.txt",
+      "source": "legitimate",
+      "ts": "2026-09-29T15:40:07.783437Z"
+    }
+  ]
+}

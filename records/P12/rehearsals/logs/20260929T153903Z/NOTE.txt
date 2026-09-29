@@ -1,0 +1,6 @@
+Dry run 1: incident SC-02_20260929T153907Z (stages 20 and 30, gate passed).
+Generated in logs/run before the dry-run scope existed; moved here on
+2026-09-30 so that logs/run holds only the study incident. Also contains the
+stage 20 attempt at 2026-09-29T15:53:58Z, refused because this incident's
+attempt marker was present; that attempt created no incident.
+Evidence: evidence/SC-02/SC-02_20260929T153907Z/.

@@ -1,0 +1,55 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20260929T200503794Z_000038",
+        "token": "snapshot=s_20260929T200503794Z_000038"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20260929T200503794Z_000038"
+  },
+  "call_started_utc": "2026-09-29T20:16:20.479071Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T200318Z/fl-checks/s_20260929T200503794Z_000038.json",
+    "report_sha256": "0f372cb746c01d116797c92fe701626b4e983eb108ba51477ae5feb81697186c",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 0,
+      "legit_rows_lost": 0,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "correct"
+  },
+  "completion_tokens": 814,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T20:16:26.522302Z",
+  "freeze_sha256": "34b08ad1bb046b854489dc1dbe6fca96145298352bbec9c0b33a209b400ad8f2",
+  "incident_id": "SC-02_20260929T200318Z",
+  "latency_ms": 5577,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-02_20260929T200318Z/units/M3/R1/k0/model.json",
+  "model_record_sha256": "585e11f4d4e32a7827cf01ad945674717bae284e0524bef0214f0869f12a5ce3",
+  "outcome": "accepted",
+  "prompt_sha256": "1d24370250ec22c47b39ab29ec629492347f9e348ab6df05156b2c1c9b26ddb1",
+  "prompt_tokens": 842,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- Intervals 19 and 27 have low anomaly scores (~1.19), indicating normal/safe activity.\n- Interval 38 has a sharply elevated anomaly score (12.19), indicating damaging file activity began in this interval.\n- The evidence explicitly records `\"last_safe_snapshot\":\"s_20260929T200503794Z_000038\"` for interval 38, which is the start snapshot of that interval (from_snapshot).\n\nThis is the latest safe recorded snapshot before the damaging activity (the high anomaly score) began.\n\nCOORDINATE: snapshot=s_20260929T200503794Z_000038",
+  "replicate_index": 0,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R1|0"
+}

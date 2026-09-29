@@ -1,0 +1,25 @@
+You are an experimental subject. Locate a recovery snapshot from the evidence below.
+Use only this evidence. You are not given a reference answer.
+
+Task: identify the latest safe recorded snapshot before damaging file activity began.
+Name that snapshot using whichever locator the evidence provides: an interval index,
+a snapshot name, or an ISO-8601 UTC timestamp. An interval locator means its start
+snapshot. A timestamp means the latest visible snapshot recorded at or before it.
+The interval catalogue lists the visible snapshot names and their recorded times.
+Refuse only when the evidence does not let you localise a safe snapshot.
+
+Evidence:
+<<<FL_CONTENT
+{"intervals":[{"interval":19,"from_snapshot":"s_20260929T200425911Z_000019","to_snapshot":"s_20260929T200428224Z_000020","from_time":"2026-09-29T20:04:26.400187Z","to_time":"2026-09-29T20:04:28.765826Z"},{"interval":27,"from_snapshot":"s_20260929T200441892Z_000027","to_snapshot":"s_20260929T200444321Z_000028","from_time":"2026-09-29T20:04:42.536119Z","to_time":"2026-09-29T20:04:45.297738Z"},{"interval":38,"from_snapshot":"s_20260929T200503794Z_000038","to_snapshot":"s_20260929T200506461Z_000039","from_time":"2026-09-29T20:05:04.461301Z","to_time":"2026-09-29T20:05:07.473900Z"}]}
+Interval 19 [2026-09-29T20:04:26.400187Z .. 2026-09-29T20:04:28.765826Z]: 2 files deleted, 1 modified, 2 created under "workspace/build"; anomaly 1.189189189189189.
+Interval 27 [2026-09-29T20:04:42.536119Z .. 2026-09-29T20:04:45.297738Z]: 2 files deleted, 1 modified, 2 created under "workspace/build"; anomaly 1.189189189189189.
+Interval 38 [2026-09-29T20:05:04.461301Z .. 2026-09-29T20:05:07.473900Z]: 13 files deleted, 2 modified, 1 created under "workspace/records"; anomaly 12.18918918918919.
+FL_CONTENT>>>
+
+End with exactly one tagged line and nothing after it, in one of these two forms:
+COORDINATE: <locator> [<locator> ...]
+where each locator is one of interval=<N>, snapshot=<name>, ts=<ISO-8601 UTC>
+REFUSAL: <reason>
+
+All locators that resolve must identify the same snapshot. Timestamps must include Z or +00:00.
+If the evidence does not localise a safe snapshot, refuse. Do not guess.

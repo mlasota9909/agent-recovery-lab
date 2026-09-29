@@ -1,0 +1,18 @@
+To identify the latest safe recorded snapshot before damaging file activity began, we examine the provided intervals and the associated file changes.
+
+1.  **Interval 19**: Contains changes (M, -, +) in `workspace/build`.
+2.  **Interval 27**: Contains changes (M, -, +) in `workspace/build`.
+3.  **Interval 38**: Contains changes (M, -, +) in `workspace`, `workspace/build`, `workspace/config/settings.txt`, and `workspace/records`.
+
+The damaging activity (deletions and modifications) begins in **Interval 19**. Therefore, the latest safe snapshot is the one immediately preceding the start of Interval 19.
+
+Looking at the interval catalogue:
+- Interval 19 starts at `s_20260929T200425911Z_000019`.
+- The snapshot immediately before the start of the first damaging interval (Interval 19) is not explicitly named as a "to_snapshot" of a previous interval in the provided evidence, but the task asks to identify the latest safe recorded snapshot. 
+
+Wait, looking closer at the evidence:
+The first interval with changes is Interval 19. The snapshot that represents the state *before* Interval 19's changes is the `from_snapshot` of Interval 19.
+
+The `from_snapshot` for Interval 19 is `s_20260929T200425911Z_000019`.
+
+COORDINATE: snapshot=s_20260929T200425911Z_000019

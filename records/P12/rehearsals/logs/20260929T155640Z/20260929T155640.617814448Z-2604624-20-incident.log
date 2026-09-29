@@ -1,0 +1,5 @@
+Stage 20-incident; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T155640Z/20260929T155640.617814448Z-2604624-20-incident.log
+run incident failed: bin/lab-generate-p7 exited 1: assertion failed: SC-01 seed: psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.56599" failed: No such file or directory
+	Is the server running locally and accepting connections on that socket?
+
+Exit 1 at 2026-09-29T15:56:41Z

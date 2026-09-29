@@ -1,0 +1,7 @@
+Stage dry-run; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T160222Z/20260929T160222.284773760Z-2612852-dry-run.log
+Stage 20-incident; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T160222Z/20260929T160222.331693432Z-2612867-20-incident.log
+run incident failed: bin/lab-generate-p7 exited 2: assertion failed: lab-slot --create: psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.56599" failed: No such file or directory
+	Is the server running locally and accepting connections on that socket?
+
+Exit 1 at 2026-09-29T16:02:25Z
+Exit 1 at 2026-09-29T16:02:25Z

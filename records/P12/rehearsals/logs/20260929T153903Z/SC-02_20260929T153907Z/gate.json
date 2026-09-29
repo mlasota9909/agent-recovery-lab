@@ -1,0 +1,159 @@
+{
+  "capture": {
+    "captured_pairs": 17,
+    "differences": 50,
+    "fingerprints": {
+      "s_20260929T153931264Z_000001": 14,
+      "s_20260929T153940836Z_000002": 14,
+      "s_20260929T153942803Z_000003": 14,
+      "s_20260929T153944820Z_000004": 14,
+      "s_20260929T153946797Z_000005": 14,
+      "s_20260929T153948782Z_000006": 14,
+      "s_20260929T153951428Z_000007": 16,
+      "s_20260929T153953425Z_000008": 17,
+      "s_20260929T153955076Z_000009": 17,
+      "s_20260929T153956908Z_000010": 17,
+      "s_20260929T153958550Z_000011": 17,
+      "s_20260929T153959791Z_000012": 17,
+      "s_20260929T154002420Z_000013": 5,
+      "s_20260929T154004102Z_000014": 5,
+      "s_20260929T154006057Z_000015": 5,
+      "s_20260929T154008224Z_000016": 5,
+      "s_20260929T154009500Z_000017": 5,
+      "s_20260929T154010943Z_000018": 5
+    },
+    "ledger_C7": {
+      "errors": [],
+      "fs_ops": 41,
+      "invisible": 0,
+      "matched": 41,
+      "ok": true,
+      "rule": "C-7",
+      "unexplained_captured": 0,
+      "unexplained_captured_detail": [],
+      "unmatched_recorded": 0,
+      "unmatched_recorded_detail": [],
+      "vacuous": false
+    },
+    "pure_C7": {
+      "errors": [],
+      "fs_ops": 41,
+      "invisible": 0,
+      "matched": 41,
+      "ok": true,
+      "rule": "C-7",
+      "unexplained_captured": 0,
+      "unexplained_captured_detail": [],
+      "unmatched_recorded": 0,
+      "unmatched_recorded_detail": [],
+      "vacuous": false
+    },
+    "snapshots": 18
+  },
+  "controls": {
+    "controls": [
+      {
+        "actual": "correct",
+        "control": "reference",
+        "expected": "correct",
+        "ok": true,
+        "snapshot": "s_20260929T153959791Z_000012",
+        "summary": {
+          "damage_files_retained": 0,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "checked_damage_remains",
+        "control": "first_post_damage",
+        "expected": "checked_damage_remains",
+        "ok": true,
+        "snapshot": "s_20260929T154002420Z_000013",
+        "summary": {
+          "damage_files_retained": 13,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "extra_work_lost",
+        "control": "earliest",
+        "expected": "extra_work_lost",
+        "ok": true,
+        "snapshot": "s_20260929T153931264Z_000001",
+        "summary": {
+          "damage_files_retained": 0,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 14,
+          "legit_rows_lost": 68,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "checked_damage_remains",
+        "control": "tampered",
+        "expected": "checked_damage_remains",
+        "ok": true,
+        "snapshot": "s_20260929T153959791Z_000012",
+        "summary": {
+          "damage_files_retained": 1,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 1,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      }
+    ],
+    "incident_id": "SC-02_20260929T153907Z",
+    "ok": true,
+    "schema_version": 1
+  },
+  "evidence_sha256": {
+    "fl-controls.json": "e53253c52acd3d8739ac7102655e52f8dd0782f6d8bb9635e6289cdc397ff0bf",
+    "fl-intervals.json": "383befff863905f9bd3d0e4fa7913c2ce95bd71deaf09afc651ca97962d60f45",
+    "fl-reference.json": "803db1c47549da44551ec3a433e7ca504e4558d61bde89c50c5efb73c6f87114",
+    "fs-workload.jsonl": "cdd79567fc7eee07d23d7f00e5a839e7c6fa98d69627095e6e9dcdec8f4dea3e",
+    "fs_diff.tsv": "a68aab76a97e0740e52c51b0fbeb0f92e47ea20555aa1b3c82aeb76d8d377e71",
+    "fs_hashes.tsv": "65f480acf290fb08da9eabca82307f26da85acdcc3c3eca68f5d804d2bd890c2",
+    "generate-commands.json": "f209ba7353fcfd05033fd9da5c673f9cfe609bd56682f91c610885fb526e5277",
+    "incident.json": "190363accc322ecc7ba0335fb4a5b99cff4685b58851e0905c76097109207a78",
+    "injection.json": "95f335e18c64968feefce40997e481f951ab379983abf46bddb92d576f4e9fef",
+    "oracle-manifest.json": "242d20d8d34d7e45a15f47a3673b8a1893a20824662620670cb9b52c6efab0cf",
+    "snapshots.json": "2b6814664e21835ea22bbd69812079e86ead0aeead1e3507b50052b700415a3e",
+    "workload-manifest.jsonl": "8f02b05d12ebc5577b59ab5f22d10eb48dafefb684363512dcdb0344a1173e5a"
+  },
+  "finished_utc": "2026-09-29T15:42:58.007496Z",
+  "incident_id": "SC-02_20260929T153907Z",
+  "inputs": [
+    {
+      "content_sha256": "0252e486ff2ee47f485748b7ae9b213adab6ca2b0a7c5b4130dff602fc06c142",
+      "guard": true,
+      "representation": "R0"
+    },
+    {
+      "content_sha256": "960fa47b507cb4ee4c067998d869ada10532c37ab64cf031be4ef0829b476ed8",
+      "guard": true,
+      "representation": "R1"
+    },
+    {
+      "content_sha256": "af75dbc066d468d754cff8566d26547a3a207f058127bc8faf83369515c0a0a6",
+      "guard": true,
+      "representation": "R2"
+    }
+  ],
+  "ok": true,
+  "started_utc": "2026-09-29T15:41:15.272835Z"
+}

@@ -1,0 +1,5 @@
+Stage dry-run; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T195655Z/20260929T195655.256893058Z-2934780-dry-run.log
+Stage 20-incident; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T195655Z/20260929T195655.314076603Z-2934795-20-incident.log
+run incident failed: an incident is already open: SC-02_20260929T195134Z
+Exit 1 at 2026-09-29T19:56:55Z
+Exit 1 at 2026-09-29T19:56:55Z

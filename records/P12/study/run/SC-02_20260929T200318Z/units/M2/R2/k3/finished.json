@@ -1,0 +1,55 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20260929T200425911Z_000019",
+        "token": "snapshot=s_20260929T200425911Z_000019"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20260929T200425911Z_000019"
+  },
+  "call_started_utc": "2026-09-29T20:14:16.243062Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T200318Z/fl-checks/s_20260929T200425911Z_000019.json",
+    "report_sha256": "48978e9c5d15db4ceed39911e7567509424c548a2c14cc12f084e6e8bab889fe",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 60,
+      "legit_rows_lost": 248,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "extra_work_lost"
+  },
+  "completion_tokens": 762,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T20:14:40.884795Z",
+  "freeze_sha256": "34b08ad1bb046b854489dc1dbe6fca96145298352bbec9c0b33a209b400ad8f2",
+  "incident_id": "SC-02_20260929T200318Z",
+  "latency_ms": 24155,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-02_20260929T200318Z/units/M2/R2/k3/model.json",
+  "model_record_sha256": "2b5fc901fa264e36ebd29b75fe74dc1b2e5590cc499ba154c117f318bcfe492c",
+  "outcome": "accepted",
+  "prompt_sha256": "31a93206b325d65f4745c828554486822ad8cae1bb01066cb2c418134da5c97d",
+  "prompt_tokens": 975,
+  "raw_completion": "To identify the latest safe recorded snapshot before damaging file activity began, we examine the intervals:\n\n1.  **Interval 19**: Contains file deletions and modifications (anomaly detected).\n2.  **Interval 27**: Contains file deletions and modifications (anomaly detected).\n3.  **Interval 38**: Contains significant file deletions (anomaly detected).\n\nThe damaging activity begins at Interval 19. To find the latest safe snapshot *before* this activity, we look for the snapshot immediately preceding the start of Interval 19.\n\nThe evidence provides the following interval catalogue:\n- Interval 19 starts at `s_20260929T200425911Z_000019` (Time: 2026-09-29T20:04:26.400187Z).\n- Interval 27 starts at `s_20260929T200441892Z_000027`.\n- Interval 38 starts at `s_20260929T200503794Z_000038`.\n\nThe task asks for the latest safe recorded snapshot before damaging activity began. Since the first recorded damaging activity is in Interval 19, the latest safe snapshot is the one that exists before the start of Interval 19. However, the evidence only lists the snapshots that *define* the intervals (the `from_snapshot` and `to_snapshot` for the intervals provided). \n\nLooking at the `from_snapshot` of the first interval containing damage (Interval 19), the snapshot `s_20260929T200425911Z_000019` is the start of the damage. The snapshot immediately preceding it is not explicitly named in the interval list, but the instructions state: \"A timestamp means the latest visible snapshot recorded at or before it.\"\n\nSince the first interval of damage starts at `2026-09-29T20:04:26.400187Z`, any snapshot recorded before this time is safe. However, the evidence does not provide a snapshot name or timestamp for a point in time *before* the first interval's start. \n\nWait, re-reading: \"Identify the latest safe recorded snapshot before damaging file activity began.\"\nThe damaging activity starts at Interval 19. The `from_snapshot` of Interval 19 is `s_20260929T200425911Z_000019`. The snapshot *before* the damage would be the `to_snapshot` of the interval preceding Interval 19. Since no interval precedes 19, we cannot locate a snapshot from the provided evidence that is \"before\" the damage.\n\nHowever, if the \"damaging activity\" refers to the *content* of the intervals, and we must use the provided evidence to locate a snapshot:\nThe first interval with damage is Interval 19. The snapshot that marks the state *before* the changes in Interval 19 is the `from_snapshot` of Interval 19 (as the `from_snapshot` represents the state at the start of the interval).\n\nCOORDINATE: snapshot=s_20260929T200425911Z_000019",
+  "replicate_index": 3,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|3"
+}

@@ -1,0 +1,6 @@
+{
+  "locators": [],
+  "outcome": "rule_rejection",
+  "reason": "expected exactly one COORDINATE line and no REFUSAL line, or one REFUSAL line; found 0 COORDINATE and 2 REFUSAL",
+  "snapshot": null
+}

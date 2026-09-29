@@ -1,0 +1,4 @@
+Dry run 5 (first with the 60 s baseline): the snapshot loop stopped the incident
+after 41 ticks because accumulated schedule lag exceeded one period (mean gap
+2.07 s, longest 3.3 s between snapshots). No gap exceeded the two-period limit.
+Fixed by letting a late tick move the schedule; the incident was not gated.

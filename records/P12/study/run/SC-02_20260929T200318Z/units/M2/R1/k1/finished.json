@@ -1,0 +1,55 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20260929T200503794Z_000038",
+        "token": "snapshot=s_20260929T200503794Z_000038"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20260929T200503794Z_000038"
+  },
+  "call_started_utc": "2026-09-29T20:12:14.377736Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T200318Z/fl-checks/s_20260929T200503794Z_000038.json",
+    "report_sha256": "0f372cb746c01d116797c92fe701626b4e983eb108ba51477ae5feb81697186c",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 0,
+      "legit_rows_lost": 0,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "correct"
+  },
+  "completion_tokens": 376,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T20:12:26.894062Z",
+  "freeze_sha256": "34b08ad1bb046b854489dc1dbe6fca96145298352bbec9c0b33a209b400ad8f2",
+  "incident_id": "SC-02_20260929T200318Z",
+  "latency_ms": 12041,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-02_20260929T200318Z/units/M2/R1/k1/model.json",
+  "model_record_sha256": "66f558b02556ae913598d038b1056d09248114176f2f84a1e5e343e0cbe43966",
+  "outcome": "accepted",
+  "prompt_sha256": "1d24370250ec22c47b39ab29ec629492347f9e348ab6df05156b2c1c9b26ddb1",
+  "prompt_tokens": 863,
+  "raw_completion": "To identify the latest safe recorded snapshot before damaging file activity began, we examine the provided evidence.\n\nThe evidence contains three intervals:\n1. Interval 19: `last_safe_snapshot` is `s_20260929T200425911Z_000019`.\n2. Interval 27: `last_safe_snapshot` is `s_20260929T200441892Z_000027`.\n3. Interval 38: `last_safe_snapshot` is `s_20260929T200503794Z_000038`.\n\nThe anomaly score for interval 38 is significantly higher (12.189...) compared to the others (~1.189...), indicating that damaging file activity (the anomaly) is associated with interval 38. The task is to find the latest safe recorded snapshot before this activity began. \n\nThe last safe snapshot recorded before the anomaly in interval 38 is the `last_safe_snapshot` associated with the interval immediately preceding the anomaly, or the `last_safe_snapshot` of the interval where the anomaly is detected. Looking at the data, interval 38 is the one with the high anomaly score. The `last_safe_snapshot` for interval 38 is `s_20260929T200503794Z_000038`.\n\nCOORDINATE: snapshot=s_20260929T200503794Z_000038",
+  "replicate_index": 1,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|1"
+}

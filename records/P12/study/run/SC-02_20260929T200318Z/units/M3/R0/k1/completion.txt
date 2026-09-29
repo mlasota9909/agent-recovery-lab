@@ -1,0 +1,18 @@
+
+
+Looking at the evidence, I need to identify when damaging file activity began.
+
+**Identifying damaging activity:**
+- Interval 38 shows mass deletions of the entire `workspace/records` directory (f1.txt through f12.txt, and `nested`). This is the most clearly damaging activity in the evidence.
+
+**Locating the safe snapshot before that activity:**
+- The `from_snapshot` of interval 38 is `s_20260929T200503794Z_000038`, recorded at `2026-09-29T20:05:04.461301Z`. This is the last safe state before the records were deleted.
+
+**Verifying all locators resolve to the same snapshot:**
+- `interval=38` → start snapshot = `s_20260929T200503794Z_000038`
+- `snapshot=s_20260929T200503794Z_000038` → itself
+- `ts=2026-09-29T20:05:04.461301Z` → latest visible snapshot at or before that time = `s_20260929T200503794Z_000038`
+
+All three resolve to the same snapshot.
+
+COORDINATE: interval=38 snapshot=s_20260929T200503794Z_000038 ts=2026-09-29T20:05:04.461301Z

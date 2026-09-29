@@ -1,0 +1,4 @@
+Stage 20-incident; log /home/mlasota/agent-recovery-lab/logs/run/20260929T155358.528677327Z-2600443-20-incident.log
+run incident failed: incident generation was already attempted; inspect logs/run/incident-started.json
+Exit 1 at 2026-09-29T15:53:58Z
+exit=1

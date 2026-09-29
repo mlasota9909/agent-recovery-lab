@@ -1,0 +1,16 @@
+
+
+Looking at the evidence, I need to identify when "damaging file activity" began.
+
+**Analysis of intervals:**
+- Interval 19: 2 files deleted, 1 modified, 2 created (anomaly ≈ 1.19) — moderate, routine activity.
+- Interval 27: 2 files deleted, 1 modified, 2 created (anomaly ≈ 1.19) — same moderate level.
+- Interval 38: **13 files deleted**, 2 modified, 1 created under "workspace/records" (anomaly ≈ 12.19) — a sharp escalation in destructive activity.
+
+The jump from 2 deletions (anomaly ~1.19) to 13 deletions (anomaly ~12.19) marks the onset of damaging file activity at interval 38.
+
+The latest safe snapshot **before** that damaging activity is the `from_snapshot` of interval 38, i.e., the state recorded just before the 13 files were deleted.
+
+That snapshot is: `s_20260929T200503794Z_000038`
+
+COORDINATE: snapshot=s_20260929T200503794Z_000038

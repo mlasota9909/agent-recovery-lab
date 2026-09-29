@@ -1,0 +1,33 @@
+To identify the latest safe recorded snapshot before damaging file activity began, we examine the intervals:
+
+1.  **Interval 19**: Contains file deletions and modifications (anomaly detected).
+2.  **Interval 27**: Contains file deletions and modifications (anomaly detected).
+3.  **Interval 38**: Contains significant file deletions (anomaly detected).
+
+The damaging activity begins at Interval 19. To find the latest safe snapshot *before* this activity, we look for the snapshot immediately preceding the start of Interval 19.
+
+The evidence provides the following interval catalogue:
+- Interval 19 starts at `s_20260929T200425911Z_000019` (from_snapshot).
+- Interval 27 starts at `s_20260929T200441892Z_000027`.
+- Interval 38 starts at `s_20260929T200503794Z_000038`.
+
+The damaging activity starts at the beginning of Interval 19. The snapshot that represents the state of the system immediately before the start of Interval 19 is the `to_snapshot` of the interval preceding it. However, no interval preceding Interval 19 is provided in the evidence. 
+
+Wait, looking closer at the instructions: "identify the latest safe recorded snapshot before damaging file activity began." 
+The first instance of damaging activity is Interval 19. The snapshot that represents the state *before* Interval 19 starts is the `to_snapshot` of the interval ending at or before the start of Interval 19. Since no such interval is listed, we cannot determine the state before Interval 19.
+
+However, if the task implies finding the latest snapshot *within the provided evidence* that is safe, there are no safe intervals listed, as all provided intervals (19, 27, 38) contain anomalies/damaging activity.
+
+Re-evaluating: The prompt asks to "Locate a recovery snapshot from the evidence below." If the first damaging activity is in Interval 19, the snapshot immediately before it is the `to_snapshot` of the interval ending at `2026-09-29T20:04:26.400187Z`. This information is not in the evidence.
+
+Wait, looking at the `from_snapshot` of Interval 19: `s_20260929T200425911Z_000019`. This is the snapshot that *is* the start of the damaging activity. The snapshot *before* it is not provided.
+
+Let's check if any interval is "safe".
+Interval 19: anomaly 1.18...
+Interval 27: anomaly 1.18...
+Interval 38: anomaly 12.18...
+All provided intervals contain damaging activity.
+
+If the evidence does not let me localise a safe snapshot, I must refuse.
+
+REFUSAL: The evidence only contains intervals with damaging file activity; no safe snapshot is provided.

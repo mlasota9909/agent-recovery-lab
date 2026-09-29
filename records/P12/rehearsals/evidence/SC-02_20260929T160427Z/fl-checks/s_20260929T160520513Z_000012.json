@@ -1,0 +1,113 @@
+{
+  "cache_key": "fabc71bb49837c387adf3e941827d20c14cda0593033a12e9f16da0aa814cff7",
+  "coordinate": {
+    "lsn": "0/13000778",
+    "lsn_int": 318769016,
+    "snapshot": "s_20260929T160520513Z_000012",
+    "time": "2026-09-29T16:05:21.249727Z"
+  },
+  "db_validation": {
+    "content_hash": "e88373ec829f5a0e91a07f51c86ff3ae1ef40cebe41d33f261e47560cf09149d",
+    "ddl": [
+      "id bigint",
+      "v text"
+    ],
+    "ddl_match": true,
+    "missing_destroyed_row_ids": [],
+    "missing_legitimate_row_ids": [],
+    "p3_analytical_legit_rows_lost": 56,
+    "relation": "p2_probe",
+    "row_count": 404
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20260929T160520513Z_000012",
+    "files_compared": 17,
+    "files_matched": 17,
+    "mismatches": []
+  },
+  "incident_id": "SC-02_20260929T160427Z",
+  "probe_sha256": null,
+  "restore": {
+    "coordinate": {
+      "lsn": "0/13000778",
+      "lsn_int": 318769016,
+      "snapshot": "s_20260929T160520513Z_000012",
+      "time": "2026-09-29T16:05:21.249727Z"
+    },
+    "db_restore": {
+      "beyond": {
+        "absent_ok": true,
+        "inject_lsn_int": 335550696,
+        "kind": "before_inject",
+        "present": null,
+        "row_id": null
+      },
+      "beyond_target_absent": true,
+      "changed": true,
+      "in_recovery": true,
+      "incident": "SC-02_20260929T160427Z",
+      "ok": true,
+      "replay_lsn": "0/14000000",
+      "replay_lsn_int": 335544320,
+      "restore_target": {
+        "fs_clone_dataset": null,
+        "pgdata_dataset": "labpool/sandbox/SC-02_20260929T160427Z/fl_fabc71bb49837c387adf3e94/pgdata",
+        "sandbox_pgdata": "/labpool/sandbox/SC-02_20260929T160427Z/fl_fabc71bb49837c387adf3e94/pgdata/data",
+        "sandbox_port": 55602,
+        "tag": "fl_fabc71bb49837c387adf3e94"
+      },
+      "snapshot": "s_20260929T160520513Z_000012",
+      "state": "created",
+      "stopped_at_target": true,
+      "target_lsn": "0/13000778",
+      "target_lsn_int": 318769016,
+      "victim_zfs_after": "872be8ea56b0efa4798c740e140398e2ac3363223891bb1a1bbad00ccba55262",
+      "victim_zfs_before": "872be8ea56b0efa4798c740e140398e2ac3363223891bb1a1bbad00ccba55262",
+      "wal_segments": [
+        "000000010000000000000011",
+        "000000010000000000000012",
+        "000000010000000000000013",
+        "000000010000000000000014"
+      ]
+    },
+    "fs_restore": {
+      "changed": true,
+      "clone_dataset": "labpool/sandbox/SC-02_20260929T160427Z/fl_fabc71bb49837c387adf3e94/protected",
+      "mountpoint": "/labpool/sandbox/SC-02_20260929T160427Z/fl_fabc71bb49837c387adf3e94/protected",
+      "ok": true,
+      "snapshot": "s_20260929T160520513Z_000012",
+      "snapshot_list_unchanged": true,
+      "victim_zfs_after": "872be8ea56b0efa4798c740e140398e2ac3363223891bb1a1bbad00ccba55262",
+      "victim_zfs_before": "872be8ea56b0efa4798c740e140398e2ac3363223891bb1a1bbad00ccba55262"
+    },
+    "incident_id": "SC-02_20260929T160427Z",
+    "restore_of": "fl_fabc71bb49837c387adf3e94",
+    "restore_target": {
+      "fs_clone_dataset": "labpool/sandbox/SC-02_20260929T160427Z/fl_fabc71bb49837c387adf3e94/protected",
+      "fs_mount": "/labpool/sandbox/SC-02_20260929T160427Z/fl_fabc71bb49837c387adf3e94/protected",
+      "pgdata_dataset": "labpool/sandbox/SC-02_20260929T160427Z/fl_fabc71bb49837c387adf3e94/pgdata",
+      "sandbox_pgdata": "/labpool/sandbox/SC-02_20260929T160427Z/fl_fabc71bb49837c387adf3e94/pgdata/data",
+      "sandbox_port": 55602,
+      "tag": "fl_fabc71bb49837c387adf3e94"
+    }
+  },
+  "restore_of": "fl_fabc71bb49837c387adf3e94",
+  "restore_ok": true,
+  "schema_version": 2,
+  "source_sha256": {
+    "fl-reference.json": "63a32cec8a5ec3f933a65dec323179af6dee0b227b5a0e192e593434d095a95b",
+    "oracle-manifest.json": "e86760ab33fb8a3a86fee5a0944b23aee9c567dbcc1335dc75f94746be6b09a5",
+    "workload-manifest.jsonl": "6efe9b1aef0032b363e14ddb914e6cdaea5001c98cd1c4030cfa08ff6e1085af"
+  },
+  "summary": {
+    "damage_files_retained": 0,
+    "damage_rows_retained": 0,
+    "legit_file_operations_lost": 0,
+    "legit_rows_lost": 0,
+    "probe_mismatches": 0,
+    "schema_damage": 0,
+    "schema_loss": 0
+  },
+  "tampered_control": false,
+  "verdict_v2": "correct"
+}

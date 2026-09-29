@@ -1,0 +1,10 @@
+{
+  "content": "{\"intervals\":[{\"interval\":6,\"from_snapshot\":\"s_20260929T153948782Z_000006\",\"to_snapshot\":\"s_20260929T153951428Z_000007\",\"from_time\":\"2026-09-29T15:39:49.319694Z\",\"to_time\":\"2026-09-29T15:39:52.278185Z\"},{\"interval\":8,\"from_snapshot\":\"s_20260929T153953425Z_000008\",\"to_snapshot\":\"s_20260929T153955076Z_000009\",\"from_time\":\"2026-09-29T15:39:53.961008Z\",\"to_time\":\"2026-09-29T15:39:55.526070Z\"},{\"interval\":12,\"from_snapshot\":\"s_20260929T153959791Z_000012\",\"to_snapshot\":\"s_20260929T154002420Z_000013\",\"from_time\":\"2026-09-29T15:40:00.465184Z\",\"to_time\":\"2026-09-29T15:40:02.902265Z\"}]}\nInterval 6 [2026-09-29T15:39:49.319694Z .. 2026-09-29T15:39:52.278185Z]: 0 files deleted, 0 modified, 2 created under \"sc02-work/build\"; anomaly 1.4545454545454546.\nInterval 8 [2026-09-29T15:39:53.961008Z .. 2026-09-29T15:39:55.526070Z]: 1 files deleted, 1 modified, 1 created under \"sc02-work/build\"; anomaly 0.7272727272727273.\nInterval 12 [2026-09-29T15:40:00.465184Z .. 2026-09-29T15:40:02.902265Z]: 13 files deleted, 2 modified, 1 created under \"sc02-work/victim\"; anomaly 12.727272727272727.",
+  "incident_id": "SC-02_20260929T153907Z",
+  "params": {
+    "top_n": 3
+  },
+  "probe_id": "FL-intervals",
+  "representation": "R2",
+  "telemetry": {}
+}

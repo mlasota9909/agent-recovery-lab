@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "bin/lab-generate-p7",
+    "--scenario",
+    "SC-02"
+  ],
+  "exit_code": 1,
+  "stderr": "assertion failed: SC-01 seed: psql: error: connection to server on socket \"/var/run/postgresql/.s.PGSQL.56599\" failed: No such file or directory\n\tIs the server running locally and accepting connections on that socket?\n",
+  "stdout": ""
+}

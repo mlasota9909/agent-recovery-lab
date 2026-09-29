@@ -1,0 +1,2 @@
+Dry run 6: refused before allocation because dry run 5 had left its failed
+incident open. That incident was then closed with bin/lab-incident --close.

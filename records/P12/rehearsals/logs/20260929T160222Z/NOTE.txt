@@ -1,0 +1,4 @@
+Dry run 3: seeding and cleanup ran on the site cluster; the slot step then
+failed because lab-slot selected the previous incident's runtime from
+archive/current. No incident was allocated. Fixed by the site scope before the
+next dry run.

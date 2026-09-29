@@ -1,0 +1,1228 @@
+{
+  "coordinate": {
+    "lsn": "0/30000C58",
+    "lsn_int": 805309528,
+    "snapshot": "s_20260929T200503794Z_000038",
+    "time": "2026-09-29T20:05:04.461301Z"
+  },
+  "damage_manifest": [
+    {
+      "path": "workspace/config/settings.txt",
+      "sha256": "da68f54607d5f5644954096ce1597c006c5bb9f2497e07441bf064b81003ef8a",
+      "target_indices": [
+        0
+      ]
+    },
+    {
+      "path": "workspace/records/f1.txt",
+      "sha256": "edbb9fe7e7bcf4e367111b3763d2aa04e9dc6bdfbce1f1e87d1894e91ffcc35f",
+      "target_indices": [
+        1,
+        14
+      ]
+    },
+    {
+      "path": "workspace/records/f10.txt",
+      "sha256": "1f0ebf6944a1d5fda615948f7197b5bd64c67965a6286e9c4d7f6b314921afa3",
+      "target_indices": [
+        2,
+        14
+      ]
+    },
+    {
+      "path": "workspace/records/f11.txt",
+      "sha256": "17cc61265c8e69fb8174bd338856dab919a21ac391b7f9d9010c5a6f51a3fc9f",
+      "target_indices": [
+        3,
+        14
+      ]
+    },
+    {
+      "path": "workspace/records/f12.txt",
+      "sha256": "5bfa2c45f3c764bf5535373233e10e96d1368956022615bc77366f2c6e196197",
+      "target_indices": [
+        4,
+        14
+      ]
+    },
+    {
+      "path": "workspace/records/f2.txt",
+      "sha256": "ecd079a9a9e6e3f23da0e11d556d02a18e59de211e4a724b64e930a828e6b3f9",
+      "target_indices": [
+        5,
+        14
+      ]
+    },
+    {
+      "path": "workspace/records/f3.txt",
+      "sha256": "7ea93c7d95afac4058cabcf3f78ecc59290f51f7791375965ebe2752e86343f5",
+      "target_indices": [
+        6,
+        14
+      ]
+    },
+    {
+      "path": "workspace/records/f4.txt",
+      "sha256": "b457b4bebe883c74b9301eb8004f6f7b32ae8bb0729a93a2d488588725c5a955",
+      "target_indices": [
+        7,
+        14
+      ]
+    },
+    {
+      "path": "workspace/records/f5.txt",
+      "sha256": "f5f99dd5018cbda5f13d00197b893206583a53006c74c8c94d954c25990ae8e0",
+      "target_indices": [
+        8,
+        14
+      ]
+    },
+    {
+      "path": "workspace/records/f6.txt",
+      "sha256": "e90f937eef0664ec55c1e290a054685621afc27999868068e13f81d730eacd65",
+      "target_indices": [
+        9,
+        14
+      ]
+    },
+    {
+      "path": "workspace/records/f7.txt",
+      "sha256": "7015bfd6ffe4da35e294f7e5fd74a66a4cf4709050d3b8fd1020ba49e348e174",
+      "target_indices": [
+        10,
+        14
+      ]
+    },
+    {
+      "path": "workspace/records/f8.txt",
+      "sha256": "53fbc9f5067b3e3257642b89d169c1994f42261605c855758c58132ee9645a9c",
+      "target_indices": [
+        11,
+        14
+      ]
+    },
+    {
+      "path": "workspace/records/f9.txt",
+      "sha256": "358fb7d1f436786be30588bb3133a8a1bd594b12ceb66cef8f9c789f58c3f7c2",
+      "target_indices": [
+        12,
+        14
+      ]
+    }
+  ],
+  "incident_id": "SC-02_20260929T200318Z",
+  "legitimate_intervals": [
+    {
+      "from_snapshot": "s_20260929T200341978Z_000001",
+      "interval": 1,
+      "operations": [],
+      "to_snapshot": "s_20260929T200351897Z_000002",
+      "visible_operations": 0
+    },
+    {
+      "from_snapshot": "s_20260929T200351897Z_000002",
+      "interval": 2,
+      "operations": [],
+      "to_snapshot": "s_20260929T200354037Z_000003",
+      "visible_operations": 0
+    },
+    {
+      "from_snapshot": "s_20260929T200354037Z_000003",
+      "interval": 3,
+      "operations": [],
+      "to_snapshot": "s_20260929T200355949Z_000004",
+      "visible_operations": 0
+    },
+    {
+      "from_snapshot": "s_20260929T200355949Z_000004",
+      "interval": 4,
+      "operations": [],
+      "to_snapshot": "s_20260929T200357975Z_000005",
+      "visible_operations": 0
+    },
+    {
+      "from_snapshot": "s_20260929T200357975Z_000005",
+      "interval": 5,
+      "operations": [],
+      "to_snapshot": "s_20260929T200359913Z_000006",
+      "visible_operations": 0
+    },
+    {
+      "from_snapshot": "s_20260929T200359913Z_000006",
+      "interval": 6,
+      "operations": [
+        {
+          "op_index": 0,
+          "operation": "create",
+          "path": "workspace/build/t0.txt",
+          "ts": "2026-09-29T20:04:01.153726Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200401912Z_000007",
+      "visible_operations": 1
+    },
+    {
+      "from_snapshot": "s_20260929T200401912Z_000007",
+      "interval": 7,
+      "operations": [
+        {
+          "op_index": 1,
+          "operation": "create",
+          "path": "workspace/build/t1.txt",
+          "ts": "2026-09-29T20:04:03.173029Z",
+          "visible": true
+        },
+        {
+          "op_index": 2,
+          "operation": "append",
+          "path": "workspace/build/t0.txt",
+          "ts": "2026-09-29T20:04:03.173094Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200403892Z_000008",
+      "visible_operations": 2
+    },
+    {
+      "from_snapshot": "s_20260929T200403892Z_000008",
+      "interval": 8,
+      "operations": [
+        {
+          "op_index": 3,
+          "operation": "create",
+          "path": "workspace/build/t2.txt",
+          "ts": "2026-09-29T20:04:05.172328Z",
+          "visible": true
+        },
+        {
+          "op_index": 4,
+          "operation": "append",
+          "path": "workspace/build/t1.txt",
+          "ts": "2026-09-29T20:04:05.172393Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200405880Z_000009",
+      "visible_operations": 2
+    },
+    {
+      "from_snapshot": "s_20260929T200405880Z_000009",
+      "interval": 9,
+      "operations": [
+        {
+          "op_index": 5,
+          "operation": "create",
+          "path": "workspace/build/t3.txt",
+          "ts": "2026-09-29T20:04:07.195096Z",
+          "visible": true
+        },
+        {
+          "op_index": 6,
+          "operation": "append",
+          "path": "workspace/build/t2.txt",
+          "ts": "2026-09-29T20:04:07.195153Z",
+          "visible": true
+        },
+        {
+          "op_index": 7,
+          "operation": "delete",
+          "path": "workspace/build/t0.txt",
+          "ts": "2026-09-29T20:04:07.195172Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200407904Z_000010",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200407904Z_000010",
+      "interval": 10,
+      "operations": [
+        {
+          "op_index": 8,
+          "operation": "create",
+          "path": "workspace/build/t4.txt",
+          "ts": "2026-09-29T20:04:09.509014Z",
+          "visible": true
+        },
+        {
+          "op_index": 9,
+          "operation": "append",
+          "path": "workspace/build/t3.txt",
+          "ts": "2026-09-29T20:04:09.509072Z",
+          "visible": true
+        },
+        {
+          "op_index": 10,
+          "operation": "delete",
+          "path": "workspace/build/t1.txt",
+          "ts": "2026-09-29T20:04:09.509086Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200409991Z_000011",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200409991Z_000011",
+      "interval": 11,
+      "operations": [
+        {
+          "op_index": 11,
+          "operation": "create",
+          "path": "workspace/build/t5.txt",
+          "ts": "2026-09-29T20:04:11.304963Z",
+          "visible": true
+        },
+        {
+          "op_index": 12,
+          "operation": "append",
+          "path": "workspace/build/t4.txt",
+          "ts": "2026-09-29T20:04:11.305010Z",
+          "visible": true
+        },
+        {
+          "op_index": 13,
+          "operation": "delete",
+          "path": "workspace/build/t2.txt",
+          "ts": "2026-09-29T20:04:11.305027Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200412019Z_000012",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200412019Z_000012",
+      "interval": 12,
+      "operations": [
+        {
+          "op_index": 14,
+          "operation": "create",
+          "path": "workspace/build/t6.txt",
+          "ts": "2026-09-29T20:04:13.356442Z",
+          "visible": true
+        },
+        {
+          "op_index": 15,
+          "operation": "append",
+          "path": "workspace/build/t5.txt",
+          "ts": "2026-09-29T20:04:13.356507Z",
+          "visible": true
+        },
+        {
+          "op_index": 16,
+          "operation": "delete",
+          "path": "workspace/build/t3.txt",
+          "ts": "2026-09-29T20:04:13.356526Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200414014Z_000013",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200414014Z_000013",
+      "interval": 13,
+      "operations": [
+        {
+          "op_index": 17,
+          "operation": "create",
+          "path": "workspace/build/t7.txt",
+          "ts": "2026-09-29T20:04:15.421171Z",
+          "visible": true
+        },
+        {
+          "op_index": 18,
+          "operation": "append",
+          "path": "workspace/build/t6.txt",
+          "ts": "2026-09-29T20:04:15.421219Z",
+          "visible": true
+        },
+        {
+          "op_index": 19,
+          "operation": "delete",
+          "path": "workspace/build/t4.txt",
+          "ts": "2026-09-29T20:04:15.421228Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200416061Z_000014",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200416061Z_000014",
+      "interval": 14,
+      "operations": [
+        {
+          "op_index": 20,
+          "operation": "create",
+          "path": "workspace/build/t8.txt",
+          "ts": "2026-09-29T20:04:17.283595Z",
+          "visible": true
+        },
+        {
+          "op_index": 21,
+          "operation": "append",
+          "path": "workspace/build/t7.txt",
+          "ts": "2026-09-29T20:04:17.283669Z",
+          "visible": true
+        },
+        {
+          "op_index": 22,
+          "operation": "delete",
+          "path": "workspace/build/t5.txt",
+          "ts": "2026-09-29T20:04:17.283680Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200417929Z_000015",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200417929Z_000015",
+      "interval": 15,
+      "operations": [
+        {
+          "op_index": 23,
+          "operation": "create",
+          "path": "workspace/build/t9.txt",
+          "ts": "2026-09-29T20:04:19.246192Z",
+          "visible": true
+        },
+        {
+          "op_index": 24,
+          "operation": "append",
+          "path": "workspace/build/t8.txt",
+          "ts": "2026-09-29T20:04:19.246273Z",
+          "visible": true
+        },
+        {
+          "op_index": 25,
+          "operation": "delete",
+          "path": "workspace/build/t6.txt",
+          "ts": "2026-09-29T20:04:19.246297Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200419969Z_000016",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200419969Z_000016",
+      "interval": 16,
+      "operations": [
+        {
+          "op_index": 26,
+          "operation": "create",
+          "path": "workspace/build/t10.txt",
+          "ts": "2026-09-29T20:04:21.233786Z",
+          "visible": true
+        },
+        {
+          "op_index": 27,
+          "operation": "append",
+          "path": "workspace/build/t9.txt",
+          "ts": "2026-09-29T20:04:21.233876Z",
+          "visible": true
+        },
+        {
+          "op_index": 28,
+          "operation": "delete",
+          "path": "workspace/build/t7.txt",
+          "ts": "2026-09-29T20:04:21.233909Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200421914Z_000017",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200421914Z_000017",
+      "interval": 17,
+      "operations": [
+        {
+          "op_index": 29,
+          "operation": "create",
+          "path": "workspace/build/t11.txt",
+          "ts": "2026-09-29T20:04:23.282019Z",
+          "visible": true
+        },
+        {
+          "op_index": 30,
+          "operation": "append",
+          "path": "workspace/build/t10.txt",
+          "ts": "2026-09-29T20:04:23.282093Z",
+          "visible": true
+        },
+        {
+          "op_index": 31,
+          "operation": "delete",
+          "path": "workspace/build/t8.txt",
+          "ts": "2026-09-29T20:04:23.282115Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200423922Z_000018",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200423922Z_000018",
+      "interval": 18,
+      "operations": [
+        {
+          "op_index": 32,
+          "operation": "create",
+          "path": "workspace/build/t12.txt",
+          "ts": "2026-09-29T20:04:25.219891Z",
+          "visible": true
+        },
+        {
+          "op_index": 33,
+          "operation": "append",
+          "path": "workspace/build/t11.txt",
+          "ts": "2026-09-29T20:04:25.219943Z",
+          "visible": true
+        },
+        {
+          "op_index": 34,
+          "operation": "delete",
+          "path": "workspace/build/t9.txt",
+          "ts": "2026-09-29T20:04:25.219955Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200425911Z_000019",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200425911Z_000019",
+      "interval": 19,
+      "operations": [
+        {
+          "op_index": 35,
+          "operation": "create",
+          "path": "workspace/build/t13.txt",
+          "ts": "2026-09-29T20:04:27.043582Z",
+          "visible": true
+        },
+        {
+          "op_index": 36,
+          "operation": "append",
+          "path": "workspace/build/t12.txt",
+          "ts": "2026-09-29T20:04:27.043681Z",
+          "visible": true
+        },
+        {
+          "op_index": 37,
+          "operation": "delete",
+          "path": "workspace/build/t10.txt",
+          "ts": "2026-09-29T20:04:27.043698Z",
+          "visible": true
+        },
+        {
+          "op_index": 38,
+          "operation": "create",
+          "path": "workspace/build/t14.txt",
+          "ts": "2026-09-29T20:04:27.792945Z",
+          "visible": true
+        },
+        {
+          "op_index": 39,
+          "operation": "append",
+          "path": "workspace/build/t13.txt",
+          "ts": "2026-09-29T20:04:27.793028Z",
+          "visible": true
+        },
+        {
+          "op_index": 40,
+          "operation": "delete",
+          "path": "workspace/build/t11.txt",
+          "ts": "2026-09-29T20:04:27.793046Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200428224Z_000020",
+      "visible_operations": 6
+    },
+    {
+      "from_snapshot": "s_20260929T200428224Z_000020",
+      "interval": 20,
+      "operations": [
+        {
+          "op_index": 41,
+          "operation": "create",
+          "path": "workspace/build/t15.txt",
+          "ts": "2026-09-29T20:04:29.541081Z",
+          "visible": true
+        },
+        {
+          "op_index": 42,
+          "operation": "append",
+          "path": "workspace/build/t14.txt",
+          "ts": "2026-09-29T20:04:29.541149Z",
+          "visible": true
+        },
+        {
+          "op_index": 43,
+          "operation": "delete",
+          "path": "workspace/build/t12.txt",
+          "ts": "2026-09-29T20:04:29.541167Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200430109Z_000021",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200430109Z_000021",
+      "interval": 21,
+      "operations": [
+        {
+          "op_index": 44,
+          "operation": "create",
+          "path": "workspace/build/t16.txt",
+          "ts": "2026-09-29T20:04:31.342582Z",
+          "visible": true
+        },
+        {
+          "op_index": 45,
+          "operation": "append",
+          "path": "workspace/build/t15.txt",
+          "ts": "2026-09-29T20:04:31.342684Z",
+          "visible": true
+        },
+        {
+          "op_index": 46,
+          "operation": "delete",
+          "path": "workspace/build/t13.txt",
+          "ts": "2026-09-29T20:04:31.342712Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200431980Z_000022",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200431980Z_000022",
+      "interval": 22,
+      "operations": [
+        {
+          "op_index": 47,
+          "operation": "create",
+          "path": "workspace/build/t17.txt",
+          "ts": "2026-09-29T20:04:33.330219Z",
+          "visible": true
+        },
+        {
+          "op_index": 48,
+          "operation": "append",
+          "path": "workspace/build/t16.txt",
+          "ts": "2026-09-29T20:04:33.330310Z",
+          "visible": true
+        },
+        {
+          "op_index": 49,
+          "operation": "delete",
+          "path": "workspace/build/t14.txt",
+          "ts": "2026-09-29T20:04:33.330342Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200433969Z_000023",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200433969Z_000023",
+      "interval": 23,
+      "operations": [
+        {
+          "op_index": 50,
+          "operation": "create",
+          "path": "workspace/build/t18.txt",
+          "ts": "2026-09-29T20:04:35.542931Z",
+          "visible": true
+        },
+        {
+          "op_index": 51,
+          "operation": "append",
+          "path": "workspace/build/t17.txt",
+          "ts": "2026-09-29T20:04:35.543011Z",
+          "visible": true
+        },
+        {
+          "op_index": 52,
+          "operation": "delete",
+          "path": "workspace/build/t15.txt",
+          "ts": "2026-09-29T20:04:35.543041Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200435954Z_000024",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200435954Z_000024",
+      "interval": 24,
+      "operations": [
+        {
+          "op_index": 53,
+          "operation": "create",
+          "path": "workspace/build/t19.txt",
+          "ts": "2026-09-29T20:04:37.201207Z",
+          "visible": true
+        },
+        {
+          "op_index": 54,
+          "operation": "append",
+          "path": "workspace/build/t18.txt",
+          "ts": "2026-09-29T20:04:37.201281Z",
+          "visible": true
+        },
+        {
+          "op_index": 55,
+          "operation": "delete",
+          "path": "workspace/build/t16.txt",
+          "ts": "2026-09-29T20:04:37.201309Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200437881Z_000025",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200437881Z_000025",
+      "interval": 25,
+      "operations": [
+        {
+          "op_index": 56,
+          "operation": "create",
+          "path": "workspace/build/t20.txt",
+          "ts": "2026-09-29T20:04:39.646425Z",
+          "visible": true
+        },
+        {
+          "op_index": 57,
+          "operation": "append",
+          "path": "workspace/build/t19.txt",
+          "ts": "2026-09-29T20:04:39.646501Z",
+          "visible": true
+        },
+        {
+          "op_index": 58,
+          "operation": "delete",
+          "path": "workspace/build/t17.txt",
+          "ts": "2026-09-29T20:04:39.646538Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200439995Z_000026",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200439995Z_000026",
+      "interval": 26,
+      "operations": [
+        {
+          "op_index": 59,
+          "operation": "create",
+          "path": "workspace/build/t21.txt",
+          "ts": "2026-09-29T20:04:41.407335Z",
+          "visible": true
+        },
+        {
+          "op_index": 60,
+          "operation": "append",
+          "path": "workspace/build/t20.txt",
+          "ts": "2026-09-29T20:04:41.407411Z",
+          "visible": true
+        },
+        {
+          "op_index": 61,
+          "operation": "delete",
+          "path": "workspace/build/t18.txt",
+          "ts": "2026-09-29T20:04:41.407431Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200441892Z_000027",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200441892Z_000027",
+      "interval": 27,
+      "operations": [
+        {
+          "op_index": 62,
+          "operation": "create",
+          "path": "workspace/build/t22.txt",
+          "ts": "2026-09-29T20:04:43.084120Z",
+          "visible": true
+        },
+        {
+          "op_index": 63,
+          "operation": "append",
+          "path": "workspace/build/t21.txt",
+          "ts": "2026-09-29T20:04:43.084191Z",
+          "visible": true
+        },
+        {
+          "op_index": 64,
+          "operation": "delete",
+          "path": "workspace/build/t19.txt",
+          "ts": "2026-09-29T20:04:43.084207Z",
+          "visible": true
+        },
+        {
+          "op_index": 65,
+          "operation": "create",
+          "path": "workspace/build/t23.txt",
+          "ts": "2026-09-29T20:04:43.846816Z",
+          "visible": true
+        },
+        {
+          "op_index": 66,
+          "operation": "append",
+          "path": "workspace/build/t22.txt",
+          "ts": "2026-09-29T20:04:43.846861Z",
+          "visible": true
+        },
+        {
+          "op_index": 67,
+          "operation": "delete",
+          "path": "workspace/build/t20.txt",
+          "ts": "2026-09-29T20:04:43.846874Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200444321Z_000028",
+      "visible_operations": 6
+    },
+    {
+      "from_snapshot": "s_20260929T200444321Z_000028",
+      "interval": 28,
+      "operations": [
+        {
+          "op_index": 68,
+          "operation": "create",
+          "path": "workspace/build/t24.txt",
+          "ts": "2026-09-29T20:04:45.913550Z",
+          "visible": true
+        },
+        {
+          "op_index": 69,
+          "operation": "append",
+          "path": "workspace/build/t23.txt",
+          "ts": "2026-09-29T20:04:45.913649Z",
+          "visible": true
+        },
+        {
+          "op_index": 70,
+          "operation": "delete",
+          "path": "workspace/build/t21.txt",
+          "ts": "2026-09-29T20:04:45.913675Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200446360Z_000029",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200446360Z_000029",
+      "interval": 29,
+      "operations": [
+        {
+          "op_index": 71,
+          "operation": "create",
+          "path": "workspace/build/t25.txt",
+          "ts": "2026-09-29T20:04:48.031133Z",
+          "visible": true
+        },
+        {
+          "op_index": 72,
+          "operation": "append",
+          "path": "workspace/build/t24.txt",
+          "ts": "2026-09-29T20:04:48.031217Z",
+          "visible": true
+        },
+        {
+          "op_index": 73,
+          "operation": "delete",
+          "path": "workspace/build/t22.txt",
+          "ts": "2026-09-29T20:04:48.031245Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200448434Z_000030",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200448434Z_000030",
+      "interval": 30,
+      "operations": [
+        {
+          "op_index": 74,
+          "operation": "create",
+          "path": "workspace/build/t26.txt",
+          "ts": "2026-09-29T20:04:50.304278Z",
+          "visible": true
+        },
+        {
+          "op_index": 75,
+          "operation": "append",
+          "path": "workspace/build/t25.txt",
+          "ts": "2026-09-29T20:04:50.304344Z",
+          "visible": true
+        },
+        {
+          "op_index": 76,
+          "operation": "delete",
+          "path": "workspace/build/t23.txt",
+          "ts": "2026-09-29T20:04:50.304362Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200450703Z_000031",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200450703Z_000031",
+      "interval": 31,
+      "operations": [
+        {
+          "op_index": 77,
+          "operation": "create",
+          "path": "workspace/build/t27.txt",
+          "ts": "2026-09-29T20:04:51.962465Z",
+          "visible": true
+        },
+        {
+          "op_index": 78,
+          "operation": "append",
+          "path": "workspace/build/t26.txt",
+          "ts": "2026-09-29T20:04:51.962528Z",
+          "visible": true
+        },
+        {
+          "op_index": 79,
+          "operation": "delete",
+          "path": "workspace/build/t24.txt",
+          "ts": "2026-09-29T20:04:51.962551Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200452369Z_000032",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200452369Z_000032",
+      "interval": 32,
+      "operations": [
+        {
+          "op_index": 80,
+          "operation": "create",
+          "path": "workspace/build/t28.txt",
+          "ts": "2026-09-29T20:04:53.693846Z",
+          "visible": true
+        },
+        {
+          "op_index": 81,
+          "operation": "append",
+          "path": "workspace/build/t27.txt",
+          "ts": "2026-09-29T20:04:53.693906Z",
+          "visible": true
+        },
+        {
+          "op_index": 82,
+          "operation": "delete",
+          "path": "workspace/build/t25.txt",
+          "ts": "2026-09-29T20:04:53.693930Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200454394Z_000033",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200454394Z_000033",
+      "interval": 33,
+      "operations": [
+        {
+          "op_index": 83,
+          "operation": "create",
+          "path": "workspace/build/t29.txt",
+          "ts": "2026-09-29T20:04:55.794561Z",
+          "visible": true
+        },
+        {
+          "op_index": 84,
+          "operation": "append",
+          "path": "workspace/build/t28.txt",
+          "ts": "2026-09-29T20:04:55.794650Z",
+          "visible": true
+        },
+        {
+          "op_index": 85,
+          "operation": "delete",
+          "path": "workspace/build/t26.txt",
+          "ts": "2026-09-29T20:04:55.794669Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200456392Z_000034",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200456392Z_000034",
+      "interval": 34,
+      "operations": [
+        {
+          "op_index": 86,
+          "operation": "create",
+          "path": "workspace/build/t30.txt",
+          "ts": "2026-09-29T20:04:57.642552Z",
+          "visible": true
+        },
+        {
+          "op_index": 87,
+          "operation": "append",
+          "path": "workspace/build/t29.txt",
+          "ts": "2026-09-29T20:04:57.642629Z",
+          "visible": true
+        },
+        {
+          "op_index": 88,
+          "operation": "delete",
+          "path": "workspace/build/t27.txt",
+          "ts": "2026-09-29T20:04:57.642646Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200458379Z_000035",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200458379Z_000035",
+      "interval": 35,
+      "operations": [
+        {
+          "op_index": 89,
+          "operation": "create",
+          "path": "workspace/build/t31.txt",
+          "ts": "2026-09-29T20:04:59.705022Z",
+          "visible": true
+        },
+        {
+          "op_index": 90,
+          "operation": "append",
+          "path": "workspace/build/t30.txt",
+          "ts": "2026-09-29T20:04:59.705117Z",
+          "visible": true
+        },
+        {
+          "op_index": 91,
+          "operation": "delete",
+          "path": "workspace/build/t28.txt",
+          "ts": "2026-09-29T20:04:59.705137Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200500375Z_000036",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200500375Z_000036",
+      "interval": 36,
+      "operations": [
+        {
+          "op_index": 92,
+          "operation": "create",
+          "path": "workspace/build/t32.txt",
+          "ts": "2026-09-29T20:05:01.815814Z",
+          "visible": true
+        },
+        {
+          "op_index": 93,
+          "operation": "append",
+          "path": "workspace/build/t31.txt",
+          "ts": "2026-09-29T20:05:01.815903Z",
+          "visible": true
+        },
+        {
+          "op_index": 94,
+          "operation": "delete",
+          "path": "workspace/build/t29.txt",
+          "ts": "2026-09-29T20:05:01.815927Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200502455Z_000037",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200502455Z_000037",
+      "interval": 37,
+      "operations": [],
+      "to_snapshot": "s_20260929T200503794Z_000038",
+      "visible_operations": 0
+    },
+    {
+      "from_snapshot": "s_20260929T200503794Z_000038",
+      "interval": 38,
+      "operations": [
+        {
+          "op_index": 95,
+          "operation": "create",
+          "path": "workspace/build/t33.txt",
+          "ts": "2026-09-29T20:05:05.211510Z",
+          "visible": true
+        },
+        {
+          "op_index": 96,
+          "operation": "append",
+          "path": "workspace/build/t32.txt",
+          "ts": "2026-09-29T20:05:05.211573Z",
+          "visible": true
+        },
+        {
+          "op_index": 97,
+          "operation": "delete",
+          "path": "workspace/build/t30.txt",
+          "ts": "2026-09-29T20:05:05.211618Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200506461Z_000039",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200506461Z_000039",
+      "interval": 39,
+      "operations": [
+        {
+          "op_index": 113,
+          "operation": "create",
+          "path": "workspace/build/t34.txt",
+          "ts": "2026-09-29T20:05:08.213514Z",
+          "visible": true
+        },
+        {
+          "op_index": 114,
+          "operation": "append",
+          "path": "workspace/build/t33.txt",
+          "ts": "2026-09-29T20:05:08.213567Z",
+          "visible": true
+        },
+        {
+          "op_index": 115,
+          "operation": "delete",
+          "path": "workspace/build/t31.txt",
+          "ts": "2026-09-29T20:05:08.213576Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200508564Z_000040",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200508564Z_000040",
+      "interval": 40,
+      "operations": [
+        {
+          "op_index": 116,
+          "operation": "create",
+          "path": "workspace/build/t35.txt",
+          "ts": "2026-09-29T20:05:09.731150Z",
+          "visible": true
+        },
+        {
+          "op_index": 117,
+          "operation": "append",
+          "path": "workspace/build/t34.txt",
+          "ts": "2026-09-29T20:05:09.731212Z",
+          "visible": true
+        },
+        {
+          "op_index": 118,
+          "operation": "delete",
+          "path": "workspace/build/t32.txt",
+          "ts": "2026-09-29T20:05:09.731228Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200510400Z_000041",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200510400Z_000041",
+      "interval": 41,
+      "operations": [
+        {
+          "op_index": 119,
+          "operation": "create",
+          "path": "workspace/build/t36.txt",
+          "ts": "2026-09-29T20:05:11.903538Z",
+          "visible": true
+        },
+        {
+          "op_index": 120,
+          "operation": "append",
+          "path": "workspace/build/t35.txt",
+          "ts": "2026-09-29T20:05:11.903629Z",
+          "visible": true
+        },
+        {
+          "op_index": 121,
+          "operation": "delete",
+          "path": "workspace/build/t33.txt",
+          "ts": "2026-09-29T20:05:11.903648Z",
+          "visible": true
+        }
+      ],
+      "to_snapshot": "s_20260929T200512392Z_000042",
+      "visible_operations": 3
+    },
+    {
+      "from_snapshot": "s_20260929T200512392Z_000042",
+      "interval": 42,
+      "operations": [],
+      "to_snapshot": "s_20260929T200514159Z_000043",
+      "visible_operations": 0
+    },
+    {
+      "from_snapshot": "s_20260929T200514159Z_000043",
+      "interval": 43,
+      "operations": [],
+      "to_snapshot": "s_20260929T200515776Z_000044",
+      "visible_operations": 0
+    }
+  ],
+  "reference_fingerprints": {
+    "workspace/build/t30.txt": "4cc75fdc293cb2f201e0db700027ede48b3a3d80b3ca16fdb435b3ea8e768198",
+    "workspace/build/t31.txt": "0b406eddf0eedaf3583e375ad90f3990f68e3f9a410d5c8522145a358278d7c8",
+    "workspace/build/t32.txt": "98baf1a749669af5ec0e98650f60250af065770b05c539f6f649d035f087caf1",
+    "workspace/config/README": "00d75b5176b48ccc71d91bcc1d7b90fc2820429b1629b77fd1d5f4c5dcee4f6d",
+    "workspace/config/settings.txt": "da68f54607d5f5644954096ce1597c006c5bb9f2497e07441bf064b81003ef8a",
+    "workspace/records/f1.txt": "edbb9fe7e7bcf4e367111b3763d2aa04e9dc6bdfbce1f1e87d1894e91ffcc35f",
+    "workspace/records/f10.txt": "1f0ebf6944a1d5fda615948f7197b5bd64c67965a6286e9c4d7f6b314921afa3",
+    "workspace/records/f11.txt": "17cc61265c8e69fb8174bd338856dab919a21ac391b7f9d9010c5a6f51a3fc9f",
+    "workspace/records/f12.txt": "5bfa2c45f3c764bf5535373233e10e96d1368956022615bc77366f2c6e196197",
+    "workspace/records/f2.txt": "ecd079a9a9e6e3f23da0e11d556d02a18e59de211e4a724b64e930a828e6b3f9",
+    "workspace/records/f3.txt": "7ea93c7d95afac4058cabcf3f78ecc59290f51f7791375965ebe2752e86343f5",
+    "workspace/records/f4.txt": "b457b4bebe883c74b9301eb8004f6f7b32ae8bb0729a93a2d488588725c5a955",
+    "workspace/records/f5.txt": "f5f99dd5018cbda5f13d00197b893206583a53006c74c8c94d954c25990ae8e0",
+    "workspace/records/f6.txt": "e90f937eef0664ec55c1e290a054685621afc27999868068e13f81d730eacd65",
+    "workspace/records/f7.txt": "7015bfd6ffe4da35e294f7e5fd74a66a4cf4709050d3b8fd1020ba49e348e174",
+    "workspace/records/f8.txt": "53fbc9f5067b3e3257642b89d169c1994f42261605c855758c58132ee9645a9c",
+    "workspace/records/f9.txt": "358fb7d1f436786be30588bb3133a8a1bd594b12ceb66cef8f9c789f58c3f7c2"
+  },
+  "schema_version": 1,
+  "source_sha256": {
+    "fs-workload.jsonl": "417eb9ff2519c72c119540134a5fc79314936295c00766204a571b59ad553a62",
+    "fs_diff.tsv": "ff6db009c26a157ca78826501f1ade23e03494f8f92f8c5f1385f52c945654a3",
+    "fs_hashes.tsv": "aa46cfe2a8adad92a926226cfd0634a6b56801f62cbe3ea04c9a6c100ddb5e9a",
+    "injection.json": "d565ca124683aa36b273a133bc6170e6d371841e24ca675244fd95e275db839b",
+    "snapshots.json": "57fac41e5020a5ef58af8cfd0d6a3b1bb9793040873b44f296d1e5ab717bad4e"
+  }
+}

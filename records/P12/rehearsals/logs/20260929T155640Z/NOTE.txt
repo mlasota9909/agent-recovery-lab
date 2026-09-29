@@ -1,0 +1,4 @@
+Dry run 2: failed at the first generator step (seeding) before any incident was
+allocated. The generator had selected the runtime of the previous incident
+(archive/current), whose cluster had been stopped by a restore during the
+previous gate. Both causes were fixed before the next dry run.

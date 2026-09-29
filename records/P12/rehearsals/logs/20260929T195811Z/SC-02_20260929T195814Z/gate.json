@@ -1,0 +1,185 @@
+{
+  "capture": {
+    "captured_pairs": 43,
+    "differences": 154,
+    "fingerprints": {
+      "s_20260929T195837815Z_000001": 14,
+      "s_20260929T195847807Z_000002": 14,
+      "s_20260929T195849812Z_000003": 14,
+      "s_20260929T195851814Z_000004": 14,
+      "s_20260929T195853815Z_000005": 14,
+      "s_20260929T195855836Z_000006": 14,
+      "s_20260929T195857883Z_000007": 15,
+      "s_20260929T195859840Z_000008": 16,
+      "s_20260929T195901829Z_000009": 17,
+      "s_20260929T195903929Z_000010": 17,
+      "s_20260929T195905889Z_000011": 17,
+      "s_20260929T195907883Z_000012": 17,
+      "s_20260929T195909794Z_000013": 17,
+      "s_20260929T195911925Z_000014": 17,
+      "s_20260929T195913862Z_000015": 17,
+      "s_20260929T195915964Z_000016": 17,
+      "s_20260929T195917915Z_000017": 17,
+      "s_20260929T195919910Z_000018": 17,
+      "s_20260929T195922276Z_000019": 17,
+      "s_20260929T195924058Z_000020": 17,
+      "s_20260929T195925878Z_000021": 17,
+      "s_20260929T195927817Z_000022": 17,
+      "s_20260929T195929802Z_000023": 17,
+      "s_20260929T195932202Z_000024": 17,
+      "s_20260929T195934813Z_000025": 17,
+      "s_20260929T195936368Z_000026": 17,
+      "s_20260929T195938277Z_000027": 17,
+      "s_20260929T195940243Z_000028": 17,
+      "s_20260929T195942253Z_000029": 17,
+      "s_20260929T195944392Z_000030": 17,
+      "s_20260929T195946250Z_000031": 17,
+      "s_20260929T195948355Z_000032": 17,
+      "s_20260929T195950133Z_000033": 17,
+      "s_20260929T195952127Z_000034": 17,
+      "s_20260929T195954598Z_000035": 17,
+      "s_20260929T195956293Z_000036": 17,
+      "s_20260929T195958009Z_000037": 17,
+      "s_20260929T195959529Z_000038": 17,
+      "s_20260929T200002201Z_000039": 5,
+      "s_20260929T200004600Z_000040": 5,
+      "s_20260929T200006454Z_000041": 5,
+      "s_20260929T200008201Z_000042": 5,
+      "s_20260929T200009665Z_000043": 5,
+      "s_20260929T200011019Z_000044": 5
+    },
+    "ledger_C7": {
+      "errors": [],
+      "fs_ops": 119,
+      "invisible": 0,
+      "matched": 119,
+      "ok": true,
+      "rule": "C-7",
+      "unexplained_captured": 0,
+      "unexplained_captured_detail": [],
+      "unmatched_recorded": 0,
+      "unmatched_recorded_detail": [],
+      "vacuous": false
+    },
+    "pure_C7": {
+      "errors": [],
+      "fs_ops": 119,
+      "invisible": 0,
+      "matched": 119,
+      "ok": true,
+      "rule": "C-7",
+      "unexplained_captured": 0,
+      "unexplained_captured_detail": [],
+      "unmatched_recorded": 0,
+      "unmatched_recorded_detail": [],
+      "vacuous": false
+    },
+    "snapshots": 44
+  },
+  "controls": {
+    "controls": [
+      {
+        "actual": "correct",
+        "control": "reference",
+        "expected": "correct",
+        "ok": true,
+        "snapshot": "s_20260929T195959529Z_000038",
+        "summary": {
+          "damage_files_retained": 0,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "checked_damage_remains",
+        "control": "first_post_damage",
+        "expected": "checked_damage_remains",
+        "ok": true,
+        "snapshot": "s_20260929T200002201Z_000039",
+        "summary": {
+          "damage_files_retained": 13,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "extra_work_lost",
+        "control": "earliest",
+        "expected": "extra_work_lost",
+        "ok": true,
+        "snapshot": "s_20260929T195837815Z_000001",
+        "summary": {
+          "damage_files_retained": 0,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 92,
+          "legit_rows_lost": 428,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "checked_damage_remains",
+        "control": "tampered",
+        "expected": "checked_damage_remains",
+        "ok": true,
+        "snapshot": "s_20260929T195959529Z_000038",
+        "summary": {
+          "damage_files_retained": 1,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 1,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      }
+    ],
+    "incident_id": "SC-02_20260929T195814Z",
+    "ok": true,
+    "schema_version": 1
+  },
+  "evidence_sha256": {
+    "fl-controls.json": "c30a72461e801dcb50a1e5014548e44775882385e97c51558d2a689159ab3464",
+    "fl-intervals.json": "63de45b7ba4829bc7c7bfaa52feac32a1d7e1212835735f53ebe38a783522b0e",
+    "fl-reference.json": "6672e754b77a495b3cca9d8b6e1c94db0abeaa1f7e72fca616f6628570e9027c",
+    "fs-workload.jsonl": "339acde444713f2aae91ebd9e2e598ff9ab419800b4ed18f0ba2585afb84796b",
+    "fs_diff.tsv": "65a054df7d5796cbe59b3b0fc63209aef22586f66b72ea5bf70cf89aba1f0ba0",
+    "fs_hashes.tsv": "0fec16aeb7e678b799613542099b5dd67a7f8e4870f43c2880b12610c399d7f8",
+    "generate-commands.json": "c2645df0103cfa87af236075f1aa72461dca19d95b460b38a621784e9fd69f82",
+    "incident.json": "dd1b8280bb5780ad6ba274f0f32fc09de3c6154a78249d8c07ddb1402265c7ed",
+    "injection.json": "a96284383c38fa610ee556efc46c4ddf5cb3099fa7c1cf94f714932373c0eaa8",
+    "oracle-manifest.json": "8796368c25211cff7c8a0fb6210c07aac15280973fc015aad5bf355d32bdfd62",
+    "snapshots.json": "d0ac00986a2a5cbad8a27426e3fdf0782f770f7735d22ae6f35d9ed021c10750",
+    "workload-manifest.jsonl": "2261a74923c057597c2085466cf21410bbbb3e85085d82fe078c3c52553852c5"
+  },
+  "finished_utc": "2026-09-29T20:02:51.089090Z",
+  "incident_id": "SC-02_20260929T195814Z",
+  "inputs": [
+    {
+      "content_sha256": "655aa30c8858d10d8f616c2e4936d2f32e475cba040fbb86aa133f088cff3cbd",
+      "guard": true,
+      "representation": "R0"
+    },
+    {
+      "content_sha256": "f2e2b44dc06cd5658f4880afa28e9531c9841a14703c0776e9eb17301bcc9197",
+      "guard": true,
+      "representation": "R1"
+    },
+    {
+      "content_sha256": "7676c7041de28bf267fb92dfb5d69bbd6928d760e0db6bb0ec1f7012a8304ed9",
+      "guard": true,
+      "representation": "R2"
+    }
+  ],
+  "ok": true,
+  "started_utc": "2026-09-29T20:01:13.087681Z"
+}

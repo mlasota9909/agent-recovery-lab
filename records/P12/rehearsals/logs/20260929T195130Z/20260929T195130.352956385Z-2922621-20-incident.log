@@ -1,0 +1,4 @@
+Stage 20-incident; log /home/mlasota/agent-recovery-lab/logs/dry-run/20260929T195130Z/20260929T195130.352956385Z-2922621-20-incident.log
+run incident failed: bin/lab-generate-p7 exited 1: snapshot loop missed its deadline by more than one period
+
+Exit 1 at 2026-09-29T19:53:32Z

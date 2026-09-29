@@ -30,3 +30,6 @@ __pycache__/
 *.key
 .pgpass
 wal_append_ed25519*
+
+# The checkout's own freeze; a study of record keeps its freeze under records/.
+/sdd/specs/P12-file-level-test/contracts/frozen-hashes.json

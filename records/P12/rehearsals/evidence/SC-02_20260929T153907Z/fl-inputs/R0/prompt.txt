@@ -1,0 +1,49 @@
+You are an experimental subject. Locate a recovery snapshot from the evidence below.
+Use only this evidence. You are not given a reference answer.
+
+Task: identify the latest safe recorded snapshot before damaging file activity began.
+Name that snapshot using whichever locator the evidence provides: an interval index,
+a snapshot name, or an ISO-8601 UTC timestamp. An interval locator means its start
+snapshot. A timestamp means the latest visible snapshot recorded at or before it.
+The interval catalogue lists the visible snapshot names and their recorded times.
+Refuse only when the evidence does not let you localise a safe snapshot.
+
+Evidence:
+<<<FL_CONTENT
+{"intervals":[{"interval":6,"from_snapshot":"s_20260929T153948782Z_000006","to_snapshot":"s_20260929T153951428Z_000007","from_time":"2026-09-29T15:39:49.319694Z","to_time":"2026-09-29T15:39:52.278185Z"},{"interval":8,"from_snapshot":"s_20260929T153953425Z_000008","to_snapshot":"s_20260929T153955076Z_000009","from_time":"2026-09-29T15:39:53.961008Z","to_time":"2026-09-29T15:39:55.526070Z"},{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z"}]}
+{"interval":6,"from_snapshot":"s_20260929T153948782Z_000006","to_snapshot":"s_20260929T153951428Z_000007","from_time":"2026-09-29T15:39:49.319694Z","to_time":"2026-09-29T15:39:52.278185Z","change_type":"M","path":"sc02-work/build"}
+{"interval":6,"from_snapshot":"s_20260929T153948782Z_000006","to_snapshot":"s_20260929T153951428Z_000007","from_time":"2026-09-29T15:39:49.319694Z","to_time":"2026-09-29T15:39:52.278185Z","change_type":"+","path":"sc02-work/build/t0.txt"}
+{"interval":6,"from_snapshot":"s_20260929T153948782Z_000006","to_snapshot":"s_20260929T153951428Z_000007","from_time":"2026-09-29T15:39:49.319694Z","to_time":"2026-09-29T15:39:52.278185Z","change_type":"+","path":"sc02-work/build/t1.txt"}
+{"interval":8,"from_snapshot":"s_20260929T153953425Z_000008","to_snapshot":"s_20260929T153955076Z_000009","from_time":"2026-09-29T15:39:53.961008Z","to_time":"2026-09-29T15:39:55.526070Z","change_type":"M","path":"sc02-work/build"}
+{"interval":8,"from_snapshot":"s_20260929T153953425Z_000008","to_snapshot":"s_20260929T153955076Z_000009","from_time":"2026-09-29T15:39:53.961008Z","to_time":"2026-09-29T15:39:55.526070Z","change_type":"-","path":"sc02-work/build/t0.txt"}
+{"interval":8,"from_snapshot":"s_20260929T153953425Z_000008","to_snapshot":"s_20260929T153955076Z_000009","from_time":"2026-09-29T15:39:53.961008Z","to_time":"2026-09-29T15:39:55.526070Z","change_type":"M","path":"sc02-work/build/t2.txt"}
+{"interval":8,"from_snapshot":"s_20260929T153953425Z_000008","to_snapshot":"s_20260929T153955076Z_000009","from_time":"2026-09-29T15:39:53.961008Z","to_time":"2026-09-29T15:39:55.526070Z","change_type":"+","path":"sc02-work/build/t3.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"M","path":"sc02-work"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"M","path":"sc02-work/build"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/build/t3.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"M","path":"sc02-work/build/t5.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"+","path":"sc02-work/build/t6.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"M","path":"sc02-work/keep/will-overwrite.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f1.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f10.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f11.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f12.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f2.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f3.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f4.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f5.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f6.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f7.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f8.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/f9.txt"}
+{"interval":12,"from_snapshot":"s_20260929T153959791Z_000012","to_snapshot":"s_20260929T154002420Z_000013","from_time":"2026-09-29T15:40:00.465184Z","to_time":"2026-09-29T15:40:02.902265Z","change_type":"-","path":"sc02-work/victim/nested"}
+FL_CONTENT>>>
+
+End with exactly one tagged line and nothing after it, in one of these two forms:
+COORDINATE: <locator> [<locator> ...]
+where each locator is one of interval=<N>, snapshot=<name>, ts=<ISO-8601 UTC>
+REFUSAL: <reason>
+
+All locators that resolve must identify the same snapshot. Timestamps must include Z or +00:00.
+If the evidence does not localise a safe snapshot, refuse. Do not guess.

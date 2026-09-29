@@ -1,0 +1,55 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20260929T200503794Z_000038",
+        "token": "snapshot=s_20260929T200503794Z_000038"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20260929T200503794Z_000038"
+  },
+  "call_started_utc": "2026-09-29T20:16:51.119183Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T200318Z/fl-checks/s_20260929T200503794Z_000038.json",
+    "report_sha256": "0f372cb746c01d116797c92fe701626b4e983eb108ba51477ae5feb81697186c",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 0,
+      "legit_rows_lost": 0,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "correct"
+  },
+  "completion_tokens": 1514,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-09-29T20:17:02.052920Z",
+  "freeze_sha256": "34b08ad1bb046b854489dc1dbe6fca96145298352bbec9c0b33a209b400ad8f2",
+  "incident_id": "SC-02_20260929T200318Z",
+  "latency_ms": 10433,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-02_20260929T200318Z/units/M3/R2/k0/model.json",
+  "model_record_sha256": "f907154ce5c772c32daf67f1fdf2717592d546dae00e2c1cf63fc0ef10c2ef3d",
+  "outcome": "accepted",
+  "prompt_sha256": "31a93206b325d65f4745c828554486822ad8cae1bb01066cb2c418134da5c97d",
+  "prompt_tokens": 958,
+  "raw_completion": "\n\nLooking at the evidence, I need to identify when \"damaging file activity\" began.\n\n**Analysis of intervals:**\n- Interval 19: 2 files deleted, 1 modified, 2 created (anomaly \u2248 1.19) \u2014 moderate, routine activity.\n- Interval 27: 2 files deleted, 1 modified, 2 created (anomaly \u2248 1.19) \u2014 same moderate level.\n- Interval 38: **13 files deleted**, 2 modified, 1 created under \"workspace/records\" (anomaly \u2248 12.19) \u2014 a sharp escalation in destructive activity.\n\nThe jump from 2 deletions (anomaly ~1.19) to 13 deletions (anomaly ~12.19) marks the onset of damaging file activity at interval 38.\n\nThe latest safe snapshot **before** that damaging activity is the `from_snapshot` of interval 38, i.e., the state recorded just before the 13 files were deleted.\n\nThat snapshot is: `s_20260929T200503794Z_000038`\n\nCOORDINATE: snapshot=s_20260929T200503794Z_000038",
+  "replicate_index": 0,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|0"
+}

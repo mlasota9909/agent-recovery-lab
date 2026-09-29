@@ -1,0 +1,6 @@
+Study incident SC-02_20260929T160827Z (8 s baseline), generated and gated in logs/run
+on 2026-09-29 (gate passed; reviewed by the author on 2026-09-30). The author then
+asked for a 60 s baseline. The incident was superseded before the freeze and
+before any model call; nothing from it enters the study. Moved here on 2026-09-30
+so that logs/run holds the regenerated study incident.
+Evidence: evidence/SC-02/SC-02_20260929T160827Z/.

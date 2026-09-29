@@ -97,7 +97,8 @@ Rehearsal records are under `logs/dry-run/<UTC time>/`, each failed one with a `
 
 ## Frozen contracts
 
-`sdd/specs/P12-file-level-test/contracts/frozen-hashes.json` pins the five contracts, `spec.md`,
+The freeze (first committed at `sdd/specs/P12-file-level-test/contracts/frozen-hashes.json`, now kept at
+`records/P12/study/frozen-hashes.json`) pins the five contracts, `spec.md`,
 `plan.md`, the model set and the nine built input files (content, model view and prompt for R0, R1 and
 R2), with decoding and 45 planned units. Stage 50 and stage 70 re-verify the frozen bytes.
 
@@ -117,11 +118,11 @@ R2), with decoding and 45 planned units. Stage 50 and stage 70 re-verify the fro
   (addresses, endpoints, names) is listed in the README site table.
 - `bin/lab-p9-modelset --build --served-identities`, then `run/all.sh` (provisioning to analysis), or the
   stages one at a time. `run/dry-run.sh` rehearses stages 20 and 30 in a separate scope.
-- Run outputs (`logs/`, `evidence/`, `archive/`, `results/`, `analysis-out/`) are local and not tracked.
+- Run outputs (`logs/`, `evidence/`, `archive/`, `results/`, `analysis-out/`) are local and not tracked. The
+  study's records are kept in `records/P12/`; `python3 records/P12/verify.py` checks them against the freeze.
 
 ## Open operator decisions
 
-- Whether to publish the run records (results, analysis tables, gate and input files) with the repository.
 - A complete `run/all.sh` from a fresh clone on a second VM (acceptance criterion 10), leaving `reclab01`
   and its incident snapshots in place.
 - The optional database-level replication (`run/optional/sc01-replication.sh`).

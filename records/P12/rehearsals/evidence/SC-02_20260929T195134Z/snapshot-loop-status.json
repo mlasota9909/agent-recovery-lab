@@ -1,0 +1,1 @@
+{"error": "snapshot loop missed its deadline by more than one period", "first_snapshot_at": "2026-09-29T19:52:08.697557Z", "interval_s": 2.0, "last_snapshot_at": "2026-09-29T19:53:31.412924Z", "max_gap_s": 3.6069642319343984, "ok": false, "started_at": "2026-09-29T19:52:08.061859Z", "state": "failed", "stopped_at": "2026-09-29T19:53:32.389148Z", "ticks": 41}

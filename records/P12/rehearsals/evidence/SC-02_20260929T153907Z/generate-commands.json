@@ -1,0 +1,868 @@
+[
+  {
+    "action": "stop_throwaway_consumer",
+    "elapsed_ms": 2295,
+    "incident": "SC-01_20260929T095331Z",
+    "step": 0
+  },
+  {
+    "action": "slot_ensure",
+    "elapsed_ms": 3406,
+    "result": {
+      "changed": false,
+      "max_slot_wal_keep_size": "8GB",
+      "ok": true,
+      "plugin": "wal2json",
+      "slot_name": "lab_slot"
+    },
+    "step": 0
+  },
+  {
+    "action": "incident_new",
+    "elapsed_ms": 3517,
+    "result": {
+      "archive_current": "/home/mlasota/agent-recovery-lab/archive/current",
+      "archive_dir": "/home/mlasota/agent-recovery-lab/archive/SC-02_20260929T153907Z",
+      "basebackup_dir": "/home/mlasota/agent-recovery-lab/basebackup/SC-02_20260929T153907Z",
+      "evidence_dir": "/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z",
+      "incident": "SC-02_20260929T153907Z",
+      "ok": true,
+      "scenario": "SC-02"
+    },
+    "step": 1
+  },
+  {
+    "action": "incident_isolation",
+    "elapsed_ms": 15549,
+    "result": {
+      "changed": true,
+      "dataset": "labpool/victim/inc_i_20260929T153907Z_69918f",
+      "incident_id": "i_20260929T153907Z_69918f",
+      "ok": true,
+      "port": 56599,
+      "runtime": "/home/mlasota/agent-recovery-lab/runtime/incidents/i_20260929T153907Z_69918f.env"
+    },
+    "step": 1
+  },
+  {
+    "action": "lab_ready_wait",
+    "attempts": 1,
+    "elapsed_ms": 26448,
+    "step": 1
+  },
+  {
+    "action": "prepare",
+    "elapsed_ms": 26922,
+    "result": {
+      "after_s": 4,
+      "baseline_s": 8,
+      "baseline_started": "2026-09-29T15:39:49.741772Z",
+      "mix": "lab_app-file-churn+lab_app-dml+lab_agent-rm-overwrite",
+      "tps": 6.0,
+      "tree": "/srv/lab-incidents/i_20260929T153907Z_69918f/protected/sc02-work"
+    },
+    "step": 0
+  },
+  {
+    "action": "snapshot_open",
+    "elapsed_ms": 28344,
+    "result": {
+      "changed": true,
+      "created_at": "2026-09-29T15:39:31.821282Z",
+      "incident": "SC-02_20260929T153907Z",
+      "label": "open",
+      "lsn": "0/8278050",
+      "lsn_recorded_at": "2026-09-29T15:39:32.234050Z",
+      "ok": true,
+      "operations": [
+        "zfs_snapshot",
+        "pg_current_wal_lsn",
+        "pg_switch_wal"
+      ],
+      "recorded_lsn": "0/8278050",
+      "sequence": 1,
+      "snapshot": "s_20260929T153931264Z_000001",
+      "wal_switch_lsn": "0/8278068",
+      "wall_clock": "2026-09-29T15:39:31.821282Z"
+    },
+    "step": 3
+  },
+  {
+    "action": "capture_start",
+    "elapsed_ms": 45564,
+    "exit": 0,
+    "stderr": "",
+    "stdout": "nsumer\": {\"appending\": true, \"bytes_after\": 14941, \"bytes_before\": 13783, \"flush_after\": \"0/9000BB0\", \"flush_before\": \"0/9000BB0\", \"growth_signal\": \"size\", \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/db.jsonl\"}, \"heartbeat\": {\"appending\": true, \"newest_after\": \"2026-09-29T15:39:48.223543+00\", \"newest_before\": \"2026-09-29T15:39:45.181392+00\", \"output\": \"guest:lab_heartbeat \\u2192 db.jsonl\", \"rows_last_60s\": 50, \"running\": true, \"unit\": \"lab-heartbeat.service\"}}, \"changed\": true, \"close_coordinate\": null, \"collectors\": {\"consumer\": {\"name\": \"consumer\", \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/db.jsonl\", \"pid\": null, \"unit\": \"reclab-consumer@SC-02_20260929T153907Z.service\"}, \"heartbeat\": {\"name\": \"heartbeat\", \"output\": \"guest:lab_heartbeat \\u2192 db.jsonl\", \"pid\": null, \"unit\": \"lab-heartbeat.service\"}, \"snapshot_loop\": {\"name\": \"snapshot_loop\", \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/snapshots.json\", \"pid\": 2578472, \"unit\": null}}, \"heartbeat_changed\": false, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"open_coordinate\": {\"incident\": \"SC-02_20260929T153907Z\", \"lsn\": \"0/D000168\", \"resolved_by\": \"live_heartbeat\", \"skew_bytes\": 16776896, \"skew_ms\": 846, \"snapshot\": \"s_20260929T153946797Z_000005\", \"wall_clock\": \"2026-09-29T15:39:48.223543Z\"}, \"opened_at\": \"2026-09-29T15:39:49.726928Z\", \"snapshot_loop_changed\": true, \"state\": \"running\", \"teardown_ok\": null}\n",
+    "step": 2
+  },
+  {
+    "action": "confounder_start",
+    "elapsed_ms": 45566,
+    "result": {
+      "db_app": false,
+      "started": true
+    },
+    "step": 4
+  },
+  {
+    "action": "snapshot_pre_injection",
+    "elapsed_ms": 55591,
+    "result": {
+      "changed": true,
+      "created_at": "2026-09-29T15:39:59.046502Z",
+      "incident": "SC-02_20260929T153907Z",
+      "label": "pre_injection",
+      "lsn": "0/12000778",
+      "lsn_recorded_at": "2026-09-29T15:39:59.408482Z",
+      "ok": true,
+      "operations": [
+        "zfs_snapshot",
+        "pg_current_wal_lsn",
+        "pg_switch_wal"
+      ],
+      "recorded_lsn": "0/12000778",
+      "sequence": 11,
+      "snapshot": "s_20260929T153958550Z_000011",
+      "wal_switch_lsn": "0/12000790",
+      "wall_clock": "2026-09-29T15:39:59.046502Z"
+    },
+    "step": 5
+  },
+  {
+    "action": "inject",
+    "elapsed_ms": 58922,
+    "result": {
+      "commit_lsn": "0/14001528",
+      "fs_ops": [
+        {
+          "kind": "file",
+          "operation": "overwrite",
+          "path": "sc02-work/keep/will-overwrite.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003634Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f1.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003664Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f10.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003680Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f11.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003693Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f12.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003705Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f2.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003717Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f3.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003729Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f4.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003741Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f5.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003753Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f6.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003767Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f7.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003780Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f8.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003792Z"
+        },
+        {
+          "kind": "file",
+          "operation": "delete",
+          "path": "sc02-work/victim/f9.txt",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003803Z"
+        },
+        {
+          "kind": "directory",
+          "operation": "delete",
+          "path": "sc02-work/victim/nested",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003815Z"
+        },
+        {
+          "kind": "directory",
+          "operation": "delete",
+          "path": "sc02-work/victim",
+          "source": "injection",
+          "ts": "2026-09-29T15:40:02.003827Z"
+        }
+      ],
+      "guest_check": "GONE\nOW",
+      "incident": "SC-02_20260929T153907Z",
+      "inject_stdout": "sc02-inject-ok overwrite+rm",
+      "lsn_end": "0/14001528",
+      "lsn_start": "0/130004F8",
+      "principal": "lab_agent",
+      "reference_snapshot": "s_20260929T153959791Z_000012",
+      "scenario_id": "SC-02",
+      "t_end": "2026-09-29T15:40:02.396942Z",
+      "t_start": "2026-09-29T15:40:02.003279Z",
+      "timing_pattern": "near_instant",
+      "tree": "/srv/lab-incidents/i_20260929T153907Z_69918f/protected/sc02-work"
+    },
+    "step": 6
+  },
+  {
+    "action": "confounder_stop",
+    "app_ops": 0,
+    "ddl_ops": 3,
+    "elapsed_ms": 64976,
+    "scenario_ops": 116,
+    "step": 7
+  },
+  {
+    "action": "snapshot_post_capture",
+    "elapsed_ms": 66754,
+    "result": {
+      "changed": true,
+      "created_at": "2026-09-29T15:40:10.104209Z",
+      "incident": "SC-02_20260929T153907Z",
+      "label": "post_capture",
+      "lsn": "0/18000168",
+      "lsn_recorded_at": "2026-09-29T15:40:10.522430Z",
+      "ok": true,
+      "operations": [
+        "zfs_snapshot",
+        "pg_current_wal_lsn",
+        "pg_switch_wal"
+      ],
+      "recorded_lsn": "0/18000168",
+      "sequence": 17,
+      "snapshot": "s_20260929T154009500Z_000017",
+      "wal_switch_lsn": "0/18000180",
+      "wall_clock": "2026-09-29T15:40:10.104209Z"
+    },
+    "step": 7
+  },
+  {
+    "action": "oracle",
+    "elapsed_ms": 70155,
+    "result": {
+      "checkpoint_gap_seconds": 2.9567768573760986,
+      "checkpoint_snapshot": "s_20260929T153958550Z_000011",
+      "computed_from": "archive snapshots.json recorded_lsn <= damage lsn_start",
+      "coordinate": {
+        "lsn": "0/12000778",
+        "resolved_by": "live_heartbeat",
+        "skew_bytes": 0,
+        "skew_ms": 356,
+        "snapshot": "s_20260929T153958550Z_000011",
+        "wall_clock": "2026-09-29T15:39:59.402044Z"
+      },
+      "files_lost_if_restored_to_checkpoint": null,
+      "fs_db_skew_ms": 1370,
+      "incident_extra": {
+        "checkpoint_gap_seconds": 2.9567768573760986,
+        "checkpoint_snapshot": "s_20260929T153958550Z_000011",
+        "fs_db_skew_ms": 1370
+      },
+      "malicious_deletions_retained_if_later": null
+    },
+    "step": 11
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153931264Z_000001",
+      "s_20260929T153940836Z_000002",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 0, \"snap_from\": \"s_20260929T153931264Z_000001\", \"snap_to\": \"s_20260929T153940836Z_000002\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153940836Z_000002",
+      "s_20260929T153942803Z_000003",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 0, \"snap_from\": \"s_20260929T153940836Z_000002\", \"snap_to\": \"s_20260929T153942803Z_000003\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153942803Z_000003",
+      "s_20260929T153944820Z_000004",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 0, \"snap_from\": \"s_20260929T153942803Z_000003\", \"snap_to\": \"s_20260929T153944820Z_000004\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153944820Z_000004",
+      "s_20260929T153946797Z_000005",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 0, \"snap_from\": \"s_20260929T153944820Z_000004\", \"snap_to\": \"s_20260929T153946797Z_000005\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153946797Z_000005",
+      "s_20260929T153948782Z_000006",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 0, \"snap_from\": \"s_20260929T153946797Z_000005\", \"snap_to\": \"s_20260929T153948782Z_000006\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153948782Z_000006",
+      "s_20260929T153951428Z_000007",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 3, \"snap_from\": \"s_20260929T153948782Z_000006\", \"snap_to\": \"s_20260929T153951428Z_000007\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153951428Z_000007",
+      "s_20260929T153953425Z_000008",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 3, \"snap_from\": \"s_20260929T153951428Z_000007\", \"snap_to\": \"s_20260929T153953425Z_000008\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153953425Z_000008",
+      "s_20260929T153955076Z_000009",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 4, \"snap_from\": \"s_20260929T153953425Z_000008\", \"snap_to\": \"s_20260929T153955076Z_000009\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153955076Z_000009",
+      "s_20260929T153956908Z_000010",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 4, \"snap_from\": \"s_20260929T153955076Z_000009\", \"snap_to\": \"s_20260929T153956908Z_000010\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153956908Z_000010",
+      "s_20260929T153958550Z_000011",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 4, \"snap_from\": \"s_20260929T153956908Z_000010\", \"snap_to\": \"s_20260929T153958550Z_000011\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153958550Z_000011",
+      "s_20260929T153959791Z_000012",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 0, \"snap_from\": \"s_20260929T153958550Z_000011\", \"snap_to\": \"s_20260929T153959791Z_000012\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T153959791Z_000012",
+      "s_20260929T154002420Z_000013",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 20, \"snap_from\": \"s_20260929T153959791Z_000012\", \"snap_to\": \"s_20260929T154002420Z_000013\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T154002420Z_000013",
+      "s_20260929T154004102Z_000014",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 4, \"snap_from\": \"s_20260929T154002420Z_000013\", \"snap_to\": \"s_20260929T154004102Z_000014\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T154004102Z_000014",
+      "s_20260929T154006057Z_000015",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 4, \"snap_from\": \"s_20260929T154004102Z_000014\", \"snap_to\": \"s_20260929T154006057Z_000015\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T154006057Z_000015",
+      "s_20260929T154008224Z_000016",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 4, \"snap_from\": \"s_20260929T154006057Z_000015\", \"snap_to\": \"s_20260929T154008224Z_000016\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T154008224Z_000016",
+      "s_20260929T154009500Z_000017",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 0, \"snap_from\": \"s_20260929T154008224Z_000016\", \"snap_to\": \"s_20260929T154009500Z_000017\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "diff",
+      "s_20260929T154009500Z_000017",
+      "s_20260929T154010943Z_000018",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"diff\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_diff.tsv\", \"rows\": 0, \"snap_from\": \"s_20260929T154009500Z_000017\", \"snap_to\": \"s_20260929T154010943Z_000018\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153931264Z_000001",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 14, \"snapshot\": \"s_20260929T153931264Z_000001\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153940836Z_000002",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 14, \"snapshot\": \"s_20260929T153940836Z_000002\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153942803Z_000003",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 14, \"snapshot\": \"s_20260929T153942803Z_000003\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153944820Z_000004",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 14, \"snapshot\": \"s_20260929T153944820Z_000004\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153946797Z_000005",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 14, \"snapshot\": \"s_20260929T153946797Z_000005\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153948782Z_000006",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 14, \"snapshot\": \"s_20260929T153948782Z_000006\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153951428Z_000007",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 16, \"snapshot\": \"s_20260929T153951428Z_000007\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153953425Z_000008",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 17, \"snapshot\": \"s_20260929T153953425Z_000008\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153955076Z_000009",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 17, \"snapshot\": \"s_20260929T153955076Z_000009\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153956908Z_000010",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 17, \"snapshot\": \"s_20260929T153956908Z_000010\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153958550Z_000011",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 17, \"snapshot\": \"s_20260929T153958550Z_000011\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T153959791Z_000012",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 17, \"snapshot\": \"s_20260929T153959791Z_000012\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T154002420Z_000013",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 5, \"snapshot\": \"s_20260929T154002420Z_000013\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T154004102Z_000014",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 5, \"snapshot\": \"s_20260929T154004102Z_000014\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T154006057Z_000015",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 5, \"snapshot\": \"s_20260929T154006057Z_000015\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T154008224Z_000016",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 5, \"snapshot\": \"s_20260929T154008224Z_000016\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T154009500Z_000017",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 5, \"snapshot\": \"s_20260929T154009500Z_000017\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "args": [
+      "hash",
+      "s_20260929T154010943Z_000018",
+      "--incident",
+      "SC-02_20260929T153907Z"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"action\": \"hash\", \"changed\": true, \"incident\": \"SC-02_20260929T153907Z\", \"ok\": true, \"output\": \"/home/mlasota/agent-recovery-lab/evidence/SC-02/SC-02_20260929T153907Z/fs_hashes.tsv\", \"rows\": 5, \"snapshot\": \"s_20260929T154010943Z_000018\"}\n",
+    "step": "fs_capture"
+  },
+  {
+    "exit": 0,
+    "step": "barrier"
+  },
+  {
+    "close": "0/18000168",
+    "dropped": 119,
+    "open": "0/8278050",
+    "step": "ledger_window"
+  },
+  {
+    "result": {
+      "changed": false,
+      "duplicate_detail": [],
+      "duplicates": 0,
+      "gap_detail": [],
+      "gaps": 0,
+      "incident": "SC-02_20260929T153907Z",
+      "mapped": 119,
+      "mapping_sample": [
+        {
+          "action": "I",
+          "key": [
+            "DML",
+            857,
+            "p2_probe",
+            "I",
+            88001100
+          ],
+          "lsn": "0/E000168",
+          "op_index": 0,
+          "table": "p2_probe",
+          "xid": 857
+        },
+        {
+          "action": "I",
+          "key": [
+            "DML",
+            858,
+            "p2_probe",
+            "I",
+            88001101
+          ],
+          "lsn": "0/E000228",
+          "op_index": 1,
+          "table": "p2_probe",
+          "xid": 858
+        },
+        {
+          "action": "I",
+          "key": [
+            "DML",
+            859,
+            "p2_probe",
+            "I",
+            88001102
+          ],
+          "lsn": "0/E0002E8",
+          "op_index": 2,
+          "table": "p2_probe",
+          "xid": 859
+        }
+      ],
+      "ok": true,
+      "ops": 119,
+      "principal_read": false,
+      "rules": {
+        "C-1": {
+          "duplicates": [],
+          "gaps": [],
+          "mapped": 119,
+          "ok": true,
+          "ops": 119
+        },
+        "C-2": {
+          "ok": true,
+          "rule": "C-2"
+        },
+        "C-3": {
+          "ddl_mapped": 3,
+          "ddl_ops": 3,
+          "ok": true,
+          "rule": "C-3"
+        },
+        "C-4": {
+          "ok": true,
+          "rule": "C-4"
+        },
+        "C-5": {
+          "failed": [],
+          "n": 5,
+          "ok": true,
+          "rule": "C-5"
+        },
+        "C-6": {
+          "ok": true,
+          "rule": "C-6"
+        },
+        "C-7": {
+          "errors": [],
+          "fs_ops": 41,
+          "invisible": 0,
+          "matched": 41,
+          "ok": true,
+          "rule": "C-7",
+          "unexplained_captured": 0,
+          "unexplained_captured_detail": [],
+          "unmatched_recorded": 0,
+          "unmatched_recorded_detail": [],
+          "vacuous": false
+        }
+      }
+    },
+    "step": "ledger_account"
+  }
+]

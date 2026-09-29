@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "bin/lab-generate-p7",
+    "--scenario",
+    "SC-02"
+  ],
+  "exit_code": 1,
+  "stderr": "snapshot loop missed its deadline by more than one period\n",
+  "stdout": ""
+}

@@ -1,0 +1,10 @@
+{
+  "checked": "2026-09-30",
+  "method": "registered served identities (bin/lab-p9-modelset --build --served-identities) compared with the Primary Sweep registry of the development repository (runtime/p9-model-set.json)",
+  "models": {
+    "gb10a-deepseek-v4-flash": {"served_model_same": true, "hf_revision_same": "dff9afc6f5fe50a890590f7b6d5339ceaf5ba51e", "max_model_len": 262144, "note": "Primary Sweep recorded a weights SHA-256 (c5da6dd1...) digest kind; the served-identity digest kind is new, so identity rests on the same served name and the same content-addressed model revision"},
+    "gympc-gemma4-26b": {"digest_same": "abe8906e987bde96..."},
+    "alienware-qwen38-27b": {"digest_same": "78a0f6634b92cf0c..."}
+  },
+  "verdict": "all three models identical to the Primary Sweep"
+}
