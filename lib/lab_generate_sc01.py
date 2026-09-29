@@ -73,6 +73,19 @@ def generate(log: list[dict]) -> dict:
     incident = allocated["incident"]
     add({"step": 1, "action": "incident_new", "result": allocated})
     empty_ledger_files(incident)
+    # The heartbeat may still target an earlier (now stopped) incident cluster.
+    # Point it at the site cluster and wait for readiness before capture starts.
+    heartbeat = run_bin("lab-heartbeat", ["--start"], timeout=60)
+    add({"step": 1, "action": "heartbeat_start", "exit": heartbeat.returncode})
+    if heartbeat.returncode != 0:
+        die(EXIT_ASSERT, f"assertion failed: lab-heartbeat --start: {heartbeat.stderr.strip() or heartbeat.stdout.strip()}")
+    for attempt in range(45):
+        if run_bin("lab-ready", [], timeout=30).returncode == 0:
+            break
+        time.sleep(2)
+    else:
+        die(EXIT_PRECOND, "precondition failed: lab-ready never reached 0 after incident allocation")
+    add({"step": 1, "action": "lab_ready_wait", "attempts": attempt + 1})
     open_snap = run_json("lab-snapshot", ["--label", "open", "--incident", incident])
     add({"step": 3, "action": "snapshot_open", "result": open_snap})
     try:
