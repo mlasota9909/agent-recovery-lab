@@ -254,7 +254,7 @@ def ensure_pool():
         return
     target = storage_path()
     # A new pool must not adopt a directory belonging to another pool.
-    for other in virsh("pool-list", "--all", "--name").stdout.splitlines():
+    for other in [line.strip() for line in virsh("pool-list", "--all", "--name").stdout.splitlines() if line.strip()]:
         xml = ET.fromstring(virsh("pool-dumpxml", other).stdout)
         if xml.findtext("target/path") == str(target):
             raise RuntimeError(f"Storage path already belongs to pool {other}")
@@ -281,7 +281,7 @@ def state():
 
 
 def domains():
-    return virsh("list", "--all", "--name").stdout.splitlines()
+    return [line.strip() for line in virsh("list", "--all", "--name").stdout.splitlines() if line.strip()]
 
 
 def check_domain():
