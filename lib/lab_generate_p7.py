@@ -111,7 +111,8 @@ def generate(scenario: str, log: list[dict]) -> dict:
         log.append(entry)
 
     port_base = int(env("INCIDENT_PORT_BASE"))
-    if (os.environ.get("LAB_ACTIVE_INCIDENT") or "/inc_" in env("DS_PARENT")
+    if (os.environ.get("LAB_ACTIVE_INCIDENT") or os.environ.get("LAB_SITE_SCOPE") != "1"
+            or "/inc_" in env("DS_PARENT")
             or port_base <= int(env("PG_PORT")) < port_base + int(env("INCIDENT_PORT_COUNT"))):
         die(EXIT_PRECOND, "precondition failed: generation must start from the site cluster, "
                           "not from an incident runtime")
@@ -148,6 +149,7 @@ def generate(scenario: str, log: list[dict]) -> dict:
         if raw and "=" in raw:
             key, value = raw.split("=", 1)
             os.environ[key] = value
+    os.environ.pop("LAB_SITE_SCOPE", None)
     os.environ.update({
         "LAB_ACTIVE_INCIDENT": incident,
         "DS_PARENT": os.environ["INC_DS"],

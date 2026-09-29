@@ -3,6 +3,14 @@
 lab_incident_env_select() {
   local lab_root=${LAB_ROOT:-$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)}
   local requested=${LAB_ACTIVE_INCIDENT:-} runtime_root="$lab_root/runtime/incidents" runtime_file= line key value
+  # A new incident is prepared against the site cluster before its own runtime exists.
+  if [[ ${LAB_SITE_SCOPE:-} == 1 ]]; then
+    [[ -z $requested ]] || {
+      printf '%s\n' 'precondition failed: LAB_SITE_SCOPE and LAB_ACTIVE_INCIDENT are exclusive' >&2
+      return 2
+    }
+    return 0
+  fi
   if [[ -z $requested && -n ${ARCHIVE_CURRENT:-} && -L ${ARCHIVE_CURRENT:-} ]]; then
     requested=$(basename -- "$(readlink -f -- "$ARCHIVE_CURRENT")")
   fi

@@ -10,7 +10,9 @@ if [ -f "${SC01_SCENARIO_CONFIG:-$ROOT/etc/scenarios/sc01.env}" ]; then
 fi
 set +a
 # A new incident starts from the site cluster and dataset parent, never from
-# the runtime of the incident that archive/current still names.
+# the runtime of the incident that archive/current still names. The generator
+# leaves the site scope once the new incident has its own runtime.
 unset LAB_ACTIVE_INCIDENT
+export LAB_SITE_SCOPE=1
 export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
 exec python3 "$ROOT/lib/lab_generate_p7.py" "$@"
