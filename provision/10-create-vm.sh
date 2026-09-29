@@ -13,6 +13,13 @@ if $recreate; then
   if $DRY_RUN; then "$ROOT/provision/99-destroy-vm.sh" --yes --dry-run; else "$ROOT/provision/99-destroy-vm.sh" --yes; fi
 fi
 run python3 "$ROOT/provision/lib/provision.py" ensure-pool
+# Resume: a domain that verifiably belongs to this checkout (ownership record, UUID, disks) is reused.
+if ! $recreate && ! $DRY_RUN && [[ -f "$PROVISION_STATE/vm.json" ]] && support check-domain >/dev/null 2>&1; then
+  printf 'provision: replica %s already belongs to this checkout; skipping creation\n' "$VM_NAME"
+  virsh --connect "$PROVISION_URI" domstate "$VM_NAME" | grep -qx running || virsh --connect "$PROVISION_URI" start "$VM_NAME"
+  support wait-guest
+  exit 0
+fi
 if $DRY_RUN; then
   show virsh --connect "$PROVISION_URI" dominfo "$VM_NAME"
   show python3 "$ROOT/provision/lib/provision.py" reserve
