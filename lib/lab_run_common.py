@@ -49,8 +49,19 @@ def save(path, value, *, exclusive=False):
         os.close(fd)
 
 
+RUN_SCOPE = re.compile(r"run|dry-run/[0-9]{8}T[0-9]{6}Z")
+
+
+def run_scope():
+    """The study run uses logs/run; a rehearsal uses logs/dry-run/<UTC time>."""
+    scope = os.environ.get("LAB_RUN_SCOPE") or "run"
+    if not RUN_SCOPE.fullmatch(scope):
+        raise ValueError("LAB_RUN_SCOPE must be run or dry-run/<UTC time>")
+    return scope
+
+
 def logdir(incident=None):
-    path = lab_root() / "logs/run"
+    path = lab_root() / "logs" / run_scope()
     return path / incident if incident else path
 
 

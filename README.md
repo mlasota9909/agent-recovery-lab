@@ -188,6 +188,12 @@ Execution failures remain observations and are never silently replaced.
 For the spec's manual evidence review, run stages 00–30 separately and inspect
 `gate.json`, the three inputs and controls before running stages 40–70.
 
+`run/dry-run.sh` rehearses stages 20 and 30 on the provisioned VM in a separate
+log scope, `logs/dry-run/<UTC time>/`, after stage 10. A dry-run incident has
+its own evidence folder and is never frozen, studied or compared: stages other
+than 20 and 30 refuse a dry-run scope. `logs/run/` holds the one study incident.
+`run/all.sh` always uses `logs/run/` and does not rehearse.
+
 ## Resuming and independent execution
 
 Stages 00 and 10 can be checked again. The provisioning stage never automatically

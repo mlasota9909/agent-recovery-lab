@@ -13,7 +13,7 @@ import sys
 from lab_paths import evidence_dir, lab_root
 import lab_sc02_layout as layout
 from lab_run_common import (command, incident_id, json_command, logdir, model_registry,
-                            read, save, sha, utc, verify_freeze)
+                            read, run_scope, save, sha, utc, verify_freeze)
 
 # Values with host-specific meaning must be explicitly supplied by the local file.
 SITE_KEYS = ("VM_NAME", "VM_ADDR", "VM_SSH", "PROVISION_USER", "PROVISION_NETWORK",
@@ -151,7 +151,7 @@ def incident(scenario):
     scope = logdir() if scenario == "SC-02" else logdir() / "sc01"
     marker = scope / "incident-started.json"
     if marker.exists():
-        raise ValueError("incident generation was already attempted; inspect logs/run/incident-started.json")
+        raise ValueError("incident generation was already attempted; inspect " + str(marker.relative_to(lab_root())))
     if (scope / "latest-incident.json").exists():
         raise ValueError("this run already has an incident; resume its numbered stages")
     save(marker, {"scenario": scenario, "started_utc": utc()}, exclusive=True)
@@ -277,6 +277,8 @@ def main(argv=None):
     parser.add_argument("--scenario", choices=("SC-02", "SC-01"), default="SC-02")
     args = parser.parse_args(argv)
     try:
+        if run_scope() != "run" and args.stage not in ("incident", "gate"):
+            raise ValueError("a dry-run scope runs only the incident and gate stages")
         if args.stage in ("gate", "freeze", "study", "comparators"):
             incident_id(args.incident or "")
         elif args.incident:

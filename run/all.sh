@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+export LAB_RUN_SCOPE=run
 source "$ROOT/run/common.sh"
 start_log all
 [[ $# -eq 0 ]] || { printf '%s\n' 'usage: run/all.sh (resume through individual stages)' >&2; exit 2; }

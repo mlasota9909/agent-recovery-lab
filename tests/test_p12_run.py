@@ -257,6 +257,19 @@ class BoundaryTests(Scratch):
             "archive_incident": INCIDENT, "close_coordinate": {"lsn": "0/10"}, "ledger_integrity_ok": True})
         run.ensure_no_open_incident()
 
+    def test_dry_run_scope_is_separate_and_never_freezes_or_studies(self):
+        self.assertEqual(common.logdir(), self.root / "logs/run")
+        with patch.dict(os.environ, {"LAB_RUN_SCOPE": "dry-run/20260930T010203Z"}):
+            self.assertEqual(common.logdir(INCIDENT), self.root / "logs/dry-run/20260930T010203Z" / INCIDENT)
+            for argv in (["freeze", INCIDENT], ["study", INCIDENT], ["comparators", INCIDENT],
+                         ["analysis"], ["preflight"], ["provision"]):
+                with patch("sys.stderr", new_callable=io.StringIO) as err:
+                    self.assertEqual(run.main(argv), 1)
+                self.assertIn("dry-run scope runs only the incident and gate stages", err.getvalue())
+        for scope in ("../run", "dry-run/x", "dry-run/20260930T010203Z/../../etc", "logs"):
+            with patch.dict(os.environ, {"LAB_RUN_SCOPE": scope}), self.assertRaisesRegex(ValueError, "LAB_RUN_SCOPE"):
+                common.logdir()
+
     def test_backend_digest_never_substitutes_another_served_model(self):
         response = io.BytesIO(json.dumps({"data": [{"id": "different", "root": "root", "max_model_len": 99}]}).encode())
         with patch.object(p9, "_urlopen", return_value=response):
