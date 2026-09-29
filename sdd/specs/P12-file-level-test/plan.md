@@ -23,7 +23,8 @@ The lab is rebuilt in a fresh repository and a fresh VM by scripts, and the P12 
   capture) until 4 s after the injection ends,
   plus the generator's open, pre-injection and post-capture snapshots, all through one writer with collision-free
   names (UTC milliseconds plus a sequence number) and one host record per incident. Each snapshot keeps the P0 order:
-  snapshot, recorded LSN, WAL switch.
+  snapshot, recorded LSN, WAL switch. A tick that waits for the snapshot lock moves the schedule rather than
+  carrying its lag forward; any gap longer than two periods stops the incident. The achieved gaps are recorded.
 - ADR-3 Intervals and visibility. Interval i is the span between recorded snapshots i-1 and i, carrying both names,
   recorded times and recorded LSNs. A file operation is visible when its net effect between the two snapshots is a
   change (a file created and deleted inside one interval is invisible); C-7 requires every visible recorded operation
