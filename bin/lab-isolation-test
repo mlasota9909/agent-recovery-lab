@@ -1,0 +1,483 @@
+#!/usr/bin/env bash
+# T009: assert FR-4.4 from every victim principal.
+# R002: regression mutates host state outside the receiver; --enumerate covers
+# the accepted SSH_ORIGINAL_COMMAND surface.
+set -euo pipefail
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+# shellcheck source=../etc/lab.env
+source "$SCRIPT_DIR/../etc/lab.env"
+
+EXIT_ASSERT=1
+EXIT_PRECOND=2
+EXIT_USAGE=3
+PROBE_NAME=.lab-isolation-probe
+PRINCIPALS=("${OS_USER_APP:?precondition failed: OS_USER_APP missing from lab.env}" "${OS_USER_AGENT:?precondition failed: OS_USER_AGENT missing from lab.env}" postgres)
+DEFAULT_FORCED_KEY="$ARCHIVE_MOUNT_IN_VM/wal_append_ed25519"
+
+die() {
+  local code=$1
+  shift
+  printf '%s\n' "$*" >&2
+  exit "$code"
+}
+
+for key in VM_SSH LAB_HOST LAB_ROOT EVIDENCE_ROOT ARCHIVE_ROOT ARCHIVE_CURRENT RESULTS_ROOT ARCHIVE_MOUNT_IN_VM; do
+  [[ -n ${!key:-} ]] || die "$EXIT_PRECOND" "precondition failed: $key missing from lab.env"
+done
+[[ $# -le 1 ]] || die "$EXIT_USAGE" "usage: lab-isolation-test [--regression|--enumerate|--negative-nonexistent]"
+[[ ${1:-} == "" || ${1:-} == "--regression" || ${1:-} == "--enumerate" || ${1:-} == "--negative-nonexistent" ]] ||
+  die "$EXIT_USAGE" "usage: lab-isolation-test [--regression|--enumerate|--negative-nonexistent]"
+command -v ssh >/dev/null || die "$EXIT_PRECOND" "precondition failed: ssh is unavailable"
+
+current_archive=$(readlink -f -- "$ARCHIVE_CURRENT") ||
+  die "$EXIT_PRECOND" "precondition failed: archive/current is absent"
+case "$current_archive" in
+  "$ARCHIVE_ROOT"/*) ;;
+  *) die "$EXIT_PRECOND" "precondition failed: archive/current escapes ARCHIVE_ROOT" ;;
+esac
+[[ -d $current_archive ]] || die "$EXIT_PRECOND" "precondition failed: active archive directory is absent"
+
+ensure_probe() {
+  local path=$1
+  if [[ ! -e $path ]]; then
+    umask 077
+    printf 'isolation probe; host-owned and intentionally unreadable to victim principals.\n' >"$path"
+  fi
+  chown "$(id -un):$(id -gn)" "$path"
+  chmod 0400 "$path"
+}
+
+remove_probes() {
+  rm -f -- "$EVIDENCE_ROOT/$PROBE_NAME" "$RESULTS_ROOT/$PROBE_NAME" "$current_archive/$PROBE_NAME"
+}
+
+remote_as() {
+  local principal=$1 script=$2
+  ssh -o BatchMode=yes "$VM_SSH" \
+    "sudo -n -u '$principal' bash -c $(printf '%q' "$script")" 2>&1
+}
+
+record() {
+  local records=$1 principal=$2 assertion=$3 command=$4 expected=$5 observed=$6 result=$7
+  python3 - "$records" "$principal" "$assertion" "$command" "$expected" "$observed" "$result" <<'PY'
+import json
+import sys
+path, principal, assertion, command, expected, observed, result = sys.argv[1:]
+with open(path, "a", encoding="utf-8") as stream:
+    stream.write(json.dumps({
+        "principal": principal,
+        "assertion": assertion,
+        "command": command,
+        "expected": expected,
+        "observed": observed,
+        "result": result,
+    }, sort_keys=True) + "\n")
+PY
+}
+
+denial_result() {
+  local status=$1 output=$2
+  if [[ $status -eq 0 ]]; then
+    printf 'FAIL'
+  elif [[ $output =~ [Nn]o[[:space:]]such[[:space:]]file|[Ff]ile[[:space:]]not[[:space:]]found ]]; then
+    printf 'ERROR'
+  elif [[ $output =~ [Pp]ermission[[:space:]]denied|[Oo]peration[[:space:]]not[[:space:]]permitted|[Aa]ccess[[:space:]]denied|[Nn]ot[[:space:]]accessible|wal[[:space:]]receive[[:space:]]refused|only[[:space:]]append ]]; then
+    printf 'PASS'
+  else
+    printf 'ERROR'
+  fi
+}
+
+run_suite() {
+  local records status=0 principal command output rc result segment key evidence_read_path
+  local missing_path=${ISOLATION_MISSING_PATH:-}
+  records=$(mktemp)
+  key="${ISOLATION_FORCED_KEY:-$DEFAULT_FORCED_KEY}"
+  segment=$(python3 - <<'PY'
+import secrets
+print(secrets.token_hex(12).upper())
+PY
+)
+  evidence_read_path="$EVIDENCE_ROOT/$PROBE_NAME"
+  ensure_probe "$EVIDENCE_ROOT/$PROBE_NAME"
+  ensure_probe "$RESULTS_ROOT/$PROBE_NAME"
+  ensure_probe "$current_archive/$PROBE_NAME"
+
+  assert_denied() {
+    local subject=$1 label=$2 script=$3
+    command="ssh $VM_SSH sudo -u $subject bash -c $(printf '%q' "$script")"
+    if output=$(remote_as "$subject" "$script"); then
+      rc=0
+    else
+      rc=$?
+    fi
+    result=$(denial_result "$rc" "$output")
+    [[ $result == PASS ]] || status=$EXIT_ASSERT
+    record "$records" "$subject" "$label" "$command" "access denied (not file-not-found)" "$output (exit $rc)" "$result"
+  }
+
+  assert_allowed_append() {
+    command="ssh $VM_SSH sudo -u postgres bash -c append-through-forced-channel"
+    if output=$(remote_as postgres "printf 'permitted append\\n' | ssh -o BatchMode=yes -o IdentitiesOnly=yes -i '$key' 'mlasota@$LAB_HOST' 'append $segment'"); then
+      rc=0
+    else
+      rc=$?
+    fi
+    if [[ $rc -eq 0 && $output == *'"ok":true'* ]]; then
+      result=PASS
+    elif [[ $output =~ [Nn]o[[:space:]]such[[:space:]]file|[Ff]ile[[:space:]]not[[:space:]]found ]]; then
+      result=ERROR
+    else
+      result=FAIL
+    fi
+    [[ $result == PASS ]] || status=$EXIT_ASSERT
+    record "$records" postgres archive_append "$command" "append succeeds only through forced channel" "$output (exit $rc)" "$result"
+  }
+
+  assert_allowed_append
+
+  for principal in "${PRINCIPALS[@]}"; do
+    assert_denied "$principal" evidence_read "cat '$evidence_read_path'"
+    assert_denied "$principal" evidence_list "ls '$EVIDENCE_ROOT'"
+    assert_denied "$principal" evidence_create "touch '$EVIDENCE_ROOT/.lab-isolation-create-$principal'"
+    assert_denied "$principal" evidence_modify "printf x >>'$EVIDENCE_ROOT/$PROBE_NAME'"
+    assert_denied "$principal" evidence_delete "rm '$EVIDENCE_ROOT/$PROBE_NAME'"
+
+    assert_denied "$principal" results_read "cat '$RESULTS_ROOT/$PROBE_NAME'"
+    assert_denied "$principal" results_list "ls '$RESULTS_ROOT'"
+    assert_denied "$principal" results_create "touch '$RESULTS_ROOT/.lab-isolation-create-$principal'"
+    assert_denied "$principal" results_modify "printf x >>'$RESULTS_ROOT/$PROBE_NAME'"
+    assert_denied "$principal" results_delete "rm '$RESULTS_ROOT/$PROBE_NAME'"
+
+    assert_denied "$principal" archive_read "cat '$current_archive/$PROBE_NAME'"
+    assert_denied "$principal" archive_list_incident "ls '$current_archive'"
+    assert_denied "$principal" archive_create "touch '$current_archive/.lab-isolation-create-$principal'"
+    assert_denied "$principal" archive_modify "printf x >>'$current_archive/$PROBE_NAME'"
+    assert_denied "$principal" archive_delete "rm '$current_archive/$PROBE_NAME'"
+    assert_denied "$principal" archive_overwrite "printf overwrite | ssh -o BatchMode=yes -o IdentitiesOnly=yes -i '$key' 'mlasota@$LAB_HOST' 'append $segment'"
+    assert_denied "$principal" deploy_root_reach "ssh -o BatchMode=yes -o ConnectTimeout=5 -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null 'mlasota@$LAB_HOST' 'cat $LAB_ROOT/etc/lab.env'"
+    # Forced channel: a read of the evidence probe. With command= restriction this
+    # is refused. An unrestricted key makes the read succeed and the suite FAIL.
+    assert_denied "$principal" evidence_read_forced_channel "ssh -o BatchMode=yes -o IdentitiesOnly=yes -i '$key' 'mlasota@$LAB_HOST' \"cat '$evidence_read_path'\""
+    if [[ -n $missing_path ]]; then
+      assert_denied "$principal" missing_path_must_error "cat '$missing_path'"
+    fi
+  done
+
+  python3 - "$records" "$status" <<'PY'
+import json
+import sys
+records_path, status = sys.argv[1:]
+with open(records_path, encoding="utf-8") as stream:
+    assertions = [json.loads(line) for line in stream]
+counts = {name: sum(item["result"] == name for item in assertions)
+          for name in ("PASS", "FAIL", "ERROR")}
+print(json.dumps({
+    "assertions": assertions,
+    "summary": {
+        "total": len(assertions),
+        **counts,
+        "result": "PASS" if int(status) == 0 else "FAIL",
+    },
+}, sort_keys=True))
+PY
+  rm -f -- "$records"
+  remove_probes
+  return "$status"
+}
+
+channel_as_postgres() {
+  local remote_cmd=$1
+  ssh -o BatchMode=yes "$VM_SSH" \
+    "sudo -n -u postgres ssh -o BatchMode=yes -o IdentitiesOnly=yes -o RequestTTY=no -i '$DEFAULT_FORCED_KEY' 'mlasota@$LAB_HOST' $(printf '%q' "$remote_cmd")" 2>&1
+}
+
+enumerate() {
+  local segment existing output rc result expected kind records
+  records=$(mktemp)
+  segment=$(python3 - <<'PY'
+import secrets
+print(secrets.token_hex(12).upper())
+PY
+)
+  existing=$(python3 - <<'PY'
+import secrets
+print(secrets.token_hex(12).upper())
+PY
+)
+  if ! output=$(printf 'enumerate seed\n' | channel_as_postgres "append $existing"); then
+    rm -f -- "$records"
+    die "$EXIT_PRECOND" "precondition failed: cannot seed overwrite-target segment"
+  fi
+  [[ $output == *'"ok":true'* ]] ||
+    die "$EXIT_PRECOND" "precondition failed: seed append did not succeed: $output"
+
+  emit() {
+    local command=$1 expected=$2 kind=$3 observed=$4 rc=$5 result=$6
+    python3 - "$records" "$command" "$expected" "$kind" "$observed" "$rc" "$result" <<'PY'
+import json, sys
+path, command, expected, kind, observed, rc, result = sys.argv[1:]
+with open(path, "a", encoding="utf-8") as stream:
+    stream.write(json.dumps({
+        "command": command,
+        "expected": expected,
+        "kind": kind,
+        "observed": observed,
+        "exit_code": int(rc),
+        "result": result,
+    }, sort_keys=True) + "\n")
+PY
+  }
+
+  classify_refused() {
+    local rc=$1 output=$2
+    if [[ $rc -eq 0 ]]; then
+      printf 'FAIL'
+    elif [[ $output =~ overwrite[[:space:]]refused ]]; then
+      printf 'FAIL'
+    elif [[ $output =~ wal[[:space:]]receive[[:space:]]refused|only[[:space:]]append ]]; then
+      printf 'PASS'
+    else
+      printf 'ERROR'
+    fi
+  }
+
+  # 1 removed probe
+  if output=$(channel_as_postgres "t009-read-evidence-probe"); then rc=0; else rc=$?; fi
+  result=$(classify_refused "$rc" "$output")
+  emit "t009-read-evidence-probe" "refused, non-zero" "removed_probe" "$output" "$rc" "$result"
+
+  # 2 legitimate new append
+  if output=$(printf 'enumerate append\n' | channel_as_postgres "append $segment"); then rc=0; else rc=$?; fi
+  if [[ $rc -eq 0 && $output == *'"ok":true'* ]]; then result=PASS; else result=FAIL; fi
+  emit "append <new-segment>" "succeeds" "append_new" "$output" "$rc" "$result"
+
+  # 3 overwrite existing
+  if output=$(printf 'overwrite\n' | channel_as_postgres "append $existing"); then rc=0; else rc=$?; fi
+  if [[ $rc -ne 0 && $output =~ overwrite[[:space:]]refused ]]; then result=PASS; else result=FAIL; fi
+  emit "append <segment-that-already-exists>" "refused as overwrite" "append_overwrite" "$output" "$rc" "$result"
+
+  # 4 traversal
+  if output=$(channel_as_postgres "append ../../../etc/passwd"); then rc=0; else rc=$?; fi
+  result=$(classify_refused "$rc" "$output")
+  emit "append ../../../etc/passwd" "refused" "traversal" "$output" "$rc" "$result"
+
+  # 5 absolute path
+  if output=$(channel_as_postgres "append /etc/passwd"); then rc=0; else rc=$?; fi
+  result=$(classify_refused "$rc" "$output")
+  emit "append /etc/passwd" "refused" "absolute" "$output" "$rc" "$result"
+
+  # 6 no argument
+  if output=$(channel_as_postgres "append"); then rc=0; else rc=$?; fi
+  result=$(classify_refused "$rc" "$output")
+  emit "append" "refused" "no_argument" "$output" "$rc" "$result"
+
+  # 7 read
+  if output=$(channel_as_postgres "read $EVIDENCE_ROOT"); then rc=0; else rc=$?; fi
+  result=$(classify_refused "$rc" "$output")
+  emit "read <path>" "refused" "read" "$output" "$rc" "$result"
+
+  # 8 cat
+  if output=$(channel_as_postgres "cat $EVIDENCE_ROOT"); then rc=0; else rc=$?; fi
+  result=$(classify_refused "$rc" "$output")
+  emit "cat <path>" "refused" "cat" "$output" "$rc" "$result"
+
+  # 9 list
+  if output=$(channel_as_postgres "list"); then rc=0; else rc=$?; fi
+  result=$(classify_refused "$rc" "$output")
+  emit "list" "refused" "list" "$output" "$rc" "$result"
+
+  # 10 empty SSH_ORIGINAL_COMMAND
+  if output=$(ssh -o BatchMode=yes "$VM_SSH" \
+    "sudo -n -u postgres ssh -o BatchMode=yes -o IdentitiesOnly=yes -o RequestTTY=no -n -i '$DEFAULT_FORCED_KEY' 'mlasota@$LAB_HOST'" 2>&1); then
+    rc=0
+  else
+    rc=$?
+  fi
+  result=$(classify_refused "$rc" "$output")
+  emit "" "refused" "empty" "$output" "$rc" "$result"
+
+  # 11 compound
+  if output=$(channel_as_postgres "append x; cat /etc/passwd"); then rc=0; else rc=$?; fi
+  result=$(classify_refused "$rc" "$output")
+  emit "append x; cat /etc/passwd" "refused" "compound" "$output" "$rc" "$result"
+
+  # 12 newline injection
+  if output=$(channel_as_postgres $'append x\ncat /etc/passwd'); then rc=0; else rc=$?; fi
+  result=$(classify_refused "$rc" "$output")
+  emit $'append x\ncat /etc/passwd' "refused" "newline" "$output" "$rc" "$result"
+
+  python3 - "$records" <<'PY'
+import json, sys
+path = sys.argv[1]
+with open(path, encoding="utf-8") as stream:
+    candidates = [json.loads(line) for line in stream]
+failed = sum(item["result"] != "PASS" for item in candidates)
+print(json.dumps({
+    "candidates": candidates,
+    "summary": {
+        "total": len(candidates),
+        "PASS": sum(item["result"] == "PASS" for item in candidates),
+        "FAIL": sum(item["result"] == "FAIL" for item in candidates),
+        "ERROR": sum(item["result"] == "ERROR" for item in candidates),
+        "result": "PASS" if failed == 0 and len(candidates) >= 12 else "FAIL",
+    },
+}, sort_keys=True))
+sys.exit(0 if failed == 0 and len(candidates) >= 12 else 1)
+PY
+  local rc_py=$?
+  rm -f -- "$records"
+  return "$rc_py"
+}
+
+auth_keys_path() {
+  printf '%s/.ssh/authorized_keys' "$(getent passwd "$(id -un)" | cut -d: -f6)"
+}
+
+regression() {
+  local baseline red green rc_baseline rc_red rc_green
+  local keydir guest_key auth_keys marker
+  local mechanism=2
+  local mechanism_reason
+  mechanism_reason="mechanism 1 cannot produce a genuine red: victim principals on the guest have no path to host EVIDENCE_ROOT (guest home is 0750 and the host evidence tree is absent from the guest namespace). chmod of a host scratch file is unreachable. Falling back to ADR-P01-2 mechanism 2."
+
+  baseline=$(mktemp)
+  red=$(mktemp)
+  green=$(mktemp)
+  keydir=$(mktemp -d)
+  auth_keys=$(auth_keys_path)
+  marker="lab-isolation-temp"
+  guest_key="$ARCHIVE_MOUNT_IN_VM/.${marker}-ed25519"
+
+  cleanup_mech2() {
+    if [[ -f $auth_keys ]]; then
+      python3 - "$auth_keys" "$marker" <<'PY'
+import os, sys, tempfile
+path, marker = sys.argv[1:]
+text = open(path, encoding="utf-8").read().splitlines(True)
+kept = [line for line in text if marker not in line]
+directory = os.path.dirname(path)
+fd, tmp = tempfile.mkstemp(prefix=".authorized_keys.", dir=directory, text=True)
+try:
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        handle.writelines(kept)
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.chmod(tmp, os.stat(path).st_mode)
+    os.replace(tmp, path)
+finally:
+    if os.path.exists(tmp):
+        os.unlink(tmp)
+PY
+    fi
+    ssh -o BatchMode=yes "$VM_SSH" "sudo -n rm -f -- '$guest_key'" >/dev/null 2>&1 || true
+    rm -rf -- "$keydir"
+  }
+  trap cleanup_mech2 EXIT
+
+  command -v ssh-keygen >/dev/null || die "$EXIT_PRECOND" "precondition failed: ssh-keygen is unavailable"
+  ssh-keygen -t ed25519 -f "$keydir/$marker" -N "" -C "$marker" -q
+  [[ -f $auth_keys ]] || die "$EXIT_PRECOND" "precondition failed: $auth_keys is absent"
+  # Restriction bits kept; command= omitted so the channel is unrestricted.
+  printf 'no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty %s\n' \
+    "$(cat "$keydir/$marker.pub")" >>"$auth_keys"
+  ssh -o BatchMode=yes "$VM_SSH" \
+    "sudo -n tee '$guest_key' >/dev/null && sudo -n chown postgres:postgres '$guest_key' && sudo -n chmod 0600 '$guest_key'" \
+    <"$keydir/$marker"
+
+  if run_suite >"$baseline"; then
+    rc_baseline=0
+  else
+    rc_baseline=$?
+  fi
+
+  if ISOLATION_FORCED_KEY="$guest_key" run_suite >"$red"; then
+    rc_red=0
+  else
+    rc_red=$?
+  fi
+
+  cleanup_mech2
+  trap - EXIT
+
+  if run_suite >"$green"; then
+    rc_green=0
+  else
+    rc_green=$?
+  fi
+
+  python3 - "$baseline" "$red" "$green" "$rc_baseline" "$rc_red" "$rc_green" \
+    "$mechanism" "$mechanism_reason" <<'PY'
+import json
+import sys
+paths = sys.argv[1:4]
+codes = list(map(int, sys.argv[4:7]))
+mechanism, reason = sys.argv[7], sys.argv[8]
+names = ("baseline", "grant", "revoke")
+expected = (0, 1, 0)
+phases = []
+for name, path, code, wanted in zip(names, paths, codes, expected):
+    with open(path, encoding="utf-8") as stream:
+        suite = json.load(stream)
+    phases.append({
+        "phase": name,
+        "expected": "PASS" if wanted == 0 else "FAIL",
+        "observed": suite["summary"]["result"],
+        "exit_code": code,
+        "result": "PASS" if (code == wanted and
+                              suite["summary"]["result"] == ("PASS" if wanted == 0 else "FAIL"))
+                  else "FAIL",
+        "suite": suite,
+    })
+print(json.dumps({
+    "mechanism": int(mechanism),
+    "mechanism_reason": reason,
+    "phases": phases,
+    "summary": {
+        "total": len(phases),
+        "PASS": sum(item["result"] == "PASS" for item in phases),
+        "FAIL": sum(item["result"] != "PASS" for item in phases),
+        "result": "PASS" if all(item["result"] == "PASS" for item in phases) else "FAIL",
+    },
+}, sort_keys=True))
+PY
+  rm -f -- "$baseline" "$red" "$green"
+  [[ $rc_baseline -eq 0 && $rc_red -ne 0 && $rc_green -eq 0 ]]
+}
+
+negative_nonexistent() {
+  local output rc
+  # Guest /tmp is traversable; the file does not exist. ENOENT must be ERROR,
+  # never PASS. No receiver hatch is involved.
+  if output=$(ISOLATION_MISSING_PATH=/tmp/.lab-isolation-deliberately-nonexistent run_suite); then
+    rc=0
+  else
+    rc=$?
+  fi
+  python3 - "$output" "$rc" <<'PY'
+import json
+import sys
+suite = json.loads(sys.argv[1])
+errors = [item for item in suite["assertions"]
+          if item["assertion"] == "missing_path_must_error"]
+ok = bool(errors) and all(item["result"] == "ERROR" for item in errors) and int(sys.argv[2]) != 0
+print(json.dumps({
+    "expected": "ERROR for deliberately non-existent path",
+    "observed": errors,
+    "result": "PASS" if ok else "FAIL",
+    "suite": suite,
+}, sort_keys=True))
+sys.exit(0 if ok else 1)
+PY
+}
+
+if [[ ${1:-} == "--regression" ]]; then
+  regression
+elif [[ ${1:-} == "--enumerate" ]]; then
+  enumerate
+elif [[ ${1:-} == "--negative-nonexistent" ]]; then
+  negative_nonexistent
+else
+  run_suite
+fi

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# D002: SC-01 bulk DELETE as ROLE_AGENT. Lab-contained; refuses non-scenario relations.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+set -a
+source "$ROOT/etc/lab.env"
+if [ -f "${SC01_SCENARIO_CONFIG:-$ROOT/etc/scenarios/sc01.env}" ]; then
+  # shellcheck source=/dev/null
+  source "${SC01_SCENARIO_CONFIG:-$ROOT/etc/scenarios/sc01.env}"
+fi
+set +a
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_inject_sc01.py" "$@"

@@ -1,0 +1,75 @@
+{
+  "K": 5,
+  "anti_goal_inversion": false,
+  "addendum": "docs/P7-architecture-handoff.addendum.md",
+  "article_count": 18,
+  "article_xix_note": "P7 adds no article; Article XIX would come from a later review if a new class surfaces.",
+  "matrix_completeness": {
+    "partition": {
+      "determinations": 25,
+      "refusals": 25,
+      "run_failures": 1
+    },
+    "total_planned_runs": 51,
+    "total_rows": 51
+  },
+  "model_id": "gb10a-deepseek-v4-flash",
+  "p8_builds": "analysis/figures",
+  "refusal_diagnoses": {
+    "n_diagnosed": 25,
+    "n_refusals": 25
+  },
+  "sc01_protected": true,
+  "sc02_checkpoint_gap_seconds": 2.5579779148101807,
+  "sc02_fs_db_skew_ms": 2718,
+  "sc03_tradeoff": {
+    "legit_dml_sacrificed": 9,
+    "single_coord_optimum_lsn": "5/FF000000"
+  },
+  "sc04_headline": {
+    "bytes_ratio_r2_over_r0": 1.3754693366708386,
+    "evidence_bytes_r0": 799,
+    "evidence_bytes_r2": 1099,
+    "gap": 0.95,
+    "r0_metric": 0.0,
+    "r2_metric": 0.95,
+    "strongest_figure": true,
+    "token_r0": 198,
+    "token_r2": 302,
+    "token_ratio_r2_over_r0": 1.5252525252525253
+  },
+  "scenarios": {
+    "SC-01": {
+      "citation": [
+        "existing P3/P6.1"
+      ],
+      "incident": "SC-01_20260824T091611Z",
+      "referenced": true
+    },
+    "SC-02": {
+      "citation": [
+        "Naihin2023"
+      ],
+      "incident": "SC-02_20260826T095506Z"
+    },
+    "SC-03": {
+      "citation": [
+        "GarciaMolinaSalem1987"
+      ],
+      "incident": "SC-03_20260826T101320Z"
+    },
+    "SC-04": {
+      "citation": [
+        "Cemri2025",
+        "Greshake2023"
+      ],
+      "incident": "SC-04_20260826T101526Z"
+    }
+  },
+  "throughput": {
+    "evaluate_arm_t2": 232.75550234733964,
+    "generate_incident": 63.389
+  },
+  "total_planned_runs": 51,
+  "tranche": "P7"
+}

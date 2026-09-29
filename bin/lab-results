@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# W003: append-only results writer. JSON on stdout. No coercion.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+export LAB_ROOT RESULTS_SCHEMA RESULTS_ROOT RESULTS_FILE_MODE
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_results.py" "$@"

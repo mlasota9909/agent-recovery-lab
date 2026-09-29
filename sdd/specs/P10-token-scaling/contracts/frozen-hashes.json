@@ -1,0 +1,32 @@
+{
+ "analysis_plan_digest": "b4ddd9c773b35c67546485a17113eaa89305f46a8839b4fe5c202d78fe655dd5",
+ "analysis_plan_files": [
+  "scaling-analysis-plan.md",
+  "scaling-analysis-plan.amendment-1.md"
+ ],
+ "authority": "Article XV (amend by supersession), Article XXI (pre-registration)",
+ "contracts": {
+  "scale-generator.amendment-1.md": "8dac6439f6b5fff2e4f0bfd461af72fdfc975d1ceda838bc0695258a13a7f9a7",
+  "scale-generator.md": "7758fd3a74aa506252f1f6dd9be12cb6cad9d176d223fb8a0f5f5c9eae45790c",
+  "scaling-analysis-plan.amendment-1.md": "c9f270c4172b2eb28af74b831b2e80e18bfc3cdc956e6cb6cd1504b74457c403",
+  "scaling-analysis-plan.md": "80e6ec7efd14241be0c6d5082417fc2d0a083534343ef86d8bf92bcc37b914e8"
+ },
+ "frozen_at": "Q001",
+ "frozen_before_first_scaling_row": true,
+ "frozen_utc": "2026-09-24T02:36:05.031594Z",
+ "note": "analysis_plan_digest = sha256 over 'name:sha256' lines of the plan and its amendment. The freeze commit that adds this file precedes every scaling-runs row.",
+ "parent_commit_at_freeze": "62fe19483631b56fcf34b7fc07ef1a2195767e44",
+ "pinned_in": [
+  "lib/lab_p10.py (frozen_hashes_ok, analysis_plan_digest, prereg_check)",
+  "bin/lab-prereg-check",
+  "bin/lab-p10-sweep (plan-drift refusal)",
+  "bin/lab-p10-stats (plan-drift refusal)",
+  "bin/lab-verify-p10"
+ ],
+ "scaling_output_exists_at_freeze": false,
+ "scaling_output_paths": [
+  "results/scaling-runs.jsonl",
+  "results/scaling-runs-detail.jsonl"
+ ],
+ "tranche": "P10"
+}

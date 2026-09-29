@@ -1,0 +1,19 @@
+[Unit]
+Description=Lab logical decoding consumer for incident %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mlasota
+Group=mlasota
+WorkingDirectory=/home/mlasota/thesis
+EnvironmentFile=/home/mlasota/thesis/etc/lab.env
+ExecStart=/home/mlasota/thesis/bin/lab-consumer run %i
+Restart=always
+RestartSec=3
+StandardOutput=null
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+export LAB_ROOT="${LAB_ROOT:-$ROOT}"
+exec python3 "$ROOT/lib/lab_p11_stats.py" "$@"

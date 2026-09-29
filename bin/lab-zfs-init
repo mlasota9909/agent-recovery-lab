@@ -1,0 +1,233 @@
+#!/usr/bin/env python3
+"""T002: Create the configured stripe pool and child datasets. JSON on stdout."""
+from __future__ import annotations
+
+import json
+import os
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+LAB_ROOT = Path(__file__).resolve().parent.parent
+LAB_ENV = LAB_ROOT / "etc" / "lab.env"
+EXIT_OK, EXIT_ASSERT, EXIT_PRECOND, EXIT_USAGE = 0, 1, 2, 3
+
+MANAGED_KEYS = ("ZPOOL", "DS_PARENT", "DS_PGDATA", "DS_PROTECTED", "MNT_PROTECTED")
+
+
+def err(msg: str) -> None:
+    print(msg, file=sys.stderr)
+
+
+def load_env() -> dict[str, str]:
+    if not LAB_ENV.exists():
+        err(f"precondition failed: missing {LAB_ENV}")
+        sys.exit(EXIT_PRECOND)
+    vals: dict[str, str] = {}
+    for line in LAB_ENV.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        vals[k] = v
+    return vals
+
+
+def save_env(env: dict[str, str], updates: dict[str, str]) -> None:
+    env.update(updates)
+    # Preserve order: existing keys first, then new
+    lines = []
+    seen = set()
+    for line in LAB_ENV.read_text().splitlines():
+        if not line.strip() or line.strip().startswith("#") or "=" not in line:
+            lines.append(line)
+            continue
+        k, _ = line.split("=", 1)
+        if k in updates:
+            lines.append(f"{k}={updates[k]}")
+            seen.add(k)
+        else:
+            lines.append(line)
+            seen.add(k)
+    for k, v in updates.items():
+        if k not in seen:
+            lines.append(f"{k}={v}")
+    LAB_ENV.write_text("\n".join(lines) + "\n")
+    os.chmod(LAB_ENV, 0o640)
+
+
+def ssh(vm: str, remote: str, check=True) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8", vm, remote],
+        check=check,
+        capture_output=True,
+        text=True,
+    )
+
+
+def main() -> None:
+    if len(sys.argv) > 1:
+        err(f"usage: {sys.argv[0]}")
+        sys.exit(EXIT_USAGE)
+
+    env = load_env()
+    for k in ("VM_SSH", "DEV_A", "DEV_B", "DEV_LOCATION", "PG_DATA", *MANAGED_KEYS):
+        if not env.get(k):
+            err(f"precondition failed: {k} missing from lab.env")
+            sys.exit(EXIT_PRECOND)
+
+    if env["DEV_LOCATION"] != "guest":
+        err(f"precondition failed: DEV_LOCATION={env['DEV_LOCATION']!r} (want guest)")
+        sys.exit(EXIT_PRECOND)
+
+    vm = env["VM_SSH"]
+    # Allow DEV_B override for negative test without editing lab.env
+    dev_a = os.environ.get("DEV_A", env["DEV_A"])
+    dev_b = os.environ.get("DEV_B", env["DEV_B"])
+    keys = {key: env[key] for key in MANAGED_KEYS}
+    zpool = keys["ZPOOL"]
+    ds_parent = keys["DS_PARENT"]
+    ds_pgdata = keys["DS_PGDATA"]
+    ds_prot = keys["DS_PROTECTED"]
+    mnt_prot = keys["MNT_PROTECTED"]
+    pg_data = env["PG_DATA"]
+
+    # Missing device check (guest)
+    probe = ssh(
+        vm,
+        f"test -b {dev_a}; echo A:$?; test -b {dev_b}; echo B:$?",
+        check=False,
+    )
+    if probe.returncode != 0:
+        err(f"precondition failed: SSH to {vm}: {probe.stderr.strip()}")
+        sys.exit(EXIT_PRECOND)
+    a_ok = "A:0" in probe.stdout
+    b_ok = "B:0" in probe.stdout
+    if not a_ok:
+        err(f"precondition failed: missing device {dev_a}")
+        sys.exit(EXIT_PRECOND)
+    if not b_ok:
+        err(f"precondition failed: missing device {dev_b}")
+        sys.exit(EXIT_PRECOND)
+
+    # Idempotent: pool already correct?
+    status = ssh(vm, f"sudo -n zpool status {zpool}", check=False)
+    if status.returncode == 0:
+        # Verify layout
+        listing = ssh(vm, f"sudo -n zfs list -H -o name -r {zpool}").stdout.split()
+        expected = {zpool, ds_parent, ds_pgdata, ds_prot}
+        if expected.issubset(set(listing)):
+            # Verify properties without attempting a live remount of PGDATA.
+            # `zfs set ... mountpoint=` may unmount an active PostgreSQL
+            # dataset even when the requested value is unchanged.
+            remote = f"""
+set -e
+test "$(sudo -n zfs get -H -o value compression {ds_parent})" = lz4
+test "$(sudo -n zfs get -H -o value atime {ds_parent})" = off
+test "$(sudo -n zfs get -H -o value xattr {ds_parent})" = sa
+test "$(sudo -n zfs get -H -o value snapdir {ds_parent})" = visible
+test "$(sudo -n zfs get -H -o value recordsize {ds_pgdata})" = 8K
+test "$(sudo -n zfs get -H -o value mountpoint {ds_pgdata})" = {pg_data}
+test "$(sudo -n zfs get -H -o value mountpoint {ds_prot})" = {mnt_prot}
+sudo -n mkdir -p {mnt_prot}
+sudo -n zfs mount {ds_prot} 2>/dev/null || true
+mountpoint -q {mnt_prot}
+"""
+            ssh(vm, remote)
+            save_env(env, keys)
+            print(
+                json.dumps(
+                    {"ok": True, "changed": False, "topology": "stripe", **keys},
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+            sys.exit(EXIT_OK)
+
+    # Devices must be free of signatures before create
+    blkid = ssh(vm, f"sudo -n blkid {dev_a} {dev_b}; echo EC:$?", check=False)
+    sigs = [
+        ln
+        for ln in blkid.stdout.splitlines()
+        if ln and not ln.startswith("EC:") and ("TYPE=" in ln or "UUID=" in ln)
+    ]
+    if sigs:
+        err("precondition failed: devices already have signatures:\n" + "\n".join(sigs))
+        sys.exit(EXIT_PRECOND)
+
+    # Create stripe pool (explicit topology: stripe, not mirror)
+    create = f"""
+set -e
+# Topology: STRIPE across {dev_a} and {dev_b} (not mirror).
+# Reason: lab reproducibility; ground truth lives on host; maximise space/speed.
+sudo -n zpool create -f -o ashift=12 \\
+  -O compression=lz4 -O atime=off -O xattr=sa \\
+  {zpool} {dev_a} {dev_b}
+sudo -n zfs create -o mountpoint=none -o canmount=off -o snapdir=visible \\
+  -o compression=lz4 -o atime=off -o xattr=sa {ds_parent}
+sudo -n zfs create -o recordsize=8K -o snapdir=visible -o canmount=off \\
+  -o mountpoint={pg_data} {ds_pgdata}
+sudo -n zfs create -o snapdir=visible -o mountpoint={mnt_prot} {ds_prot}
+sudo -n mkdir -p {mnt_prot}
+# ensure mounted
+sudo -n zfs mount {ds_prot} 2>/dev/null || true
+mountpoint -q {mnt_prot}
+sudo -n zpool status {zpool}
+sudo -n zfs list -r {zpool}
+"""
+    try:
+        ssh(vm, create)
+    except subprocess.CalledProcessError as e:
+        err(
+            f"pool/dataset create failed (exit {e.returncode}): "
+            f"{(e.stderr or e.stdout or '').strip()}"
+        )
+        sys.exit(EXIT_ASSERT)
+
+    # Throwaway timed snapshot + rollback, then destroy
+    timing_script = f"""
+set -e
+START=$(date +%s%N)
+sudo -n zfs snapshot -r {ds_parent}@t002_throwaway
+END=$(date +%s%N)
+echo SNAP_NS:$((END-START))
+START=$(date +%s%N)
+sudo -n zfs rollback -r {ds_prot}@t002_throwaway
+END=$(date +%s%N)
+echo ROLLBACK_NS:$((END-START))
+sudo -n zfs destroy -r {ds_parent}@t002_throwaway
+"""
+    t = ssh(vm, timing_script)
+    snap_sec = None
+    roll_sec = None
+    for line in t.stdout.splitlines():
+        if line.startswith("SNAP_NS:"):
+            snap_sec = int(line.split(":", 1)[1]) / 1e9
+        if line.startswith("ROLLBACK_NS:"):
+            roll_sec = int(line.split(":", 1)[1]) / 1e9
+
+    save_env(env, keys)
+    print(
+        json.dumps(
+            {
+                "ok": True,
+                "changed": True,
+                "topology": "stripe",
+                "topology_reason": (
+                    "stripe maximises space/speed; mirror unused because ground truth "
+                    "lives on host, not victim disks"
+                ),
+                "snap_sec": snap_sec,
+                "rollback_sec": roll_sec,
+                **keys,
+            },
+            indent=2,
+            sort_keys=True,
+        )
+    )
+    sys.exit(EXIT_OK)
+
+
+if __name__ == "__main__":
+    main()

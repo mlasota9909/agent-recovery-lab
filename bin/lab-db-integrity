@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# C005: DB-stream integrity — before-images, DDL, monotonic LSN.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+set -a
+source "$ROOT/etc/lab.env"
+set +a
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_db_integrity.py" "$@"

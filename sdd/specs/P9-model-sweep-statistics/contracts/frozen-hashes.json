@@ -1,0 +1,21 @@
+{
+  "tranche": "P9",
+  "frozen_at": "N001",
+  "frozen_utc": "2026-09-01T08:21:31Z",
+  "frozen_at_commit": "b41d0e4c99ce314b8055552f7338e6f7f0ce8cbd",
+  "authority": "Article XV (amend by supersession), Article XXI (pre-registration)",
+  "frozen_before_first_sweep_row": true,
+  "sweep_output_path": "results/sweep-runs.jsonl",
+  "sweep_output_exists_at_freeze": false,
+  "contracts": {
+    "model-sweep-plan.md": "9c608611441dc04a1d7afd134d3a5563fc18ea5200c6975534c35a8c2f089b3d",
+    "statistical-analysis-plan.md": "08f07d874bca67cf50d3a9082c3367014144d504fad21d0b0d2148255aa455c0",
+    "related-work-positioning.md": "044bb3a0b0466e9ce41613ccb13f244778ef92b52a18aa502654c09b982cf4f6"
+  },
+  "pinned_in": [
+    "lib/lab_p9.py (CONTRACTS + frozen_hashes_ok)",
+    "bin/lab-verify-p9 (AC-P9-01, AC-P9-07)",
+    "bin/lab-p9-stats (plan-drift refusal)"
+  ],
+  "note": "N005 refuses to run if statistical-analysis-plan.md digest differs from the value pinned here (Article XXI.2). The pre-registration ordering is proven by frozen_at_commit preceding every commit that writes results/sweep-runs.jsonl."
+}

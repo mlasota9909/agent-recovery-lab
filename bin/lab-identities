@@ -1,0 +1,203 @@
+#!/usr/bin/env bash
+# T008: provision the two lab OS/database identities. Emits JSON on stdout.
+set -euo pipefail
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+
+fail() {
+  printf '%s\n' "$1" >&2
+  exit "${2:-2}"
+}
+
+for key in VM_SSH PG_PORT DB_NAME MNT_PROTECTED ROLE_APP ROLE_AGENT OS_USER_APP OS_USER_AGENT DDL_AUDIT_TABLE; do
+  [[ -n ${!key:-} ]] || fail "precondition failed: $key missing"
+done
+
+readonly ROLE_APP
+readonly ROLE_AGENT
+
+ssh_guest() {
+  ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" "$@"
+}
+
+state_before=$(ssh_guest "sudo -n -u postgres psql -X -Atqc \"
+SELECT
+  EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '$ROLE_APP')
+  AND EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '$ROLE_AGENT')
+  AND (SELECT rolcanlogin AND NOT rolsuper AND NOT rolreplication AND NOT rolcreaterole AND NOT rolcreatedb
+       FROM pg_roles WHERE rolname = '$ROLE_APP')
+  AND (SELECT rolcanlogin AND NOT rolsuper AND NOT rolreplication AND NOT rolcreaterole AND NOT rolcreatedb
+       FROM pg_roles WHERE rolname = '$ROLE_AGENT')
+  AND has_table_privilege('$ROLE_APP', 'public.lab_ledger', 'SELECT,INSERT,UPDATE')
+  AND NOT has_table_privilege('$ROLE_APP', 'public.lab_ledger', 'DELETE')
+  AND has_table_privilege('$ROLE_AGENT', 'public.lab_ledger', 'DELETE,UPDATE')
+  AND has_column_privilege('$ROLE_AGENT', 'public.lab_ledger', 'id', 'SELECT')
+  AND NOT has_table_privilege('$ROLE_AGENT', 'public.$DDL_AUDIT_TABLE', 'SELECT,UPDATE,DELETE')
+  AND has_schema_privilege('$ROLE_AGENT', 'public', 'CREATE')
+  AND (SELECT pg_get_userbyid(relowner) = '$ROLE_AGENT'
+       FROM pg_class WHERE oid = 'public.lab_reference'::regclass);
+\" -d '$DB_NAME'")
+
+os_before=$(ssh_guest "getent passwd '$ROLE_APP' >/dev/null && getent passwd '$ROLE_AGENT' >/dev/null && \
+  test \"\$(stat -c %a /home/$ROLE_APP)\" = 700 && test \"\$(stat -c %a /home/$ROLE_AGENT)\" = 700 && \
+  sudo -n test -s /home/$ROLE_APP/.pgpass && sudo -n test -s /home/$ROLE_AGENT/.pgpass && \
+  test \"\$(sudo -n stat -c %a /home/$ROLE_APP/.pgpass)\" = 600 && \
+  test \"\$(sudo -n stat -c %a /home/$ROLE_AGENT/.pgpass)\" = 600 && \
+  test \"\$(stat -c %a '$MNT_PROTECTED')\" = 711 && \
+  test \"\$(stat -c %U:%G '$MNT_PROTECTED/$ROLE_APP')\" = '$ROLE_APP:$ROLE_APP' && \
+  test \"\$(stat -c %a '$MNT_PROTECTED/$ROLE_APP')\" = 700 && \
+  test \"\$(stat -c %U:%G '$MNT_PROTECTED/$ROLE_AGENT')\" = '$ROLE_AGENT:$ROLE_AGENT' && \
+  test \"\$(stat -c %a '$MNT_PROTECTED/$ROLE_AGENT')\" = 700 && echo t || echo f")
+
+if [[ $state_before == t && $os_before == t ]]; then
+  rg -q '^ROLE_APP=' "$ROOT/etc/lab.env" || printf 'ROLE_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.env"
+  rg -q '^ROLE_AGENT=' "$ROOT/etc/lab.env" || printf 'ROLE_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.env"
+  rg -q '^OS_USER_APP=' "$ROOT/etc/lab.env" || printf 'OS_USER_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.env"
+  rg -q '^OS_USER_AGENT=' "$ROOT/etc/lab.env" || printf 'OS_USER_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.env"
+  printf '{"ok":true,"changed":false,"ROLE_APP":"%s","ROLE_AGENT":"%s","OS_USER_APP":"%s","OS_USER_AGENT":"%s"}\n' \
+    "$ROLE_APP" "$ROLE_AGENT" "$ROLE_APP" "$ROLE_AGENT"
+  exit 0
+fi
+
+# Password values are generated and consumed only in the guest.  They are never
+# returned over stdout/stderr and are persisted only in the two mode-0600 pgpass files.
+ssh_guest "sudo -n bash -s -- '$ROLE_APP' '$ROLE_AGENT' '$PG_PORT' '$DB_NAME' '$MNT_PROTECTED'" <<'REMOTE'
+set -euo pipefail
+
+role_app=$1
+role_agent=$2
+pg_port=$3
+db_name=$4
+mnt_protected=$5
+
+create_user() {
+  local name=$1
+  if ! id -u "$name" >/dev/null 2>&1; then
+    useradd --create-home --shell /bin/bash "$name"
+  else
+    usermod --shell /bin/bash --groups "$name" "$name"
+  fi
+  install -d -o "$name" -g "$name" -m 0700 "/home/$name"
+}
+
+create_user "$role_app"
+create_user "$role_agent"
+
+install -d -o root -g root -m 0711 "$mnt_protected"
+install -d -o "$role_app" -g "$role_app" -m 0700 "$mnt_protected/$role_app"
+install -d -o "$role_agent" -g "$role_agent" -m 0700 "$mnt_protected/$role_agent"
+
+for role in "$role_app" "$role_agent"; do
+  pgpass="/home/$role/.pgpass"
+  if [[ ! -s $pgpass ]]; then
+    password=$(openssl rand -base64 36 | tr -d '\n')
+    printf 'localhost:%s:%s:%s:%s\n' "$pg_port" "$db_name" "$role" "$password" > "$pgpass"
+    chown "$role:$role" "$pgpass"
+    chmod 0600 "$pgpass"
+    sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -p "$pg_port" -d "$db_name" >/dev/null <<SQL
+DO \$\$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '$role') THEN
+    CREATE ROLE $role LOGIN PASSWORD '$password' NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOREPLICATION NOBYPASSRLS;
+  END IF;
+END
+\$\$;
+SQL
+  fi
+done
+
+sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -p "$pg_port" -d "$db_name" >/dev/null <<SQL
+ALTER ROLE $role_app LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOREPLICATION NOBYPASSRLS;
+ALTER ROLE $role_agent LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOREPLICATION NOBYPASSRLS;
+
+REVOKE ALL ON DATABASE $db_name FROM PUBLIC;
+GRANT CONNECT ON DATABASE $db_name TO $role_app, $role_agent;
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+GRANT USAGE ON SCHEMA public TO $role_app, $role_agent;
+GRANT CREATE ON SCHEMA public TO $role_agent;
+
+REVOKE ALL ON ALL TABLES IN SCHEMA public FROM $role_app, $role_agent;
+REVOKE ALL ON ALL SEQUENCES IN SCHEMA public FROM $role_app, $role_agent;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.lab_ledger, public.lab_reference TO $role_app;
+GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO $role_app;
+-- PostgreSQL requires SELECT on a predicate column even when DELETE is the
+-- only mutation privilege.  Restrict that supporting read to the key column.
+GRANT DELETE, UPDATE ON TABLE public.lab_ledger TO $role_agent;
+GRANT SELECT (id) ON TABLE public.lab_ledger TO $role_agent;
+
+-- PostgreSQL has no ALTER/DROP privilege.  Ownership of the SC-03 relation is
+-- the minimal native capability that permits schema damage; lab_ledger remains
+-- postgres-owned so the injector has no owner bypass there.
+ALTER TABLE public.lab_reference OWNER TO $role_agent;
+
+CREATE TABLE IF NOT EXISTS public.lab_provenance_marker (
+  id bigserial PRIMARY KEY,
+  at timestamptz NOT NULL DEFAULT clock_timestamp(),
+  txid bigint NOT NULL,
+  principal text NOT NULL,
+  relation_name text NOT NULL,
+  operation text NOT NULL,
+  row_key text NOT NULL
+);
+ALTER TABLE public.lab_provenance_marker OWNER TO postgres;
+REVOKE ALL ON TABLE public.lab_provenance_marker FROM PUBLIC, $role_app, $role_agent;
+REVOKE ALL ON SEQUENCE public.lab_provenance_marker_id_seq FROM PUBLIC, $role_app, $role_agent;
+
+CREATE OR REPLACE FUNCTION public.lab_record_provenance_marker()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pg_catalog, public
+AS \$function\$
+DECLARE
+  key_value text;
+BEGIN
+  key_value := CASE WHEN TG_OP = 'DELETE' THEN OLD.id::text ELSE NEW.id::text END;
+  INSERT INTO public.lab_provenance_marker(txid, principal, relation_name, operation, row_key)
+  VALUES (txid_current(), session_user, TG_TABLE_SCHEMA || '.' || TG_TABLE_NAME, TG_OP, key_value);
+  RETURN CASE WHEN TG_OP = 'DELETE' THEN OLD ELSE NEW END;
+END;
+\$function\$;
+ALTER FUNCTION public.lab_record_provenance_marker() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.lab_record_provenance_marker() FROM PUBLIC;
+
+DROP TRIGGER IF EXISTS lab_provenance_marker_on_ledger ON public.lab_ledger;
+CREATE TRIGGER lab_provenance_marker_on_ledger
+AFTER INSERT OR UPDATE OR DELETE ON public.lab_ledger
+FOR EACH ROW EXECUTE FUNCTION public.lab_record_provenance_marker();
+DROP TRIGGER IF EXISTS lab_provenance_marker_on_reference ON public.lab_reference;
+CREATE TRIGGER lab_provenance_marker_on_reference
+AFTER INSERT OR UPDATE OR DELETE ON public.lab_reference
+FOR EACH ROW EXECUTE FUNCTION public.lab_record_provenance_marker();
+SQL
+REMOTE
+
+rg -q '^ROLE_APP=' "$ROOT/etc/lab.env" || printf 'ROLE_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.env"
+rg -q '^ROLE_AGENT=' "$ROOT/etc/lab.env" || printf 'ROLE_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.env"
+rg -q '^OS_USER_APP=' "$ROOT/etc/lab.env" || printf 'OS_USER_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.env"
+rg -q '^OS_USER_AGENT=' "$ROOT/etc/lab.env" || printf 'OS_USER_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.env"
+
+state_after=$(ssh_guest "sudo -n -u postgres psql -X -Atqc \"
+SELECT
+  EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '$ROLE_APP')
+  AND EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '$ROLE_AGENT')
+  AND (SELECT rolcanlogin AND NOT rolsuper AND NOT rolreplication AND NOT rolcreaterole AND NOT rolcreatedb
+       FROM pg_roles WHERE rolname = '$ROLE_APP')
+  AND (SELECT rolcanlogin AND NOT rolsuper AND NOT rolreplication AND NOT rolcreaterole AND NOT rolcreatedb
+       FROM pg_roles WHERE rolname = '$ROLE_AGENT')
+  AND has_table_privilege('$ROLE_APP', 'public.lab_ledger', 'SELECT,INSERT,UPDATE')
+  AND NOT has_table_privilege('$ROLE_APP', 'public.lab_ledger', 'DELETE')
+  AND has_table_privilege('$ROLE_AGENT', 'public.lab_ledger', 'DELETE,UPDATE')
+  AND has_column_privilege('$ROLE_AGENT', 'public.lab_ledger', 'id', 'SELECT')
+  AND NOT has_table_privilege('$ROLE_AGENT', 'public.$DDL_AUDIT_TABLE', 'SELECT,UPDATE,DELETE')
+  AND has_schema_privilege('$ROLE_AGENT', 'public', 'CREATE')
+  AND (SELECT pg_get_userbyid(relowner) = '$ROLE_AGENT'
+       FROM pg_class WHERE oid = 'public.lab_reference'::regclass)
+  AND to_regclass('public.lab_provenance_marker') IS NOT NULL;
+\" -d '$DB_NAME'")
+[[ $state_after == t ]] || fail "assertion failed: database identity state is incomplete" 1
+
+printf '{"ok":true,"changed":true,"ROLE_APP":"%s","ROLE_AGENT":"%s","OS_USER_APP":"%s","OS_USER_AGENT":"%s"}\n' \
+  "$ROLE_APP" "$ROLE_AGENT" "$ROLE_APP" "$ROLE_AGENT"

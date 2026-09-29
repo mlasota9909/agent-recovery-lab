@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+set -a
+source "$ROOT/etc/lab.env"
+set +a
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 -c 'from lab_p71_l004 import main; raise SystemExit(main())' "$@"

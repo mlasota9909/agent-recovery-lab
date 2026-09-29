@@ -1,0 +1,42 @@
+{
+  "AC-2": {
+    "DEV_LOCATION": "guest",
+    "source": "etc/lab.env"
+  },
+  "AC-3": {
+    "snapshot_seconds": 0.139255,
+    "rollback_seconds": 0.202686,
+    "snapshot_limit_seconds": 2.0,
+    "rollback_limit_seconds": 5.0,
+    "source": "logs/review/T002/timings.md"
+  },
+  "AC-4": {
+    "deleted_content": "original deleted content",
+    "source": "logs/review/T013/snapshot-read-proof.txt"
+  },
+  "AC-5": {
+    "change_types": ["+", "-", "M", "R"],
+    "source": "logs/review/T013/zfs-diff-parsed.json"
+  },
+  "AC-7": {
+    "markers": ["t014-ddl-before", "t014-ddl-between", "t014-ddl-after"],
+    "source": "logs/review/T014/ddl-ordering-proof.json"
+  },
+  "AC-8": {
+    "refusal_exit": 42,
+    "checksum": "d68ed0ca9034f0f6204e5d55f98fa91bced1a726cfb6f4f07c2c4914ea15cc9a",
+    "source": "logs/review/T007/overwrite-checksums.txt"
+  },
+  "AC-9": {
+    "incidents_disjoint": true,
+    "source": "logs/review/T005/acceptance.md machine fields T005-4"
+  },
+  "AC-11": {
+    "principals": ["lab_app", "lab_agent"],
+    "source": "logs/review/T008/acceptance.md T008-7"
+  },
+  "AC-17": {
+    "t1_elapsed_ms": 4640,
+    "source": "logs/review/T012/acceptance.md T012-1"
+  }
+}

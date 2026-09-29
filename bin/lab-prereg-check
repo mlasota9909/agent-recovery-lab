@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# P10 Q001/Q005: Article XXI gate -- plan digest pinned and frozen before any scaling row.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+export LAB_ROOT="${LAB_ROOT:-$ROOT}"
+exec python3 - "$@" <<'PY'
+import argparse, json, sys
+from pathlib import Path
+from lab_p10 import prereg_check
+p = argparse.ArgumentParser(prog="lab-prereg-check")
+p.add_argument("--tranche", choices=("P10", "P11"), default="P10")
+p.add_argument("--results-dir", help="directory holding scaling-runs* (default: results/)")
+a = p.parse_args(sys.argv[1:])
+if a.tranche == "P11":
+    from lab_p11 import prereg_check
+r = prereg_check(Path(a.results_dir) if a.results_dir else None)
+print(json.dumps(r, indent=2, sort_keys=True))
+if not r["ok"]:
+    print("lab-prereg-check: plan NOT frozen before data (Article XXI)" if not r.get("frozen_before_data", True)
+          else f"lab-prereg-check: refused: {r.get('reason') or 'analysis plan digest drifted'}", file=sys.stderr)
+    sys.exit(1)
+PY

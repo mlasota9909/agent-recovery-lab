@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# X006: tiered P1.1 acceptance. JSON only on stdout when --json.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+_LAB_OV_EVIDENCE_ROOT="${EVIDENCE_ROOT:-}"
+_LAB_OV_ARCHIVE_ROOT="${ARCHIVE_ROOT:-}"
+_LAB_OV_ARCHIVE_CURRENT="${ARCHIVE_CURRENT:-}"
+_LAB_OV_RESULTS_ROOT="${RESULTS_ROOT:-}"
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+# shellcheck source=/dev/null
+source "$ROOT/lib/lab_env_overrides.sh"
+export LAB_ROOT EVIDENCE_ROOT ARCHIVE_CURRENT ARCHIVE_ROOT RESULTS_ROOT RESULTS_SCHEMA
+export VM_SSH PG_DATA PG_VERSION PG_PORT DB_NAME BARRIER_TIMEOUT_S
+export HARNESS_COMMIT_AT_P1_OPEN
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_verify_p11.py" "$@"

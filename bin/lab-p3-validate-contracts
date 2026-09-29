@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+"""D001 negative: contracts must refuse a provenance field in the schema table."""
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "lib"))
+from lab_p3_util import contract_schema_has_provenance  # noqa: E402
+
+
+def main(argv: list[str]) -> int:
+    if len(argv) != 1:
+        print("usage: lab-p3-validate-contracts PATH", file=sys.stderr)
+        return 3
+    text = Path(argv[0]).read_text(encoding="utf-8")
+    if contract_schema_has_provenance(text):
+        print("VIOLATION: provenance field present in schema", file=sys.stderr)
+        return 1
+    print("ok")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))

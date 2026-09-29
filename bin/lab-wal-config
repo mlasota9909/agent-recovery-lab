@@ -1,0 +1,173 @@
+#!/usr/bin/env bash
+# T006: configure logical decoding, narrow host pull access, and WAL archiving.
+set -euo pipefail
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+# shellcheck source=../etc/lab.env
+source "$SCRIPT_DIR/../etc/lab.env"
+
+EXIT_ASSERT=1
+EXIT_PRECOND=2
+EXIT_USAGE=3
+HOST_ARCHIVE_USER=mlasota
+ARCHIVE_TIMEOUT=1min
+WAL_KEEP_SIZE=64MB
+
+die() {
+  local code=$1
+  shift
+  printf '%s\n' "$*" >&2
+  exit "$code"
+}
+
+for key in VM_SSH VM_ADDR PG_VERSION PG_DATA PG_PORT DB_NAME ARCHIVE_MOUNT_IN_VM \
+           LAB_HOST SLOT_NAME SLOT_PLUGIN DDL_AUDIT_TABLE; do
+  [[ -n ${!key:-} ]] || die "$EXIT_PRECOND" "precondition failed: $key missing from lab.env"
+done
+
+[[ $# -eq 0 || ${1:-} == "--json" ]] ||
+  die "$EXIT_USAGE" "usage: lab-wal-config [--json]"
+command -v ssh >/dev/null || die "$EXIT_PRECOND" "precondition failed: ssh is unavailable"
+
+host_pg_source=$(ip -4 route get "$VM_ADDR" 2>/dev/null |
+  awk '{for (i = 1; i <= NF; i++) if ($i == "src") {print $(i + 1); exit}}')
+[[ $host_pg_source =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]] ||
+  die "$EXIT_PRECOND" "precondition failed: cannot discover host source address for $VM_ADDR"
+
+result=$(ssh -o BatchMode=yes "$VM_SSH" \
+  "sudo -n bash -s -- '$PG_VERSION' '$PG_DATA' '$PG_PORT' '$DB_NAME' '$VM_ADDR' '$ARCHIVE_MOUNT_IN_VM' '$LAB_HOST' '$HOST_ARCHIVE_USER' '$host_pg_source' '$SLOT_NAME' '$SLOT_PLUGIN' '$DDL_AUDIT_TABLE' '$ARCHIVE_TIMEOUT' '$WAL_KEEP_SIZE'" <<'REMOTE'
+set -euo pipefail
+pg_version=$1
+pg_data=$2
+pg_port=$3
+db_name=$4
+vm_addr=$5
+archive_endpoint=$6
+lab_host=$7
+archive_user=$8
+host_pg_source=$9
+slot_name=${10}
+slot_plugin=${11}
+ddl_audit_table=${12}
+archive_timeout=${13}
+wal_keep_size=${14}
+config_dir="/etc/postgresql/$pg_version/main"
+conf_file="$config_dir/conf.d/t006-lab.conf"
+hba_file="$config_dir/pg_hba.conf"
+package="postgresql-$pg_version-wal2json"
+changed=false
+
+if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null | awk '$0 == "install ok installed" {found=1} END {exit !found}'; then
+  DEBIAN_FRONTEND=noninteractive apt-get update -qq >/dev/null
+  DEBIAN_FRONTEND=noninteractive apt-get install -y -qq "$package" >/dev/null
+  changed=true
+fi
+
+install -d -m 0755 "$config_dir/conf.d"
+tmp_conf=$(mktemp)
+trap 'rm -f "$tmp_conf"' EXIT
+cat >"$tmp_conf" <<EOF
+# Managed by lab-wal-config (T006).
+listen_addresses = 'localhost,$vm_addr'
+wal_level = logical
+archive_mode = on
+archive_command = 'ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -i $archive_endpoint/wal_append_ed25519 $archive_user@$lab_host "append %f" < %p'
+max_wal_senders = 4
+max_replication_slots = 4
+wal_keep_size = $wal_keep_size
+archive_timeout = $archive_timeout
+EOF
+if ! test -f "$conf_file" || ! cmp -s "$tmp_conf" "$conf_file"; then
+  install -m 0644 "$tmp_conf" "$conf_file"
+  changed=true
+fi
+
+hba_replication_rule="host replication postgres $host_pg_source/32 trust"
+hba_logical_rule="host $db_name postgres $host_pg_source/32 trust"
+for hba_rule in "$hba_replication_rule" "$hba_logical_rule"; do
+  if ! awk -v rule="$hba_rule" '$0 == rule {found=1} END {exit found ? 0 : 1}' "$hba_file"; then
+    printf '\n# T006: host-side pg_recvlogical pull only.\n%s\n' "$hba_rule" >>"$hba_file"
+    changed=true
+  fi
+done
+
+if [[ $changed == true ]]; then
+  systemctl restart "postgresql@$pg_version-main"
+fi
+sudo -u postgres pg_isready -q -p "$pg_port"
+
+for expected in \
+  "wal_level|logical" \
+  "archive_mode|on" \
+  "max_wal_senders|4" \
+  "max_replication_slots|4" \
+  "wal_keep_size|$wal_keep_size" \
+  "archive_timeout|$archive_timeout"; do
+  name=${expected%%|*}
+  value=${expected#*|}
+  actual=$(sudo -u postgres psql -At -p "$pg_port" -c "SHOW $name")
+  [[ $actual == "$value" ]] || {
+    printf 'assertion failed: SHOW %s returned %s, expected %s\n' "$name" "$actual" "$value" >&2
+    exit 1
+  }
+done
+
+sudo -u postgres psql -At -p "$pg_port" -d "$db_name" \
+  -c "SELECT to_regclass('$ddl_audit_table')" | awk -v expected="$ddl_audit_table" '$0 == expected {found=1} END {exit !found}' ||
+  { printf 'precondition failed: DDL audit table %s is absent\n' "$ddl_audit_table" >&2; exit 2; }
+
+slot=$(sudo -u postgres psql -At -p "$pg_port" -d "$db_name" \
+  -c "SELECT plugin || '|' || slot_type FROM pg_replication_slots WHERE slot_name = '$slot_name'")
+if [[ -z $slot ]]; then
+  sudo -u postgres psql -v ON_ERROR_STOP=1 -At -p "$pg_port" -d "$db_name" \
+    -c "SELECT slot_name FROM pg_create_logical_replication_slot('$slot_name', '$slot_plugin')" >/dev/null
+  changed=true
+elif [[ $slot != "$slot_plugin|logical" ]]; then
+  printf 'assertion failed: slot %s is %s, expected %s|logical\n' "$slot_name" "$slot" "$slot_plugin" >&2
+  exit 1
+fi
+
+wal2json_version=$(dpkg-query -W -f='${Version}' "$package")
+printf '%s|%s|%s\n' "$changed" "$wal2json_version" "$hba_logical_rule"
+REMOTE
+)
+
+IFS='|' read -r changed wal2json_version hba_rule <<<"$result"
+[[ $changed == true || $changed == false ]] ||
+  die "$EXIT_ASSERT" "unexpected guest configuration result"
+
+env_changed=false
+for entry in "SLOT_NAME=$SLOT_NAME" "SLOT_PLUGIN=$SLOT_PLUGIN" "WAL2JSON_VERSION=$wal2json_version"; do
+  key=${entry%%=*}
+  value=${entry#*=}
+  if ! awk -F= -v key="$key" -v value="$value" '
+      $1 == key {seen=1; if ($0 != key "=" value) bad=1}
+      END {exit (seen && !bad) ? 0 : 1}
+    ' "$SCRIPT_DIR/../etc/lab.env"; then
+    if awk -F= -v key="$key" '$1 == key {found=1} END {exit found ? 0 : 1}' "$SCRIPT_DIR/../etc/lab.env"; then
+      die "$EXIT_ASSERT" "lab.env has a conflicting $key value"
+    fi
+    printf '%s\n' "$entry" >>"$SCRIPT_DIR/../etc/lab.env"
+    env_changed=true
+  fi
+done
+
+if [[ $env_changed == true ]]; then
+  changed=true
+fi
+
+python3 - "$changed" "$SLOT_NAME" "$SLOT_PLUGIN" "$wal2json_version" "$host_pg_source" "$ARCHIVE_TIMEOUT" "$WAL_KEEP_SIZE" <<'PY'
+import json
+import sys
+changed, slot, plugin, version, source, timeout, keep_size = sys.argv[1:]
+print(json.dumps({
+    "archive_timeout": timeout,
+    "changed": changed == "true",
+    "host_replication_source": source,
+    "ok": True,
+    "slot_name": slot,
+    "slot_plugin": plugin,
+    "wal2json_version": version,
+    "wal_keep_size": keep_size,
+}, sort_keys=True))
+PY

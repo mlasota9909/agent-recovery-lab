@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# T005 forced SSH command.  It accepts exactly: append <24-hex-WAL-segment>.
+set -euo pipefail
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+# shellcheck source=../etc/lab.env
+source "$SCRIPT_DIR/../etc/lab.env"
+
+EXIT_IO=1
+EXIT_OVERWRITE=42
+
+fail() {
+  local code=$1
+  shift
+  printf 'wal receive refused: %s\n' "$*" >&2
+  exit "$code"
+}
+
+[[ -n ${ARCHIVE_ROOT:-} && -n ${ARCHIVE_CURRENT:-} ]] ||
+  fail "$EXIT_IO" "ARCHIVE_ROOT or ARCHIVE_CURRENT missing from lab.env"
+[[ "$ARCHIVE_CURRENT" == "$ARCHIVE_ROOT/current" ]] ||
+  fail "$EXIT_IO" "ARCHIVE_CURRENT is not ARCHIVE_ROOT/current"
+
+[[ ${SSH_ORIGINAL_COMMAND:-} =~ ^append[[:space:]]([0-9A-F]{24})$ ]] ||
+  fail "$EXIT_IO" "only append <24-uppercase-hex-segment> is permitted"
+
+segment=${BASH_REMATCH[1]}
+active_dir=$(readlink -f -- "$ARCHIVE_CURRENT") ||
+  fail "$EXIT_IO" "no active incident"
+case "$active_dir" in
+  "$ARCHIVE_ROOT"/*) ;;
+  *) fail "$EXIT_IO" "active incident escapes archive root" ;;
+esac
+[[ -d $active_dir ]] || fail "$EXIT_IO" "active incident directory does not exist"
+
+target="$active_dir/$segment"
+if [[ -e $target ]]; then
+  fail "$EXIT_OVERWRITE" "overwrite refused for $segment"
+fi
+tmp=$(mktemp "$active_dir/.incoming.XXXXXX") || fail "$EXIT_IO" "cannot create temporary segment"
+cleanup() {
+  rm -f -- "$tmp"
+}
+trap cleanup EXIT HUP INT TERM
+
+cat >"$tmp" || fail "$EXIT_IO" "cannot receive segment data"
+chmod 0444 "$tmp" || fail "$EXIT_IO" "cannot make received segment immutable"
+if ! ln -- "$tmp" "$target"; then
+  if [[ -e $target ]]; then
+    fail "$EXIT_OVERWRITE" "overwrite refused for $segment"
+  fi
+  fail "$EXIT_IO" "cannot publish received segment"
+fi
+rm -f -- "$tmp"
+trap - EXIT HUP INT TERM
+printf '{"ok":true,"segment":"%s"}\n' "$segment"

@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# R006: generate the reproducible environment table from lab.env. Never hand-edit the table.
+set -euo pipefail
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+
+EXIT_PRECOND=2
+
+die() {
+  printf '%s\n' "$1" >&2
+  exit "$EXIT_PRECOND"
+}
+
+python3 - "$ROOT/etc/lab.env" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+values = {}
+for line in path.read_text(encoding="utf-8").splitlines():
+    if not line or line.startswith("#") or "=" not in line:
+        continue
+    key, value = line.split("=", 1)
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
+        value = value[1:-1]
+    values[key] = value
+
+rows = (
+    ("Host OS", "HOST_OS", "lsb_release -ds on the host"),
+    ("Host kernel", "HOST_KERNEL", "uname -r on the host"),
+    ("Guest OS", "GUEST_OS", "lsb_release -ds on the guest"),
+    ("Guest kernel", "GUEST_KERNEL", "uname -r on the guest"),
+    ("ZFS kernel module", "ZFS_KMOD_VERSION", "modinfo zfs version on the guest"),
+    ("ZFS userland", "ZFS_VERSION", "dpkg-query -W zfsutils-linux on the guest"),
+    ("PostgreSQL package series", "PG_VERSION", "etc/lab.env PG_VERSION"),
+    ("PostgreSQL server", "PG_SERVER_VERSION", "SELECT version() on the guest"),
+    ("wal2json", "WAL2JSON_VERSION", "dpkg-query -W postgresql-*-wal2json on the guest"),
+    ("Device location", "DEV_LOCATION", "lab-discover / T001"),
+    ("Device A", "DEV_A", "guest block device"),
+    ("Device B", "DEV_B", "guest block device"),
+)
+
+missing = [key for _, key, _ in rows if not values.get(key)]
+if missing:
+    print("lab-environment: missing lab.env key(s): " + ", ".join(missing), file=sys.stderr)
+    sys.exit(2)
+empty = [key for _, key, _ in rows if values.get(key, "").strip() == ""
+         or values.get(key, "").lower() in {"unknown", "todo", "placeholder"}]
+if empty:
+    print("lab-environment: empty or placeholder lab.env key(s): " + ", ".join(empty), file=sys.stderr)
+    sys.exit(2)
+
+print("| Component | Version | Source |")
+print("| --- | --- | --- |")
+for component, key, source in rows:
+    print(f"| {component} | {values[key]} | {source} |")
+PY

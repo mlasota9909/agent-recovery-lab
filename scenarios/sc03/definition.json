@@ -1,0 +1,24 @@
+{
+  "scenario_id": "SC-03",
+  "damage_class": "database_schema",
+  "timing_pattern": "slow",
+  "archetype": "agent runs a destructive migration in stages — drop column, alter type, drop constraint — while legitimate DML continues",
+  "corpus_citation": ["GarciaMolinaSalem1987"],
+  "injection": {"principal": "lab_agent", "script_ref": "scenarios/sc03/inject.sql"},
+  "confounder": {
+    "principal": "lab_app",
+    "spec_ref": "scenarios/sc03/workload.py",
+    "overlaps_damage": true
+  },
+  "ground_truth": {
+    "kind": "set_and_earliest",
+    "definition": "LSN before the first destructive DDL, plus the legitimate DML a single-coordinate restore to that LSN discards, plus DDL ops retained if restored later",
+    "computed_from": "injection ops[].lsn_before of the first DDL; confounder DML with commit LSN >= that bound"
+  },
+  "evidence_signature": {
+    "db": "lab_ddl_audit rows for ALTER/DROP distinct from DML; no single volume spike",
+    "derived": "ddl_in_window over several slow windows rather than one burst",
+    "graph": "schema-changing session interleaved with application DML"
+  },
+  "metrics": ["single_coord_optimum_lsn", "legit_dml_sacrificed", "ddl_ops_retained"]
+}

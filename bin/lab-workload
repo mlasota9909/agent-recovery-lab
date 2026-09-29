@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# W005: legitimate SC-01 workload as ROLE_APP. JSON on stdout.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+export LAB_ROOT EVIDENCE_ROOT ARCHIVE_CURRENT VM_SSH DB_NAME PG_PORT OS_USER_APP ROLE_APP
+export SC01_SEED_ROWS SC01_TPS SC01_MIX SC01_TPS_TOLERANCE SC01_MIX_TOLERANCE
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_workload.py" "$@"

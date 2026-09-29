@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+# R005: prove lab-reset refuses while PostgreSQL is live, then succeeds once stopped.
+set -euo pipefail
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+
+EXIT_ASSERT=1
+EXIT_PRECOND=2
+EXIT_USAGE=3
+
+die() {
+  printf '%s\n' "$1" >&2
+  exit "${2:-$EXIT_PRECOND}"
+}
+
+[[ $# -eq 0 ]] || die "usage: lab-reset-guard-test" "$EXIT_USAGE"
+for key in VM_SSH PG_VERSION PG_PORT PG_DATA DS_PARENT DS_PGDATA DS_PROTECTED ARCHIVE_CURRENT; do
+  [[ -n ${!key:-} ]] || die "precondition failed: $key missing from lab.env"
+done
+install -d -m 0755 "$ROOT/logs/review/R005"
+
+PG_CLUSTER=${PG_DATA##*/}
+PG_UNIT="postgresql@${PG_VERSION}-${PG_CLUSTER}"
+ssh_guest() { ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" "$@"; }
+
+fingerprint() {
+  ssh_guest "sudo -n bash -s" <<REMOTE
+set -euo pipefail
+echo 'snapshots:'
+sudo -n zfs list -H -t snapshot -o name -s creation -r '$DS_PARENT'
+echo 'pgdata:'
+sudo -n zfs get -H -o value guid,used,referenced '$DS_PGDATA'
+echo 'protected:'
+sudo -n zfs get -H -o value guid,used,referenced '$DS_PROTECTED'
+REMOTE
+}
+
+json_escape() {
+  python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))'
+}
+
+cluster_live=$(ssh_guest "sudo -n pgrep -x postgres >/dev/null && printf true || printf false")
+[[ $cluster_live == true ]] ||
+  die "precondition failed: PostgreSQL must be running for the refusal case; start $PG_UNIT first"
+
+before_refuse=$(fingerprint)
+if "$ROOT/bin/lab-reset" --tier t1 >"$ROOT/logs/review/R005/reset-live.out" 2>"$ROOT/logs/review/R005/reset-live.err"; then
+  refuse_rc=0
+else
+  refuse_rc=$?
+fi
+after_refuse=$(fingerprint)
+refuse_msg=$(cat "$ROOT/logs/review/R005/reset-live.err")
+if [[ $refuse_rc -ne 0 && $before_refuse == "$after_refuse" &&
+      $refuse_msg == *still\ running* && $refuse_msg == *stop* ]]; then
+  refuse_result=PASS
+else
+  refuse_result=FAIL
+fi
+python3 - "$ROOT" "$refuse_rc" "$refuse_msg" "$before_refuse" "$after_refuse" "$refuse_result" <<'PY' >"$ROOT/logs/review/R005/guard-refusal.json"
+import json, sys
+root, rc, msg, before, after, result = sys.argv[1:]
+print(json.dumps({
+    "exit_code": int(rc),
+    "message": msg,
+    "before": before,
+    "after": after,
+    "fingerprints_identical": before == after,
+    "result": result,
+}, sort_keys=True))
+PY
+[[ $refuse_result == PASS ]] || die "assertion failed: live-cluster refusal did not hold" "$EXIT_ASSERT"
+
+# Success case: stop the cluster (mechanism 1 — the cluster itself), then reset.
+if [[ -x $ROOT/bin/lab-consumer ]]; then
+  incident=$(readlink -f -- "$ARCHIVE_CURRENT")
+  incident=${incident##*/}
+  "$ROOT/bin/lab-consumer" stop "$incident" >/dev/null
+fi
+ssh_guest "sudo -n systemctl stop lab-heartbeat.service"
+ssh_guest "sudo -n systemctl stop '$PG_UNIT'"
+for _ in $(seq 1 20); do
+  ssh_guest "sudo -n pgrep -x postgres >/dev/null" || break
+  sleep 0.5
+done
+ssh_guest "sudo -n pgrep -x postgres >/dev/null" &&
+  die "precondition failed: PostgreSQL did not stop for the success case"
+
+if "$ROOT/bin/lab-reset" --tier t1 >"$ROOT/logs/review/R005/reset-stopped.out" 2>"$ROOT/logs/review/R005/reset-stopped.err"; then
+  success_rc=0
+  success_out=$(cat "$ROOT/logs/review/R005/reset-stopped.out")
+else
+  success_rc=$?
+  success_out=$(cat "$ROOT/logs/review/R005/reset-stopped.out"; cat "$ROOT/logs/review/R005/reset-stopped.err")
+fi
+
+pg_ok=$(ssh_guest "sudo -n systemctl is-active '$PG_UNIT' && sudo -n -u postgres psql -X -At -p '$PG_PORT' -c 'SELECT 1'")
+children=$(ssh_guest "sudo -n zfs list -H -o name,mounted '$DS_PGDATA' '$DS_PROTECTED'")
+python3 - "$success_rc" "$success_out" "$pg_ok" "$children" <<'PY' >"$ROOT/logs/review/R005/guard-success.json"
+import json, sys
+rc, out, pg_ok, children = sys.argv[1:]
+print(json.dumps({
+    "exit_code": int(rc),
+    "output": out,
+    "cluster": pg_ok,
+    "children": children,
+    "result": "PASS" if int(rc) == 0 and pg_ok.strip().endswith("1") else "FAIL",
+}, sort_keys=True))
+PY
+[[ $success_rc -eq 0 ]] || die "assertion failed: reset with cluster stopped failed" "$EXIT_ASSERT"
+
+python3 - "$ROOT" <<'PY'
+import json, sys
+from pathlib import Path
+root = Path(sys.argv[1]) / "logs" / "review" / "R005"
+refusal = json.loads((root / "guard-refusal.json").read_text())
+success = json.loads((root / "guard-success.json").read_text())
+print(json.dumps({
+    "refusal": refusal["result"],
+    "success": success["result"],
+    "result": "PASS" if refusal["result"] == "PASS" and success["result"] == "PASS" else "FAIL",
+}, sort_keys=True))
+raise SystemExit(0 if refusal["result"] == "PASS" and success["result"] == "PASS" else 1)
+PY

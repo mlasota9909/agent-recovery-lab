@@ -1,0 +1,292 @@
+#!/usr/bin/env bash
+# T012: evidence-preserving rollback of the victim dataset.
+set -euo pipefail
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+
+# P7.1 isolated syntax. Legacy no-incident use remains below solely for prior
+# single-incident tooling; SC-01 and shared-parent requests are refused here.
+if [[ " $* " == *" --incident "* ]]; then
+  readonly EXIT_ASSERT=1 EXIT_PRECOND=2 EXIT_USAGE=3
+  die() { printf '%s\n' "$1" >&2; exit "${2:-$EXIT_PRECOND}"; }
+  tier= incident= requested_dataset=
+  if [[ ${1:-} == --tier ]]; then tier=${2:-}; shift 2
+  elif [[ ${1:-} =~ ^t[012]$ ]]; then tier=$1; shift
+  fi
+  while (( $# )); do
+    case $1 in
+      --incident) incident=${2:-}; shift 2 ;;
+      --dataset) requested_dataset=${2:-}; shift 2 ;;
+      *) die 'usage: lab-reset --tier t0|t1|t2 --incident INCIDENT [--dataset DATASET]' "$EXIT_USAGE" ;;
+    esac
+  done
+  [[ $tier =~ ^t[012]$ && -n $incident ]] || die 'usage: lab-reset --tier t0|t1|t2 --incident INCIDENT [--dataset DATASET]' "$EXIT_USAGE"
+  [[ $incident != SC-01_* && $incident != i_20260824T091611Z_122142 ]] || die 'precondition failed: SC-01 is banked; reset refused'
+  shared_parent=$DS_PARENT
+  LAB_ACTIVE_INCIDENT=$incident; export LAB_ACTIVE_INCIDENT
+  source "$ROOT/lib/lab_incident_env.sh"
+  [[ -n ${INC_DS:-} ]] || die "precondition failed: isolated runtime absent for $incident"
+  target_ds=${requested_dataset:-$INC_DS}
+  [[ $target_ds != "$shared_parent" ]] || die "precondition failed: shared-parent reset $shared_parent is forbidden"
+  case $target_ds in "$INC_DS"|"$INC_DS"/*) ;; *) die "precondition failed: cross-incident/outside-subtree reset target $target_ds is forbidden" ;; esac
+  case $tier in t0) label=$SNAP_PRISTINE ;; t1) label=$SNAP_PRE_INJECTION ;; t2) label=$SNAP_POST_CAPTURE ;; esac
+  active="$ARCHIVE_ROOT/$ARCHIVE_INCIDENT"; records="$active/snapshots.json"
+  [[ -s $records ]] || die "precondition failed: snapshots record absent for $ARCHIVE_INCIDENT"
+  target=$(python3 - "$records" "$ARCHIVE_INCIDENT" "$label" <<'PY'
+import json,sys
+rows=json.load(open(sys.argv[1],encoding='utf-8'))
+m=[r for r in rows if r.get('incident')==sys.argv[2] and r.get('label')==sys.argv[3] and not r.get('invalidated')]
+if len(m)!=1: raise SystemExit(f"precondition failed: expected one valid {sys.argv[3]} snapshot, found {len(m)}")
+print(m[0]['snapshot'])
+PY
+) || die "precondition failed: no unambiguous $label snapshot"
+  ssh_guest() { ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" "$@"; }
+  ssh_guest "sudo -n systemctl stop lab-heartbeat.service >/dev/null 2>&1 || :; sudo -n -u postgres '/usr/lib/postgresql/$PG_VERSION/bin/pg_ctl' -D '$INC_PGDATA' status >/dev/null && sudo -n -u postgres '/usr/lib/postgresql/$PG_VERSION/bin/pg_ctl' -D '$INC_PGDATA' -m fast -w stop || :"
+  mapfile -t isolated_datasets < <(ssh_guest "sudo -n zfs list -H -o name -r '$INC_DS'")
+  (( ${#isolated_datasets[@]} == 3 )) || die 'assertion failed: isolated subtree must contain root, pgdata, protected' "$EXIT_ASSERT"
+  for ((i=${#isolated_datasets[@]}-1;i>=0;i--)); do
+    ssh_guest "sudo -n zfs rollback -r '${isolated_datasets[$i]}@$target'"
+  done
+  ssh_guest "sudo -n -u postgres '/usr/lib/postgresql/$PG_VERSION/bin/pg_ctl' -D '$INC_PGDATA' -l '$INC_PGDATA/incident-postgres.log' -w start"
+  LAB_ACTIVE_INCIDENT=$incident "$ROOT/bin/lab-heartbeat" --start >/dev/null
+  python3 - "$incident" "$tier" "$target" "$INC_DS" <<'PY'
+import json,sys
+print(json.dumps({'ok':True,'incident':sys.argv[1],'tier':sys.argv[2],
+                  'target_snapshot':sys.argv[3],'dataset':sys.argv[4],
+                  'cluster_restarted_cleanly':True},sort_keys=True))
+PY
+  exit 0
+fi
+
+readonly EXIT_ASSERT=1 EXIT_PRECOND=2 EXIT_USAGE=3
+readonly HEARTBEAT_UNIT=lab-heartbeat.service
+die() { printf '%s\n' "$1" >&2; exit "${2:-$EXIT_PRECOND}"; }
+
+[[ $# -eq 2 && ${1:-} == --tier && ${2:-} =~ ^t[012]$ ]] ||
+  die "usage: lab-reset --tier t0|t1|t2" "$EXIT_USAGE"
+tier=$2
+case $tier in
+  t0) label=$SNAP_PRISTINE ;;
+  t1) label=$SNAP_PRE_INJECTION ;;
+  t2) label=$SNAP_POST_CAPTURE ;;
+esac
+for key in VM_SSH PG_VERSION PG_PORT DB_NAME PG_DATA HEARTBEAT_TABLE DS_PARENT ARCHIVE_CURRENT ARCHIVE_ROOT \
+  EVIDENCE_ROOT BASEBACKUP_ROOT RESULTS_ROOT SNAP_PRISTINE SNAP_PRE_INJECTION SNAP_POST_CAPTURE; do
+  [[ -n ${!key:-} ]] || die "precondition failed: $key missing from lab.env"
+done
+PG_CLUSTER=${PG_DATA##*/}
+[[ $PG_VERSION =~ ^[0-9]+$ && $PG_CLUSTER =~ ^[A-Za-z0-9_-]+$ ]] ||
+  die "precondition failed: cannot derive PostgreSQL cluster unit from PG_VERSION/PG_DATA"
+PG_UNIT="postgresql@${PG_VERSION}-${PG_CLUSTER}"
+
+active_dir=$(readlink -f -- "$ARCHIVE_CURRENT") ||
+  die "precondition failed: no active incident at $ARCHIVE_CURRENT"
+case $active_dir in "$ARCHIVE_ROOT"/*) ;; *) die "precondition failed: active incident escapes ARCHIVE_ROOT" ;; esac
+records="$active_dir/snapshots.json"
+[[ -s $records ]] || die "precondition failed: no recorded snapshots for current incident"
+incident=${active_dir##*/}
+
+# A label is deliberately unique within an incident.  Selecting the "latest"
+# duplicate would make a reset target ambiguous after a capture is recreated.
+target=$(python3 - "$records" "$incident" "$label" <<'PY'
+import json, sys
+path, incident, label = sys.argv[1:]
+with open(path, encoding="utf-8") as handle:
+    rows = json.load(handle)
+matches = [r for r in rows if r.get("incident") == incident and r.get("label") == label
+           and not r.get("invalidated", False)]
+if len(matches) != 1:
+    raise SystemExit(f"precondition failed: expected one valid {label} snapshot, found {len(matches)}")
+snapshot = matches[0].get("snapshot")
+if not isinstance(snapshot, str):
+    raise SystemExit("assertion failed: reset target lacks a snapshot name")
+print(snapshot)
+PY
+) || die "precondition failed: no unambiguous valid $label snapshot"
+
+ssh_guest() { ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" "$@"; }
+snapshot_lines=$(ssh_guest "sudo -n zfs list -H -t snapshot -o name -s creation -r '$DS_PARENT'") ||
+  die "precondition failed: cannot list victim snapshots"
+mapfile -t victim_datasets < <(ssh_guest "sudo -n zfs list -H -o name -r '$DS_PARENT'")
+(( ${#victim_datasets[@]} > 0 )) ||
+  die "precondition failed: cannot list victim datasets"
+mapfile -t parent_snapshots < <(printf '%s\n' "$snapshot_lines" | awk -F@ -v parent="$DS_PARENT" '$1 == parent { print $2 }')
+target_index=-1
+for i in "${!parent_snapshots[@]}"; do
+  [[ ${parent_snapshots[$i]} == "$target" ]] && target_index=$i
+done
+(( target_index >= 0 )) || die "precondition failed: target snapshot does not exist on $DS_PARENT"
+invalidated=("${parent_snapshots[@]:$((target_index + 1))}")
+
+# Host evidence is outside DS_PARENT.  Every pre-existing byte is fingerprinted
+# before and after rollback.  The archive may gain new, immutable WAL segments
+# when PostgreSQL restarts; additions are allowed, but replacement/removal of
+# any prior file is not.  Archive control metadata is excluded because this
+# command must reconcile snapshots.json and record the deliberate heartbeat gap.
+scope_hashes() {
+  python3 - "$EVIDENCE_ROOT" "$ARCHIVE_ROOT" "$BASEBACKUP_ROOT" "$RESULTS_ROOT" "$active_dir" <<'PY'
+import hashlib, json, os, sys
+roots, active = sys.argv[1:5], os.path.realpath(sys.argv[5])
+excluded = {os.path.join(active, "snapshots.json"), os.path.join(active, ".snapshots.lock"),
+            os.path.join(active, "reset-gaps.json"), os.path.join(active, ".reset.lock"),
+            os.path.join(active, ".reset.result")}
+out = {}
+for root in roots:
+    entries = {}
+    for base, dirs, files in os.walk(root, followlinks=False):
+        dirs.sort(); files.sort()
+        for name in files:
+            path = os.path.join(base, name)
+            if path in excluded: continue
+            rel = os.path.relpath(path, root).encode()
+            digest = hashlib.sha256(b"F\0" + rel + b"\0")
+            if os.path.islink(path):
+                digest.update(os.readlink(path).encode())
+            else:
+                with open(path, "rb") as handle:
+                    for block in iter(lambda: handle.read(1024 * 1024), b""):
+                        digest.update(block)
+            entries[rel.decode()] = digest.hexdigest()
+    out[root] = entries
+print(json.dumps(out, sort_keys=True))
+PY
+}
+# Fingerprints live in files, not argv: a large WAL archive exceeds ARG_MAX
+# if the JSON is passed as python3 arguments (P7 throwaway-incident finding).
+hash_dir=$(mktemp -d "${TMPDIR:-/tmp}/lab-reset-hashes.XXXXXX")
+trap 'rm -rf "$hash_dir"' EXIT
+scope_hashes >"$hash_dir/before.json"
+total_started_ns=$(date +%s%N)
+
+# R005: refuse while the postmaster is live, before any lock file or rollback.
+# Rolling PGDATA out from under a running cluster produces corruption that can
+# look like an experimental result. The orphan pgrep loop inside the locked
+# section remains as a second check after stop.
+if ssh_guest "sudo -n pgrep -x postgres >/dev/null"; then
+  die "precondition failed: PostgreSQL is still running and may hold $PG_DATA; stop the cluster first (systemctl stop $PG_UNIT)" "$EXIT_PRECOND"
+fi
+
+(
+  flock -x 9
+  heartbeat_was_running=$(ssh_guest "sudo -n systemctl is-active --quiet '$HEARTBEAT_UNIT' && printf true || printf false")
+  [[ $heartbeat_was_running == true || $heartbeat_was_running == false ]] ||
+    die "assertion failed: cannot determine heartbeat state" "$EXIT_ASSERT"
+  # Cluster is already stopped (live-cluster guard above), so the heartbeat
+  # table is unreachable. Record an empty before-timestamp; after restart we
+  # still capture after_heartbeat.
+  before_heartbeat=""
+
+  [[ $heartbeat_was_running == false ]] || ssh_guest "sudo -n systemctl stop '$HEARTBEAT_UNIT'"
+  ssh_guest "sudo -n systemctl stop '$PG_UNIT'"
+  # Do not rely on systemd alone: an orphan postgres process could retain
+  # PGDATA while the unit reports stopped.
+  stopped=false
+  for _ in {1..20}; do
+    if ! ssh_guest "sudo -n pgrep -x postgres >/dev/null"; then
+      stopped=true
+      break
+    fi
+    sleep 0.5
+  done
+  if [[ $stopped != true ]]; then
+    die "precondition failed: PostgreSQL is still running and may hold $PG_DATA" "$EXIT_PRECOND"
+  fi
+
+  rollback_started_ns=$(date +%s%N)
+  # A recursive snapshot creates a same-named snapshot on each descendant, but
+  # `zfs rollback -r parent@snap` does not roll descendants back.  Roll deepest
+  # datasets first, then DS_PARENT, while retaining the mandated parent call.
+  rollback_command='set -euo pipefail;'
+  for ((dataset_index=${#victim_datasets[@]} - 1; dataset_index >= 0; dataset_index--)); do
+    printf -v rollback_target '%q' "${victim_datasets[$dataset_index]}@$target"
+    rollback_command+=" sudo -n zfs rollback -r $rollback_target;"
+  done
+  ssh_guest "$rollback_command"
+  ssh_guest "sudo -n systemctl start '$PG_UNIT'"
+  ssh_guest "sudo -n systemctl is-active --quiet '$PG_UNIT'" ||
+    die "assertion failed: PostgreSQL did not restart cleanly" "$EXIT_ASSERT"
+  [[ $(ssh_guest "sudo -n -u postgres psql -X -At -p '$PG_PORT' -d '$DB_NAME' -c 'SELECT 1'") == 1 ]] ||
+    die "assertion failed: PostgreSQL did not accept connections after restart" "$EXIT_ASSERT"
+  rollback_finished_ns=$(date +%s%N)
+  if [[ $heartbeat_was_running == true ]]; then
+    ssh_guest "sudo -n systemctl start '$HEARTBEAT_UNIT'"
+    ssh_guest "sudo -n systemctl is-active --quiet '$HEARTBEAT_UNIT'" ||
+      die "assertion failed: heartbeat writer did not restart" "$EXIT_ASSERT"
+    sleep 1
+  fi
+  after_heartbeat=$(ssh_guest "sudo -n -u postgres psql -X -At -p '$PG_PORT' -d '$DB_NAME' -c \"SELECT coalesce(to_char(max(at) AT TIME ZONE 'UTC', 'YYYY-MM-DD\\\"T\\\"HH24:MI:SS.US\\\"Z\\\"'), '') FROM public.$HEARTBEAT_TABLE\"")
+
+  # Replace the manifest atomically while the same lock protects snapshot
+  # creation.  Every rolled-away recorded snapshot remains auditable but is
+  # unusable by coordinate resolution.
+  invalidated_lines=$(printf '%s\n' "${invalidated[@]}")
+  python3 - "$records" "$incident" "$target" "$invalidated_lines" "$before_heartbeat" "$after_heartbeat" "$tier" \
+    "$rollback_started_ns" "$rollback_finished_ns" <<'PY'
+import json, os, sys, tempfile
+from datetime import UTC, datetime
+path, incident, target, invalidated_text, before, after, tier, rollback_start, rollback_end = sys.argv[1:]
+invalidated = {name for name in invalidated_text.splitlines() if name}
+with open(path, encoding="utf-8") as handle:
+    rows = json.load(handle)
+now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+changed = []
+for row in rows:
+    if row.get("incident") == incident and row.get("snapshot") in invalidated and not row.get("invalidated", False):
+        row.update({"invalidated": True, "invalidated_at": now, "invalidated_by": f"lab-reset:{tier}",
+                    "invalidated_reason": f"zfs rollback -r to {target}"})
+        changed.append(row["snapshot"])
+fd, temp = tempfile.mkstemp(prefix=".snapshots.", dir=os.path.dirname(path), text=True)
+try:
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        json.dump(rows, handle, sort_keys=True); handle.write("\n"); handle.flush(); os.fsync(handle.fileno())
+    os.replace(temp, path)
+finally:
+    if os.path.exists(temp): os.unlink(temp)
+gap_path = os.path.join(os.path.dirname(path), "reset-gaps.json")
+gaps = []
+if os.path.exists(gap_path):
+    with open(gap_path, encoding="utf-8") as handle: gaps = json.load(handle)
+def parse(value): return datetime.fromisoformat(value.replace("Z", "+00:00"))
+gap_ms = round((parse(after) - parse(before)).total_seconds() * 1000) if before and after else None
+gaps.append({"after": after or None, "before": before or None, "gap_ms": gap_ms,
+             "recorded_at": now, "tier": tier})
+fd, temp = tempfile.mkstemp(prefix=".reset-gaps.", dir=os.path.dirname(path), text=True)
+try:
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        json.dump(gaps, handle, sort_keys=True); handle.write("\n"); handle.flush(); os.fsync(handle.fileno())
+    os.replace(temp, gap_path)
+finally:
+    if os.path.exists(temp): os.unlink(temp)
+print(json.dumps({"gap_ms": gap_ms, "invalidated": changed,
+                  "rollback_elapsed_ms": (int(rollback_end) - int(rollback_start)) // 1_000_000},
+                 sort_keys=True))
+PY
+) 9>"$active_dir/.reset.lock" >"$active_dir/.reset.result"
+
+result=$(<"$active_dir/.reset.result")
+rm -f "$active_dir/.reset.result"
+scope_hashes >"$hash_dir/after.json"
+python3 - "$hash_dir/before.json" "$hash_dir/after.json" <<'PY' ||
+import json, sys
+with open(sys.argv[1], encoding="utf-8") as handle:
+    before = json.load(handle)
+with open(sys.argv[2], encoding="utf-8") as handle:
+    after = json.load(handle)
+for root, entries in before.items():
+    for path, digest in entries.items():
+        if after.get(root, {}).get(path) != digest:
+            raise SystemExit(f"host scope changed or lost: {root}/{path}")
+PY
+  die "assertion failed: host evidence/archive/basebackup/results content changed during reset" "$EXIT_ASSERT"
+total_elapsed_ms=$(( ($(date +%s%N) - total_started_ns) / 1000000 ))
+python3 - "$tier" "$target" "$total_elapsed_ms" "$result" <<'PY'
+import json, sys
+tier, target, total_elapsed, detail = sys.argv[1:]
+data = json.loads(detail)
+print(json.dumps({"cluster_restarted_cleanly": True, "elapsed_ms": data["rollback_elapsed_ms"],
+                  "heartbeat_gap_ms": data["gap_ms"], "invalidated_snapshots": data["invalidated"],
+                  "target_snapshot": target, "tier": tier,
+                  "total_elapsed_ms": int(total_elapsed)}, sort_keys=True))
+PY

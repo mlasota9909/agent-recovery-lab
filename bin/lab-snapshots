@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# T011: list the current incident's recorded recursive snapshots.
+set -euo pipefail
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+
+readonly EXIT_ASSERT=1 EXIT_PRECOND=2 EXIT_USAGE=3
+die() {
+  printf '%s\n' "$1" >&2
+  exit "${2:-$EXIT_PRECOND}"
+}
+
+[[ $# -eq 0 ]] || die "usage: lab-snapshots" "$EXIT_USAGE"
+for key in ARCHIVE_CURRENT ARCHIVE_ROOT; do
+  [[ -n ${!key:-} ]] || die "precondition failed: $key missing from lab.env"
+done
+active_dir=$(readlink -f -- "$ARCHIVE_CURRENT") ||
+  die "precondition failed: no active incident at $ARCHIVE_CURRENT"
+case $active_dir in "$ARCHIVE_ROOT"/*) ;; *) die "precondition failed: active incident escapes ARCHIVE_ROOT" ;; esac
+records="$active_dir/snapshots.json"
+[[ -f $records ]] || { printf '[]\n'; exit 0; }
+
+python3 - "$records" "$active_dir" <<'PY'
+import json
+import sys
+
+path, active_dir = sys.argv[1:]
+with open(path, encoding="utf-8") as handle:
+    records = json.load(handle)
+if not isinstance(records, list):
+    raise SystemExit("assertion failed: snapshots.json is not an array")
+required = {"snapshot", "label", "created_at", "recorded_lsn", "operations"}
+if any(not isinstance(item, dict) or not required <= item.keys() for item in records):
+    raise SystemExit("assertion failed: snapshots.json contains an invalid record")
+# Invalidated records are intentionally retained for auditability.  Consumers
+# must inspect this flag rather than assuming every historical record remains a
+# ZFS rollback target.
+print(json.dumps(records, sort_keys=True))
+PY

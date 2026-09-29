@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# W004: bounded wait for lab-slot --check. JSON on stdout. Does not proceed degraded.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+export LAB_ROOT BARRIER_TIMEOUT_S
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_barrier.py" "$@"

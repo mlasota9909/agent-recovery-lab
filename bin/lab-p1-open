@@ -1,0 +1,380 @@
+#!/usr/bin/env bash
+# W001: verify P1-open preconditions, correct the inverted P0.1 handoff anti-goals,
+# initialise the harness git repo if absent, record HARNESS_COMMIT_AT_P1_OPEN.
+# JSON on stdout. Idempotent: existing correct state reports "changed": false.
+set -euo pipefail
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+export LAB_ROOT
+export PATH="$ROOT/bin:$PATH"
+exec python3 - "$ROOT" <<'PY'
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import re
+import stat
+import subprocess
+import sys
+from pathlib import Path
+
+EXIT_ASSERT = 1
+EXIT_PRECOND = 2
+
+INVERTED = (
+    "P1 must not build: ground-truth oracle, results row schema, analytics, "
+    "ranking, representations, model harness, restore verification, scenario "
+    "damage logic. Those are later tranches."
+)
+CORRECTED = (
+    "P1 builds the ground-truth oracle and the results row contract. P1 must "
+    "not build: analytics, ranking, representations, model harness, real "
+    "restore verification, or SC-02/03/04 damage logic. Those remain later "
+    "tranches.\n"
+    "\n"
+    "Note (2026-08-20, W001): the previous sentence listed the oracle and the "
+    "results-row schema as P1 anti-goals. That wording was copied from P0's "
+    "anti-goals list and was inverted — those two items are exactly what P1 "
+    "exists to build. Corrected here so a later agent does not refuse the "
+    "tranche."
+)
+GITIGNORE = """\
+# Runtime stores — not harness source. Required so git init does not ingest
+# the WAL archive or evidence streams. Also required so Article XIV's dirty-tree
+# check (git status --porcelain --untracked-files=all) names the harness, not
+# incident metadata or review working files. Tracked files stay tracked.
+archive/
+basebackup/
+backups/
+results/*.jsonl
+results/fixtures/*.jsonl
+evidence/**/*.jsonl
+evidence/**/*.tsv
+evidence/**/*.json
+evidence/**/*.log
+evidence/**/.snapshot-loop.*
+logs/review/**
+__pycache__/
+*.pyc
+*.tar.gz
+*.zip
+*id_ed25519*
+*.pem
+*.key
+.pgpass
+wal_append_ed25519*
+logs/review/W001/scratch/
+"""
+
+# One-shot identity for git commit. Passed via `git -c`, never written to config.
+GIT_NAME = "Maciej Lasota"
+GIT_EMAIL = "mlasota@local"
+
+
+def die(code: int, msg: str) -> None:
+    print(msg, file=sys.stderr)
+    raise SystemExit(code)
+
+
+def load_env(root: Path) -> dict[str, str]:
+    values: dict[str, str] = {}
+    path = root / "etc" / "lab.env"
+    if not path.is_file():
+        die(EXIT_PRECOND, "precondition failed: etc/lab.env is absent")
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line and not line.startswith("#") and "=" in line:
+            key, value = line.split("=", 1)
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
+                value = value[1:-1]
+            values[key] = value
+    return values
+
+
+def run(argv: list[str], cwd: Path) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        argv, cwd=cwd, text=True, capture_output=True, check=False
+    )
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    digest.update(path.read_bytes())
+    return digest.hexdigest()
+
+
+def parse_r007_hashes(text: str) -> dict[str, str]:
+    found: dict[str, str] = {}
+    for match in re.finditer(
+        r"^([0-9a-f]{64})  (cli\.md|coordinate\.md|lab-env\.md)\s*$",
+        text,
+        re.MULTILINE,
+    ):
+        found[match.group(2)] = match.group(1)
+    if set(found) != {"cli.md", "coordinate.md", "lab-env.md"}:
+        die(
+            EXIT_PRECOND,
+            "precondition failed: R007 contracts-unchanged.md did not yield "
+            "three SHA-256 rows for cli.md, coordinate.md, lab-env.md",
+        )
+    return found
+
+
+def ensure_results_root(env: dict[str, str]) -> bool:
+    key = "RESULTS_ROOT"
+    raw = env.get(key, "")
+    if not raw:
+        die(EXIT_PRECOND, "precondition failed: RESULTS_ROOT missing from lab.env")
+    path = Path(raw)
+    if path.is_dir():
+        return False
+    if path.exists():
+        die(EXIT_PRECOND, f"precondition failed: {key} exists and is not a directory")
+    path.mkdir(mode=0o755)
+    os.chmod(path, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
+    return True
+
+
+def check_contracts(root: Path) -> dict[str, object]:
+    r007 = root / "logs" / "review" / "R007" / "contracts-unchanged.md"
+    if not r007.is_file():
+        die(EXIT_PRECOND, f"precondition failed: {r007} is absent")
+    expected = parse_r007_hashes(r007.read_text(encoding="utf-8"))
+    contracts = root / "sdd" / "specs" / "P0-lab-substrate" / "contracts"
+    rows: dict[str, object] = {}
+    mismatches: list[str] = []
+    for name, exp in expected.items():
+        path = contracts / name
+        if not path.is_file():
+            die(EXIT_PRECOND, f"precondition failed: P0 contract {name} is absent")
+        obs = sha256_file(path)
+        match = obs == exp
+        rows[name] = {"expected": exp, "observed": obs, "match": match}
+        if not match:
+            mismatches.append(name)
+    if mismatches:
+        die(
+            EXIT_ASSERT,
+            "assertion failed: P0 contract hash mismatch: " + ", ".join(mismatches),
+        )
+    return rows
+
+
+def check_slot(root: Path) -> dict[str, object]:
+    proc = run([str(root / "bin" / "lab-slot"), "--check"], cwd=root)
+    if proc.returncode != 0:
+        die(
+            EXIT_PRECOND,
+            "precondition failed: lab-slot --check exit "
+            f"{proc.returncode}: {(proc.stderr or proc.stdout).strip()}",
+        )
+    try:
+        payload = json.loads(proc.stdout)
+    except json.JSONDecodeError:
+        die(EXIT_PRECOND, "precondition failed: lab-slot --check did not emit JSON")
+    return payload
+
+
+def incident_id(env: dict[str, str]) -> str:
+    raw = env.get("ARCHIVE_CURRENT", "")
+    if not raw:
+        die(EXIT_PRECOND, "precondition failed: ARCHIVE_CURRENT missing from lab.env")
+    path = Path(raw)
+    if not path.is_symlink():
+        die(EXIT_PRECOND, "precondition failed: ARCHIVE_CURRENT is not a symlink")
+    target = os.readlink(path)
+    name = Path(target).name
+    if not name:
+        die(EXIT_PRECOND, "precondition failed: ARCHIVE_CURRENT target has no basename")
+    return name
+
+
+def check_consumer(root: Path, env: dict[str, str]) -> dict[str, object]:
+    inc = incident_id(env)
+    proc = run([str(root / "bin" / "lab-consumer"), "status", inc], cwd=root)
+    if proc.returncode != 0:
+        die(
+            EXIT_PRECOND,
+            "precondition failed: lab-consumer status "
+            f"{inc} exit {proc.returncode}: {(proc.stderr or proc.stdout).strip()}",
+        )
+    try:
+        payload = json.loads(proc.stdout)
+    except json.JSONDecodeError:
+        die(EXIT_PRECOND, "precondition failed: lab-consumer status did not emit JSON")
+    if payload.get("healthy") is not True:
+        die(
+            EXIT_PRECOND,
+            "precondition failed: lab-consumer status did not report healthy=true",
+        )
+    return payload
+
+
+def required_env(env: dict[str, str]) -> dict[str, str]:
+    keys = (
+        "PG_VERSION",
+        "ZPOOL",
+        "DS_PARENT",
+        "EVIDENCE_ROOT",
+        "ARCHIVE_ROOT",
+        "RESULTS_ROOT",
+        "SLOT_NAME",
+        "DB_NAME",
+    )
+    missing = [k for k in keys if not env.get(k)]
+    if missing:
+        die(
+            EXIT_PRECOND,
+            "precondition failed: lab.env missing " + ", ".join(missing),
+        )
+    return {k: env[k] for k in keys}
+
+
+def correct_handoff(root: Path) -> bool:
+    path = root / "docs" / "P0.1-architecture-handoff.md"
+    if not path.is_file():
+        die(EXIT_PRECOND, "precondition failed: P0.1 handoff is absent")
+    text = path.read_text(encoding="utf-8")
+    if INVERTED in text:
+        if text.count(INVERTED) != 1:
+            die(EXIT_ASSERT, "assertion failed: inverted anti-goals sentence is not unique")
+        path.write_text(text.replace(INVERTED, CORRECTED), encoding="utf-8")
+        path.chmod(stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+        return True
+    if "P1 builds the ground-truth oracle and the results row contract." not in text:
+        die(
+            EXIT_ASSERT,
+            "assertion failed: handoff lacks both the inverted sentence and the "
+            "corrected paragraph",
+        )
+    if INVERTED in text:
+        die(EXIT_ASSERT, "assertion failed: inverted sentence still present after correction")
+    return False
+
+
+def git_c() -> list[str]:
+    return ["git", "-c", f"user.name={GIT_NAME}", "-c", f"user.email={GIT_EMAIL}"]
+
+
+def ensure_git(root: Path) -> tuple[bool, str]:
+    git_dir = root / ".git"
+    gitignore = root / ".gitignore"
+    ignore_changed = False
+    if not gitignore.is_file() or gitignore.read_text(encoding="utf-8") != GITIGNORE:
+        gitignore.write_text(GITIGNORE, encoding="utf-8")
+        gitignore.chmod(stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+        ignore_changed = True
+
+    initialized = False
+    if not git_dir.exists():
+        proc = run(["git", "init"], cwd=root)
+        if proc.returncode != 0:
+            die(EXIT_PRECOND, "precondition failed: git init: " + proc.stderr.strip())
+        initialized = True
+
+    committed = False
+    head = run(["git", "rev-parse", "--verify", "HEAD"], cwd=root)
+    if head.returncode != 0:
+        add = run(["git", "add", "-A"], cwd=root)
+        if add.returncode != 0:
+            die(EXIT_PRECOND, "precondition failed: git add: " + add.stderr.strip())
+        commit = run(
+            git_c()
+            + [
+                "commit",
+                "-m",
+                "Record harness state at P1 open.",
+            ],
+            cwd=root,
+        )
+        if commit.returncode != 0:
+            die(
+                EXIT_PRECOND,
+                "precondition failed: git commit: " + (commit.stderr or commit.stdout).strip(),
+            )
+        committed = True
+
+    rev = run(["git", "rev-parse", "HEAD"], cwd=root)
+    if rev.returncode != 0:
+        die(EXIT_PRECOND, "precondition failed: git rev-parse HEAD failed")
+    sha = rev.stdout.strip()
+    if not re.fullmatch(r"[0-9a-f]{40}", sha):
+        die(
+            EXIT_ASSERT,
+            f"assertion failed: HEAD is not a 40-hex SHA-1 (got {sha!r})",
+        )
+    return (initialized or committed or ignore_changed, sha)
+
+
+def env_has_commit(env: dict[str, str]) -> str | None:
+    value = env.get("HARNESS_COMMIT_AT_P1_OPEN", "")
+    if not value:
+        return None
+    if not re.fullmatch(r"[0-9a-f]{40}", value):
+        die(
+            EXIT_ASSERT,
+            "assertion failed: HARNESS_COMMIT_AT_P1_OPEN is present but not 40 hex",
+        )
+    return value
+
+
+def append_commit_key(root: Path, sha: str) -> None:
+    path = root / "etc" / "lab.env"
+    text = path.read_text(encoding="utf-8")
+    if not text.endswith("\n"):
+        text += "\n"
+    text += f"HARNESS_COMMIT_AT_P1_OPEN={sha}\n"
+    path.write_text(text, encoding="utf-8")
+    path.chmod(stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+
+
+def main() -> int:
+    root = Path(sys.argv[1])
+    env = load_env(root)
+    required_env(env)
+    results_created = ensure_results_root(env)
+    contract_rows = check_contracts(root)
+    slot = check_slot(root)
+    consumer = check_consumer(root, env)
+    handoff_changed = correct_handoff(root)
+    git_changed, head_sha = ensure_git(root)
+    existing = env_has_commit(env)
+    commit_changed = False
+    if existing is None:
+        append_commit_key(root, head_sha)
+        recorded_sha = head_sha
+        commit_changed = True
+    else:
+        recorded_sha = existing
+
+    changed = bool(
+        results_created or handoff_changed or git_changed or commit_changed
+    )
+    print(
+        json.dumps(
+            {
+                "HARNESS_COMMIT_AT_P1_OPEN": recorded_sha,
+                "changed": changed,
+                "consumer_healthy": consumer.get("healthy") is True,
+                "contracts_match": all(
+                    isinstance(row, dict) and row.get("match") is True
+                    for row in contract_rows.values()
+                ),
+                "git_changed": git_changed,
+                "handoff_corrected": handoff_changed,
+                "ok": True,
+                "open_incident": incident_id(env),
+                "results_root_created": results_created,
+                "slot_check": slot.get("check"),
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+PY

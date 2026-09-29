@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+_LAB_OV_EVIDENCE_ROOT="${EVIDENCE_ROOT:-}"
+_LAB_OV_ARCHIVE_ROOT="${ARCHIVE_ROOT:-}"
+_LAB_OV_ARCHIVE_CURRENT="${ARCHIVE_CURRENT:-}"
+_LAB_OV_RESULTS_ROOT="${RESULTS_ROOT:-}"
+set -a
+source "$ROOT/etc/lab.env"
+set +a
+source "$ROOT/lib/lab_env_overrides.sh"
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 -c 'import sys; from lab_diagnose_refusal import main; raise SystemExit(main(sys.argv[1:]))' "$@"

@@ -1,0 +1,216 @@
+#!/usr/bin/env bash
+# T004: Create the configured scenario schema. Emits JSON on stdout.
+set -euo pipefail
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+
+readonly SEED_ROWS=1000000
+
+fail() {
+  printf '%s\n' "$1" >&2
+  exit "${2:-2}"
+}
+
+for key in VM_SSH PG_PORT DB_NAME DDL_AUDIT_TABLE; do
+  [[ -n ${!key:-} ]] || fail "precondition failed: $key missing"
+done
+[[ $DB_NAME =~ ^[A-Za-z_][A-Za-z0-9_]*$ && $DDL_AUDIT_TABLE =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] ||
+  fail "precondition failed: DB_NAME and DDL_AUDIT_TABLE must be PostgreSQL identifiers"
+
+ssh_pg() {
+  local quoted=
+  printf -v quoted ' %q' "$@"
+  ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" \
+    "sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -p '$PG_PORT'$quoted"
+}
+
+db_exists=$(ssh_pg -d postgres -Atqc "SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = '$DB_NAME')")
+if [[ $db_exists != t ]]; then
+  ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" \
+    "sudo -n -u postgres createdb -p '$PG_PORT' '$DB_NAME'"
+  created_db=true
+else
+  created_db=false
+fi
+
+if [[ $created_db == true ]]; then
+  schema_ok=false
+else
+schema_ok=$(ssh_pg -d "$DB_NAME" -Atqc "
+SELECT
+  to_regclass('public.lab_ledger') IS NOT NULL
+  AND to_regclass('public.lab_reference') IS NOT NULL
+  AND to_regclass('public.$DDL_AUDIT_TABLE') IS NOT NULL
+  AND (SELECT relreplident = 'f' FROM pg_class WHERE oid = 'public.lab_ledger'::regclass)
+  AND (SELECT relreplident = 'f' FROM pg_class WHERE oid = 'public.lab_reference'::regclass)
+  AND EXISTS (SELECT 1 FROM pg_indexes WHERE schemaname = 'public' AND tablename = 'lab_ledger'
+              AND indexdef LIKE '%(created_at)%')
+  AND EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'lab_ddl_audit_ddl_command_end'
+              AND prosecdef AND pg_get_userbyid(proowner) = 'postgres')
+  AND EXISTS (SELECT 1 FROM pg_event_trigger WHERE evtname = 'lab_ddl_audit_on_ddl_command_end'
+              AND evtevent = 'ddl_command_end')
+  AND EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'lab_ddl_audit_sql_drop'
+              AND prosecdef AND pg_get_userbyid(proowner) = 'postgres')
+  AND EXISTS (SELECT 1 FROM pg_event_trigger WHERE evtname = 'lab_ddl_audit_on_sql_drop'
+              AND evtevent = 'sql_drop')
+  AND (SELECT count(*) > 0 FROM lab_ledger);
+")
+fi
+
+if [[ $schema_ok != t && $created_db != true ]]; then
+  legacy_base_ok=$(ssh_pg -d "$DB_NAME" -Atqc "
+SELECT
+  to_regclass('public.lab_ledger') IS NOT NULL
+  AND to_regclass('public.lab_reference') IS NOT NULL
+  AND to_regclass('public.$DDL_AUDIT_TABLE') IS NOT NULL
+  AND (SELECT relreplident = 'f' FROM pg_class WHERE oid = 'public.lab_ledger'::regclass)
+  AND (SELECT relreplident = 'f' FROM pg_class WHERE oid = 'public.lab_reference'::regclass)
+  AND EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'lab_ddl_audit_ddl_command_end'
+              AND prosecdef AND pg_get_userbyid(proowner) = 'postgres')
+  AND EXISTS (SELECT 1 FROM pg_event_trigger WHERE evtname = 'lab_ddl_audit_on_ddl_command_end'
+              AND evtevent = 'ddl_command_end')
+  AND (SELECT count(*) > 0 FROM lab_ledger);
+")
+  if [[ $legacy_base_ok == t ]]; then
+    ssh_pg -d "$DB_NAME" >&2 <<SQL
+CREATE OR REPLACE FUNCTION public.lab_ddl_audit_ddl_command_end()
+RETURNS event_trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pg_catalog, public
+AS \$function\$
+BEGIN
+  INSERT INTO public.$DDL_AUDIT_TABLE (principal, command_tag, object_identity, statement)
+  SELECT session_user, command_tag, coalesce(object_identity, ''), current_query()
+  FROM pg_event_trigger_ddl_commands();
+END;
+\$function\$;
+
+CREATE OR REPLACE FUNCTION public.lab_ddl_audit_sql_drop()
+RETURNS event_trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pg_catalog, public
+AS \$function\$
+BEGIN
+  INSERT INTO public.$DDL_AUDIT_TABLE (principal, command_tag, object_identity, statement)
+  SELECT session_user, 'DROP ' || upper(object_type), coalesce(object_identity, ''), current_query()
+  FROM pg_event_trigger_dropped_objects();
+END;
+\$function\$;
+ALTER FUNCTION public.lab_ddl_audit_sql_drop() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.lab_ddl_audit_sql_drop() FROM PUBLIC;
+CREATE EVENT TRIGGER lab_ddl_audit_on_sql_drop
+  ON sql_drop
+  EXECUTE FUNCTION public.lab_ddl_audit_sql_drop();
+SQL
+    schema_ok=t
+    migrated_sql_drop=true
+  fi
+fi
+
+if [[ $schema_ok == t ]]; then
+  if [[ ${migrated_sql_drop:-false} == true ]]; then changed=true; else changed=false; fi
+  printf '{"ok":true,"changed":%s,"DB_NAME":"%s","DDL_AUDIT_TABLE":"%s","seed_rows":%s}\n' \
+    "$changed" "$DB_NAME" "$DDL_AUDIT_TABLE" "$SEED_ROWS"
+  exit 0
+fi
+
+if [[ $created_db != true ]]; then
+  fail "precondition failed: existing $DB_NAME does not match the complete T004 schema"
+fi
+
+seed_started=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+seed_start_epoch=$(date +%s)
+ssh_pg -d "$DB_NAME" >&2 <<SQL
+BEGIN;
+
+CREATE TABLE public.lab_ledger (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  created_at timestamptz NOT NULL,
+  amount numeric(14,2) NOT NULL,
+  payload text NOT NULL,
+  row_version integer NOT NULL DEFAULT 1
+);
+CREATE INDEX lab_ledger_created_at_idx ON public.lab_ledger (created_at);
+
+CREATE TABLE public.lab_reference (
+  id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  reference_code text NOT NULL UNIQUE,
+  description text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT clock_timestamp()
+);
+
+CREATE TABLE public.$DDL_AUDIT_TABLE (
+  id bigserial PRIMARY KEY,
+  at timestamptz NOT NULL DEFAULT clock_timestamp(),
+  principal text NOT NULL,
+  command_tag text NOT NULL,
+  object_identity text NOT NULL,
+  statement text NOT NULL
+);
+
+ALTER TABLE public.lab_ledger REPLICA IDENTITY FULL;
+ALTER TABLE public.lab_reference REPLICA IDENTITY FULL;
+
+INSERT INTO public.lab_reference (reference_code, description)
+SELECT 'REF-' || lpad(n::text, 4, '0'), 'Synthetic reference ' || n
+FROM generate_series(1, 100) AS n;
+
+INSERT INTO public.lab_ledger (created_at, amount, payload, row_version)
+SELECT
+  clock_timestamp() - (n || ' seconds')::interval,
+  ((n % 100000)::numeric / 100)::numeric(14,2),
+  'synthetic-ledger-row-' || n,
+  1
+FROM generate_series(1, 1000000) AS n;
+
+CREATE FUNCTION public.lab_ddl_audit_ddl_command_end()
+RETURNS event_trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pg_catalog, public
+AS \$function\$
+BEGIN
+  INSERT INTO public.$DDL_AUDIT_TABLE (principal, command_tag, object_identity, statement)
+  SELECT session_user, command_tag, coalesce(object_identity, ''), current_query()
+  FROM pg_event_trigger_ddl_commands();
+END;
+\$function\$;
+
+ALTER FUNCTION public.lab_ddl_audit_ddl_command_end() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.lab_ddl_audit_ddl_command_end() FROM PUBLIC;
+CREATE EVENT TRIGGER lab_ddl_audit_on_ddl_command_end
+  ON ddl_command_end
+  EXECUTE FUNCTION public.lab_ddl_audit_ddl_command_end();
+
+CREATE FUNCTION public.lab_ddl_audit_sql_drop()
+RETURNS event_trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pg_catalog, public
+AS \$function\$
+BEGIN
+  INSERT INTO public.$DDL_AUDIT_TABLE (principal, command_tag, object_identity, statement)
+  SELECT session_user, 'DROP ' || upper(object_type), coalesce(object_identity, ''), current_query()
+  FROM pg_event_trigger_dropped_objects();
+END;
+\$function\$;
+
+ALTER FUNCTION public.lab_ddl_audit_sql_drop() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.lab_ddl_audit_sql_drop() FROM PUBLIC;
+CREATE EVENT TRIGGER lab_ddl_audit_on_sql_drop
+  ON sql_drop
+  EXECUTE FUNCTION public.lab_ddl_audit_sql_drop();
+
+COMMIT;
+SQL
+seed_end_epoch=$(date +%s)
+seed_finished=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+row_count=$(ssh_pg -d "$DB_NAME" -Atqc "SELECT count(*) FROM public.lab_ledger")
+[[ $row_count == "$SEED_ROWS" ]] || fail "assertion failed: seed count=$row_count, expected $SEED_ROWS" 1
+
+printf '{"ok":true,"changed":true,"DB_NAME":"%s","DDL_AUDIT_TABLE":"%s","seed_rows":%s,"seed_started":"%s","seed_finished":"%s","seed_elapsed_seconds":%s}\n' \
+  "$DB_NAME" "$DDL_AUDIT_TABLE" "$row_count" "$seed_started" "$seed_finished" "$((seed_end_epoch - seed_start_epoch))"

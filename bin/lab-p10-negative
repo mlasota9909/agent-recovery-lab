@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# P10 negative tests on scratch copies (never on prior evidence).
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+_LAB_OV_EVIDENCE_ROOT="${EVIDENCE_ROOT:-}"
+_LAB_OV_ARCHIVE_ROOT="${ARCHIVE_ROOT:-}"
+_LAB_OV_ARCHIVE_CURRENT="${ARCHIVE_CURRENT:-}"
+_LAB_OV_RESULTS_ROOT="${RESULTS_ROOT:-}"
+set -a
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+set +a
+# shellcheck source=/dev/null
+source "$ROOT/lib/lab_env_overrides.sh"
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 -c 'import sys; from lab_p10_negative import main; raise SystemExit(main(sys.argv[1:]))' "$@"

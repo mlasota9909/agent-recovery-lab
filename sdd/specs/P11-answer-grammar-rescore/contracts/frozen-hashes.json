@@ -1,0 +1,28 @@
+{
+  "analysis_plan_digest": "c57908dfc567073cdbc9a4b1c87c03074f7e04471ceeab39c4f179afd1cb0d4c",
+  "completion_text_inspected_at_freeze": false,
+  "contracts": {
+    "answer-grammar.amendment-1.md": "ab0e09252464bfe357c51a988378f5985bdbae8ed375419b4370f68077cdc538",
+    "answer-grammar.md": "f1e1916a544f05efbc7eb2567ff2624fa5df6e1ffdf15ab307a671bab67d6769",
+    "rescore-analysis-plan.amendment-1.md": "6c14ddad5dd9c88df9258dca37e7296551521c23b8971ba06c89015a8921d9da",
+    "rescore-analysis-plan.md": "b82559d5bc47b8e7b366e7ee4f3ad519eaaf54237139d291ed48ecc6c3fb275d"
+  },
+  "grammar_digest": "7c16a52793433619ea690c620533f42122f4fc620ff4944fc82a7bf3c43d6c84",
+  "input_hashes": {
+    "lib/lab_arm_b_score.py": "f612a2e356944110131a384d7f9eac56d2cdb8f9de0cb1c75e2bab15dbb7fe2b",
+    "lib/lab_p10_sweep.py": "4af5a038f4d9444e09a29354ac3e13b607f1c9fa4c1d463e6fe2ae2ec3fa7fcd",
+    "lib/lab_p9_statlib.py": "536be7832db3b14cabcad09af07397f5a7bfade960d7d233fcb7b52e4cda1662",
+    "results/scaling-runs-detail.jsonl": "92f001d1339b2166179a0a9370bf6532cdc1ca9aadf56a20fad9dc8c37927a3e",
+    "results/scaling-runs.jsonl": "52c01fc229811e75b3270867bfca8eb37a14fc439ac5b70dd0d937e60c69b840",
+    "results/sweep-runs.jsonl": "7b9a33aaa4cb3f3b089ff549fedc3ded6dd8feb0b69f7a5743197a75b98cd391"
+  },
+  "preregistered_utc": "2026-09-25T03:30:57.003449Z",
+  "producer_commit": "235e670f3b59964edea6547f15212c0d04561073",
+  "rescoring_files_present_at_freeze": false,
+  "source_inventory": {
+    "completion_occurrences": 161,
+    "joined_rows": 356,
+    "planned_units": 210
+  },
+  "tranche": "P11"
+}

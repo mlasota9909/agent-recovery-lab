@@ -1,0 +1,46 @@
+{
+  "anti_goal_inversion": false,
+  "article_count": 18,
+  "choke_point": "bin/lab-arm-b-prompt",
+  "containment": {
+    "cloud_alias_forbidden": "deepseek-v4-pro",
+    "offline_verified_means": "R2a-d private-lab no-public-egress pinned-alias weights-pin",
+    "endpoint": "http://c220m3:4001"
+  },
+  "context_window": 262144,
+  "decoding": {
+    "max_tokens": 512,
+    "seed": 42,
+    "temperature": 0,
+    "top_k": 0,
+    "top_p": 1
+  },
+  "defects_remediated": ["D1", "D2"],
+  "endpoint": "http://c220m3:4001",
+  "grammar": "resolvable locator window=/lsn=hex-or-int/ts=",
+  "guard": "bin/lab-modelview-guard",
+  "headline": {
+    "k": 5,
+    "path": "logs/review/J004/headline.json",
+    "per_rep": {
+      "R0": {"determinations": 1, "refusal_rate": 0.8, "refusals": 4},
+      "R1": {"determinations": 0, "refusal_rate": 1.0, "refusals": 5},
+      "R2": {"determinations": 5, "refusal_rate": 0.0, "refusals": 0}
+    },
+    "prior_null": "logs/review/H009/headline.superseded.json",
+    "true_optimum": {"lsn_int": 8069840896, "lsn_text": "1/E1000000", "window": 15}
+  },
+  "k": 5,
+  "model_id": "gb10a-deepseek-v4-flash",
+  "next_tranche": "P7",
+  "p6_accepted_only_after": "P6.1",
+  "p7_instruction": "P7 builds the run matrix across SC-01..SC-04, reusing bin/lab-arm-b with the amended grammar and R2a-d containment. Do not skip Arm B.",
+  "quantization": "exl3-k2",
+  "refusal_is_first_class": true,
+  "results_incident_id": "i_20260824T091611Z_122142",
+  "runtime": "litellm on c220m3:4001 -> vllm-spark on gb10a:8000",
+  "sc01_incident": "SC-01_20260824T091611Z",
+  "tranche": "P6.1",
+  "verify_p61": "TIER M 18/18 · TIER A 1/1 · TOTAL 19/19",
+  "weights_sha256": "c5da6dd1f48fc7eed95333921709c5139bb0c59a5a616417094088dd81a31187"
+}

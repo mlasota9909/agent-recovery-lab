@@ -1,0 +1,16 @@
+{"action": "I", "command_tag": null, "natural_key": 88000703, "object_identity": null, "op_index": 0, "principal": "lab_app", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9266}
+{"action": "I", "command_tag": null, "natural_key": 88000701, "object_identity": null, "op_index": 1, "principal": "lab_app", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9267}
+{"action": "I", "command_tag": null, "natural_key": 88000700, "object_identity": null, "op_index": 2, "principal": "lab_app", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9268}
+{"action": "I", "command_tag": null, "natural_key": 88000702, "object_identity": null, "op_index": 3, "principal": "lab_app", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9269}
+{"action": "U", "command_tag": null, "natural_key": 88000703, "object_identity": null, "op_index": 4, "principal": "lab_app", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9270}
+{"action": "U", "command_tag": null, "natural_key": 88000703, "object_identity": null, "op_index": 5, "principal": "lab_app", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9271}
+{"action": "U", "command_tag": null, "natural_key": 88000701, "object_identity": null, "op_index": 6, "principal": "lab_app", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9272}
+{"action": "U", "command_tag": null, "natural_key": 88000701, "object_identity": null, "op_index": 7, "principal": "lab_app", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9272}
+{"action": "D", "command_tag": null, "natural_key": 88000700, "object_identity": null, "op_index": 8, "principal": "lab_agent", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9273}
+{"action": "I", "command_tag": null, "natural_key": 88000700, "object_identity": null, "op_index": 9, "principal": "lab_app", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9274}
+{"action": "U", "command_tag": null, "natural_key": 88000702, "object_identity": null, "op_index": 10, "principal": "lab_app", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9275}
+{"action": "D", "command_tag": null, "natural_key": 88000702, "object_identity": null, "op_index": 11, "principal": "lab_agent", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9276}
+{"action": "I", "command_tag": null, "natural_key": 88000702, "object_identity": null, "op_index": 12, "principal": "lab_app", "table": "p2_probe", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9277}
+{"action": "CREATE", "command_tag": "CREATE TABLE", "natural_key": null, "object_identity": "public.p2_alt", "op_index": 13, "principal": "lab_app", "table": "p2_alt", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9278}
+{"action": "ALTER", "command_tag": "ALTER TABLE", "natural_key": null, "object_identity": "public.p2_alt", "op_index": 14, "principal": "lab_app", "table": "p2_alt", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9279}
+{"action": "DROP", "command_tag": "DROP TABLE", "natural_key": null, "object_identity": "public.p2_alt", "op_index": 15, "principal": "lab_app", "table": "p2_alt", "wall_clock": "2026-08-24T04:30:33.943833Z", "xid": 9280}

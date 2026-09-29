@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# C002: collector orchestrator. Composes lab-consumer, lab-heartbeat, snapshot loop.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+set -a
+source "$ROOT/etc/lab.env"
+set +a
+source "$ROOT/lib/lab_incident_env.sh"
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_capture.py" "$@"

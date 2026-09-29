@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+"""Normalise machine-readable `zfs diff -H` output as JSON."""
+
+import json
+import re
+import sys
+
+
+def unescape_zfs_path(value: str) -> str:
+    """Decode ZFS's backslash-octal display escapes without splitting a path."""
+    value = re.sub(
+        r"\\0([0-7]{3})",
+        lambda match: chr(int(match.group(1), 8)),
+        value,
+    )
+    return re.sub(
+        r"\\([0-7]{3})",
+        lambda match: chr(int(match.group(1), 8)),
+        value,
+    )
+
+
+def main() -> None:
+    entries = []
+    for number, line in enumerate(sys.stdin, 1):
+        fields = line.rstrip("\n").split("\t")
+        if fields[0] == "R":
+            if len(fields) == 3:
+                _, old_path, path = fields
+            elif len(fields) == 4:
+                _, _object_type, old_path, path = fields
+            else:
+                raise SystemExit(f"line {number}: expected three or four tab-separated rename fields")
+            entries.append(
+                {"path": unescape_zfs_path(path), "change_type": "R",
+                 "old_path": unescape_zfs_path(old_path)}
+            )
+        else:
+            if len(fields) == 2:
+                change_type, path = fields
+            elif len(fields) == 3:
+                change_type, _object_type, path = fields
+            else:
+                raise SystemExit(f"line {number}: expected two or three tab-separated fields")
+            if change_type not in {"+", "-", "M"}:
+                raise SystemExit(f"line {number}: unsupported change type {change_type!r}")
+            entries.append(
+                {"path": unescape_zfs_path(path), "change_type": change_type,
+                 "old_path": None}
+            )
+    json.dump(entries, sys.stdout, ensure_ascii=False, sort_keys=True)
+    sys.stdout.write("\n")
+
+
+if __name__ == "__main__":
+    main()

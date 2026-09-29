@@ -1,0 +1,104 @@
+{
+  "anti_goal_inversion": false,
+  "choke_point": "bin/lab-arm-b-prompt",
+  "context_window": 262144,
+  "decoding": {
+    "max_tokens": 512,
+    "seed": 42,
+    "temperature": 0,
+    "top_k": 0,
+    "top_p": 1
+  },
+  "endpoint": "http://c220m3:4001",
+  "guard": "bin/lab-modelview-guard",
+  "headline": {
+    "appended_model_rows": 15,
+    "expected_rows": 15,
+    "k": 5,
+    "model_rows_before": 0,
+    "per_rep": {
+      "R0": {
+        "determinations": 0,
+        "evidence_bytes": 43468,
+        "identical_coord_rate": null,
+        "median_damage_retained": null,
+        "median_legit_lost": null,
+        "median_lsn_delta": null,
+        "prompt_tokens_real": 17893,
+        "refusal_rate": 1.0,
+        "refusals": 5
+      },
+      "R1": {
+        "determinations": 0,
+        "evidence_bytes": 245,
+        "identical_coord_rate": null,
+        "median_damage_retained": null,
+        "median_legit_lost": null,
+        "median_lsn_delta": null,
+        "prompt_tokens_real": 220,
+        "refusal_rate": 1.0,
+        "refusals": 5
+      },
+      "R2": {
+        "determinations": 0,
+        "evidence_bytes": 304,
+        "identical_coord_rate": null,
+        "median_damage_retained": null,
+        "median_legit_lost": null,
+        "median_lsn_delta": null,
+        "prompt_tokens_real": 241,
+        "refusal_rate": 1.0,
+        "refusals": 5
+      }
+    },
+    "r0_vs_r2": {
+      "r0_median_delta": null,
+      "r0_refusals": 5,
+      "r2_median_delta": null,
+      "r2_refusals": 5
+    },
+    "true_optimum": {
+      "lsn_int": 8069840896,
+      "lsn_text": "1/E1000000",
+      "window": 15
+    }
+  },
+  "k": 5,
+  "model_id": "gb10a-deepseek-v4-flash",
+  "next_tranche": "P7",
+  "p7_instruction": "P7 builds the run matrix across SC-01..SC-04, reusing bin/lab-arm-b unchanged.",
+  "quantization": "exl3-k2",
+  "real_tokens_distinct_from_p5_estimate": true,
+  "refusal_is_first_class": true,
+  "results_incident_id": "i_20260824T091611Z_122142",
+  "runtime": "litellm on c220m3:4001 -> vllm-spark on gb10a:8000",
+  "sc01_incident": "SC-01_20260824T091611Z",
+  "telemetry": [
+    {
+      "evidence_bytes": 43468,
+      "latency_ms_median": 1081,
+      "prompt_tokens_real": 17893,
+      "ratio_real_over_estimate": 0.9292168674698795,
+      "representation": "R0",
+      "token_estimate_p5": 19256
+    },
+    {
+      "evidence_bytes": 245,
+      "latency_ms_median": 757,
+      "prompt_tokens_real": 220,
+      "ratio_real_over_estimate": 3.492063492063492,
+      "representation": "R1",
+      "token_estimate_p5": 63
+    },
+    {
+      "evidence_bytes": 304,
+      "latency_ms_median": 869,
+      "prompt_tokens_real": 241,
+      "ratio_real_over_estimate": 3.4927536231884058,
+      "representation": "R2",
+      "token_estimate_p5": 69
+    }
+  ],
+  "tranche": "P6",
+  "weights_sha256": "c5da6dd1f48fc7eed95333921709c5139bb0c59a5a616417094088dd81a31187"
+}

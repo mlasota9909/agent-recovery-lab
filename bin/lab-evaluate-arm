@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# W008: phase 2 — evaluate an arm against a frozen incident.
+# X002: harness_commit is git HEAD at $LAB_ROOT; dirty tree refuses the row.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# Honour a caller-supplied RESULTS_ROOT (scratch tests). lab.env otherwise.
+OVERRIDE_RESULTS_ROOT="${RESULTS_ROOT:-}"
+OVERRIDE_EVIDENCE_ROOT="${EVIDENCE_ROOT:-}"
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+if [ -n "$OVERRIDE_RESULTS_ROOT" ]; then
+  RESULTS_ROOT="$OVERRIDE_RESULTS_ROOT"
+fi
+if [ -n "$OVERRIDE_EVIDENCE_ROOT" ]; then
+  EVIDENCE_ROOT="$OVERRIDE_EVIDENCE_ROOT"
+fi
+export LAB_ROOT EVIDENCE_ROOT ARCHIVE_CURRENT ARCHIVE_ROOT RESULTS_ROOT RESULTS_SCHEMA
+export VM_SSH PG_DATA PG_VERSION
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_evaluate_arm.py" "$@"

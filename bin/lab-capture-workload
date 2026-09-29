@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# C007: deterministic mixed workload. Labels principal; does not detect from it.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+set -a
+source "$ROOT/etc/lab.env"
+set +a
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_capture_workload.py" "$@"

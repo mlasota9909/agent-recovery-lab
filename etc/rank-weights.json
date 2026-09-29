@@ -1,0 +1,13 @@
+{
+  "version": "p3-rank-1",
+  "tie_break": "latest_safe_lsn_int",
+  "safe_rule": "lsn_int < first_anomalous_window.lsn_start_int AND anomaly_score < 3",
+  "ledger_view": "db_changes",
+  "weights": {
+    "proximity_to_first_suspicious": -1e-6,
+    "data_loss_rows": -1.0,
+    "consistency_risk": -10.0,
+    "anomaly_score": -2.0,
+    "ddl_in_window": -5.0
+  }
+}

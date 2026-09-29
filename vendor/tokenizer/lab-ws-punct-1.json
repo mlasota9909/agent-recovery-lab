@@ -1,0 +1,8 @@
+{
+  "name": "lab-ws-punct",
+  "version": "1",
+  "algorithm": "whitespace-and-punctuation",
+  "description": "Offline deterministic tokenizer. Tokens are maximal [A-Za-z0-9_]+ runs or a single non-whitespace other character. Whitespace is discarded. No merges, no model, no network.",
+  "vocab_file": null,
+  "merges": []
+}

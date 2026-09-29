@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# Pack the complete lab source, specs, CLIs and review bundles with repomix.
+# Excludes WAL archive, basebackups, keys. Dated output plus backups/repomix-latest.md.
+set -euo pipefail
+
+LAB_ROOT="${LAB_ROOT:-/home/mlasota/thesis}"
+if [ -f "$LAB_ROOT/etc/lab.env" ]; then
+  # shellcheck disable=SC1091
+  set -a
+  . "$LAB_ROOT/etc/lab.env"
+  set +a
+fi
+LAB_ROOT="${LAB_ROOT:-/home/mlasota/thesis}"
+cd "$LAB_ROOT"
+
+export PATH="${HOME}/.local/bin:/usr/bin:${PATH}"
+
+if ! command -v repomix >/dev/null 2>&1; then
+  echo "precondition failed: repomix not on PATH (install with: npm install -g --prefix ~/.local repomix)" >&2
+  exit 2
+fi
+
+STAMP=$(date -u +%Y%m%dT%H%M%SZ)
+OUT_DIR="$LAB_ROOT/backups"
+mkdir -p "$OUT_DIR"
+PREFIX="${BACKUP_PREFIX:-thesis}"
+OUT="$OUT_DIR/${PREFIX}-${STAMP}.md"
+LATEST="$OUT_DIR/repomix-latest.md"
+CFG="$LAB_ROOT/etc/repomix.config.json"
+test -f "$CFG"
+
+repomix --config "$CFG" --output "$OUT"
+test -f "$OUT"
+chmod u+w "$OUT" "$LATEST" 2>/dev/null || true
+/usr/bin/cp -f "$OUT" "$LATEST"
+
+python3 - "$OUT" <<'PY'
+import json, os, sys
+path = sys.argv[1]
+st = os.stat(path)
+print(json.dumps({
+    "ok": True,
+    "changed": True,
+    "output": path,
+    "latest": os.path.join(os.path.dirname(path), "repomix-latest.md"),
+    "bytes": st.st_size,
+    "repomix": os.popen("repomix --version").read().strip(),
+}, indent=2, sort_keys=True))
+PY

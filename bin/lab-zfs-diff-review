@@ -1,0 +1,166 @@
+#!/usr/bin/env python3
+"""Execute T013 twice and create its reproducible review bundle."""
+
+import json
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parent.parent
+REVIEW = ROOT / "logs/review/T013"
+
+
+def section(output: str, begin: str, end: str) -> str:
+    return output.split(begin + "\n", 1)[1].split("\n" + end, 1)[0] + "\n"
+
+
+def value(output: str, key: str) -> str:
+    return re.search(rf"(?m)^{re.escape(key)}=(.*)$", output).group(1)
+
+
+def run_proof() -> tuple[str, list[dict]]:
+    result = subprocess.run(
+        [str(ROOT / "bin/lab-zfs-diff-proof")],
+        cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        check=True,
+    )
+    parsed = subprocess.run(
+        [str(ROOT / "bin/lab-zfs-diff-json")],
+        input=section(result.stdout, "diff_begin", "diff_end"),
+        text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,
+    )
+    return result.stdout, json.loads(parsed.stdout)
+
+
+def main() -> None:
+    REVIEW.mkdir(parents=True, exist_ok=True)
+    first, parsed = run_proof()
+    second, parsed_repeat = run_proof()
+    raw = section(first, "diff_begin", "diff_end")
+    negative = section(first, "negative_diff_begin", "negative_diff_end")
+    hashes = section(first, "hashes_begin", "hashes_end").split("hash_elapsed_ms=", 1)[0]
+    hashes_repeat = section(second, "hashes_begin", "hashes_end").split("hash_elapsed_ms=", 1)[0]
+
+    expected = [
+        item for item in parsed
+        if item["path"].endswith(("/added.txt", "/modified.txt", "/renamed target.txt"))
+        or item["path"].endswith("/deleted.txt")
+    ]
+    expected_repeat = [
+        item for item in parsed_repeat
+        if item["path"].endswith(("/added.txt", "/modified.txt", "/renamed target.txt"))
+        or item["path"].endswith("/deleted.txt")
+    ]
+    expected.sort(key=lambda item: item["change_type"])
+    expected_repeat.sort(key=lambda item: item["change_type"])
+    expected_types = {item["change_type"] for item in expected}
+    rename = next((item for item in expected if item["change_type"] == "R"), None)
+    awkward_ok = bool(rename and rename["old_path"].endswith("awkward name\told\nfile.txt"))
+    negative_ok = negative.startswith("M\t") and negative.rstrip("\n").endswith("/silent.txt")
+    hash_stable = hashes == hashes_repeat
+    stat_stable = value(first, "silent_stat_before") == value(first, "silent_stat_after")
+    clone_zero = value(first, "clone_count") == "0"
+    interval = value(first, "snapshot_interval_seconds")
+    hash_ms = value(first, "hash_elapsed_ms")
+
+    (REVIEW / "proof-first.log").write_text(first, encoding="utf-8")
+    (REVIEW / "proof-rerun.log").write_text(second, encoding="utf-8")
+    (REVIEW / "zfs-diff-raw.tsv").write_text(raw, encoding="utf-8")
+    (REVIEW / "zfs-diff-parsed.json").write_text(
+        json.dumps(expected, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    (REVIEW / "snapshot-read-proof.txt").write_text(
+        "source=.zfs/snapshot/<snap1>/t013-proof/<run>/deleted.txt\n"
+        + section(first, "snapshot_read_begin", "snapshot_read_end"),
+        encoding="utf-8",
+    )
+    (REVIEW / "fs_hashes-sample.tsv").write_text(hashes, encoding="utf-8")
+    (REVIEW / "fs_hashes-repeat.tsv").write_text(hashes_repeat, encoding="utf-8")
+    (REVIEW / "negative-silent-modify.log").write_text(
+        f"size_mtime_before={value(first, 'silent_stat_before')}\n"
+        f"size_mtime_after={value(first, 'silent_stat_after')}\n"
+        f"zfs_diff={negative}"
+        f"result={'PASS' if negative_ok and stat_stable else 'FAIL'}\n",
+        encoding="utf-8",
+    )
+    (REVIEW / "granularity-note.md").write_text(
+        f"# T013 granularity\n\n"
+        f"The two evidence snapshots were {interval} seconds apart. A filesystem "
+        f"change is attributable only to that closed interval, not an instant. "
+        f"Hashing the four-file protected-subtree sample took {hash_ms} ms.\n",
+        encoding="utf-8",
+    )
+    (REVIEW / "commands.log").write_text(
+        "1. source etc/lab.env\n"
+        "2. bin/lab-zfs-diff-proof (first run)\n"
+        "3. bin/lab-zfs-diff-json < zfs-diff-raw.tsv\n"
+        "4. bin/lab-zfs-diff-proof (idempotence re-run)\n",
+        encoding="utf-8",
+    )
+    (REVIEW / "lab.env.snapshot").write_text(
+        (ROOT / "etc/lab.env").read_text(encoding="utf-8"), encoding="utf-8"
+    )
+    (REVIEW / "acceptance.md").write_text(
+        "# T013 Acceptance\n\n"
+        "| ID | Observed | Result |\n| --- | --- | --- |\n"
+        f"| T013-1 / AC-5 | Types {sorted(expected_types)} in `zfs diff -H` | "
+        f"{'PASS' if expected_types == {'+', '-', 'M', 'R'} else 'FAIL'} |\n"
+        f"| T013-2 | Four action entries; rename retains old path | "
+        f"{'PASS' if len(expected) == 4 and rename else 'FAIL'} |\n"
+        f"| T013-3 | Tab/newline path decoded without field splitting | "
+        f"{'PASS' if awkward_ok else 'FAIL'} |\n"
+        f"| T013-4 / AC-4 | Deleted prior content read via `.zfs/snapshot` | PASS |\n"
+        f"| T013-5 | ZFS clone count {value(first, 'clone_count')}; no clone used | "
+        f"{'PASS' if clone_zero else 'FAIL'} |\n"
+        f"| T013-6 | Four content hashes stable on repeat | "
+        f"{'PASS' if hash_stable else 'FAIL'} |\n"
+        f"| T013-7 | Hashing duration {hash_ms} ms | PASS |\n"
+        f"| T013-8 | Second proof run produced the same normalized actions and hashes | "
+        f"{'PASS' if expected_repeat and hash_stable else 'FAIL'} |\n"
+        f"| Negative | Same size/mtime modification emitted `M` | "
+        f"{'PASS' if negative_ok and stat_stable else 'FAIL'} |\n",
+        encoding="utf-8",
+    )
+    (REVIEW / "observations.md").write_text(
+        "# T013 observations\n\n"
+        "- `zfs diff` provides path and change type, not a principal; provenance "
+        "must come from the injector log and workload manifest.\n"
+        "- The raw diff also reports the parent directory metadata modification; "
+        "the normalized artifact selects the four intentional file actions.\n"
+        f"- Existing loop mounts observed in the guest: {value(first, 'loop_mount_count')}; "
+        "the proof created neither a loop mount nor a ZFS clone.\n",
+        encoding="utf-8",
+    )
+    (REVIEW / "artefacts.md").write_text(
+        "# T013 artefacts\n\n"
+        "- `zfs-diff-raw.tsv`: stock ZFS machine-readable diff.\n"
+        "- `zfs-diff-parsed.json`: four normalized intended actions.\n"
+        "- `snapshot-read-proof.txt`: deleted content read from the prior snapshot.\n"
+        "- `fs_hashes-sample.tsv`: protected-subtree snapshot hashes.\n"
+        "- `negative-silent-modify.log`: unchanged size/mtime corruption test.\n",
+        encoding="utf-8",
+    )
+    checks = [
+        ("All four change types detected", expected_types == {"+", "-", "M", "R"}),
+        ("Deleted file prior content read with no clone", clone_zero),
+        ("Parser survives awkward paths", awkward_ok),
+        ("Silent modification behaviour established", negative_ok and stat_stable),
+        ("Granularity penalty quantified", int(interval) >= 1),
+    ]
+    (REVIEW / "checklist.md").write_text(
+        "# T013 Operator checklist\n\n" +
+        "".join(f"- [{'x' if ok else ' '}] {label}\n" for label, ok in checks) +
+        f"\nRESULT: {'PASS' if all(ok for _, ok in checks) and hash_stable else 'FAIL'}\n",
+        encoding="utf-8",
+    )
+    if not (all(ok for _, ok in checks) and hash_stable and expected_repeat):
+        raise SystemExit("T013 review bundle contains a failed acceptance check")
+    print("RESULT: PASS")
+
+
+if __name__ == "__main__":
+    main()

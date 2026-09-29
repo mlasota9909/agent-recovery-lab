@@ -1,0 +1,652 @@
+{
+  "coordinate_contract": "sdd/specs/P0-lab-substrate/contracts/coordinate.md",
+  "coordinate_field_count": 6,
+  "example_row": {
+    "arm": "stub",
+    "chosen_coordinate": {
+      "lsn": "3/A2F00000",
+      "resolved_by": "snapshot_first",
+      "skew_bytes": 0,
+      "skew_ms": 0,
+      "snapshot": "s_20260820T041050Z",
+      "wall_clock": "2026-08-20T04:10:50.000000Z"
+    },
+    "consistency_verdict": "stub",
+    "coord_direction": "before",
+    "coord_error_bytes": 268296,
+    "coord_error_ms": 2114,
+    "damage_bytes_retained": null,
+    "damage_rows_retained": null,
+    "evidence_bytes_presented": null,
+    "fs_granularity_penalty_ms": null,
+    "ground_truth_coordinate": {
+      "lsn": "3/A2F41C08",
+      "resolved_by": "lsn_first",
+      "skew_bytes": 262144,
+      "skew_ms": 2114,
+      "snapshot": "s_20260820T041050Z",
+      "wall_clock": "2026-08-20T04:10:52.114003Z"
+    },
+    "harness_commit": "4f1c9ab2d3e5f60718293a4b5c6d7e8f90a1b2c3",
+    "incident_close_coordinate": {
+      "lsn": "3/A3B00000",
+      "resolved_by": "snapshot_first",
+      "skew_bytes": 0,
+      "skew_ms": 0,
+      "snapshot": "s_20260820T041140Z",
+      "wall_clock": "2026-08-20T04:11:40.774221Z"
+    },
+    "incident_id": "i_20260820T041005Z_3ba77e",
+    "incident_open_coordinate": {
+      "lsn": "3/A1000000",
+      "resolved_by": "snapshot_first",
+      "skew_bytes": 0,
+      "skew_ms": 0,
+      "snapshot": "s_20260820T041005Z",
+      "wall_clock": "2026-08-20T04:10:05.002110Z"
+    },
+    "ledger_integrity_ok": true,
+    "legit_bytes_lost": null,
+    "legit_rows_lost": null,
+    "model_id": null,
+    "naive_coord_error_bytes": null,
+    "naive_coord_error_ms": null,
+    "naive_coordinate": null,
+    "notes": null,
+    "ranker_version": null,
+    "replicate": 1,
+    "representation": "none",
+    "reset_tier": "t2",
+    "restore_attempted": false,
+    "restore_verdict": "stub",
+    "retrieval_calls": null,
+    "run_id": "r_20260820T041233Z_9f2a1c",
+    "run_ts": "2026-08-20T04:12:33.881204Z",
+    "scenario_id": "SC-01",
+    "snapshot_post_capture": "post_capture",
+    "snapshot_pre_injection": "pre_injection",
+    "supersedes": null,
+    "t_to_coordinate_ms": 412,
+    "t_to_validated_restore_ms": null,
+    "t_total_ms": 1188,
+    "token_count": null,
+    "validation_detail": null,
+    "workload_mix": "insert:60,update:30,delete:10",
+    "workload_rate_tps": 20
+  },
+  "field_count": 43,
+  "fields": [
+    {
+      "contract_type": "string, `r_<UTC compact>_<6 hex>`",
+      "json_type": "string",
+      "name": "run_id",
+      "nullable": false,
+      "pattern": "^r_[0-9]{8}T[0-9]{6}Z_[0-9a-f]{6}$"
+    },
+    {
+      "contract_type": "string, `SC-0[1-4]`",
+      "json_type": "string",
+      "name": "scenario_id",
+      "nullable": false,
+      "pattern": "^SC-0[1-4]$"
+    },
+    {
+      "contract_type": "string, `i_<UTC compact>_<6 hex>`",
+      "json_type": "string",
+      "name": "incident_id",
+      "nullable": false,
+      "pattern": "^i_[0-9]{8}T[0-9]{6}Z_[0-9a-f]{6}$"
+    },
+    {
+      "contract_type": "integer >= 1",
+      "json_type": "integer",
+      "minimum": 1,
+      "name": "replicate",
+      "nullable": false
+    },
+    {
+      "contract_type": "ISO 8601 UTC, microsecond",
+      "json_type": "string",
+      "name": "run_ts",
+      "nullable": false,
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+    },
+    {
+      "contract_type": "string or null",
+      "json_type": "string",
+      "name": "supersedes",
+      "nullable": true
+    },
+    {
+      "contract_type": "enum `stub` \\| `deterministic` \\| `model` \\| `naive`",
+      "enum": [
+        "stub",
+        "deterministic",
+        "model",
+        "naive"
+      ],
+      "json_type": "string",
+      "name": "arm",
+      "nullable": false
+    },
+    {
+      "contract_type": "enum `none` \\| `R0` \\| `R1` \\| `R2`",
+      "enum": [
+        "none",
+        "R0",
+        "R1",
+        "R2"
+      ],
+      "json_type": "string",
+      "name": "representation",
+      "nullable": false
+    },
+    {
+      "contract_type": "string or null",
+      "json_type": "string",
+      "name": "ranker_version",
+      "nullable": true
+    },
+    {
+      "contract_type": "string or null",
+      "json_type": "string",
+      "name": "model_id",
+      "nullable": true
+    },
+    {
+      "contract_type": "string, 40 hex",
+      "json_type": "string",
+      "name": "harness_commit",
+      "nullable": false,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    {
+      "contract_type": "coordinate object",
+      "coordinate": true,
+      "coordinate_properties": {
+        "lsn": {
+          "contract_type": "string `X/YYYYYYYY`",
+          "json_type": "string",
+          "nullable": false,
+          "pattern": "^[0-9A-F]+/[0-9A-F]+$"
+        },
+        "resolved_by": {
+          "contract_type": "enum `lsn_first` \\| `snapshot_first` \\| `time_first`",
+          "enum": [
+            "lsn_first",
+            "snapshot_first",
+            "time_first",
+            "live_heartbeat"
+          ],
+          "json_type": "string",
+          "nullable": false
+        },
+        "skew_bytes": {
+          "contract_type": "integer, >= 0",
+          "json_type": "integer",
+          "minimum": 0,
+          "nullable": false
+        },
+        "skew_ms": {
+          "contract_type": "integer, >= 0",
+          "json_type": "integer",
+          "minimum": 0,
+          "nullable": false
+        },
+        "snapshot": {
+          "contract_type": "string, ZFS snapshot short name",
+          "json_type": "string",
+          "nullable": false
+        },
+        "wall_clock": {
+          "contract_type": "ISO 8601 UTC, microsecond precision",
+          "json_type": "string",
+          "nullable": false,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+        }
+      },
+      "json_type": "object",
+      "name": "ground_truth_coordinate",
+      "nullable": false,
+      "required_coordinate_fields": [
+        "wall_clock",
+        "lsn",
+        "snapshot",
+        "skew_ms",
+        "skew_bytes",
+        "resolved_by"
+      ]
+    },
+    {
+      "contract_type": "coordinate object or null",
+      "coordinate": true,
+      "coordinate_properties": {
+        "lsn": {
+          "contract_type": "string `X/YYYYYYYY`",
+          "json_type": "string",
+          "nullable": false,
+          "pattern": "^[0-9A-F]+/[0-9A-F]+$"
+        },
+        "resolved_by": {
+          "contract_type": "enum `lsn_first` \\| `snapshot_first` \\| `time_first`",
+          "enum": [
+            "lsn_first",
+            "snapshot_first",
+            "time_first",
+            "live_heartbeat"
+          ],
+          "json_type": "string",
+          "nullable": false
+        },
+        "skew_bytes": {
+          "contract_type": "integer, >= 0",
+          "json_type": "integer",
+          "minimum": 0,
+          "nullable": false
+        },
+        "skew_ms": {
+          "contract_type": "integer, >= 0",
+          "json_type": "integer",
+          "minimum": 0,
+          "nullable": false
+        },
+        "snapshot": {
+          "contract_type": "string, ZFS snapshot short name",
+          "json_type": "string",
+          "nullable": false
+        },
+        "wall_clock": {
+          "contract_type": "ISO 8601 UTC, microsecond precision",
+          "json_type": "string",
+          "nullable": false,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+        }
+      },
+      "json_type": "object",
+      "name": "chosen_coordinate",
+      "nullable": true,
+      "required_coordinate_fields": [
+        "wall_clock",
+        "lsn",
+        "snapshot",
+        "skew_ms",
+        "skew_bytes",
+        "resolved_by"
+      ]
+    },
+    {
+      "contract_type": "coordinate object or null",
+      "coordinate": true,
+      "coordinate_properties": {
+        "lsn": {
+          "contract_type": "string `X/YYYYYYYY`",
+          "json_type": "string",
+          "nullable": false,
+          "pattern": "^[0-9A-F]+/[0-9A-F]+$"
+        },
+        "resolved_by": {
+          "contract_type": "enum `lsn_first` \\| `snapshot_first` \\| `time_first`",
+          "enum": [
+            "lsn_first",
+            "snapshot_first",
+            "time_first",
+            "live_heartbeat"
+          ],
+          "json_type": "string",
+          "nullable": false
+        },
+        "skew_bytes": {
+          "contract_type": "integer, >= 0",
+          "json_type": "integer",
+          "minimum": 0,
+          "nullable": false
+        },
+        "skew_ms": {
+          "contract_type": "integer, >= 0",
+          "json_type": "integer",
+          "minimum": 0,
+          "nullable": false
+        },
+        "snapshot": {
+          "contract_type": "string, ZFS snapshot short name",
+          "json_type": "string",
+          "nullable": false
+        },
+        "wall_clock": {
+          "contract_type": "ISO 8601 UTC, microsecond precision",
+          "json_type": "string",
+          "nullable": false,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+        }
+      },
+      "json_type": "object",
+      "name": "naive_coordinate",
+      "nullable": true,
+      "required_coordinate_fields": [
+        "wall_clock",
+        "lsn",
+        "snapshot",
+        "skew_ms",
+        "skew_bytes",
+        "resolved_by"
+      ]
+    },
+    {
+      "contract_type": "coordinate object",
+      "coordinate": true,
+      "coordinate_properties": {
+        "lsn": {
+          "contract_type": "string `X/YYYYYYYY`",
+          "json_type": "string",
+          "nullable": false,
+          "pattern": "^[0-9A-F]+/[0-9A-F]+$"
+        },
+        "resolved_by": {
+          "contract_type": "enum `lsn_first` \\| `snapshot_first` \\| `time_first`",
+          "enum": [
+            "lsn_first",
+            "snapshot_first",
+            "time_first",
+            "live_heartbeat"
+          ],
+          "json_type": "string",
+          "nullable": false
+        },
+        "skew_bytes": {
+          "contract_type": "integer, >= 0",
+          "json_type": "integer",
+          "minimum": 0,
+          "nullable": false
+        },
+        "skew_ms": {
+          "contract_type": "integer, >= 0",
+          "json_type": "integer",
+          "minimum": 0,
+          "nullable": false
+        },
+        "snapshot": {
+          "contract_type": "string, ZFS snapshot short name",
+          "json_type": "string",
+          "nullable": false
+        },
+        "wall_clock": {
+          "contract_type": "ISO 8601 UTC, microsecond precision",
+          "json_type": "string",
+          "nullable": false,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+        }
+      },
+      "json_type": "object",
+      "name": "incident_open_coordinate",
+      "nullable": false,
+      "required_coordinate_fields": [
+        "wall_clock",
+        "lsn",
+        "snapshot",
+        "skew_ms",
+        "skew_bytes",
+        "resolved_by"
+      ]
+    },
+    {
+      "contract_type": "coordinate object",
+      "coordinate": true,
+      "coordinate_properties": {
+        "lsn": {
+          "contract_type": "string `X/YYYYYYYY`",
+          "json_type": "string",
+          "nullable": false,
+          "pattern": "^[0-9A-F]+/[0-9A-F]+$"
+        },
+        "resolved_by": {
+          "contract_type": "enum `lsn_first` \\| `snapshot_first` \\| `time_first`",
+          "enum": [
+            "lsn_first",
+            "snapshot_first",
+            "time_first",
+            "live_heartbeat"
+          ],
+          "json_type": "string",
+          "nullable": false
+        },
+        "skew_bytes": {
+          "contract_type": "integer, >= 0",
+          "json_type": "integer",
+          "minimum": 0,
+          "nullable": false
+        },
+        "skew_ms": {
+          "contract_type": "integer, >= 0",
+          "json_type": "integer",
+          "minimum": 0,
+          "nullable": false
+        },
+        "snapshot": {
+          "contract_type": "string, ZFS snapshot short name",
+          "json_type": "string",
+          "nullable": false
+        },
+        "wall_clock": {
+          "contract_type": "ISO 8601 UTC, microsecond precision",
+          "json_type": "string",
+          "nullable": false,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$"
+        }
+      },
+      "json_type": "object",
+      "name": "incident_close_coordinate",
+      "nullable": false,
+      "required_coordinate_fields": [
+        "wall_clock",
+        "lsn",
+        "snapshot",
+        "skew_ms",
+        "skew_bytes",
+        "resolved_by"
+      ]
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "coord_error_bytes",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "coord_error_ms",
+      "nullable": true
+    },
+    {
+      "contract_type": "enum `exact` \\| `before` \\| `after` or null",
+      "enum": [
+        "exact",
+        "before",
+        "after"
+      ],
+      "json_type": "string",
+      "name": "coord_direction",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "naive_coord_error_bytes",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "naive_coord_error_ms",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "legit_rows_lost",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "legit_bytes_lost",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "damage_rows_retained",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "damage_bytes_retained",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "fs_granularity_penalty_ms",
+      "nullable": true
+    },
+    {
+      "contract_type": "boolean",
+      "json_type": "boolean",
+      "name": "restore_attempted",
+      "nullable": false
+    },
+    {
+      "contract_type": "enum `stub` \\| `correct` \\| `incorrect_safe` \\| `incorrect_corrupt` \\| `not_recovered`",
+      "enum": [
+        "stub",
+        "correct",
+        "incorrect_safe",
+        "incorrect_corrupt",
+        "not_recovered"
+      ],
+      "json_type": "string",
+      "name": "restore_verdict",
+      "nullable": false
+    },
+    {
+      "contract_type": "enum `stub` \\| `consistent` \\| `inconsistent` \\| `unknown`",
+      "enum": [
+        "stub",
+        "consistent",
+        "inconsistent",
+        "unknown"
+      ],
+      "json_type": "string",
+      "name": "consistency_verdict",
+      "nullable": false
+    },
+    {
+      "contract_type": "object or null",
+      "json_type": "object",
+      "name": "validation_detail",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "t_to_coordinate_ms",
+      "nullable": false
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "t_to_validated_restore_ms",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "t_total_ms",
+      "nullable": false
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "evidence_bytes_presented",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "token_count",
+      "nullable": true
+    },
+    {
+      "contract_type": "integer >= 0 or null",
+      "json_type": "integer",
+      "minimum": 0,
+      "name": "retrieval_calls",
+      "nullable": true
+    },
+    {
+      "contract_type": "enum `t0` \\| `t1` \\| `t2`",
+      "enum": [
+        "t0",
+        "t1",
+        "t2"
+      ],
+      "json_type": "string",
+      "name": "reset_tier",
+      "nullable": false
+    },
+    {
+      "contract_type": "string",
+      "json_type": "string",
+      "name": "snapshot_pre_injection",
+      "nullable": false
+    },
+    {
+      "contract_type": "string",
+      "json_type": "string",
+      "name": "snapshot_post_capture",
+      "nullable": false
+    },
+    {
+      "contract_type": "number > 0",
+      "exclusiveMinimum": 0,
+      "json_type": "number",
+      "name": "workload_rate_tps",
+      "nullable": false
+    },
+    {
+      "contract_type": "string",
+      "json_type": "string",
+      "name": "workload_mix",
+      "nullable": false
+    },
+    {
+      "contract_type": "boolean",
+      "json_type": "boolean",
+      "name": "ledger_integrity_ok",
+      "nullable": false
+    },
+    {
+      "contract_type": "string or null",
+      "json_type": "string",
+      "name": "notes",
+      "nullable": true
+    }
+  ],
+  "source_contract": "sdd/specs/P1-ground-truth-harness/contracts/results-row.md",
+  "title": "results-row"
+}

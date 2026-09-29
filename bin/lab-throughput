@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# W009: per-phase cycle timing post-reset-guard. JSON on stdout.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+export LAB_ROOT EVIDENCE_ROOT ARCHIVE_CURRENT ARCHIVE_ROOT RESULTS_ROOT RESULTS_SCHEMA
+export VM_SSH PG_DATA PG_VERSION PG_PORT DB_NAME
+export SC01_BASELINE_S SC01_TPS SC01_MIX SC01_INJECT_ROWS HARNESS_COMMIT_AT_P1_OPEN
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_throughput.py" "$@"

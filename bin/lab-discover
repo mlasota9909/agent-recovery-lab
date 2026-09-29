@@ -1,0 +1,338 @@
+#!/usr/bin/env python3
+"""T001: Probe host and guest; write/refresh etc/lab.env. JSON on stdout."""
+from __future__ import annotations
+
+import json
+import os
+import re
+import socket
+import subprocess
+import sys
+from pathlib import Path
+
+LAB_ROOT = Path("/home/mlasota/thesis")
+LAB_ENV = LAB_ROOT / "etc" / "lab.env"
+EXIT_OK = 0
+EXIT_ASSERT = 1
+EXIT_PRECOND = 2
+EXIT_USAGE = 3
+
+REQUIRED_KEYS = [
+    "LAB_HOST",
+    "LAB_ROOT",
+    "VM_NAME",
+    "VM_SSH",
+    "VM_ADDR",
+    "DEV_A",
+    "DEV_B",
+    "DEV_LOCATION",
+    "ZFS_VERSION",
+    "PG_VERSION",
+    "PG_DATA",
+    "PG_PORT",
+]
+
+
+def err(msg: str) -> None:
+    print(msg, file=sys.stderr)
+
+
+def run(cmd, *, check=True, capture=True, env=None):
+    return subprocess.run(
+        cmd,
+        check=check,
+        capture_output=capture,
+        text=True,
+        env=env,
+    )
+
+
+def ssh(vm_ssh: str, remote: str, *, check=True) -> subprocess.CompletedProcess:
+    cmd = [
+        "ssh",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        vm_ssh,
+        remote,
+    ]
+    try:
+        return run(cmd, check=check)
+    except subprocess.CalledProcessError as e:
+        err(
+            f"precondition failed: SSH reachability to {vm_ssh!r} "
+            f"(exit {e.returncode}): {(e.stderr or e.stdout or '').strip()}"
+        )
+        raise
+
+
+def host_has(path: str) -> bool:
+    return Path(path).exists()
+
+
+def parse_lab_env(path: Path) -> dict[str, str]:
+    if not path.exists():
+        return {}
+    out: dict[str, str] = {}
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        out[k] = v
+    return out
+
+
+def write_lab_env(values: dict[str, str]) -> None:
+    LAB_ENV.parent.mkdir(parents=True, exist_ok=True)
+    lines = [f"{k}={values[k]}" for k in REQUIRED_KEYS]
+    # Preserve any additional keys already present that we do not own.
+    existing = parse_lab_env(LAB_ENV)
+    for k, v in existing.items():
+        if k not in values:
+            lines.append(f"{k}={v}")
+    tmp = LAB_ENV.with_suffix(".env.tmp")
+    tmp.write_text("\n".join(lines) + "\n")
+    os.chmod(tmp, 0o640)
+    tmp.replace(LAB_ENV)
+
+
+def discover() -> dict:
+    vm_name = os.environ.get("VM_NAME", "thesisvm01")
+    vm_ssh = os.environ.get("VM_SSH", vm_name)
+    lab_root = str(LAB_ROOT)
+    dev_a = os.environ.get("DEV_A", "/dev/vdb")
+    dev_b = os.environ.get("DEV_B", "/dev/vdc")
+
+    # --- SSH reachability (hard stop) ---
+    try:
+        ssh(vm_ssh, "true")
+    except subprocess.CalledProcessError:
+        sys.exit(EXIT_PRECOND)
+
+    # --- Host facts ---
+    lab_host = socket.gethostname()
+    host_vdb = host_has(dev_a)
+    host_vdc = host_has(dev_b)
+
+    # --- Guest device presence ---
+    try:
+        g = ssh(
+            vm_ssh,
+            f"test -b {dev_a}; echo A:$?; test -b {dev_b}; echo B:$?",
+        )
+    except subprocess.CalledProcessError:
+        sys.exit(EXIT_PRECOND)
+    guest_a = False
+    guest_b = False
+    for line in g.stdout.splitlines():
+        if line.startswith("A:"):
+            guest_a = line.split(":", 1)[1] == "0"
+        if line.startswith("B:"):
+            guest_b = line.split(":", 1)[1] == "0"
+
+    if guest_a and guest_b and not host_vdb and not host_vdc:
+        dev_location = "guest"
+    elif host_vdb and host_vdc and not guest_a and not guest_b:
+        err(
+            "STOP: DEV_LOCATION=host — devices are host-attached; "
+            "plan D-1 assumes guest-side ZFS. Amend the plan before continuing."
+        )
+        result = {
+            "ok": False,
+            "DEV_LOCATION": "host",
+            "changed": False,
+            "error": "DEV_LOCATION=host contradicts plan D-1",
+        }
+        print(json.dumps(result, indent=2, sort_keys=True))
+        sys.exit(EXIT_PRECOND)
+    elif (host_vdb or host_vdc) and (guest_a or guest_b):
+        err(
+            "STOP: devices present on both host and guest — ambiguous. "
+            "Do not choose; operator must resolve."
+        )
+        print(
+            json.dumps(
+                {
+                    "ok": False,
+                    "error": "device attachment ambiguous",
+                    "host_has": {dev_a: host_vdb, dev_b: host_vdc},
+                    "guest_has": {dev_a: guest_a, dev_b: guest_b},
+                    "changed": False,
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        sys.exit(EXIT_PRECOND)
+    else:
+        err(
+            f"STOP: devices absent (host {dev_a}={host_vdb} {dev_b}={host_vdc}; "
+            f"guest {dev_a}={guest_a} {dev_b}={guest_b})"
+        )
+        print(
+            json.dumps(
+                {"ok": False, "error": "devices absent on both sides", "changed": False},
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        sys.exit(EXIT_PRECOND)
+
+    # --- Refuse in-use devices (guest) ---
+    try:
+        blkid = ssh(
+            vm_ssh,
+            f"sudo -n blkid {dev_a} {dev_b}; echo EC:$?",
+            check=False,
+        )
+    except Exception as e:
+        err(f"precondition failed: blkid probe: {e}")
+        sys.exit(EXIT_PRECOND)
+    # blkid prints TYPE= / PTTYPE= lines when signatures exist; exit 2 = none.
+    sig_lines = [
+        ln
+        for ln in blkid.stdout.splitlines()
+        if ln and not ln.startswith("EC:") and ("TYPE=" in ln or "PTUUID=" in ln or "UUID=" in ln)
+    ]
+    if sig_lines:
+        # A completed lab legitimately leaves ZFS labels on the discovered
+        # devices.  Treat only the recorded, complete pool as re-runnable
+        # state; any other signature remains a destructive-operation stop.
+        previous = parse_lab_env(LAB_ENV)
+        zpool = previous.get("ZPOOL")
+        pool_ok = False
+        if zpool:
+            pool = ssh(
+                vm_ssh,
+                f"sudo -n zpool status -P {zpool}",
+                check=False,
+            )
+            pool_ok = (
+                pool.returncode == 0
+                and dev_a in pool.stdout
+                and dev_b in pool.stdout
+            )
+        if not pool_ok:
+            err(
+                "STOP: device(s) already carry filesystem/partition signatures; "
+                "refusing to proceed. Evidence:\n" + "\n".join(sig_lines)
+            )
+            print(
+                json.dumps(
+                    {
+                        "ok": False,
+                        "error": "devices in use",
+                        "blkid": sig_lines,
+                        "changed": False,
+                    },
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+            sys.exit(EXIT_PRECOND)
+
+    # --- Guest discovery: ZFS + Postgres ---
+    remote = r"""
+set -e
+zfs version 2>/dev/null | head -1
+sudo -u postgres psql -tAc "SHOW server_version_num;"
+sudo -u postgres psql -tAc "SHOW data_directory;"
+sudo -u postgres psql -tAc "SHOW port;"
+hostname -I
+"""
+    try:
+        out = ssh(vm_ssh, remote)
+    except subprocess.CalledProcessError:
+        err(
+            "precondition failed: guest probe (ZFS/PostgreSQL). "
+            "Ensure zfsutils and a running PostgreSQL cluster exist on the guest."
+        )
+        sys.exit(EXIT_PRECOND)
+
+    lines = [ln.strip() for ln in out.stdout.splitlines() if ln.strip()]
+    if len(lines) < 5:
+        err(f"precondition failed: incomplete guest probe output: {lines!r}")
+        sys.exit(EXIT_PRECOND)
+
+    zfs_line = lines[0]
+    m = re.search(r"zfs-([0-9][^\s]*)", zfs_line)
+    if not m:
+        err(f"precondition failed: cannot parse ZFS_VERSION from {zfs_line!r}")
+        sys.exit(EXIT_PRECOND)
+    zfs_version = m.group(1)
+
+    try:
+        ver_num = int(lines[1])
+    except ValueError:
+        err(f"precondition failed: bad server_version_num {lines[1]!r}")
+        sys.exit(EXIT_PRECOND)
+    # server_version_num is like 180004 -> major 18
+    pg_version = str(ver_num // 10000)
+    pg_data = lines[2]
+    pg_port = lines[3]
+    addrs = lines[4].split()
+    # Prefer libvirt NAT address if present; else first IPv4.
+    vm_addr = None
+    for a in addrs:
+        if a.startswith("192.168.122."):
+            vm_addr = a
+            break
+    if vm_addr is None:
+        for a in addrs:
+            if re.match(r"^\d+\.\d+\.\d+\.\d+$", a):
+                vm_addr = a
+                break
+    if not vm_addr:
+        err(f"precondition failed: no IPv4 address on guest (got {addrs!r})")
+        sys.exit(EXIT_PRECOND)
+
+    if not pg_data or not pg_port:
+        err("precondition failed: empty PG_DATA or PG_PORT")
+        sys.exit(EXIT_PRECOND)
+
+    values = {
+        "LAB_HOST": lab_host,
+        "LAB_ROOT": lab_root,
+        "VM_NAME": vm_name,
+        "VM_SSH": vm_ssh if vm_ssh == vm_name else vm_ssh,
+        # Always record the stable SSH alias used by the lab when default;
+        # if operator overrode VM_SSH for a negative test we never reach write
+        # on failure; on success use configured alias.
+        "VM_ADDR": vm_addr,
+        "DEV_A": dev_a,
+        "DEV_B": dev_b,
+        "DEV_LOCATION": dev_location,
+        "ZFS_VERSION": zfs_version,
+        "PG_VERSION": pg_version,
+        "PG_DATA": pg_data,
+        "PG_PORT": pg_port,
+    }
+    # Prefer canonical SSH target name when using default discovery.
+    if os.environ.get("VM_SSH") is None:
+        values["VM_SSH"] = vm_name
+    else:
+        # Env override for testing: still record the override so re-read is honest,
+        # but negative-test path exits before write.
+        values["VM_SSH"] = vm_ssh
+
+    previous = parse_lab_env(LAB_ENV)
+    changed = any(previous.get(k) != values[k] for k in REQUIRED_KEYS) or not LAB_ENV.exists()
+    write_lab_env(values)
+
+    result = {"ok": True, "changed": changed, **values}
+    print(json.dumps(result, indent=2, sort_keys=True))
+    return result
+
+
+def main() -> None:
+    if len(sys.argv) > 1:
+        err(f"usage: {sys.argv[0]}  (no arguments; optional env: VM_SSH VM_NAME DEV_A DEV_B)")
+        sys.exit(EXIT_USAGE)
+    discover()
+    sys.exit(EXIT_OK)
+
+
+if __name__ == "__main__":
+    main()

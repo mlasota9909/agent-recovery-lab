@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+# T011: create an incident-scoped recursive ZFS snapshot and WAL anchor.
+set -euo pipefail
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+source "$ROOT/lib/lab_incident_env.sh"
+
+readonly EXIT_ASSERT=1 EXIT_PRECOND=2 EXIT_USAGE=3
+
+die() {
+  printf '%s\n' "$1" >&2
+  exit "${2:-$EXIT_PRECOND}"
+}
+
+[[ $# -eq 2 && ${1:-} == --label ]] ||
+  die "usage: lab-snapshot --label pristine|pre_injection|post_capture|<label>" "$EXIT_USAGE"
+label=$2
+[[ $label =~ ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$ ]] ||
+  die "usage: label must contain only letters, digits, dot, underscore, or hyphen" "$EXIT_USAGE"
+for key in VM_SSH PG_PORT DB_NAME DS_PARENT ARCHIVE_CURRENT ARCHIVE_ROOT SNAP_PREFIX; do
+  [[ -n ${!key:-} ]] || die "precondition failed: $key missing from lab.env"
+done
+[[ $SNAP_PREFIX =~ ^[A-Za-z][A-Za-z0-9._-]*$ ]] ||
+  die "precondition failed: SNAP_PREFIX is not a safe ZFS snapshot prefix"
+
+active_dir=$(readlink -f -- "$ARCHIVE_CURRENT") ||
+  die "precondition failed: no active incident at $ARCHIVE_CURRENT"
+case $active_dir in "$ARCHIVE_ROOT"/*) ;; *) die "precondition failed: active incident escapes ARCHIVE_ROOT" ;; esac
+[[ -d $active_dir ]] || die "precondition failed: active incident directory is absent"
+incident=${active_dir##*/}
+records="$active_dir/snapshots.json"
+
+# Names have second resolution to remain readable.  Avoid a collision if an
+# operator asks for two snapshots within the same second.
+while :; do
+  snapshot="${SNAP_PREFIX}$(date -u +%Y%m%dT%H%M%SZ)"
+  exists=$(ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" \
+    "sudo -n zfs list -H -t snapshot -o name '$DS_PARENT@$snapshot' 2>/dev/null || true")
+  [[ -z $exists ]] && break
+  sleep 1
+done
+
+# The ordering is intentionally snapshot -> LSN capture -> WAL switch.  The
+# materialized CTE fixes the LSN/capture time before pg_switch_wal() executes.
+ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" \
+  "sudo -n zfs snapshot -r '$DS_PARENT@$snapshot'"
+created_epoch=$(ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" \
+  "sudo -n zfs get -Hp -o value creation '$DS_PARENT@$snapshot'")
+[[ $created_epoch =~ ^[0-9]+$ ]] ||
+  die "assertion failed: cannot read ZFS creation time for $snapshot" "$EXIT_ASSERT"
+row=$(ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" \
+  "sudo -n bash -s -- '$PG_PORT' '$DB_NAME'" <<'REMOTE'
+set -euo pipefail
+sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -At -F $'\t' -p "$1" -d "$2" -c "
+WITH captured AS MATERIALIZED (
+  SELECT pg_current_wal_lsn() AS lsn, clock_timestamp() AS captured_at
+)
+SELECT lsn::text,
+       to_char(captured_at AT TIME ZONE 'UTC', 'YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"'),
+       pg_switch_wal()::text
+FROM captured;"
+REMOTE
+)
+IFS=$'\t' read -r recorded_lsn lsn_recorded_at wal_switch_lsn <<<"$row"
+[[ $recorded_lsn =~ ^[0-9A-F]+/[0-9A-F]+$ &&
+   $wal_switch_lsn =~ ^[0-9A-F]+/[0-9A-F]+$ &&
+   $lsn_recorded_at =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T ]] ||
+  die "assertion failed: unexpected PostgreSQL WAL anchor result" "$EXIT_ASSERT"
+created_at=$(python3 - "$created_epoch" <<'PY'
+from datetime import UTC, datetime
+import sys
+print(datetime.fromtimestamp(int(sys.argv[1]), UTC).strftime("%Y-%m-%dT%H:%M:%S.000000Z"))
+PY
+)
+
+# flock serializes concurrent operators and Python atomically replaces the
+# array, so a repeated snapshot cannot clobber earlier incident records.
+(
+  flock -x 9
+  python3 - "$records" "$incident" "$snapshot" "$label" "$created_at" \
+    "$recorded_lsn" "$lsn_recorded_at" "$wal_switch_lsn" <<'PY'
+import json
+import os
+import sys
+import tempfile
+
+path, incident, snapshot, label, created_at, lsn, captured_at, switch_lsn = sys.argv[1:]
+records = []
+if os.path.exists(path):
+    with open(path, encoding="utf-8") as handle:
+        records = json.load(handle)
+    if not isinstance(records, list):
+        raise SystemExit("assertion failed: snapshots.json is not an array")
+if any(item.get("snapshot") == snapshot for item in records):
+    raise SystemExit(f"assertion failed: snapshot record already exists: {snapshot}")
+record = {
+    "created_at": created_at,
+    "incident": incident,
+    "label": label,
+    "lsn_recorded_at": captured_at,
+    "operations": ["zfs_snapshot", "pg_current_wal_lsn", "pg_switch_wal"],
+    "recorded_lsn": lsn,
+    "snapshot": snapshot,
+    "wal_switch_lsn": switch_lsn,
+}
+records.append(record)
+fd, temporary = tempfile.mkstemp(prefix=".snapshots.", dir=os.path.dirname(path), text=True)
+try:
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        json.dump(records, handle, sort_keys=True)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(temporary, path)
+finally:
+    if os.path.exists(temporary):
+        os.unlink(temporary)
+print(json.dumps(record, sort_keys=True))
+PY
+) 9>"$active_dir/.snapshots.lock"

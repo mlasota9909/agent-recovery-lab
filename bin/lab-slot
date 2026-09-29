@@ -1,0 +1,269 @@
+#!/usr/bin/env bash
+# T007: bound logical-slot retention and report slot health.
+set -euo pipefail
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+# shellcheck source=../etc/lab.env
+source "$SCRIPT_DIR/../etc/lab.env"
+source "$SCRIPT_DIR/../lib/lab_incident_env.sh"
+
+EXIT_ASSERT=1
+EXIT_PRECOND=2
+EXIT_USAGE=3
+
+die() {
+  local code=$1
+  shift
+  printf '%s\n' "$*" >&2
+  exit "$code"
+}
+
+for key in VM_SSH PG_VERSION PG_PORT DB_NAME SLOT_NAME SLOT_PLUGIN SLOT_MAX_WAL_KEEP \
+           SLOT_WARN_RETAINED SLOT_MIN_FREE PG_DATA ARCHIVE_CURRENT ARCHIVE_ROOT; do
+  [[ -n ${!key:-} ]] || die "$EXIT_PRECOND" "precondition failed: $key missing from lab.env"
+done
+[[ $SLOT_NAME =~ ^[A-Za-z_][A-Za-z0-9_]*$ && $SLOT_PLUGIN =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] ||
+  die "$EXIT_PRECOND" "precondition failed: slot name and plugin must be PostgreSQL identifiers"
+
+[[ $# -eq 1 ]] || die "$EXIT_USAGE" "usage: lab-slot --create|--drop|--status|--assert-healthy|--check"
+
+configure_retention() {
+  ssh -o BatchMode=yes "$VM_SSH" \
+    "sudo -n bash -s -- '$PG_VERSION' '$PG_PORT' '$SLOT_MAX_WAL_KEEP'" <<'REMOTE'
+set -euo pipefail
+pg_version=$1
+pg_port=$2
+max_keep=$3
+config_dir="/etc/postgresql/$pg_version/main/conf.d"
+config_file="$config_dir/t007-slot-retention.conf"
+changed=false
+
+install -d -m 0755 "$config_dir"
+tmp=$(mktemp)
+trap 'rm -f "$tmp"' EXIT
+cat >"$tmp" <<EOF
+# Managed by lab-slot (T007).  Bound unconsumed logical-slot WAL retention.
+max_slot_wal_keep_size = $max_keep
+EOF
+if ! test -f "$config_file" || ! cmp -s "$tmp" "$config_file"; then
+  install -m 0644 "$tmp" "$config_file"
+  changed=true
+fi
+systemctl reload "postgresql@$pg_version-main"
+actual=$(sudo -u postgres psql -At -p "$pg_port" -c 'SHOW max_slot_wal_keep_size')
+[[ $actual == "$max_keep" ]] || {
+  printf 'assertion failed: SHOW max_slot_wal_keep_size returned %s, expected %s\n' "$actual" "$max_keep" >&2
+  exit 1
+}
+printf '%s\n' "$changed"
+REMOTE
+}
+
+slot_status() {
+  local row free_bytes actual_max_keep
+  row=$(ssh -o BatchMode=yes "$VM_SSH" \
+    "sudo -n -u postgres psql -At -F \$'\\t' -p '$PG_PORT' -c \"SELECT slot_name, plugin, active, coalesce(restart_lsn::text, ''), coalesce(confirmed_flush_lsn::text, ''), coalesce(pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn)::bigint::text, ''), coalesce(wal_status, ''), coalesce(invalidation_reason, '') FROM pg_replication_slots WHERE slot_name = '$SLOT_NAME'\"")
+  free_bytes=$(ssh -o BatchMode=yes "$VM_SSH" \
+    "df -B1 --output=avail '$PG_DATA' | awk 'NR == 2 {print \$1}'")
+  actual_max_keep=$(ssh -o BatchMode=yes "$VM_SSH" \
+    "sudo -n -u postgres psql -At -p '$PG_PORT' -c 'SHOW max_slot_wal_keep_size'")
+  [[ $free_bytes =~ ^[0-9]+$ ]] ||
+    die "$EXIT_PRECOND" "precondition failed: cannot determine free bytes for $PG_DATA"
+  if [[ -n ${LAB_SLOT_TEST_FREE_BYTES:-} ]]; then
+    [[ $LAB_SLOT_TEST_FREE_BYTES =~ ^[0-9]+$ ]] ||
+      die "$EXIT_USAGE" "LAB_SLOT_TEST_FREE_BYTES must be an integer byte count"
+    free_bytes=$LAB_SLOT_TEST_FREE_BYTES
+  fi
+
+  python3 - "$SLOT_NAME" "$SLOT_PLUGIN" "$SLOT_MAX_WAL_KEEP" "$SLOT_WARN_RETAINED" \
+    "$SLOT_MIN_FREE" "$free_bytes" "$actual_max_keep" "$row" <<'PY'
+import json
+import re
+import sys
+
+slot, plugin, max_keep, warn, free_floor, free_bytes, actual_max_keep, row = sys.argv[1:]
+
+def bytes_for(value):
+    match = re.fullmatch(r"([0-9]+)([kmgte]?b)?", value.lower())
+    if not match:
+        raise ValueError(f"unsupported size: {value}")
+    amount, suffix = match.groups()
+    powers = {"b": 0, "kb": 1, "mb": 2, "gb": 3, "tb": 4, "eb": 5, None: 0}
+    return int(amount) * 1024 ** powers[suffix]
+
+warn_bytes = bytes_for(warn)
+floor_bytes = bytes_for(free_floor)
+result = {
+    "active": False,
+    "confirmed_flush_lsn": None,
+    "configured_max_slot_wal_keep_size": actual_max_keep,
+    "free_bytes": int(free_bytes),
+    "free_floor_bytes": floor_bytes,
+    "invalidation_reason": None,
+    "low_free_space": int(free_bytes) < floor_bytes,
+    "max_slot_wal_keep_size": max_keep,
+    "over_threshold": False,
+    "plugin": None,
+    "restart_lsn": None,
+    "retained_bytes": None,
+    "retention_bounded": actual_max_keep == max_keep,
+    "slot_name": slot,
+    "wal_status": None,
+    "warn_threshold_bytes": warn_bytes,
+}
+if row:
+    fields = row.split("\t")
+    if len(fields) != 8:
+        raise SystemExit(f"unexpected slot status row: {row!r}")
+    _, actual_plugin, active, restart, confirmed, retained, wal_status, invalidation = fields
+    result.update({
+        "active": active == "t",
+        "confirmed_flush_lsn": confirmed or None,
+        "invalidation_reason": invalidation or None,
+        "plugin": actual_plugin,
+        "restart_lsn": restart or None,
+        "retained_bytes": int(retained) if retained else None,
+        "wal_status": wal_status or None,
+    })
+    result["over_threshold"] = (
+        result["retained_bytes"] is not None and result["retained_bytes"] > warn_bytes
+    )
+print(json.dumps(result, sort_keys=True))
+PY
+}
+
+case $1 in
+  --create)
+    retention_changed=$(configure_retention)
+    slot_row=$(ssh -o BatchMode=yes "$VM_SSH" \
+      "sudo -n -u postgres psql -At -F '|' -p '$PG_PORT' -c \"SELECT plugin || '|' || slot_type FROM pg_replication_slots WHERE slot_name = '$SLOT_NAME'\"")
+    changed=false
+    if [[ -z $slot_row ]]; then
+      ssh -o BatchMode=yes "$VM_SSH" \
+        "sudo -n -u postgres psql -v ON_ERROR_STOP=1 -At -p '$PG_PORT' -d '$DB_NAME' -c \"SELECT slot_name FROM pg_create_logical_replication_slot('$SLOT_NAME', '$SLOT_PLUGIN')\" >/dev/null"
+      changed=true
+    elif [[ $slot_row != "$SLOT_PLUGIN|logical" ]]; then
+      die "$EXIT_ASSERT" "assertion failed: slot $SLOT_NAME is $slot_row, expected $SLOT_PLUGIN|logical"
+    fi
+    [[ $retention_changed == true ]] && changed=true
+    python3 - "$changed" "$SLOT_NAME" "$SLOT_PLUGIN" "$SLOT_MAX_WAL_KEEP" <<'PY'
+import json
+import sys
+changed, slot, plugin, max_keep = sys.argv[1:]
+print(json.dumps({
+    "changed": changed == "true",
+    "max_slot_wal_keep_size": max_keep,
+    "ok": True,
+    "plugin": plugin,
+    "slot_name": slot,
+}, sort_keys=True))
+PY
+    ;;
+  --drop)
+    slot_row=$(ssh -o BatchMode=yes "$VM_SSH" \
+      "sudo -n -u postgres psql -At -p '$PG_PORT' -c \"SELECT 1 FROM pg_replication_slots WHERE slot_name = '$SLOT_NAME'\"")
+    changed=false
+    if [[ -n $slot_row ]]; then
+      ssh -o BatchMode=yes "$VM_SSH" \
+        "sudo -n -u postgres psql -v ON_ERROR_STOP=1 -At -p '$PG_PORT' -d '$DB_NAME' -c \"SELECT pg_drop_replication_slot('$SLOT_NAME')\" >/dev/null"
+      changed=true
+    fi
+    python3 - "$changed" "$SLOT_NAME" <<'PY'
+import json
+import sys
+print(json.dumps({"changed": sys.argv[1] == "true", "ok": True, "slot_name": sys.argv[2]}, sort_keys=True))
+PY
+    ;;
+  --status)
+    slot_status
+    ;;
+  --assert-healthy)
+    status=$(slot_status)
+    python3 - "$SLOT_PLUGIN" "$status" <<'PY'
+import json
+import sys
+
+expected_plugin = sys.argv[1]
+status = json.loads(sys.argv[2])
+problems = []
+if status["plugin"] is None:
+    problems.append(f"slot {status['slot_name']} is absent")
+elif status["plugin"] != expected_plugin:
+    problems.append(f"slot plugin is {status['plugin']}, expected {expected_plugin}")
+if not status["active"]:
+    problems.append("slot consumer is inactive")
+if status["restart_lsn"] is None or status["wal_status"] == "lost":
+    problems.append("slot is invalidated or has no restart LSN")
+if not status["retention_bounded"]:
+    problems.append(
+        f"max_slot_wal_keep_size is {status['configured_max_slot_wal_keep_size']}, "
+        f"expected {status['max_slot_wal_keep_size']}"
+    )
+if status["over_threshold"]:
+    problems.append(
+        f"retained WAL {status['retained_bytes']} exceeds warning threshold "
+        f"{status['warn_threshold_bytes']} bytes"
+    )
+if status["low_free_space"]:
+    problems.append(
+        f"free space {status['free_bytes']} is below floor {status['free_floor_bytes']} bytes"
+    )
+if problems:
+    print("lab-slot unhealthy: " + "; ".join(problems), file=sys.stderr)
+    raise SystemExit(1)
+status["healthy"] = True
+print(json.dumps(status, sort_keys=True))
+PY
+    ;;
+  --check)
+    status=$(slot_status)
+    incident=""
+    if [[ -L $ARCHIVE_CURRENT ]]; then
+      target=$(readlink -f -- "$ARCHIVE_CURRENT" || true)
+      case ${target:-} in
+        "$ARCHIVE_ROOT"/*) incident=${target##*/} ;;
+      esac
+    fi
+    python3 - "$status" "$incident" <<'PY'
+import json
+import sys
+
+status = json.loads(sys.argv[1])
+incident = sys.argv[2] or None
+problems = []
+
+invalid = status.get("invalidation_reason")
+wal_status = status.get("wal_status")
+if invalid or wal_status == "lost":
+    problems.append(
+        "condition=invalidated observed=invalidation_reason={reason} wal_status={wal} "
+        "threshold=invalidation_reason must be empty and wal_status must not be lost; "
+        "remedy=restore max_slot_wal_keep_size, recreate the slot with lab-slot --create, "
+        "then lab-consumer start <incident>".format(
+            reason=invalid or "null", wal=wal_status or "null")
+    )
+if status.get("over_threshold"):
+    problems.append(
+        "condition=retained_wal_over_threshold observed={obs} threshold={thr} "
+        "remedy=start the decoding consumer (lab-consumer start <incident>) so "
+        "confirmed_flush_lsn advances and retained WAL falls".format(
+            obs=status.get("retained_bytes"), thr=status.get("warn_threshold_bytes"))
+    )
+if incident and not status.get("active"):
+    problems.append(
+        "condition=inactive_slot_while_incident_open observed=active=false "
+        "incident={inc} threshold=slot must be active while an incident is open; "
+        "remedy=lab-consumer start {inc}".format(inc=incident)
+    )
+if problems:
+    print("lab-slot --check failed: " + "; ".join(problems), file=sys.stderr)
+    raise SystemExit(1)
+status["check"] = "ok"
+status["open_incident"] = incident
+print(json.dumps(status, sort_keys=True))
+PY
+    ;;
+  *)
+    die "$EXIT_USAGE" "usage: lab-slot --create|--drop|--status|--assert-healthy|--check"
+    ;;
+esac

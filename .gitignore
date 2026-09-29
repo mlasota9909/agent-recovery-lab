@@ -1,0 +1,34 @@
+# Runtime stores — not harness source. Required so git init does not ingest
+# the WAL archive or evidence streams. Also required so Article XIV's dirty-tree
+# check (git status --porcelain --untracked-files=all) names the harness, not
+# incident metadata or review working files. Tracked files stay tracked.
+archive/
+basebackup/
+backups/
+# Real machine-specific environment (internal hostnames/IPs, discovered live by
+# lab-discover). etc/lab.env.example is the tracked, redacted template.
+etc/lab.env
+results/*.jsonl
+results/fixtures/*.jsonl
+evidence/**/*.jsonl
+evidence/**/*.jsonl.frozen
+evidence/**/*.tsv
+evidence/**/*.json
+evidence/**/*.log
+evidence/**/.snapshot-loop.*
+logs/review/**
+var/
+__pycache__/
+*.pyc
+*.tar.gz
+*.zip
+*id_ed25519*
+*.pem
+*.key
+.pgpass
+wal_append_ed25519*
+logs/review/W001/scratch/
+
+
+# P10 padded incidents: bulk, deterministic from (seed, target); digests in runtime/p10-scaled-manifest.json
+incidents/scaled/

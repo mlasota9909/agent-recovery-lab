@@ -1,0 +1,229 @@
+#!/usr/bin/env python3
+"""T003: Relocate PostgreSQL data directory onto DS_PGDATA. JSON on stdout."""
+from __future__ import annotations
+
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+LAB_ENV = Path(__file__).resolve().parent.parent / "etc" / "lab.env"
+EXIT_OK, EXIT_ASSERT, EXIT_PRECOND, EXIT_USAGE = 0, 1, 2, 3
+STAGING = "/var/lib/postgresql/pgdata-zfs-staging"
+
+
+def err(msg: str) -> None:
+    print(msg, file=sys.stderr)
+
+
+def load_env() -> dict[str, str]:
+    vals: dict[str, str] = {}
+    for line in LAB_ENV.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        vals[k] = v
+    return vals
+
+
+def ssh(vm: str, remote: str, check=True) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", vm, remote],
+        check=check,
+        capture_output=True,
+        text=True,
+    )
+
+
+def main() -> None:
+    force_running_copy = "--force-running-copy" in sys.argv  # negative-test hook only
+    env = load_env()
+    for k in ("VM_SSH", "PG_DATA", "DS_PGDATA", "PG_VERSION", "PG_PORT"):
+        if not env.get(k):
+            err(f"precondition failed: {k} missing")
+            sys.exit(EXIT_PRECOND)
+    vm = env["VM_SSH"]
+    pg_data = env["PG_DATA"]
+    ds = env["DS_PGDATA"]
+    ver = env["PG_VERSION"]
+    port = env["PG_PORT"]
+    aside = f"{pg_data}.relocated-original"
+
+    # Already relocated? (dataset mounted at PG_DATA)
+    parse = ssh(
+        vm,
+        f"""
+set +e
+FM=$(findmnt -no SOURCE {pg_data} 2>/dev/null)
+ST=$(pg_lsclusters -h | awk '$1=="{ver}" && $2=="main" {{print $4}}')
+DD=
+if [ "$ST" = "online" ]; then
+  DD=$(sudo -u postgres psql -Atc 'SHOW data_directory' 2>/dev/null)
+fi
+ASIDE=0
+[ -d {aside} ] && ASIDE=1
+echo FM:$FM
+echo DD:$DD
+echo ST:$ST
+echo ASIDE:$ASIDE
+""",
+        check=False,
+    )
+    fm = dd = st = ""
+    aside_present = False
+    for ln in parse.stdout.splitlines():
+        if ln.startswith("FM:"):
+            fm = ln[3:]
+        elif ln.startswith("DD:"):
+            dd = ln[3:]
+        elif ln.startswith("ST:"):
+            st = ln[3:]
+        elif ln.startswith("ASIDE:"):
+            aside_present = ln[6:] == "1"
+
+    if fm == ds:
+        if st != "online":
+            ssh(vm, f"sudo -n pg_ctlcluster {ver} main start")
+            st = "online"
+            dd = ssh(vm, "sudo -u postgres psql -Atc 'SHOW data_directory'").stdout.strip()
+        if dd == pg_data and st == "online":
+            print(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "changed": False,
+                        "PG_DATA": pg_data,
+                        "DS_PGDATA": ds,
+                        "aside_present": aside_present,
+                    },
+                    indent=2,
+                )
+            )
+            sys.exit(EXIT_OK)
+
+    # Confirm running data_directory matches PG_DATA before move (unless already aside)
+    if st == "online" and dd and dd != pg_data and not force_running_copy:
+        err(f"precondition failed: running data_directory={dd!r} != PG_DATA={pg_data!r}")
+        sys.exit(EXIT_PRECOND)
+
+    # Negative-test path: refuse copy while running
+    if force_running_copy or os.environ.get("LAB_REFUSE_IF_RUNNING") == "1":
+        if st == "online":
+            err(
+                "refusing to copy: PostgreSQL cluster is still running "
+                "(must stop before relocating data directory)"
+            )
+            sys.exit(EXIT_PRECOND)
+
+    if st == "online":
+        # Safety: always refuse if caller forgot to stop — unless we're about to stop ourselves
+        pass
+
+    # Real move — remote script avoids `{`/`}` that break Python f-strings
+    remote = f"""
+set -euo pipefail
+PG_DATA='{pg_data}'
+DS='{ds}'
+STAGING='{STAGING}'
+ASIDE='{aside}'
+VER='{ver}'
+
+STATUS=$(pg_lsclusters -h | awk -v v="$VER" '$1==v && $2=="main" {{print $4}}')
+if [ "$STATUS" = "online" ]; then
+  LIVE=$(sudo -u postgres psql -Atc 'SHOW data_directory')
+  test "$LIVE" = "$PG_DATA"
+  sudo -n pg_ctlcluster "$VER" main stop
+fi
+test -d "$PG_DATA"
+if pgrep -u postgres >/dev/null 2>&1; then
+  echo "precondition failed: postgres processes still running" >&2
+  pgrep -au postgres >&2 || true
+  exit 2
+fi
+HOLDERS=$(sudo -n fuser "$PG_DATA" 2>/dev/null || true)
+if [ -n "$HOLDERS" ]; then
+  echo "precondition failed: processes still hold $PG_DATA: $HOLDERS" >&2
+  exit 2
+fi
+
+sudo -n mkdir -p "$STAGING"
+CUR_MNT=$(sudo -n zfs get -H -o value mountpoint "$DS")
+CUR_MOUNTED=$(sudo -n zfs get -H -o value mounted "$DS")
+if [ "$CUR_MOUNTED" = "yes" ] && [ "$CUR_MNT" != "$STAGING" ]; then
+  sudo -n zfs umount "$DS"
+fi
+sudo -n zfs set canmount=on "$DS"
+sudo -n zfs set mountpoint="$STAGING" "$DS"
+if ! mountpoint -q "$STAGING"; then
+  sudo -n zfs mount "$DS"
+fi
+mountpoint -q "$STAGING"
+
+sudo -n rsync -aHAX --numeric-ids --exclude=.zfs "$PG_DATA"/ "$STAGING"/
+
+DIFF=$(sudo -n rsync -aHAXn --delete --itemize-changes --exclude=.zfs "$PG_DATA"/ "$STAGING"/ || true)
+if [ -n "$DIFF" ]; then
+  echo "rsync verification diff not empty:" >&2
+  echo "$DIFF" >&2
+  exit 1
+fi
+echo RSYNC_VERIFY_EMPTY
+
+sudo -n mv "$PG_DATA" "$ASIDE"
+sudo -n zfs umount "$DS" || true
+sudo -n zfs set mountpoint="$PG_DATA" "$DS"
+if ! mountpoint -q "$PG_DATA"; then
+  sudo -n zfs mount "$DS"
+fi
+mountpoint -q "$PG_DATA"
+sudo -n rmdir "$STAGING" 2>/dev/null || true
+
+sudo -n chown postgres:postgres "$PG_DATA"
+sudo -n chmod 700 "$PG_DATA"
+
+sudo -n pg_ctlcluster "$VER" main start
+sleep 1
+NEW=$(sudo -u postgres psql -Atc 'SHOW data_directory')
+test "$NEW" = "$PG_DATA"
+pg_lsclusters
+findmnt -no SOURCE,FSTYPE "$PG_DATA"
+stat -c '%U:%G %a' "$PG_DATA"
+"""
+    try:
+        r = ssh(vm, remote)
+    except subprocess.CalledProcessError as e:
+        err(f"relocate failed: {(e.stderr or e.stdout or '').strip()}")
+        # Attempt restore if aside exists and PG_DATA missing
+        restore = f"""
+set +e
+if [ -d {aside} ] && [ ! -e {pg_data} ]; then
+  sudo -n zfs umount {ds} 2>/dev/null
+  sudo -n zfs set canmount=off {ds}
+  sudo -n mv {aside} {pg_data}
+  sudo -n pg_ctlcluster {ver} main start
+  echo RESTORED
+fi
+"""
+        ssh(vm, restore, check=False)
+        sys.exit(EXIT_ASSERT)
+
+    print(
+        json.dumps(
+            {
+                "ok": True,
+                "changed": True,
+                "PG_DATA": pg_data,
+                "DS_PGDATA": ds,
+                "aside": aside,
+                "stdout_tail": r.stdout.strip().splitlines()[-8:],
+            },
+            indent=2,
+        )
+    )
+    sys.exit(EXIT_OK)
+
+
+if __name__ == "__main__":
+    main()

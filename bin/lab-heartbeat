@@ -1,0 +1,172 @@
+#!/usr/bin/env bash
+# T010: provision and control the guest's 1 Hz WAL/time heartbeat writer.
+set -euo pipefail
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+source "$ROOT/lib/lab_incident_env.sh"
+
+readonly EXIT_ASSERT=1 EXIT_PRECOND=2 EXIT_USAGE=3
+readonly UNIT=lab-heartbeat.service
+
+fail() {
+  printf '%s\n' "$1" >&2
+  exit "${2:-$EXIT_PRECOND}"
+}
+
+[[ $# -eq 1 && ${1:-} =~ ^--(start|stop|status)$ ]] ||
+  fail "usage: lab-heartbeat --start|--stop|--status" "$EXIT_USAGE"
+for key in VM_SSH PG_PORT DB_NAME HEARTBEAT_TABLE HEARTBEAT_HZ; do
+  [[ -n ${!key:-} ]] || fail "precondition failed: $key missing from lab.env"
+done
+[[ $HEARTBEAT_HZ =~ ^[1-9][0-9]*$ && $((1000 % HEARTBEAT_HZ)) -eq 0 ]] ||
+  fail "precondition failed: HEARTBEAT_HZ must divide 1000" "$EXIT_PRECOND"
+
+action=${1#--}
+ssh_guest() {
+  ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" "$@"
+}
+
+# The service runs as postgres, so the writer has exactly the database
+# capability it needs and does not inherit an interactive administrator shell.
+if [[ $action == start ]]; then
+  setup=$(ssh_guest "sudo -n bash -s -- '$PG_PORT' '$DB_NAME' '$HEARTBEAT_TABLE' '$HEARTBEAT_HZ' '$UNIT'" <<'REMOTE'
+set -euo pipefail
+pg_port=$1
+db_name=$2
+table_name=$3
+hz=$4
+unit=$5
+interval_ms=$((1000 / hz))
+changed=false
+
+sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -p "$pg_port" -d "$db_name" >/dev/null <<SQL
+CREATE TABLE IF NOT EXISTS public.$table_name (
+  id bigserial PRIMARY KEY,
+  at timestamptz NOT NULL DEFAULT clock_timestamp(),
+  lsn pg_lsn NOT NULL
+);
+CREATE INDEX IF NOT EXISTS ${table_name}_at_idx ON public.$table_name (at);
+CREATE INDEX IF NOT EXISTS ${table_name}_lsn_idx ON public.$table_name (lsn);
+ALTER TABLE public.$table_name REPLICA IDENTITY DEFAULT;
+SQL
+
+schema_ok=$(sudo -n -u postgres psql -X -At -p "$pg_port" -d "$db_name" -c "
+SELECT to_regclass('public.$table_name') = 'public.$table_name'::regclass
+  AND (SELECT relreplident = 'd' FROM pg_class WHERE oid = 'public.$table_name'::regclass)
+  AND EXISTS (SELECT 1 FROM pg_indexes WHERE schemaname = 'public' AND tablename = '$table_name'
+              AND indexdef LIKE '%(at)%')
+  AND EXISTS (SELECT 1 FROM pg_indexes WHERE schemaname = 'public' AND tablename = '$table_name'
+              AND indexdef LIKE '%(lsn)%');")
+[[ $schema_ok == t ]] || { printf 'heartbeat schema assertion failed\n' >&2; exit 1; }
+
+writer=/usr/local/sbin/lab-heartbeat-writer
+unit_file=/etc/systemd/system/$unit
+tmp=$(mktemp)
+trap 'rm -f "$tmp"' EXIT
+cat >"$tmp" <<EOF
+#!/usr/bin/env bash
+set -euo pipefail
+while :; do
+  started=\$(date +%s%N)
+  psql -X -v ON_ERROR_STOP=1 -q -p '$pg_port' -d '$db_name' -c \
+    'INSERT INTO public.$table_name (lsn) VALUES (pg_current_wal_lsn())' >/dev/null
+  elapsed=\$(( (\$(date +%s%N) - started) / 1000000 ))
+  sleep_ms=\$(( $interval_ms - elapsed ))
+  (( sleep_ms > 0 )) && sleep "\$((sleep_ms / 1000)).\$((sleep_ms % 1000))"
+done
+EOF
+if ! test -f "$writer" || ! cmp -s "$tmp" "$writer"; then
+  install -o root -g root -m 0755 "$tmp" "$writer"
+  changed=true
+fi
+cat >"$tmp" <<EOF
+[Unit]
+Description=Lab WAL/time heartbeat writer (T010)
+After=postgresql.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=postgres
+ExecStart=$writer
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
+EOF
+if ! test -f "$unit_file" || ! cmp -s "$tmp" "$unit_file"; then
+  install -o root -g root -m 0644 "$tmp" "$unit_file"
+  systemctl daemon-reload
+  changed=true
+fi
+if ! systemctl is-enabled --quiet "$unit"; then
+  systemctl enable "$unit" >/dev/null
+  changed=true
+fi
+if systemctl is-active --quiet "$unit" && [[ $changed == true ]]; then
+  systemctl restart "$unit"
+  sleep 2
+elif ! systemctl is-active --quiet "$unit"; then
+  systemctl reset-failed "$unit"
+  systemctl start "$unit"
+  sleep 2
+  changed=true
+fi
+systemctl is-active --quiet "$unit"
+printf '%s\n' "$changed"
+REMOTE
+)
+  [[ $setup == true || $setup == false ]] || fail "unexpected guest setup result" "$EXIT_ASSERT"
+  changed=$setup
+fi
+
+if [[ $action == stop ]]; then
+  changed=$(ssh_guest "if sudo -n systemctl is-active --quiet '$UNIT'; then sudo -n systemctl stop '$UNIT'; printf true; else printf false; fi")
+  [[ $changed == true || $changed == false ]] || fail "unexpected guest stop result" "$EXIT_ASSERT"
+fi
+
+# A missing table is a precondition failure for status/stop before the first
+# start; never disguise that as a stopped, configured writer.
+status=$(ssh_guest "sudo -n bash -s -- '$PG_PORT' '$DB_NAME' '$HEARTBEAT_TABLE' '$UNIT'" <<'REMOTE'
+set -euo pipefail
+pg_port=$1
+db_name=$2
+table_name=$3
+unit=$4
+exists=$(sudo -n -u postgres psql -X -At -p "$pg_port" -d "$db_name" \
+  -c "SELECT to_regclass('public.$table_name') IS NOT NULL")
+[[ $exists == t ]] || { printf 'precondition failed: public.%s is absent\n' "$table_name" >&2; exit 2; }
+running=false
+systemctl is-active --quiet "$unit" && running=true
+sudo -n -u postgres psql -X -At -F $'\t' -p "$pg_port" -d "$db_name" -c "
+SELECT '$running',
+       count(*) FILTER (WHERE at >= clock_timestamp() - interval '60 seconds'),
+       coalesce(to_char(max(at), 'YYYY-MM-DD\"T\"HH24:MI:SS.USOF'), ''),
+       coalesce((array_agg(lsn ORDER BY id DESC))[1]::text, '')
+FROM public.$table_name;"
+REMOTE
+)
+IFS=$'\t' read -r running rows_last_60 newest_at newest_lsn <<<"$status"
+[[ $running == true || $running == false && $rows_last_60 =~ ^[0-9]+$ ]] ||
+  fail "unexpected guest status result" "$EXIT_ASSERT"
+
+if [[ $action == status ]]; then changed=false; fi
+python3 - "$action" "$changed" "$running" "$rows_last_60" "$newest_at" "$newest_lsn" "$HEARTBEAT_TABLE" "$HEARTBEAT_HZ" <<'PY'
+import json
+import sys
+action, changed, running, rows, at, lsn, table, hz = sys.argv[1:]
+print(json.dumps({
+    "action": action,
+    "changed": changed == "true",
+    "heartbeat_hz": int(hz),
+    "heartbeat_table": table,
+    "newest": None if not at else {"at": at, "lsn": lsn},
+    "ok": True,
+    "observed_rate_hz_last_60s": int(rows) / 60,
+    "rows_last_60s": int(rows),
+    "running": running == "true",
+}, sort_keys=True))
+PY

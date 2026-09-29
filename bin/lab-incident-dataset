@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+# Create/start/stop/teardown an isolated incident dataset and transient PostgreSQL cluster.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+set -a
+source "$ROOT/etc/lab.env"
+set +a
+PG_BINDIR=/usr/lib/postgresql/$PG_VERSION/bin
+readonly EXIT_ASSERT=1 EXIT_PRECOND=2 EXIT_USAGE=3
+die() { printf '%s\n' "$2" >&2; exit "$1"; }
+[[ $# -ge 3 && $2 == --incident ]] || die "$EXIT_USAGE" 'usage: lab-incident-dataset create|start|stop|teardown --incident SC-NN_... [--id i_...]'
+action=$1 archive_incident=$3
+shift 3
+inc_id=
+while (( $# )); do
+  [[ $1 == --id && $# -ge 2 ]] || die "$EXIT_USAGE" 'usage: lab-incident-dataset create|start|stop|teardown --incident SC-NN_... [--id i_...]'
+  inc_id=$2; shift 2
+done
+[[ $archive_incident =~ ^SC-[0-9]{2}_[0-9]{8}T[0-9]{6}Z$ ]] || die "$EXIT_USAGE" 'usage: invalid archive incident'
+[[ $archive_incident != SC-01_* ]] || die "$EXIT_PRECOND" 'precondition failed: SC-01 is banked; dataset operation refused'
+runtime_root="$ROOT/runtime/incidents"
+find_runtime() { grep -l -F -x "ARCHIVE_INCIDENT=$archive_incident" "$runtime_root"/*.env 2>/dev/null | head -n1; }
+if [[ $action == create ]]; then
+  [[ $inc_id =~ ^i_[0-9]{8}T[0-9]{6}Z_[0-9a-f]{6}$ ]] || die "$EXIT_USAGE" 'usage: create requires --id i_YYYYMMDDTHHMMSSZ_hex'
+  record="$runtime_root/$inc_id.env"
+  inc_ds="$DS_PARENT/inc_$inc_id"
+  inc_pg_mount="/var/lib/postgresql/$PG_VERSION/lab-incidents/$inc_id"
+  inc_pgdata="$inc_pg_mount/data"
+  inc_protected="/srv/lab-incidents/$inc_id/protected"
+  # Stable and collision-checked port in the unprivileged lab range.
+  port=$(python3 - "$inc_id" <<'PY'
+import hashlib, sys
+print(56000 + int(hashlib.sha256(sys.argv[1].encode()).hexdigest()[:8], 16) % 4000)
+PY
+)
+  slot="lab_${inc_id:2:40}"; slot=${slot//-/_}; slot=${slot,,}
+  if [[ -f $record ]]; then
+    LAB_ACTIVE_INCIDENT=$inc_id source "$ROOT/lib/lab_incident_env.sh"
+    ssh -o BatchMode=yes "$VM_SSH" "sudo -n zfs list -H '$INC_DS' >/dev/null && sudo -n -u postgres '$PG_BINDIR/pg_ctl' -D '$INC_PGDATA' status >/dev/null" || \
+      die "$EXIT_PRECOND" 'precondition failed: runtime exists but isolated cluster is not healthy'
+    python3 - "$record" <<'PY'
+import json,sys
+print(json.dumps({'ok':True,'changed':False,'runtime':sys.argv[1]},sort_keys=True))
+PY
+    exit 0
+  fi
+  mkdir -p "$runtime_root"
+  ssh -o BatchMode=yes "$VM_SSH" "sudo -n bash -s -- '$inc_ds' '$inc_pg_mount' '$inc_pgdata' '$inc_protected' '$port' '$PG_VERSION' '$PG_PORT' '$DB_NAME' '$slot'" <<'REMOTE'
+set -euo pipefail
+ds=$1; pgmount=$2; pgdata=$3; protected=$4; port=$5; version=$6; source_port=$7; db=$8; slot=$9
+bindir=/usr/lib/postgresql/$version/bin
+sudo -n systemctl start "postgresql@$version-main"
+sudo -n zfs create -o canmount=off -o mountpoint=none "$ds"
+sudo -n mkdir -p "$(dirname "$pgmount")" "$(dirname "$protected")"
+sudo -n zfs create -o mountpoint="$pgmount" "$ds/pgdata"
+sudo -n zfs create -o mountpoint="$protected" "$ds/protected"
+sudo -n mkdir -p "$pgdata"
+sudo -n chown postgres:postgres "$pgdata"
+sudo -n chmod 700 "$pgdata"
+sudo -n -u postgres "$bindir/initdb" -D "$pgdata" --auth-local=trust --auth-host=scram-sha-256 >/dev/null
+sudo -n -u postgres bash -c "cat >>'$pgdata/postgresql.auto.conf'" <<EOF
+port = $port
+unix_socket_directories = '/var/run/postgresql'
+listen_addresses = '*'
+wal_level = logical
+max_replication_slots = 16
+max_wal_senders = 16
+output_plugin_libraries = 'wal2json'
+EOF
+printf '%s\n' 'host replication postgres 203.0.113.0/24 trust' \
+  'host all postgres 203.0.113.0/24 trust' | sudo -n -u postgres tee -a "$pgdata/pg_hba.conf" >/dev/null
+archive_command=$(sudo -n -u postgres psql -X -At -p "$source_port" -d postgres -c 'show archive_command')
+printf "archive_mode = on\narchive_command = '%s'\n" "$archive_command" | \
+  sudo -n -u postgres tee -a "$pgdata/postgresql.auto.conf" >/dev/null
+sudo -n -u postgres "$bindir/pg_ctl" -D "$pgdata" -l "$pgdata/incident-postgres.log" -w start >/dev/null
+# Copy only required lab roles and logical lab state, not the source cluster's
+# accumulated physical WAL/history. This is a fresh transient cluster.
+sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -p "$port" -d postgres \
+  -c "CREATE ROLE \"$ROLE_APP\" LOGIN; CREATE ROLE \"$ROLE_AGENT\" LOGIN;" >/dev/null
+sudo -n -u postgres createdb -p "$port" "$db"
+sudo -n -u postgres pg_dump -p "$source_port" "$db" | \
+  sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -p "$port" -d "$db" >/dev/null
+sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -p "$port" -d "$db" -c "SELECT pg_drop_replication_slot(slot_name) FROM pg_replication_slots WHERE slot_name = '$slot' AND NOT active;" >/dev/null
+sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -p "$port" -d "$db" -c "SELECT * FROM pg_create_logical_replication_slot('$slot','wal2json');" >/dev/null
+sudo -n mkdir -p "$protected"
+sudo -n chmod 0777 "$protected"
+REMOTE
+  socket=/var/run/postgresql
+  tmp="$record.tmp.$$"
+  printf '%s\n' "ARCHIVE_INCIDENT=$archive_incident" "INC_ID=$inc_id" "INC_DS=$inc_ds" \
+    "INC_PGDATA=$inc_pgdata" "INC_PROTECTED=$inc_protected" "INC_PG_PORT=$port" \
+    "INC_PG_SOCKET=$socket" "INC_SLOT=$slot" "INC_HEARTBEAT_PORT=$port" >"$tmp"
+  chmod 0644 "$tmp"; mv "$tmp" "$record"
+  python3 - "$record" "$inc_id" "$inc_ds" "$port" <<'PY'
+import json,sys
+print(json.dumps({'ok':True,'changed':True,'runtime':sys.argv[1],'incident_id':sys.argv[2],
+                  'dataset':sys.argv[3],'port':int(sys.argv[4])},sort_keys=True))
+PY
+  exit 0
+fi
+record=$(find_runtime)
+[[ -n ${record:-} ]] || die "$EXIT_PRECOND" "precondition failed: runtime record absent for $archive_incident"
+LAB_ACTIVE_INCIDENT=$archive_incident source "$ROOT/lib/lab_incident_env.sh"
+case $action in
+  start)
+    if ssh -o BatchMode=yes "$VM_SSH" "sudo -n -u postgres '$PG_BINDIR/pg_ctl' -D '$INC_PGDATA' status >/dev/null"; then
+      changed=false
+    else
+      ssh -o BatchMode=yes "$VM_SSH" "sudo -n -u postgres '$PG_BINDIR/pg_ctl' -D '$INC_PGDATA' -l '$INC_PGDATA/incident-postgres.log' -w start"
+      changed=true
+    fi ;;
+  stop)
+    if ssh -o BatchMode=yes "$VM_SSH" "sudo -n -u postgres '$PG_BINDIR/pg_ctl' -D '$INC_PGDATA' status >/dev/null"; then
+      ssh -o BatchMode=yes "$VM_SSH" "sudo -n -u postgres '$PG_BINDIR/pg_ctl' -D '$INC_PGDATA' -m fast -w stop"
+      changed=true
+    else changed=false; fi ;;
+  teardown)
+    if ssh -o BatchMode=yes "$VM_SSH" "sudo -n zfs list -H '$INC_DS' >/dev/null 2>&1"; then
+      ssh -o BatchMode=yes "$VM_SSH" "if sudo -n -u postgres '$PG_BINDIR/pg_ctl' -D '$INC_PGDATA' status >/dev/null; then sudo -n -u postgres '$PG_BINDIR/pg_ctl' -D '$INC_PGDATA' -m immediate -w stop; fi; sudo -n zfs destroy -r '$INC_DS'"
+      changed=true
+    else changed=false; fi ;;
+  *) die "$EXIT_USAGE" 'usage: unknown action' ;;
+esac
+printf '{"changed":%s,"incident":"%s","ok":true}\n' "$changed" "$archive_incident"

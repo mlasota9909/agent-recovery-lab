@@ -1,0 +1,209 @@
+#!/usr/bin/env bash
+# R003: host-side supervised wal2json consumer. Wraps pg_recvlogical only.
+set -euo pipefail
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+_LAB_OV_EVIDENCE_ROOT="${EVIDENCE_ROOT:-}"
+_LAB_OV_ARCHIVE_ROOT="${ARCHIVE_ROOT:-}"
+_LAB_OV_ARCHIVE_CURRENT="${ARCHIVE_CURRENT:-}"
+_LAB_OV_RESULTS_ROOT="${RESULTS_ROOT:-}"
+# shellcheck source=../etc/lab.env
+source "$SCRIPT_DIR/../etc/lab.env"
+# shellcheck source=../lib/lab_env_overrides.sh
+source "$SCRIPT_DIR/../lib/lab_env_overrides.sh"
+if [[ ${1:-} =~ ^(start|stop|status|position)$ && -n ${2:-} ]]; then
+  LAB_ACTIVE_INCIDENT=$2
+  export LAB_ACTIVE_INCIDENT
+fi
+source "$SCRIPT_DIR/../lib/lab_incident_env.sh"
+
+EXIT_ASSERT=1
+EXIT_PRECOND=2
+EXIT_USAGE=3
+UNIT_PREFIX=lab-consumer@
+
+die() {
+  local code=$1
+  shift
+  printf '%s\n' "$*" >&2
+  exit "$code"
+}
+
+for key in VM_SSH VM_ADDR PG_PORT DB_NAME SLOT_NAME SLOT_PLUGIN EVIDENCE_ROOT LAB_ROOT; do
+  [[ -n ${!key:-} ]] || die "$EXIT_PRECOND" "precondition failed: $key missing from lab.env"
+done
+
+usage() {
+  die "$EXIT_USAGE" "usage: lab-consumer start|stop|status|position <incident>"
+}
+
+[[ $# -ge 1 ]] || usage
+action=$1
+
+valid_incident() {
+  [[ $1 =~ ^SC-[0-9]{2}_[0-9]{8}T[0-9]{6}Z$ ]]
+}
+
+incident_dirs() {
+  local incident=$1
+  valid_incident "$incident" || die "$EXIT_USAGE" "usage: incident id must be SC-NN_YYYYMMDDTHHMMSSZ"
+  scenario=${incident%%_*}
+  evidence_dir="$EVIDENCE_ROOT/$scenario/$incident"
+  stream_path="$evidence_dir/db.jsonl"
+  unit="${UNIT_PREFIX}${incident}.service"
+}
+
+json_print() {
+  python3 -c 'import json,sys; print(json.dumps(json.loads(sys.argv[1]), sort_keys=True))' "$1"
+}
+
+require_unit_installed() {
+  [[ -f /etc/systemd/system/lab-consumer@.service ]] ||
+    die "$EXIT_PRECOND" "precondition failed: /etc/systemd/system/lab-consumer@.service is not installed; copy $LAB_ROOT/etc/systemd/lab-consumer@.service there and run systemctl daemon-reload"
+}
+
+slot_row() {
+  ssh -o BatchMode=yes -o ConnectTimeout=10 "$VM_SSH" \
+    "sudo -n -u postgres psql -At -F \$'\\t' -p '$PG_PORT' -c \"SELECT active, coalesce(confirmed_flush_lsn::text,''), coalesce(invalidation_reason,'') FROM pg_replication_slots WHERE slot_name = '$SLOT_NAME'\""
+}
+
+wait_healthy() {
+  local incident=$1 i active flush invalid
+  for i in $(seq 1 90); do
+    sudo -n systemctl is-active --quiet "$unit" || { sleep 1; continue; }
+    IFS=$'\t' read -r active flush invalid <<<"$(slot_row)"
+    if [[ $active == t && -n $flush && -z $invalid ]]; then
+      return 0
+    fi
+    sleep 1
+  done
+  die "$EXIT_ASSERT" "assertion failed: consumer for $incident did not become healthy (unit active, slot active, flush LSN present); inspect journalctl -u $unit and lab-slot --status"
+}
+
+consumer_run() {
+  local incident=$1
+  incident_dirs "$incident"
+  [[ -d $evidence_dir ]] ||
+    die "$EXIT_PRECOND" "precondition failed: evidence directory $evidence_dir is absent; create the incident first"
+  [[ -f $stream_path ]] || : >>"$stream_path"
+  chmod 0640 "$stream_path"
+  exec python3 "$SCRIPT_DIR/../lib/lab_wal2json_xid.py" \
+    --output "$stream_path" \
+    --heartbeat-table "${HEARTBEAT_TABLE:-lab_heartbeat}" \
+    -- \
+    pg_recvlogical \
+    -h "$VM_ADDR" \
+    -p "$PG_PORT" \
+    -U postgres \
+    -d "$DB_NAME" \
+    --slot="$SLOT_NAME" \
+    --start \
+    -o format-version=2 \
+    -o include-lsn=true \
+    -o include-timestamp=true \
+    -o include-pk=true \
+    -o include-xids=true \
+    -f -
+}
+
+consumer_start() {
+  local incident=$1 other
+  incident_dirs "$incident"
+  require_unit_installed
+  command -v pg_recvlogical >/dev/null ||
+    die "$EXIT_PRECOND" "precondition failed: pg_recvlogical is not on PATH"
+  [[ -d $evidence_dir ]] ||
+    die "$EXIT_PRECOND" "precondition failed: evidence directory $evidence_dir is absent; create the incident first (lab-incident --new --scenario ${incident%%_*})"
+  [[ -f $stream_path ]] || : >>"$stream_path"
+  chmod 0640 "$stream_path"
+  # One slot can have one consumer. Stop any other incident instance first.
+  mapfile -t running < <(sudo -n systemctl list-units --type=service --all --no-legend 'lab-consumer@*.service' | awk '{print $1}')
+  local svc
+  for svc in "${running[@]:-}"; do
+    [[ -n $svc && $svc != "$unit" ]] || continue
+    sudo -n systemctl stop "$svc"
+  done
+  sudo -n systemctl start "$unit"
+  wait_healthy "$incident"
+  json_print "{\"ok\":true,\"incident\":\"$incident\",\"unit\":\"$unit\",\"stream\":\"$stream_path\",\"state\":\"running\"}"
+}
+
+consumer_stop() {
+  local incident=$1
+  incident_dirs "$incident"
+  require_unit_installed
+  sudo -n systemctl stop "$unit"
+  json_print "{\"ok\":true,\"incident\":\"$incident\",\"unit\":\"$unit\",\"state\":\"stopped\"}"
+}
+
+consumer_status() {
+  local incident=$1 active flush invalid unit_state healthy
+  incident_dirs "$incident"
+  require_unit_installed
+  unit_state=$(sudo -n systemctl is-active "$unit" 2>/dev/null || printf 'inactive\n')
+  IFS=$'\t' read -r active flush invalid <<<"$(slot_row)"
+  healthy=false
+  if [[ $unit_state == active && $active == t && -n $flush && -z ${invalid:-} ]]; then
+    healthy=true
+  fi
+  python3 - "$incident" "$unit" "$unit_state" "${active:-}" "${flush:-}" "${invalid:-}" "$healthy" "$stream_path" <<'PY'
+import json, sys
+incident, unit, unit_state, active, flush, invalid, healthy, stream = sys.argv[1:]
+print(json.dumps({
+    "incident": incident,
+    "unit": unit,
+    "unit_state": unit_state,
+    "slot_active": active == "t",
+    "confirmed_flush_lsn": flush or None,
+    "invalidation_reason": invalid or None,
+    "stream": stream,
+    "healthy": healthy == "true",
+}, sort_keys=True))
+PY
+  [[ $healthy == true ]]
+}
+
+consumer_position() {
+  local incident=$1 active flush invalid
+  incident_dirs "$incident"
+  IFS=$'\t' read -r active flush invalid <<<"$(slot_row)"
+  [[ -n $flush ]] ||
+    die "$EXIT_ASSERT" "assertion failed: slot $SLOT_NAME has no confirmed_flush_lsn"
+  python3 - "$incident" "$flush" "${active:-}" <<'PY'
+import json, re, sys
+incident, flush, active = sys.argv[1:]
+if not re.fullmatch(r"[0-9A-F]+/[0-9A-F]+", flush):
+    raise SystemExit(f"assertion failed: invalid LSN {flush!r}")
+print(json.dumps({
+    "incident": incident,
+    "confirmed_flush_lsn": flush,
+    "slot_active": active == "t",
+}, sort_keys=True))
+PY
+}
+
+case $action in
+  run)
+    [[ $# -eq 2 ]] || usage
+    consumer_run "$2"
+    ;;
+  start)
+    [[ $# -eq 2 ]] || usage
+    consumer_start "$2"
+    ;;
+  stop)
+    [[ $# -eq 2 ]] || usage
+    consumer_stop "$2"
+    ;;
+  status)
+    [[ $# -eq 2 ]] || usage
+    consumer_status "$2"
+    ;;
+  position)
+    [[ $# -eq 2 ]] || usage
+    consumer_position "$2"
+    ;;
+  *)
+    usage
+    ;;
+esac

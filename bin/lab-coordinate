@@ -1,0 +1,228 @@
+#!/usr/bin/env bash
+# T011: resolve a safe filesystem/WAL recovery coordinate.
+set -euo pipefail
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+_LAB_OV_EVIDENCE_ROOT="${EVIDENCE_ROOT:-}"
+_LAB_OV_ARCHIVE_ROOT="${ARCHIVE_ROOT:-}"
+_LAB_OV_ARCHIVE_CURRENT="${ARCHIVE_CURRENT:-}"
+_LAB_OV_RESULTS_ROOT="${RESULTS_ROOT:-}"
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+if [[ ${1:-} == --incident && -n ${2:-} ]]; then
+  LAB_ACTIVE_INCIDENT=$2
+  export LAB_ACTIVE_INCIDENT
+  shift 2
+fi
+source "$ROOT/lib/lab_incident_env.sh"
+# shellcheck source=/dev/null
+source "$ROOT/lib/lab_env_overrides.sh"
+
+readonly EXIT_ASSERT=1 EXIT_PRECOND=2 EXIT_USAGE=3
+die() {
+  printf '%s\n' "$1" >&2
+  exit "${2:-$EXIT_PRECOND}"
+}
+
+[[ $# -eq 2 && ( $1 == --lsn || $1 == --time || $1 == --snapshot ) ]] ||
+  die "usage: lab-coordinate (--lsn X/Y | --time ISO-8601-UTC | --snapshot NAME)" "$EXIT_USAGE"
+for key in VM_SSH PG_PORT DB_NAME HEARTBEAT_TABLE HEARTBEAT_HZ ARCHIVE_CURRENT ARCHIVE_ROOT; do
+  [[ -n ${!key:-} ]] || die "precondition failed: $key missing from lab.env"
+done
+[[ $HEARTBEAT_HZ =~ ^[1-9][0-9]*$ && $((1000 % HEARTBEAT_HZ)) -eq 0 ]] ||
+  die "precondition failed: HEARTBEAT_HZ must divide 1000"
+[[ $HEARTBEAT_TABLE =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] ||
+  die "precondition failed: HEARTBEAT_TABLE is not a PostgreSQL identifier"
+
+active_dir=$(readlink -f -- "$ARCHIVE_CURRENT") ||
+  die "precondition failed: no active incident at $ARCHIVE_CURRENT"
+case $active_dir in "$ARCHIVE_ROOT"/*) ;; *) die "precondition failed: active incident escapes ARCHIVE_ROOT" ;; esac
+records="$active_dir/snapshots.json"
+[[ -s $records ]] || die "precondition failed: no recorded snapshots for current incident"
+incident=${active_dir##*/}
+
+mode=$1
+input=$2
+case $mode in
+  --lsn)
+    [[ $input =~ ^[0-9A-F]+/[0-9A-F]+$ ]] ||
+      die "usage: --lsn must be an uppercase PostgreSQL LSN" "$EXIT_USAGE"
+    ;;
+  --time)
+    [[ $input =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{1,6})?Z$ ]] ||
+      die "usage: --time must be ISO-8601 UTC with a Z suffix" "$EXIT_USAGE"
+    ;;
+  --snapshot)
+    [[ $input =~ ^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$ ]] ||
+      die "usage: invalid snapshot name" "$EXIT_USAGE"
+    ;;
+esac
+
+query_lsn() {
+  ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" \
+    "sudo -n bash -s -- '$PG_PORT' '$DB_NAME' '$HEARTBEAT_TABLE' '$1'" <<'REMOTE'
+set -euo pipefail
+sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -At -F $'\t' -p "$1" -d "$2" -c "
+WITH input AS (SELECT '$4'::pg_lsn AS target)
+SELECT input.target::text,
+       coalesce(to_char((
+         SELECT at AT TIME ZONE 'UTC' FROM public.$3
+         WHERE lsn <= input.target ORDER BY lsn DESC, id DESC LIMIT 1
+       ), 'YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"'), '')
+FROM input;"
+REMOTE
+}
+
+query_time() {
+  ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" \
+    "sudo -n bash -s -- '$PG_PORT' '$DB_NAME' '$HEARTBEAT_TABLE' '$1'" <<'REMOTE'
+set -euo pipefail
+sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -At -F $'\t' -p "$1" -d "$2" -c "
+WITH candidate AS (
+  SELECT at, lsn FROM public.$3
+  WHERE at <= '$4'::timestamptz
+  ORDER BY at DESC, id DESC LIMIT 1
+)
+SELECT candidate.lsn::text,
+       to_char(candidate.at AT TIME ZONE 'UTC', 'YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"'),
+       coalesce(to_char((
+         SELECT min(at) AT TIME ZONE 'UTC' FROM public.$3 WHERE at > candidate.at
+       ), 'YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"'), '')
+FROM candidate;"
+REMOTE
+}
+
+if [[ $mode == --snapshot ]]; then
+selected=$(python3 - "$records" "$incident" "$input" 2>&1 <<'PY'
+import json, sys
+path, incident, requested = sys.argv[1:]
+with open(path, encoding="utf-8") as handle:
+    records = json.load(handle)
+matches = [r for r in records if r.get("incident") == incident and r.get("snapshot") == requested]
+if len(matches) != 1:
+    raise SystemExit("precondition failed: requested snapshot is not recorded for the current incident")
+r = matches[0]
+if r.get("invalidated", False):
+    raise SystemExit("precondition failed: requested snapshot was invalidated by a rollback")
+for key in ("snapshot", "recorded_lsn", "created_at", "lsn_recorded_at"):
+    if not isinstance(r.get(key), str):
+        raise SystemExit(f"assertion failed: recorded snapshot lacks {key}")
+print("\t".join((r["snapshot"], r["recorded_lsn"], r["created_at"], r["lsn_recorded_at"])))
+PY
+) || die "$selected"
+  IFS=$'\t' read -r snapshot target_lsn snapshot_at observed_at <<<"$selected"
+  python3 - "$incident" "$snapshot" "$target_lsn" "$snapshot_at" <<'PY'
+import json, sys
+incident, snapshot, lsn, wall_clock = sys.argv[1:]
+print(json.dumps({"incident": incident, "lsn": lsn, "resolved_by": "snapshot_first",
+                  "skew_bytes": 0, "skew_ms": 0, "snapshot": snapshot,
+                  "wall_clock": wall_clock}, sort_keys=True))
+PY
+  exit 0
+fi
+
+if [[ $mode == --lsn ]]; then
+  row=$(query_lsn "$input")
+  IFS=$'\t' read -r target_lsn observed_at <<<"$row"
+  [[ $target_lsn =~ ^[0-9A-F]+/[0-9A-F]+$ ]] ||
+    die "assertion failed: PostgreSQL did not canonicalize target LSN" "$EXIT_ASSERT"
+  [[ -n $observed_at ]] ||
+    die "precondition failed: no heartbeat at or below target LSN; wall-clock mapping is unavailable"
+  wall_clock=$observed_at
+  resolved_by=$([[ -n ${INC_ID:-} ]] && printf live_heartbeat || printf lsn_first)
+  degraded=false
+  gap_ms=
+else
+  row=$(query_time "$input")
+  IFS=$'\t' read -r target_lsn observed_at next_at <<<"$row"
+  [[ $target_lsn =~ ^[0-9A-F]+/[0-9A-F]+$ && -n $observed_at ]] ||
+    die "precondition failed: no heartbeat at or below requested wall-clock time"
+  wall_clock=$input
+  resolved_by=$([[ -n ${INC_ID:-} ]] && printf live_heartbeat || printf time_first)
+  # A 1 Hz writer has a 2,000 ms tolerance (two expected intervals).  For a
+  # closed outage we report the full observed interval; for an open outage we
+  # report elapsed time from the latest trustworthy heartbeat.
+  gap=$(python3 - "$input" "$observed_at" "$next_at" "$((2000 / HEARTBEAT_HZ))" <<'PY'
+from datetime import datetime
+from math import ceil
+import sys
+target, previous, following, tolerance = sys.argv[1:]
+parse = lambda text: datetime.fromisoformat(text.replace("Z", "+00:00"))
+elapsed = ceil((parse(target) - parse(previous)).total_seconds() * 1000)
+full_gap = ceil((parse(following) - parse(previous)).total_seconds() * 1000) if following else None
+degraded = elapsed > int(tolerance) or (full_gap is not None and full_gap > int(tolerance))
+print(("true\t" + str(full_gap if full_gap is not None else elapsed)) if degraded else "false\t")
+PY
+)
+  IFS=$'\t' read -r degraded gap_ms <<<"$gap"
+fi
+
+# Select only records with recorded_lsn <= target_lsn.  This deliberately
+# rejects an incident whose first snapshot is later than the requested point.
+selected=$(python3 - "$records" "$incident" "$target_lsn" <<'PY'
+import json, re, sys
+path, incident, target = sys.argv[1:]
+def value(lsn):
+    if not re.fullmatch(r"[0-9A-F]+/[0-9A-F]+", lsn):
+        raise ValueError(f"invalid LSN in snapshot record: {lsn!r}")
+    high, low = lsn.split("/")
+    return (int(high, 16) << 32) + int(low, 16)
+with open(path, encoding="utf-8") as handle:
+    records = json.load(handle)
+eligible = []
+for record in records:
+    if record.get("incident") != incident:
+        continue
+    if record.get("invalidated", False):
+        continue
+    for key in ("snapshot", "recorded_lsn", "created_at", "lsn_recorded_at"):
+        if not isinstance(record.get(key), str):
+            raise SystemExit(f"assertion failed: recorded snapshot lacks {key}")
+    if value(record["recorded_lsn"]) <= value(target):
+        eligible.append(record)
+if not eligible:
+    raise SystemExit("no snapshot at or below target LSN")
+record = max(eligible, key=lambda item: (value(item["recorded_lsn"]), item["created_at"], item["snapshot"]))
+print("\t".join((record["snapshot"], record["recorded_lsn"], record["created_at"])))
+PY
+) || die "assertion failed: no snapshot at or below target LSN" "$EXIT_ASSERT"
+IFS=$'\t' read -r snapshot snapshot_lsn snapshot_at <<<"$selected"
+
+skew_bytes=$(ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" \
+  "sudo -n bash -s -- '$PG_PORT' '$DB_NAME' '$target_lsn' '$snapshot_lsn'" <<'REMOTE'
+set -euo pipefail
+sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -At -p "$1" -d "$2" \
+  -c "SELECT pg_wal_lsn_diff('$3'::pg_lsn, '$4'::pg_lsn)::bigint"
+REMOTE
+)
+[[ $skew_bytes =~ ^[0-9]+$ ]] ||
+  die "assertion failed: PostgreSQL did not return a non-negative WAL skew" "$EXIT_ASSERT"
+
+python3 - "$incident" "$wall_clock" "$target_lsn" "$snapshot" "$snapshot_at" "$observed_at" \
+  "$skew_bytes" "$resolved_by" "$degraded" "$gap_ms" <<'PY'
+from datetime import datetime
+from math import ceil
+import json
+import sys
+
+(incident, wall_clock, lsn, snapshot, snapshot_at, observed_at, skew_bytes,
+ resolved_by, degraded, gap_ms) = sys.argv[1:]
+parse = lambda text: datetime.fromisoformat(text.replace("Z", "+00:00"))
+# The recorded operation order gives a direction, but the contract defines a
+# non-negative interval.  Keep its full millisecond magnitude; never coerce a
+# nonzero measurement to zero.
+skew_ms = ceil(abs((parse(observed_at) - parse(snapshot_at)).total_seconds() * 1000))
+result = {
+    "incident": incident,
+    "lsn": lsn,
+    "resolved_by": resolved_by,
+    "skew_bytes": int(skew_bytes),
+    "skew_ms": skew_ms,
+    "snapshot": snapshot,
+    "wall_clock": wall_clock,
+}
+if resolved_by == "time_first":
+    result["degraded"] = degraded == "true"
+    result["gap_ms"] = int(gap_ms) if gap_ms else None
+print(json.dumps(result, sort_keys=True))
+PY

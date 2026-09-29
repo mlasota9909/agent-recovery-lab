@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# W006: SC-01 injector as ROLE_AGENT. JSON on stdout.
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+export LAB_ROOT EVIDENCE_ROOT ARCHIVE_CURRENT ARCHIVE_ROOT RESULTS_ROOT
+export VM_SSH DB_NAME PG_PORT OS_USER_AGENT ROLE_AGENT SC01_INJECT_ROWS
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_inject.py" "$@"

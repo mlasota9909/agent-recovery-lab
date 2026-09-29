@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+# T013: prove ZFS diff and snapshot-read evidence without clones or mounts.
+set -euo pipefail
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+
+readonly run="t013_$(date -u +%Y%m%dT%H%M%S%N)"
+readonly snap1="${run}_before"
+readonly snap2="${run}_after"
+readonly snap3="${run}_silent"
+
+ssh -o BatchMode=yes -o ConnectTimeout=15 "$VM_SSH" \
+  "sudo -n bash -s -- '$DS_PROTECTED' '$MNT_PROTECTED' '$run' '$snap1' '$snap2' '$snap3'" <<'REMOTE'
+set -euo pipefail
+dataset=$1 mountpoint=$2 run=$3 snap1=$4 snap2=$5 snap3=$6
+relative="t013-proof/$run"
+work="$mountpoint/$relative"
+
+mkdir -p "$work"
+printf 'original deleted content\n' >"$work/deleted.txt"
+printf 'original modified content\n' >"$work/modified.txt"
+printf 'silent-A\n' >"$work/silent.txt"
+awkward_name=$'awkward name\told\nfile.txt'
+printf 'original renamed content\n' >"$work/$awkward_name"
+zfs snapshot "$dataset@$snap1"
+
+# Keep the snapshot interval explicit: a diff locates these changes only here.
+sleep 2
+printf 'added content\n' >"$work/added.txt"
+printf 'modified content\n' >"$work/modified.txt"
+rm "$work/deleted.txt"
+mv "$work/$awkward_name" "$work/renamed target.txt"
+zfs snapshot "$dataset@$snap2"
+snapshot1_epoch=$(zfs get -Hp -o value creation "$dataset@$snap1")
+snapshot2_epoch=$(zfs get -Hp -o value creation "$dataset@$snap2")
+
+silent_before=$(stat -c '%s %Y' "$work/silent.txt")
+silent_reference=$(mktemp)
+touch -r "$work/silent.txt" "$silent_reference"
+printf 'silent-B\n' >"$work/silent.txt"
+touch -r "$silent_reference" "$work/silent.txt"
+rm "$silent_reference"
+silent_after=$(stat -c '%s %Y' "$work/silent.txt")
+zfs snapshot "$dataset@$snap3"
+
+printf 'run=%s\nsnap1=%s\nsnap2=%s\nsnap3=%s\n' "$run" "$snap1" "$snap2" "$snap3"
+printf '%s\n' 'diff_begin'
+zfs diff -H "$dataset@$snap1" "$dataset@$snap2"
+printf '%s\n' 'diff_end'
+printf '%s\n' 'negative_diff_begin'
+zfs diff -H "$dataset@$snap2" "$dataset@$snap3"
+printf '%s\n' 'negative_diff_end'
+printf 'silent_stat_before=%s\nsilent_stat_after=%s\n' "$silent_before" "$silent_after"
+printf 'snapshot_interval_seconds=%s\n' "$((snapshot2_epoch - snapshot1_epoch))"
+printf '%s\n' 'snapshot_read_begin'
+cat "$mountpoint/.zfs/snapshot/$snap1/$relative/deleted.txt"
+printf '%s\n' 'snapshot_read_end'
+printf '%s\n' 'hashes_begin'
+hash_started_ns=$(date +%s%N)
+python3 - "$mountpoint/.zfs/snapshot/$snap2/$relative" <<'PY'
+import hashlib
+import os
+import sys
+
+root = sys.argv[1]
+for directory, directories, filenames in os.walk(root):
+    directories.sort()
+    for filename in sorted(filenames):
+        path = os.path.join(directory, filename)
+        digest = hashlib.sha256()
+        with open(path, "rb") as handle:
+            for block in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(block)
+        print(f"{os.path.relpath(path, root)}\t{digest.hexdigest()}")
+PY
+hash_finished_ns=$(date +%s%N)
+printf 'hash_elapsed_ms=%s\n' "$(((hash_finished_ns - hash_started_ns) / 1000000))"
+printf '%s\n' 'hashes_end'
+printf 'clone_count=%s\nloop_mount_count=%s\n' \
+  "$(zfs list -H -o origin -t filesystem | awk '$1 != "-" { count++ } END { print count+0 }')" \
+  "$(awk '$1 ~ /^\/dev\/loop/ { count++ } END { print count+0 }' /proc/mounts)"
+REMOTE

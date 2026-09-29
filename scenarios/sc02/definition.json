@@ -1,0 +1,25 @@
+{
+  "scenario_id": "SC-02",
+  "damage_class": "filesystem_data",
+  "timing_pattern": "near_instant",
+  "archetype": "agent with file-tool access recursively deletes a working tree and overwrites a surviving file",
+  "corpus_citation": ["Naihin2023"],
+  "injection": {"principal": "lab_agent", "script_ref": "scenarios/sc02/inject.sh"},
+  "confounder": {
+    "principal": "lab_app",
+    "spec_ref": "scenarios/sc02/workload.py",
+    "overlaps_damage": true
+  },
+  "ground_truth": {
+    "kind": "single_coordinate",
+    "definition": "tightest CoW/Merkle checkpoint at or before the malicious recursive-delete + overwrite",
+    "computed_from": "archive snapshots.json recorded_lsn <= injection lsn_start, then lab-coordinate"
+  },
+  "evidence_signature": {
+    "db": "no required DB burst; filesystem damage is the signal",
+    "filesystem": "burst of delete/overwrite ops across many paths from one process",
+    "derived": "path-churn/deletion spike vs the overlapping build-and-edit confounder",
+    "graph": "one process touching a whole subtree"
+  },
+  "metrics": ["coord_error_checkpoint", "checkpoint_gap_seconds", "legit_lost", "damage_retained", "fs_db_skew_ms"]
+}

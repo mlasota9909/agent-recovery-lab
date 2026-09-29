@@ -1,0 +1,214 @@
+#!/usr/bin/env bash
+# T005: allocate and report host-side incident evidence scopes.
+set -euo pipefail
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+_LAB_OV_EVIDENCE_ROOT="${EVIDENCE_ROOT:-}"
+_LAB_OV_ARCHIVE_ROOT="${ARCHIVE_ROOT:-}"
+_LAB_OV_ARCHIVE_CURRENT="${ARCHIVE_CURRENT:-}"
+_LAB_OV_RESULTS_ROOT="${RESULTS_ROOT:-}"
+# shellcheck source=../etc/lab.env
+source "$SCRIPT_DIR/../etc/lab.env"
+# shellcheck source=../lib/lab_env_overrides.sh
+source "$SCRIPT_DIR/../lib/lab_env_overrides.sh"
+
+EXIT_ASSERT=1
+EXIT_PRECOND=2
+EXIT_USAGE=3
+
+die() {
+  local code=$1
+  shift
+  printf '%s\n' "$*" >&2
+  exit "$code"
+}
+
+json_record() {
+  local incident=$1 scenario=$2
+  python3 - "$incident" "$scenario" "$EVIDENCE_ROOT" "$ARCHIVE_ROOT" "$BASEBACKUP_ROOT" <<'PY'
+import json
+import sys
+incident, scenario, evidence_root, archive_root, basebackup_root = sys.argv[1:]
+print(json.dumps({
+    "ok": True,
+    "incident": incident,
+    "scenario": scenario,
+    "evidence_dir": f"{evidence_root}/{scenario}/{incident}",
+    "archive_dir": f"{archive_root}/{incident}",
+    "basebackup_dir": f"{basebackup_root}/{incident}",
+    "archive_current": f"{archive_root}/current",
+}, sort_keys=True))
+PY
+}
+
+require_env() {
+  local key
+  for key in EVIDENCE_ROOT ARCHIVE_ROOT ARCHIVE_CURRENT BASEBACKUP_ROOT RESULTS_ROOT; do
+    [[ -n ${!key:-} ]] || die "$EXIT_PRECOND" "precondition failed: $key missing from lab.env"
+  done
+  [[ "$ARCHIVE_CURRENT" == "$ARCHIVE_ROOT/current" ]] ||
+    die "$EXIT_PRECOND" "precondition failed: ARCHIVE_CURRENT must be ARCHIVE_ROOT/current"
+}
+
+new_incident() {
+  local scenario=$1 stamp incident evidence_dir archive_dir basebackup_dir tmp_link
+  [[ $scenario =~ ^SC-[0-9]{2}$ ]] ||
+    die "$EXIT_USAGE" "usage: lab-incident --new --scenario SC-01"
+
+  install -d -m 0750 "$EVIDENCE_ROOT" "$ARCHIVE_ROOT" "$BASEBACKUP_ROOT" "$RESULTS_ROOT"
+  install -d -m 0750 "$EVIDENCE_ROOT/$scenario"
+
+  while :; do
+    stamp=$(date -u +%Y%m%dT%H%M%SZ)
+    incident="${scenario}_${stamp}"
+    archive_dir="$ARCHIVE_ROOT/$incident"
+    if mkdir -m 0750 "$archive_dir" 2>/dev/null; then
+      break
+    fi
+    sleep 1
+  done
+  evidence_dir="$EVIDENCE_ROOT/$scenario/$incident"
+  basebackup_dir="$BASEBACKUP_ROOT/$incident"
+  if ! mkdir -m 0750 "$evidence_dir" "$basebackup_dir"; then
+    rmdir "$archive_dir"
+    die "$EXIT_ASSERT" "failed to create incident directories"
+  fi
+
+  tmp_link="$ARCHIVE_ROOT/.current.${incident}.$$"
+  ln -s "$incident" "$tmp_link"
+  mv -Tf "$tmp_link" "$ARCHIVE_CURRENT"
+  if [[ $scenario == SC-01 ]]; then
+    "$SCRIPT_DIR/lab-consumer" start "$incident" >/dev/null ||
+      die "$EXIT_ASSERT" "precondition failed: decoding consumer is not running for $incident; start it with lab-consumer start $incident"
+  fi
+  json_record "$incident" "$scenario"
+}
+
+current_incident() {
+  [[ -L $ARCHIVE_CURRENT ]] ||
+    die "$EXIT_PRECOND" "precondition failed: no active incident at $ARCHIVE_CURRENT"
+  local target incident scenario
+  target=$(readlink -f -- "$ARCHIVE_CURRENT") ||
+    die "$EXIT_ASSERT" "invalid archive/current symlink"
+  case "$target" in
+    "$ARCHIVE_ROOT"/*) ;;
+    *) die "$EXIT_ASSERT" "archive/current escapes ARCHIVE_ROOT" ;;
+  esac
+  incident=${target##*/}
+  scenario=${incident%%_*}
+  [[ $scenario =~ ^SC-[0-9]{2}$ ]] ||
+    die "$EXIT_ASSERT" "invalid incident id: $incident"
+  json_record "$incident" "$scenario"
+}
+
+list_incidents() {
+  python3 - "$ARCHIVE_ROOT" "$EVIDENCE_ROOT" "$BASEBACKUP_ROOT" "$ARCHIVE_CURRENT" <<'PY'
+import json
+import os
+import sys
+archive_root, evidence_root, basebackup_root, current = sys.argv[1:]
+items = []
+for name in sorted(os.listdir(archive_root)) if os.path.isdir(archive_root) else []:
+    if not name.startswith("SC-") or "_" not in name:
+        continue
+    scenario = name.split("_", 1)[0]
+    if len(scenario) != 5 or not scenario[3:].isdigit():
+        continue
+    items.append({
+        "incident": name,
+        "scenario": scenario,
+        "evidence_dir": f"{evidence_root}/{scenario}/{name}",
+        "archive_dir": f"{archive_root}/{name}",
+        "basebackup_dir": f"{basebackup_root}/{name}",
+        "current": os.path.realpath(current) == os.path.join(archive_root, name),
+    })
+print(json.dumps(items, sort_keys=True))
+PY
+}
+
+open_incident() {
+  # An incident captured with no consumer is an incident with no database
+  # evidence. Fail at open, loudly, rather than at analysis time.
+  [[ -L $ARCHIVE_CURRENT ]] ||
+    die "$EXIT_PRECOND" "precondition failed: no active incident at $ARCHIVE_CURRENT"
+  local target incident scenario
+  target=$(readlink -f -- "$ARCHIVE_CURRENT") ||
+    die "$EXIT_ASSERT" "invalid archive/current symlink"
+  case "$target" in
+    "$ARCHIVE_ROOT"/*) ;;
+    *) die "$EXIT_ASSERT" "archive/current escapes ARCHIVE_ROOT" ;;
+  esac
+  incident=${target##*/}
+  scenario=${incident%%_*}
+  [[ $scenario =~ ^SC-[0-9]{2}$ ]] ||
+    die "$EXIT_ASSERT" "invalid incident id: $incident"
+  if ! "$SCRIPT_DIR/lab-consumer" status "$incident" >/dev/null; then
+    die "$EXIT_PRECOND" "precondition failed: decoding consumer is not running and healthy for $incident; start it with lab-consumer start $incident"
+  fi
+  json_record "$incident" "$scenario"
+}
+
+close_incident() {
+  [[ -L $ARCHIVE_CURRENT ]] ||
+    die "$EXIT_PRECOND" "precondition failed: no active incident at $ARCHIVE_CURRENT"
+  local target incident scenario evidence_dir position_json
+  target=$(readlink -f -- "$ARCHIVE_CURRENT") ||
+    die "$EXIT_ASSERT" "invalid archive/current symlink"
+  case "$target" in
+    "$ARCHIVE_ROOT"/*) ;;
+    *) die "$EXIT_ASSERT" "archive/current escapes ARCHIVE_ROOT" ;;
+  esac
+  incident=${target##*/}
+  scenario=${incident%%_*}
+  evidence_dir="$EVIDENCE_ROOT/$scenario/$incident"
+  position_json=$("$SCRIPT_DIR/lab-consumer" position "$incident")
+  python3 - "$evidence_dir/consumer-close.json" "$position_json" <<'PY'
+import json, os, sys, tempfile
+path, payload = sys.argv[1:]
+data = json.loads(payload)
+data["closed"] = True
+directory = os.path.dirname(path)
+fd, tmp = tempfile.mkstemp(prefix=".consumer-close.", dir=directory, text=True)
+try:
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        json.dump(data, handle, sort_keys=True)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.chmod(tmp, 0o440)
+    os.replace(tmp, path)
+finally:
+    if os.path.exists(tmp):
+        os.unlink(tmp)
+PY
+  "$SCRIPT_DIR/lab-consumer" stop "$incident" >/dev/null
+  json_record "$incident" "$scenario"
+}
+
+require_env
+case "${1:-}" in
+  --new)
+    [[ $# -eq 3 && ${2:-} == "--scenario" ]] ||
+      die "$EXIT_USAGE" "usage: lab-incident --new --scenario SC-01"
+    new_incident "$3"
+    ;;
+  --current)
+    [[ $# -eq 1 ]] || die "$EXIT_USAGE" "usage: lab-incident --current"
+    current_incident
+    ;;
+  --list)
+    [[ $# -eq 1 ]] || die "$EXIT_USAGE" "usage: lab-incident --list"
+    list_incidents
+    ;;
+  --open|open)
+    [[ $# -eq 1 ]] || die "$EXIT_USAGE" "usage: lab-incident --open"
+    open_incident
+    ;;
+  --close|close)
+    [[ $# -eq 1 ]] || die "$EXIT_USAGE" "usage: lab-incident --close"
+    close_incident
+    ;;
+  *)
+    die "$EXIT_USAGE" "usage: lab-incident (--new --scenario SC-01 | --current | --list | --open | --close)"
+    ;;
+esac
