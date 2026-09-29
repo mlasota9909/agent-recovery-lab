@@ -200,6 +200,11 @@ fails after allocating its incident, run `bin/lab-incident --close` (it closes
 the incident named by `archive/current` and stops its consumer) before the next
 rehearsal; stage 20 refuses to start while an incident is open.
 
+If stage 20 or 30 refuses an incident in `logs/run` (for example because a capture
+rule failed), `run/retire-attempt.sh "<reason>"` closes that incident and moves the
+attempt's records to `logs/superseded/<UTC time>/` with the reason; then run the
+stages (or `run/all.sh`) again. It refuses once a freeze exists.
+
 ## Resuming and independent execution
 
 Stages 00 and 10 can be checked again. The provisioning stage never automatically
