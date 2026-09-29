@@ -287,6 +287,15 @@ class BoundaryTests(Scratch):
             run.provision()
         self.assertIn("Provisioning skipped: the replica already holds experiment incidents", out.getvalue())
 
+    def test_database_arm_takes_the_integer_position_every_caller_passes(self):
+        incident = "SC-01_20260930T000000Z"
+        common.save(common.evidence_dir(incident) / "incident.json", {"incident_id": "i_fixture"})
+        with patch("lab_snapshot_coord.resolve_lsn_from_manifest",
+                   return_value={"wall_clock": "2026-09-30T00:00:00Z", "snapshot": "s_1"}) as resolve:
+            coord = sc01.arm(incident, 6660556344, "R1")
+        resolve.assert_called_once_with(incident, "1/8D000638")
+        self.assertEqual((coord["lsn_text"], coord["lsn_int"], coord["representation"]), ("1/8D000638", 6660556344, "R1"))
+
     def test_backend_digest_never_substitutes_another_served_model(self):
         response = io.BytesIO(json.dumps({"data": [{"id": "different", "root": "root", "max_model_len": 99}]}).encode())
         with patch.object(p9, "_urlopen", return_value=response):

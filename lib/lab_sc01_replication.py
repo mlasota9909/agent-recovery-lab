@@ -71,11 +71,13 @@ def database_answer(reply, prompt):
 
 def arm(incident, lsn, rep="n/a"):
     from lab_snapshot_coord import resolve_lsn_from_manifest
-    from lsn import lsn_norm
-    coord = resolve_lsn_from_manifest(incident, lsn_norm(lsn))
+    from lsn import lsn_int, lsn_norm, lsn_text_from_int
+    # Every caller passes the integer position.
+    lsn = lsn_norm(lsn_text_from_int(int(lsn)))
+    coord = resolve_lsn_from_manifest(incident, lsn)
     return {"incident_id": read(evidence_dir(incident) / "incident.json")["incident_id"],
             "arm": "arm_b", "selector_version": "revised-grammar", "representation": rep,
-            "lsn_text": lsn_norm(lsn), "lsn_int": int(lsn), "wall_clock": coord["wall_clock"],
+            "lsn_text": lsn, "lsn_int": lsn_int(lsn), "wall_clock": coord["wall_clock"],
             "snapshot": coord["snapshot"], "chosen_candidate_id": None, "rationale": "visible locator",
             "selection_inputs": {"ledger_view": "views.analysis_view", "approx_incident_time": None,
                                  "incident_time_error_seconds": None, "read_injection_log": False,
