@@ -280,6 +280,12 @@ def state():
     return data
 
 
+def volume_names(pool: str) -> list[str]:
+    """Volume names in a pool, parsed from the plain table (vol-list has no --name option in libvirt 11)."""
+    lines = virsh("vol-list", "--pool", pool).stdout.splitlines()
+    return [line.split()[0] for line in lines[2:] if line.split()]
+
+
 def domains():
     return [line.strip() for line in virsh("list", "--all", "--name").stdout.splitlines() if line.strip()]
 
@@ -324,7 +330,7 @@ def reserve():
         raise RuntimeError("Previous build record exists; use --recreate to remove only its recorded resources")
     volumes = {"system": f"{ENV['VM_NAME']}-system.qcow2", "data_a": f"{ENV['VM_NAME']}-data-a.qcow2",
                "data_b": f"{ENV['VM_NAME']}-data-b.qcow2"}
-    existing = virsh("vol-list", "--pool", ENV["PROVISION_STORAGE_POOL"], "--name").stdout.splitlines()
+    existing = volume_names(ENV["PROVISION_STORAGE_POOL"])
     for name in volumes.values():
         if name in existing or (Path(target) / name).exists():
             raise RuntimeError(f"Refusing existing volume/path {name}")
@@ -579,7 +585,7 @@ def destroy():
     if pool_xml.get("type") != "dir" or str(Path(pool_xml.findtext("target/path")).resolve()) != data["pool_path"]:
         raise RuntimeError("Storage pool target changed; refusing deletion")
     expected = {str(Path(data["pool_path"]) / name) for name in data["volumes"].values()}
-    present = set(virsh("vol-list", "--pool", data["pool"], "--name").stdout.splitlines())
+    present = set(volume_names(data["pool"]))
     for name in data["volumes"].values():
         if name in present:
             xml = ET.fromstring(virsh("vol-dumpxml", "--pool", data["pool"], name).stdout)
