@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+_LAB_OV_EVIDENCE_ROOT="${EVIDENCE_ROOT:-}"
+set -a
+# shellcheck source=/dev/null
+source "$ROOT/etc/lab.env"
+set +a
+# shellcheck source=/dev/null
+source "$ROOT/lib/lab_env_overrides.sh"
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 "$ROOT/lib/lab_fl_intervals.py" "$@"

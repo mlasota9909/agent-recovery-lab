@@ -33,7 +33,10 @@ The lab is rebuilt in a fresh repository and a fresh VM by scripts, and the P12 
   (interval, from and to snapshot, from and to time, change type, path relative to the protected root), ordered by
   interval then path. Structured Summaries: one JSON row per interval (interval, anomaly score, last safe snapshot =
   the interval's start snapshot). Written Summaries: one templated sentence per interval ("Interval N [t0 .. t1]:
-  d files deleted, m modified, c created under <top directory>; anomaly s."). Same instruction wrapper for all three.
+  d files deleted, m modified, c created under <top directory>; anomaly s."). Every input begins with the same one-line catalogue of the selected intervals' boundaries (interval, from and
+  to snapshot, from and to time; no log positions, scores or reference), so that every locator type can be
+  resolved from visible evidence in every input. Written Summaries name the parent directory with the most
+  changes, mirroring the database-level template's most-changed table. Same instruction wrapper for all three.
 - ADR-7 Answer reading. Exactly one COORDINATE line and no REFUSAL line. Locators: `interval=N` resolves to the start
   snapshot of interval N (interval N must be visible); `snapshot=<name>` resolves to that snapshot (must be visible);
   `ts=<ISO-8601 UTC>` resolves to the latest visible snapshot recorded at or before it. Each locator resolves
