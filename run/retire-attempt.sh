@@ -12,7 +12,8 @@ start_log retire-attempt
   { printf '%s\n' 'A freeze exists; a frozen study is never retired' >&2; exit 1; }
 [[ -f $ROOT/logs/run/incident-started.json ]] ||
   { printf '%s\n' 'No incident attempt to retire in logs/run' >&2; exit 1; }
-python3 - <<'PY'
+status=0
+python3 - <<'PY' || status=$?
 import sys
 sys.path.insert(0, "lib")
 import lab_run
@@ -21,7 +22,6 @@ try:
 except ValueError:
     sys.exit(3)
 PY
-status=$?
 if (( status == 3 )); then
   "$ROOT/bin/lab-incident" --close >/dev/null
 elif (( status != 0 )); then
