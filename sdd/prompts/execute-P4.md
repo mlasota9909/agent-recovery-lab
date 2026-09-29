@@ -77,7 +77,7 @@ restore-and-validate cycle. If it changes, the restore path touched something it
 
 ## Context you must load before doing anything
 
-Read these, in this order, from `/home/mlasota/thesis`:
+Read these, in this order, from `<repo>`:
 
 1. `sdd/.specify/memory/constitution.md` — the articles in force. There are **sixteen** (I determinism, II provenance
    for scoring not detection, V stock mechanisms, VI simplicity, VIII fail loud, X lab containment, XII no test hatches
@@ -109,8 +109,8 @@ Read these, in this order, from `/home/mlasota/thesis`:
   symlink). Restore reads from there into a fresh sandbox cluster; it never reads or writes the victim's live PGDATA.
 - DuckDB is the sanctioned analytical query tool. P4 adds **no** new third-party runtime; restore uses stock
   `pg_basebackup`/`pg_ctl` recovery and stock `zfs clone`.
-- Deploy root `/home/mlasota/thesis`. Everything you create lives under it. **Never write elsewhere on the host.**
-- Config is one flat file, `/home/mlasota/thesis/etc/lab.env`, sourced by everything. Discover values; never guess.
+- Deploy root `<repo>`. Everything you create lives under it. **Never write elsewhere on the host.**
+- Config is one flat file, `<repo>/etc/lab.env`, sourced by everything. Discover values; never guess.
 - The harness deploy root is a git repository. Its HEAD is the harness version recorded in `harness_commit`.
 
 ## Operational warnings carried forward — read before you touch anything

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -29,7 +30,7 @@ SEED = [
         "param_class": "~27B (MoE, DeepSeek-V4-Flash)",
         "quantisation": "exl3-k2",
         "served_model": "deepseek-v4-flash-0731-exl3-k2",
-        "backend": "http://203.0.113.20:8000/v1",
+        "backend": os.environ.get("P9_BACKEND_M1", ""),
         "is_p61_baseline": True,
     },
     {
@@ -39,7 +40,7 @@ SEED = [
         "param_class": "~26B (Gemma-4-26B-A4B-IT, QAT q4)",
         "quantisation": "qat-q4",
         "served_model": "gemma4-26b-a4b-it-qat-q4",
-        "backend": "http://203.0.113.31:8090/v1",
+        "backend": os.environ.get("P9_BACKEND_M2", ""),
         "is_p61_baseline": False,
     },
     {
@@ -49,13 +50,16 @@ SEED = [
         "param_class": "~27B (Qwen3.8-27B-MTP, NVFP4)",
         "quantisation": "nvfp4",
         "served_model": "qwen38-27b-mtp-nvfp4",
-        "backend": "http://203.0.113.21:8010/v1",
+        "backend": os.environ.get("P9_BACKEND_M3", ""),
         "is_p61_baseline": False,
     },
 ]
 
 
 def build() -> dict:
+    missing = ["P9_BACKEND_" + seed["slot"] for seed in SEED if not seed["backend"]]
+    if missing:
+        die(EXIT_ASSERT, "precondition failed: configure " + ", ".join(missing) + " in etc/lab.local.env")
     baseline_rt = p61_baseline_runtime()
     models = []
     for seed in SEED:
@@ -84,8 +88,7 @@ def build() -> dict:
         "frozen_at": "N001",
         "endpoint": P9_ENDPOINT,
         "endpoint_topology": (
-            "loopback LiteLLM gateway (127.0.0.1:4001) -> per-alias private-lab vLLM backends; "
-            "ADR-P9-2 supersedes the offline c220m3:4001 pin for this tranche"
+            f"LiteLLM gateway ({P9_ENDPOINT}) -> per-alias private-lab vLLM backends"
         ),
         "decoding": dict(P9_DECODING),
         "p61_baseline_alias": baseline_rt["litellm_alias"],

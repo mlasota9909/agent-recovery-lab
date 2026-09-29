@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+"""Print the consumer service with paths and owner from this checkout."""
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "lib"))
+from lab_config import load_env
+
+
+def systemd_quote(value: str, command: bool = False) -> str:
+    if command:
+        value = value.replace("$", "$$")
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"').replace("%", "%%") + '"'
+
+
+def main() -> int:
+    if len(sys.argv) != 1:
+        print("usage: lab-consumer-unit", file=sys.stderr)
+        return 3
+    config = load_env(ROOT)
+    unit = (ROOT / "etc/systemd/lab-consumer@.service").read_text()
+    for token, value in {
+        "@LAB_ROOT@": str(ROOT),
+        "@LAB_CONSUMER@": str(ROOT / "bin/lab-consumer"),
+        "@LAB_USER@": config["HOST_ARCHIVE_USER"],
+    }.items():
+        unit = unit.replace(token, systemd_quote(value, command=token == "@LAB_CONSUMER@"))
+    print(unit, end="")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

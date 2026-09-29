@@ -89,7 +89,7 @@ before writing anything; wire and build, do not reinvent.
 
 ## Context you must load before doing anything
 
-Read these, in this order, from `/home/mlasota/thesis`:
+Read these, in this order, from `<repo>`:
 
 1. `sdd/.specify/memory/constitution.md` — the articles in force. There are **seventeen** (I determinism, II provenance
    for scoring not detection, V stock mechanisms, VI simplicity, VIII fail loud, X lab containment, XII no test hatches
@@ -123,8 +123,8 @@ Read these, in this order, from `/home/mlasota/thesis`:
 - **The model runtime** is a single offline local server on the host, bound to loopback, no outbound network. Its id,
   quantisation and weights hash are discovered and recorded in H001; never guess or hardcode them. No other model,
   no external API, no fine-tuning.
-- Deploy root `/home/mlasota/thesis`. Everything you create lives under it. **Never write elsewhere on the host.**
-- Config is one flat file, `/home/mlasota/thesis/etc/lab.env`, sourced by everything. Discover values; never guess.
+- Deploy root `<repo>`. Everything you create lives under it. **Never write elsewhere on the host.**
+- Config is one flat file, `<repo>/etc/lab.env`, sourced by everything. Discover values; never guess.
 - The harness deploy root is a git repository. Its HEAD is the harness version recorded in provenance fields.
 
 ## Operational warnings carried forward — read before you touch anything

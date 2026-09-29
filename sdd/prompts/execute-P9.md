@@ -1,7 +1,7 @@
 # P9 EXECUTION PROMPT — Model Sweep + Statistics
 
 You are executing ONE task of SDD tranche P9 against the lab at
-`/home/mlasota/thesis` on host r740core (victim VM thesisvm01; local model
+`<repo>` on host r740core (victim VM thesisvm01; local model
 endpoint c220m3:4001 proxying vllm on gb10a:8000).
 
 ## What the project is (cold-start context)

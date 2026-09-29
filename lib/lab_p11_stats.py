@@ -253,7 +253,7 @@ def lint(text: str, r: dict) -> dict:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog='lab-p11-stats')
-    p.add_argument('--out-dir', type=Path, default=root() / 'thesis/analysis')
+    p.add_argument('--out-dir', type=Path, default=root() / 'analysis-out/analysis')
     p.add_argument('--contracts-dir', type=Path, help='read-only contract source, useful for scratch drift tests')
     a = p.parse_args(argv)
     try:

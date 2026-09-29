@@ -3,7 +3,7 @@
 Same format as P0, P0.1, P1, P1.1, P2 and P2.1: **GitHub Spec Kit** layout, extended with a `work-instructions/`
 tier below `tasks.md` that Spec Kit itself does not provide.
 
-Unpack so it **merges into** the existing `/home/mlasota/thesis/sdd`. Nothing under any prior `specs/*/` directory is
+Unpack so it **merges into** the existing `<repo>/sdd`. Nothing under any prior `specs/*/` directory is
 edited, and every prior frozen contract — including `capture-completeness.md` and its amendment — stays
 byte-identical so its recorded hash keeps verifying. This tranche is the first that **consumes** the certified
 ledger: it builds the deterministic detection and ranking layer whose output is the baseline arm of the experiment.
@@ -59,7 +59,7 @@ Unchanged and confirmed by the P0→P2.1 builds:
 - Victim guest `thesisvm01`, keyless SSH from host, agent has `sudo` inside.
 - PostgreSQL 18.4, wal2json 2.6-3, ZFS 2.4.1-1ubuntu5, devices `/dev/vdb` + `/dev/vdc` guest-side.
 - DuckDB as the read-only view layer (no new dependency; P3 adds no third-party runtime).
-- Deploy root `/home/mlasota/thesis`. Config `etc/lab.env`.
+- Deploy root `<repo>`. Config `etc/lab.env`.
 - Gates green: `lab-verify` **18/18**, `lab-verify-p1` **24/24**, `lab-verify-p1.1` **16/16**, `lab-verify-p2`
   **18/18**, `lab-verify-p2.1` **16/16**, all exit 0.
 
@@ -73,14 +73,14 @@ Unchanged and confirmed by the P0→P2.1 builds:
 
 ```bash
 # on r740core, as mlasota
-cd /home/mlasota/thesis
+cd <repo>
 # unpack this package so that it merges into ./sdd
 ```
 
 ## Run one task per invocation
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 <executor> --print "$(cat sdd/prompts/execute-P3.md)
 
 TASK_TO_EXECUTE: D001

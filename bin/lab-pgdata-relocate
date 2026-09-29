@@ -8,24 +8,15 @@ import subprocess
 import sys
 from pathlib import Path
 
-LAB_ENV = Path(__file__).resolve().parent.parent / "etc" / "lab.env"
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "lib"))
+from lab_config import load_env
 EXIT_OK, EXIT_ASSERT, EXIT_PRECOND, EXIT_USAGE = 0, 1, 2, 3
 STAGING = "/var/lib/postgresql/pgdata-zfs-staging"
 
 
 def err(msg: str) -> None:
     print(msg, file=sys.stderr)
-
-
-def load_env() -> dict[str, str]:
-    vals: dict[str, str] = {}
-    for line in LAB_ENV.read_text().splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        k, v = line.split("=", 1)
-        vals[k] = v
-    return vals
 
 
 def ssh(vm: str, remote: str, check=True) -> subprocess.CompletedProcess:

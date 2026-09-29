@@ -6,9 +6,12 @@ import argparse
 import hashlib
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
+from lab_config import load_env
 REQUIRED = {
     "model.id", "model.quantisation", "model.weights_sha256", "decoding.seed", "decoding.max_tokens",
     "decoding.context", "producer_commit", "versions.zfs", "versions.postgresql", "versions.host_os",
@@ -20,11 +23,7 @@ def sha(path: Path) -> str: return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def env_values() -> dict[str, str]:
-    values = {}
-    for line in (ROOT / "etc/lab.env").read_text(encoding="utf-8").splitlines():
-        if line and not line.startswith("#") and "=" in line:
-            key, value = line.split("=", 1); values[key] = value.strip('"')
-    return values
+    return load_env(ROOT)
 
 
 def flatten(value: object, prefix: str = "") -> set[str]:
@@ -44,7 +43,7 @@ def build(commit: str) -> dict:
     return {
         "schema_version": 1,
         "model": {"id": env["MODEL_ID"], "quantisation": env["MODEL_QUANT"], "weights_sha256": env["MODEL_WEIGHTS_SHA256"],
-                  "runtime": env["MODEL_RUNTIME"], "endpoint_topology": "c220m3:4001->gb10a:8000"},
+                  "runtime": env["MODEL_RUNTIME"], "endpoint_topology": env["MODEL_ENDPOINT"]},
         "decoding": {"seed": int(env["MODEL_SEED"]), "max_tokens": int(env["MODEL_MAX_TOKENS"]),
                      "context": int(env["MODEL_CONTEXT"]), "replicates_per_cell": int(env["ARM_B_K"])},
         "producer_commit": commit,

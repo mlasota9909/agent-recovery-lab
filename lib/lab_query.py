@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -57,6 +58,7 @@ def die(code: int, msg: str) -> None:
 
 def duckdb_bin() -> str:
     path = os.environ.get("DUCKDB_BIN") or env("DUCKDB_BIN")
+    path = shutil.which(path) or path
     if not Path(path).is_file():
         die(EXIT_PRECOND, f"precondition failed: DuckDB binary missing at {path}")
     return path

@@ -119,7 +119,7 @@ PY
 
   assert_allowed_append() {
     command="ssh $VM_SSH sudo -u postgres bash -c append-through-forced-channel"
-    if output=$(remote_as postgres "printf 'permitted append\\n' | ssh -o BatchMode=yes -o IdentitiesOnly=yes -i '$key' 'mlasota@$LAB_HOST' 'append $segment'"); then
+    if output=$(remote_as postgres "printf 'permitted append\\n' | ssh -o BatchMode=yes -o IdentitiesOnly=yes -i '$key' '$HOST_ARCHIVE_USER@$LAB_HOST' 'append $segment'"); then
       rc=0
     else
       rc=$?
@@ -155,11 +155,11 @@ PY
     assert_denied "$principal" archive_create "touch '$current_archive/.lab-isolation-create-$principal'"
     assert_denied "$principal" archive_modify "printf x >>'$current_archive/$PROBE_NAME'"
     assert_denied "$principal" archive_delete "rm '$current_archive/$PROBE_NAME'"
-    assert_denied "$principal" archive_overwrite "printf overwrite | ssh -o BatchMode=yes -o IdentitiesOnly=yes -i '$key' 'mlasota@$LAB_HOST' 'append $segment'"
-    assert_denied "$principal" deploy_root_reach "ssh -o BatchMode=yes -o ConnectTimeout=5 -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null 'mlasota@$LAB_HOST' 'cat $LAB_ROOT/etc/lab.env'"
+    assert_denied "$principal" archive_overwrite "printf overwrite | ssh -o BatchMode=yes -o IdentitiesOnly=yes -i '$key' '$HOST_ARCHIVE_USER@$LAB_HOST' 'append $segment'"
+    assert_denied "$principal" deploy_root_reach "ssh -o BatchMode=yes -o ConnectTimeout=5 -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '$HOST_ARCHIVE_USER@$LAB_HOST' 'cat $LAB_ROOT/etc/lab.env'"
     # Forced channel: a read of the evidence probe. With command= restriction this
     # is refused. An unrestricted key makes the read succeed and the suite FAIL.
-    assert_denied "$principal" evidence_read_forced_channel "ssh -o BatchMode=yes -o IdentitiesOnly=yes -i '$key' 'mlasota@$LAB_HOST' \"cat '$evidence_read_path'\""
+    assert_denied "$principal" evidence_read_forced_channel "ssh -o BatchMode=yes -o IdentitiesOnly=yes -i '$key' '$HOST_ARCHIVE_USER@$LAB_HOST' \"cat '$evidence_read_path'\""
     if [[ -n $missing_path ]]; then
       assert_denied "$principal" missing_path_must_error "cat '$missing_path'"
     fi
@@ -190,7 +190,7 @@ PY
 channel_as_postgres() {
   local remote_cmd=$1
   ssh -o BatchMode=yes "$VM_SSH" \
-    "sudo -n -u postgres ssh -o BatchMode=yes -o IdentitiesOnly=yes -o RequestTTY=no -i '$DEFAULT_FORCED_KEY' 'mlasota@$LAB_HOST' $(printf '%q' "$remote_cmd")" 2>&1
+    "sudo -n -u postgres ssh -o BatchMode=yes -o IdentitiesOnly=yes -o RequestTTY=no -i '$DEFAULT_FORCED_KEY' '$HOST_ARCHIVE_USER@$LAB_HOST' $(printf '%q' "$remote_cmd")" 2>&1
 }
 
 enumerate() {
@@ -290,7 +290,7 @@ PY
 
   # 10 empty SSH_ORIGINAL_COMMAND
   if output=$(ssh -o BatchMode=yes "$VM_SSH" \
-    "sudo -n -u postgres ssh -o BatchMode=yes -o IdentitiesOnly=yes -o RequestTTY=no -n -i '$DEFAULT_FORCED_KEY' 'mlasota@$LAB_HOST'" 2>&1); then
+    "sudo -n -u postgres ssh -o BatchMode=yes -o IdentitiesOnly=yes -o RequestTTY=no -n -i '$DEFAULT_FORCED_KEY' '$HOST_ARCHIVE_USER@$LAB_HOST'" 2>&1); then
     rc=0
   else
     rc=$?

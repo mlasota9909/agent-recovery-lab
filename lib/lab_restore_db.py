@@ -150,7 +150,7 @@ def write_sandbox_conf(pgdata: str, wal_mnt: str, port: int, target_lsn: str) ->
         "local   all             postgres                                peer\n"
         "host    all             postgres        127.0.0.1/32            trust\n"
         f"host    all             postgres        {env('VM_ADDR')}/32     trust\n"
-        "host    all             postgres        203.0.113.0/24        trust\n"
+        f"host    all             postgres        {env('HOST_PG_CIDR')}        trust\n"
     )
     return f"""
 set -euo pipefail

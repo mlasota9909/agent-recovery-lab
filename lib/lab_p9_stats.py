@@ -3,7 +3,7 @@
 Refuses to run if statistical-analysis-plan.md drifted after the first sweep row
 (Article XXI.2). Computes exactly what the frozen plan names, selects the matching
 pre-declared interpretation verbatim, lints the prose for unscoped universals, and
-writes thesis/analysis/p9-statistics.{json,md} regenerable byte-identical.
+writes analysis-out/analysis/p9-statistics.{json,md} regenerable byte-identical.
 """
 from __future__ import annotations
 
@@ -371,8 +371,8 @@ def run(review: Path) -> dict:
         "bootstrap": {"seed": BOOTSTRAP_SEED, "n_resamples": BOOTSTRAP_N},
         "ok": lint["ok"],
     }
-    out_json = root() / "thesis" / "analysis" / "p9-statistics.json"
-    out_md = root() / "thesis" / "analysis" / "p9-statistics.md"
+    out_json = root() / "analysis-out" / "analysis" / "p9-statistics.json"
+    out_md = root() / "analysis-out" / "analysis" / "p9-statistics.md"
     out_json.parent.mkdir(parents=True, exist_ok=True)
     out_json.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     out_md.write_text(md, encoding="utf-8")

@@ -2,7 +2,9 @@
 # T005 forced SSH command.  It accepts exactly: append <24-hex-WAL-segment>.
 set -euo pipefail
 
-SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+# Archive selection comes only from this checkout's configuration.
+unset LAB_ROOT ARCHIVE_ROOT ARCHIVE_CURRENT
 # shellcheck source=../etc/lab.env
 source "$SCRIPT_DIR/../etc/lab.env"
 

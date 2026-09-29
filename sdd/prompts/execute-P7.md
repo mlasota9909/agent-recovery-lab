@@ -93,7 +93,7 @@ taxonomy). Read what exists before writing anything; wire and build, do not rein
 
 ## Context you must load before doing anything
 
-Read these, in this order, from `/home/mlasota/thesis`:
+Read these, in this order, from `<repo>`:
 
 1. `sdd/.specify/memory/constitution.md` — the articles in force. There are **eighteen** (I determinism, II provenance
    for scoring not detection, V stock mechanisms, VI simplicity, VIII fail loud / refusal never coerced, X lab
@@ -128,8 +128,8 @@ Read these, in this order, from `/home/mlasota/thesis`:
   archive and `var/repr/<incident>/`.
 - The offline model runtime is reached over the private-lab endpoint recorded in `model-runtime.amendment-1`: private
   network, no public egress, pinned local alias, recorded weights hash. No other model, no external API, no fine-tuning.
-- Deploy root `/home/mlasota/thesis`. Everything you create lives under it. **Never write elsewhere on the host.**
-- Config is one flat file, `/home/mlasota/thesis/etc/lab.env`, sourced by everything. Discover values; never guess.
+- Deploy root `<repo>`. Everything you create lives under it. **Never write elsewhere on the host.**
+- Config is one flat file, `<repo>/etc/lab.env`, sourced by everything. Discover values; never guess.
 - The harness deploy root is a git repository. Its HEAD is the harness version recorded in provenance fields.
 
 ## Operational warnings carried forward — read before you touch anything

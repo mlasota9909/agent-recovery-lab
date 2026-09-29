@@ -1,4 +1,4 @@
-"""Pinned model runtime: LiteLLM on c220m3 -> DeepSeek V4 Flash on gb10a."""
+"""Pinned model identity with the gateway location supplied by site configuration."""
 from __future__ import annotations
 
 import hashlib
@@ -18,9 +18,9 @@ CLOUD_MODEL_IDS = frozenset({
     "deepseek-v4-pro", "gemini-3.5-flash", "glm-5.2", "nemotron-3-ultra-550b",
 })
 REQUIRED_MODEL_ID = "gb10a-deepseek-v4-flash"
-DEFAULT_ENDPOINT = "http://c220m3:4001"
-REQUIRED_LITELLM_PORT = 4001
-REQUIRED_LITELLM_NAMES = frozenset({"c220m3"})
+DEFAULT_ENDPOINT = os.environ.get("MODEL_ENDPOINT") or "http://model-gateway:4001"
+REQUIRED_LITELLM_PORT = int(os.environ.get("MODEL_LITELLM_PORT") or urlparse(DEFAULT_ENDPOINT).port or 4001)
+REQUIRED_LITELLM_NAMES = frozenset({os.environ.get("MODEL_LITELLM_HOST") or urlparse(DEFAULT_ENDPOINT).hostname or "model-gateway"})
 LOOPBACK_HOSTS = frozenset({"127.0.0.1", "::1", "localhost", "0.0.0.0", "::"})
 
 
@@ -96,7 +96,7 @@ def sanctioned_hosts(rec: dict | None = None) -> set[str]:
 
 
 def is_sanctioned_endpoint(endpoint: str, rec: dict | None = None) -> bool:
-    """True only for LiteLLM on c220m3:4001. Rec cannot widen the allowlist."""
+    """True only for the configured LiteLLM host and port. Rec cannot widen the allowlist."""
     del rec
     got_host, got_port = endpoint_host_port(endpoint)
     got_host = normalize_host(got_host)
@@ -178,7 +178,7 @@ def server_alive(endpoint: str, timeout: float = 2.0) -> bool:
 
 
 def start_server(rec: dict | None = None) -> dict:
-    """No local server and no tunnel. LiteLLM on c220m3 must already be reachable."""
+    """No local server and no tunnel. The configured LiteLLM gateway must already be reachable."""
     rec = rec or load_runtime()
     endpoint = rec["endpoint"]
     if not server_alive(endpoint):
@@ -187,7 +187,7 @@ def start_server(rec: dict | None = None) -> dict:
 
 
 def lab_hosts() -> set[str]:
-    raw = os.environ.get("LAB_HOSTS") or "c220m3,gb10a,r740core"
+    raw = os.environ.get("LAB_HOSTS") or "localhost,lab-vm"
     names = {h.strip().lower() for h in raw.split(",") if h.strip()}
     names |= {n.lower() for n in REQUIRED_LITELLM_NAMES}
     extra = os.environ.get("MODEL_LITELLM_HOST")

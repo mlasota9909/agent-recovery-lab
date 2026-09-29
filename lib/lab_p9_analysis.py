@@ -248,10 +248,10 @@ def main(argv: list[str]) -> int:
     if args.what in ("armab", "both"):
         rec = build_armab()
         md = render_armab_md(rec)
-        (root() / "thesis" / "analysis").mkdir(parents=True, exist_ok=True)
-        (root() / "thesis" / "analysis" / "armA-vs-armB.json").write_text(
+        (root() / "analysis-out" / "analysis").mkdir(parents=True, exist_ok=True)
+        (root() / "analysis-out" / "analysis" / "armA-vs-armB.json").write_text(
             json.dumps(rec, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-        (root() / "thesis" / "analysis" / "armA-vs-armB.md").write_text(md, encoding="utf-8")
+        (root() / "analysis-out" / "analysis" / "armA-vs-armB.md").write_text(md, encoding="utf-8")
         rev = Path(args.review) / "N006"
         rev.mkdir(parents=True, exist_ok=True)
         (rev / "armA-vs-armB.json").write_text(json.dumps(rec, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -263,9 +263,9 @@ def main(argv: list[str]) -> int:
     if n007 is not None:
         rec = n007.build_related_work()
         md = n007.render_related_md(rec)
-        (root() / "thesis" / "related-work").mkdir(parents=True, exist_ok=True)
-        (root() / "thesis" / "related-work" / "positioning-table.md").write_text(md, encoding="utf-8")
-        (root() / "thesis" / "related-work" / "positioning-table.json").write_text(
+        (root() / "analysis-out" / "related-work").mkdir(parents=True, exist_ok=True)
+        (root() / "analysis-out" / "related-work" / "positioning-table.md").write_text(md, encoding="utf-8")
+        (root() / "analysis-out" / "related-work" / "positioning-table.json").write_text(
             json.dumps(rec, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         rev = Path(args.review) / "N007"
         rev.mkdir(parents=True, exist_ok=True)

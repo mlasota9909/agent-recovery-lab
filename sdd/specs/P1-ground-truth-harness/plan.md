@@ -144,7 +144,7 @@ success that was not earned.
 ## 4. Data layout added by P1
 
 ```
-/home/mlasota/thesis/
+<repo>/
   evidence/<scenario>/<incident_id>/
     incident.json            # open/close coordinates, workload params, snapshot names   (W008)
     injection.json           # what the injector did, verbatim, with commit LSN          (W006)

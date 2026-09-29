@@ -3,7 +3,7 @@
 Same format as P0 through P4: **GitHub Spec Kit** layout, extended with a `work-instructions/` tier below `tasks.md`
 that Spec Kit itself does not provide.
 
-Unpack so it **merges into** the existing `/home/mlasota/thesis/sdd`. Nothing under any prior `specs/*/` directory is
+Unpack so it **merges into** the existing `<repo>/sdd`. Nothing under any prior `specs/*/` directory is
 edited, and every prior frozen contract — including `capture-completeness.md` and its amendment — stays byte-identical
 so its recorded hash keeps verifying.
 
@@ -66,7 +66,7 @@ Unchanged and confirmed by the P0->P4 builds:
 - PostgreSQL 18.4, wal2json 2.6-3, ZFS 2.4.1-1ubuntu5, devices `/dev/vdb` + `/dev/vdc` guest-side.
 - DuckDB as the read-only view/query layer over the ledger. **P5 adds no new third-party runtime**: representations are
   built with stock Python 3 + DuckDB SQL; the token estimate uses a single vendored, pinned tokenizer (no model).
-- Deploy root `/home/mlasota/thesis`. Config `etc/lab.env`.
+- Deploy root `<repo>`. Config `etc/lab.env`.
 - Gates green: `lab-verify` **18/18**, `-p1` **24/24**, `-p1.1` **16/16**, `-p2` **18/18**, `-p2.1` **16/16**,
   `-p3` **19/19**, `-p3.1` **16/16**, `-p4` **19/19**, all exit 0.
 - Sixteen constitutional articles in force (through Article XVI, read-only verification gates).
@@ -82,7 +82,7 @@ Unchanged and confirmed by the P0->P4 builds:
 ## Run one task per invocation
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 <executor> --print "$(cat sdd/prompts/execute-P5.md)
 
 TASK_TO_EXECUTE: F001

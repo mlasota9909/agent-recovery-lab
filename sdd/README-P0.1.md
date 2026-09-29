@@ -4,7 +4,7 @@ Remediation tranche. Same format as P0: **GitHub Spec Kit** layout extended with
 `tasks.md`. This package does **not** replace P0; it sits alongside it and repairs three defects and two hygiene
 items found in the P0 acceptance review.
 
-Unpack so that it merges into the existing `/home/mlasota/thesis/sdd`. Nothing in `specs/P0-lab-substrate/` is
+Unpack so that it merges into the existing `<repo>/sdd`. Nothing in `specs/P0-lab-substrate/` is
 edited by this package — P0's contracts stay frozen. What changes is implementation under `bin/`, the acceptance
 runner, and the constitution (one appended amendment).
 
@@ -23,7 +23,7 @@ The P0 build is good work and most of it stands. Three findings block acceptance
 ## Target environment
 
 Unchanged from P0. Host `r740core` (Ubuntu Server, KVM, ext4 root), victim guest `thesisvm01`, deploy root
-`/home/mlasota/thesis`, config `etc/lab.env`, agent has sudo on host and keyless SSH with sudo into the guest.
+`<repo>`, config `etc/lab.env`, agent has sudo on host and keyless SSH with sudo into the guest.
 Confirmed by the P0 build: Ubuntu 26.04 guest, PostgreSQL 18.4, devices `/dev/vdb` and `/dev/vdc` attached to the
 guest (`DEV_LOCATION=guest`).
 
@@ -31,7 +31,7 @@ guest (`DEV_LOCATION=guest`).
 
 ```bash
 # on r740core, as mlasota
-cd /home/mlasota/thesis
+cd <repo>
 # unpack this package so that it merges into ./sdd
 ls sdd/specs/P0.1-remediation/tasks.md   # sanity check
 ```
@@ -41,7 +41,7 @@ ls sdd/specs/P0.1-remediation/tasks.md   # sanity check
 One task per invocation, in order, dry run first. Do not batch.
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 
 # read-only dry run, changes nothing
 <executor> --print "$(cat sdd/prompts/execute-remediation.md)
@@ -62,7 +62,7 @@ R003. R006 is the gate and must run last.
 ## What you review after each task
 
 Read `sdd/specs/P0.1-remediation/work-instructions/WI-Rnnn.md` -> *Review bundle*, then check
-`/home/mlasota/thesis/logs/review/Rnnn/` exists and its `acceptance.md` rows are tier-labelled. Tick the row in
+`<repo>/logs/review/Rnnn/` exists and its `acceptance.md` rows are tier-labelled. Tick the row in
 `sdd/specs/P0.1-remediation/checklist.md` yourself. The agent does not own the `Reviewed` column.
 
 ## Layout added by this package

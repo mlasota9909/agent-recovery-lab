@@ -42,21 +42,29 @@ CORRECTED = (
     "tranche."
 )
 GITIGNORE = """\
-# Runtime stores — not harness source. Required so git init does not ingest
-# the WAL archive or evidence streams. Also required so Article XIV's dirty-tree
-# check (git status --porcelain --untracked-files=all) names the harness, not
-# incident metadata or review working files. Tracked files stay tracked.
-archive/
-basebackup/
-backups/
-results/*.jsonl
-results/fixtures/*.jsonl
-evidence/**/*.jsonl
-evidence/**/*.tsv
-evidence/**/*.json
-evidence/**/*.log
-evidence/**/.snapshot-loop.*
-logs/review/**
+# Site configuration is private; the shared template is versioned.
+/etc/lab.local.env
+
+# Run outputs. Only directory markers and the model-set template are versioned.
+/evidence/*
+!/evidence/.gitkeep
+/archive/*
+!/archive/.gitkeep
+/results/*
+!/results/.gitkeep
+/logs/*
+!/logs/.gitkeep
+/var/*
+!/var/.gitkeep
+/runtime/*
+!/runtime/.gitkeep
+/basebackup/*
+!/basebackup/.gitkeep
+/analysis-out/*
+!/analysis-out/.gitkeep
+!/runtime/p9-model-set.json
+/backups/
+/incidents/scaled/
 __pycache__/
 *.pyc
 *.tar.gz
@@ -66,7 +74,6 @@ __pycache__/
 *.key
 .pgpass
 wal_append_ed25519*
-logs/review/W001/scratch/
 """
 
 # One-shot identity for git commit. Passed via `git -c`, never written to config.
@@ -80,17 +87,9 @@ def die(code: int, msg: str) -> None:
 
 
 def load_env(root: Path) -> dict[str, str]:
-    values: dict[str, str] = {}
-    path = root / "etc" / "lab.env"
-    if not path.is_file():
-        die(EXIT_PRECOND, "precondition failed: etc/lab.env is absent")
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if line and not line.startswith("#") and "=" in line:
-            key, value = line.split("=", 1)
-            if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
-                value = value[1:-1]
-            values[key] = value
-    return values
+    sys.path.insert(0, str(root / "lib"))
+    from lab_config import load_env as load_config
+    return load_config(root)
 
 
 def run(argv: list[str], cwd: Path) -> subprocess.CompletedProcess[str]:
@@ -262,7 +261,7 @@ def ensure_git(root: Path) -> tuple[bool, str]:
     git_dir = root / ".git"
     gitignore = root / ".gitignore"
     ignore_changed = False
-    if not gitignore.is_file() or gitignore.read_text(encoding="utf-8") != GITIGNORE:
+    if not gitignore.is_file():
         gitignore.write_text(GITIGNORE, encoding="utf-8")
         gitignore.chmod(stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
         ignore_changed = True
@@ -321,13 +320,8 @@ def env_has_commit(env: dict[str, str]) -> str | None:
 
 
 def append_commit_key(root: Path, sha: str) -> None:
-    path = root / "etc" / "lab.env"
-    text = path.read_text(encoding="utf-8")
-    if not text.endswith("\n"):
-        text += "\n"
-    text += f"HARNESS_COMMIT_AT_P1_OPEN={sha}\n"
-    path.write_text(text, encoding="utf-8")
-    path.chmod(stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+    from lab_config import write_local_env
+    write_local_env({"HARNESS_COMMIT_AT_P1_OPEN": sha}, root)
 
 
 def main() -> int:

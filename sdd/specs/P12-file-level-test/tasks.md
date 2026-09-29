@@ -9,4 +9,6 @@
 | E | Run-through: `run/` stages (preflight, incident, incident gate, inputs, freeze, study, comparators, restores, analysis, tables) and `run/all.sh` from provisioning to tables | B, D | `run/` | AC-8, AC-9, AC-10 |
 | F | Execute: provision the VM, dry-run incident, fresh incident, author review (tier A), freeze, study, analysis, handoff | E | records, `docs/P12-architecture-handoff.md` | AC-2 to AC-11 |
 
+Tasks run strictly in order A, B, C, D, E, F; each is reviewed and committed before the next starts.
+
 Work instructions for each task: `work-instructions/WI-P12-<ID>.md`.

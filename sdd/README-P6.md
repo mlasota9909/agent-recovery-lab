@@ -3,7 +3,7 @@
 Same format as P0 through P5.1: **GitHub Spec Kit** layout, extended with a `work-instructions/` tier below `tasks.md`
 that Spec Kit itself does not provide.
 
-Unpack so it **merges into** the existing `/home/mlasota/thesis/sdd`. Nothing under any prior `specs/*/` directory is
+Unpack so it **merges into** the existing `<repo>/sdd`. Nothing under any prior `specs/*/` directory is
 edited, and every prior frozen contract — including `capture-completeness.md`, `representation-interface.md` and its
 amendment-1 — stays byte-identical so its recorded hash keeps verifying.
 
@@ -72,7 +72,7 @@ Unchanged and confirmed by the P0->P5.1 builds, plus the one addition P6 legitim
   model in the qwen family (the exact id, quantisation and weights hash are discovered and recorded in H001 — never
   hardcoded or guessed). No fine-tuning, no training, no external API. This is the only model in the entire project
   and it appears only here, as Arm B, read-only over `bin/lab-repr-modelview`.
-- Deploy root `/home/mlasota/thesis`. Config `etc/lab.env`.
+- Deploy root `<repo>`. Config `etc/lab.env`.
 - Gates green: `lab-verify` 18/18, `-p1` 24/24, `-p1.1` 16/16, `-p2` 18/18, `-p2.1` 16/16, `-p3` 19/19, `-p3.1` 16/16,
   `-p4` 19/19, `-p5` 19/19, `-p5.1` 16/16, all exit 0.
 - **Seventeen** constitutional articles in force (through Article XVII, subject-visible surface excludes the reference
@@ -92,7 +92,7 @@ Unchanged and confirmed by the P0->P5.1 builds, plus the one addition P6 legitim
 ## Run one task per invocation
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 <executor> --print "$(cat sdd/prompts/execute-P6.md)
 
 TASK_TO_EXECUTE: H001

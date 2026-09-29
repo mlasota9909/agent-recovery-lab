@@ -32,7 +32,7 @@ Constitution: `sdd/.specify/memory/constitution.md` (ratified 2026-08-17). Spec/
 ```
 r740core  (Ubuntu 26.04, KVM, ext4, hostname r740core)
 |
-|-- /home/mlasota/thesis/          deploy root (host writes only here)
+|-- <repo>/          deploy root (host writes only here)
 |     bin/                         CLIs (JSON stdout, stderr logs)
 |     etc/lab.env                  single flat KEY=value config
 |     evidence/                    0750 mlasota — victim cannot access
@@ -62,7 +62,7 @@ Stripe not mirror: ground truth lives on the host; experiment does not need vict
 
 ```
 LAB_HOST=r740core
-LAB_ROOT=/home/mlasota/thesis
+LAB_ROOT=<repo>
 VM_NAME=thesisvm01
 VM_SSH=thesisvm01
 VM_ADDR=203.0.113.10
@@ -78,11 +78,11 @@ DS_PARENT=labpool/victim
 DS_PGDATA=labpool/victim/pgdata
 DS_PROTECTED=labpool/victim/protected
 MNT_PROTECTED=/srv/protected
-EVIDENCE_ROOT=/home/mlasota/thesis/evidence
-ARCHIVE_ROOT=/home/mlasota/thesis/archive
-ARCHIVE_CURRENT=/home/mlasota/thesis/archive/current
-BASEBACKUP_ROOT=/home/mlasota/thesis/basebackup
-RESULTS_ROOT=/home/mlasota/thesis/results
+EVIDENCE_ROOT=<repo>/evidence
+ARCHIVE_ROOT=<repo>/archive
+ARCHIVE_CURRENT=<repo>/archive/current
+BASEBACKUP_ROOT=<repo>/basebackup
+RESULTS_ROOT=<repo>/results
 ARCHIVE_MOUNT_IN_VM=/var/lib/postgresql/archive_sink
 DB_NAME=labdb
 DDL_AUDIT_TABLE=lab_ddl_audit
@@ -167,7 +167,7 @@ Grants: `lab_app` SELECT/INSERT/UPDATE on scenario tables, **no DELETE**. `lab_a
 Not a filesystem mount. Guest `postgres` has a dedicated ed25519 key under `/var/lib/postgresql/archive_sink/` (0700). Host authorized_keys:
 
 ```
-command="/home/mlasota/thesis/bin/lab-wal-receive",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty
+command="<repo>/bin/lab-wal-receive",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty
 ```
 
 Receiver accepts only `append <24 uppercase hex>`. Writes via temp + `ln` (fails if exists). Guest cannot name the incident dir. Fingerprint in T005 bundle: `SHA256:m4aFbwBACt6HzWUlI5LK5YhAk+MWkZAEhhW4/LYxkHc`. Private key never logged.
@@ -234,7 +234,7 @@ End-to-end rehearsal: legitimate lab_app change → lab_agent damage → resolve
 - Article II: never wire `principal` / provenance into detection, ranking, representations, or models. P3 owns the strip-and-assert test.
 - Article V banned: WAL parser / pg_waldump analysis, fanotify/inotify evidence daemons, zfs send/recv/clones/loop mounts for past state, extra brokers/ORMs/web daemons.
 - Article III: evidence on host, append-only WAL path, closed files 0444.
-- Article X: synthetic data only; host writes confined to `/home/mlasota/thesis`.
+- Article X: synthetic data only; host writes confined to `<repo>`.
 
 ---
 
@@ -256,4 +256,4 @@ End-to-end rehearsal: legitimate lab_app change → lab_agent damage → resolve
 4. This handoff
 5. Spot-check `logs/review/T011/ordering-decision.md`, `T005/append-channel-design.md`, `T008/provenance-mechanism.md`, then `docs/P0.1-architecture-handoff.md`
 
-Backup of this work: run `/home/mlasota/thesis/bin/lab-repomix-backup` → dated `backups/thesis-p01-<UTC>.md` plus `backups/repomix-latest.md`. Pack includes SDD, `bin/`, `etc/`, both architecture handoffs, review-bundle markdown, and P0.1 proof JSON (not WAL/archive/keys; not bulky `verify-results.json` / heartbeat dumps).
+Backup of this work: run `<repo>/bin/lab-repomix-backup` → dated `backups/thesis-p01-<UTC>.md` plus `backups/repomix-latest.md`. Pack includes SDD, `bin/`, `etc/`, both architecture handoffs, review-bundle markdown, and P0.1 proof JSON (not WAL/archive/keys; not bulky `verify-results.json` / heartbeat dumps).

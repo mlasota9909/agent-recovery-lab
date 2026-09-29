@@ -286,10 +286,8 @@ def ac06() -> dict:
 
 
 def ac07_08() -> list[dict]:
-    glob_pat = None
-    for line in (root() / "etc" / "lab.env").read_text().splitlines():
-        if line.startswith("RESULTS_GLOB="):
-            glob_pat = line.split("=", 1)[1]
+    from lab_config import load_env
+    glob_pat = load_env(root()).get("RESULTS_GLOB")
     live = glob.glob(str(root() / glob_pat)) if glob_pat else []
     # glob was written relative to LAB_ROOT
     os.chdir(root())
@@ -374,10 +372,8 @@ def ac11() -> dict:
         body = json.loads(proc.stdout)
     except json.JSONDecodeError:
         body = {}
-    slot_env = None
-    for line in (root() / "etc" / "lab.env").read_text().splitlines():
-        if line.startswith("SLOT_NAME="):
-            slot_env = line.split("=", 1)[1]
+    from lab_config import load_env
+    slot_env = load_env(root()).get("SLOT_NAME")
     # Live lab-ready may be non-zero while the headline consumer is stopped (Article XVI /
     # D2). Slot identity is still asserted from the JSON; the exit-0 restoration is the
     # X004 attested runbook artefact. Gate does not start the consumer.

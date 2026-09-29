@@ -13,19 +13,12 @@ die() {
   exit "$EXIT_PRECOND"
 }
 
-python3 - "$ROOT/etc/lab.env" <<'PY'
+export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
+python3 - <<'PYENV'
 import sys
-from pathlib import Path
+from lab_config import load_env
 
-path = Path(sys.argv[1])
-values = {}
-for line in path.read_text(encoding="utf-8").splitlines():
-    if not line or line.startswith("#") or "=" not in line:
-        continue
-    key, value = line.split("=", 1)
-    if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
-        value = value[1:-1]
-    values[key] = value
+values = load_env()
 
 rows = (
     ("Host OS", "HOST_OS", "lsb_release -ds on the host"),
@@ -56,4 +49,4 @@ print("| Component | Version | Source |")
 print("| --- | --- | --- |")
 for component, key, source in rows:
     print(f"| {component} | {values[key]} | {source} |")
-PY
+PYENV

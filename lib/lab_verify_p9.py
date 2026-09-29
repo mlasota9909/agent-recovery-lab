@@ -65,7 +65,7 @@ def readonly_state() -> dict:
         checks[rel] = {"baseline": base.get(f"results_{f}.jsonl_sha256"), "now": sha_file(ROOT / rel)}
     ok = all(c["baseline"] == c["now"] for c in checks.values())
     return {"ok": ok, "checks": checks,
-            "sweep_rows_only_in": "results/sweep-runs.jsonl (+ thesis/analysis, thesis/related-work)"}
+            "sweep_rows_only_in": "results/sweep-runs.jsonl (+ analysis-out/analysis, analysis-out/related-work)"}
 
 
 def run_gate(name: str, argv: list[str] | None = None, timeout: int = 1800,
@@ -81,20 +81,23 @@ def run_gate(name: str, argv: list[str] | None = None, timeout: int = 1800,
 
 
 def regression() -> dict:
-    # The P0-live regression runs lab-discover, which reconciles etc/lab.env from
+    # The P0-live regression runs lab-discover, which reconciles etc/lab.local.env from
     # live host/VM state. Verification is read-only (Article XVI): snapshot lab.env,
     # run, restore. Record any drift the run would have written.
-    lab_env = ROOT / "etc" / "lab.env"
-    before = lab_env.read_bytes()
+    lab_env = ROOT / "etc" / "lab.local.env"
+    before = lab_env.read_bytes() if lab_env.exists() else None
     gates = [run_gate("lab-regression")]
-    after = lab_env.read_bytes()
+    after = lab_env.read_bytes() if lab_env.exists() else None
     drift = None
     if after != before:
         import difflib
         drift = "".join(difflib.unified_diff(
-            before.decode().splitlines(True), after.decode().splitlines(True),
+            (before or b"").decode().splitlines(True), (after or b"").decode().splitlines(True),
             "lab.env.before", "lab.env.after"))
-        lab_env.write_bytes(before)
+        if before is None:
+            lab_env.unlink(missing_ok=True)
+        else:
+            lab_env.write_bytes(before)
     for g in ("lab-verify-p7", "lab-verify-p7.1", "lab-verify-p8"):
         gates.append(run_gate(g, readonly=True))
     return {"ok": all(g["exit"] == 0 for g in gates), "gates": gates,
@@ -187,7 +190,7 @@ def build() -> dict:
                        drift_neg, drift_neg.get("refused_on_mutation") is True and drift_neg.get("passes_when_reverted") is True))
 
     # AC-P9-08 - tests + CIs + Cliff's delta + Holm; regenerate byte-identical
-    stats = loadj(ROOT / "thesis" / "analysis" / "p9-statistics.json")
+    stats = loadj(ROOT / "analysis-out" / "analysis" / "p9-statistics.json")
     regen = loadj(review("N005") / "regen-identical.json")
     an = stats.get("analysis", {})
     stats_present = (bool(an.get("H1_representation_effect")) and bool(an.get("pairwise_mcnemar_holm"))
@@ -198,7 +201,7 @@ def build() -> dict:
                        stats_present and regen.get("identical") is True))
 
     # AC-P9-09 - pre-declared interpretation verbatim; universal-language lint passes
-    md = (ROOT / "thesis" / "analysis" / "p9-statistics.md")
+    md = (ROOT / "analysis-out" / "analysis" / "p9-statistics.md")
     md_text = md.read_text(encoding="utf-8") if md.is_file() else ""
     interp = stats.get("pre_declared_interpretation", "")
     lint_ok = stats.get("universal_language_lint", {}).get("ok") is True
@@ -209,7 +212,7 @@ def build() -> dict:
                        bool(verbatim_in_md) and lint_ok and lint_neg.get("ok") is True))
 
     # AC-P9-10 - Arm A vs Arm B head-to-head computed from rows; framing grounded
-    ab = loadj(ROOT / "thesis" / "analysis" / "armA-vs-armB.json")
+    ab = loadj(ROOT / "analysis-out" / "analysis" / "armA-vs-armB.json")
     ab_regen = loadj(review("N006") / "regen-identical.json")
     framing_grounded = "VerifyRCA" in ab.get("framing", "") and "interpretation" in ab.get("framing", "").lower()
     ab_ok = (bool(ab.get("arm_a")) and bool(ab.get("arm_b_baseline_model"))
@@ -218,7 +221,7 @@ def build() -> dict:
                        {"framing_grounded": framing_grounded, "regen_identical": ab_regen.get("identical")}, ab_ok))
 
     # AC-P9-11 (A) - reserved (N007)
-    rw = (ROOT / "thesis" / "related-work" / "positioning-table.md")
+    rw = (ROOT / "analysis-out" / "related-work" / "positioning-table.md")
     rw_text = rw.read_text(encoding="utf-8") if rw.is_file() else ""
     need = ("R2Act", "VerifyRCA", "Crab", "DeltaBox", "SagaLLM", "AIR",
             "in-loop", "LLM in build", "out-of-band")
@@ -260,7 +263,7 @@ def build() -> dict:
 def write_memo(payload: dict) -> str:
     rows = _sweep_rows()
     part = loadj(review("N004") / "sweep-completeness.json")
-    stats = loadj(ROOT / "thesis" / "analysis" / "p9-statistics.json")
+    stats = loadj(ROOT / "analysis-out" / "analysis" / "p9-statistics.json")
     interp = stats.get("pre_declared_interpretation", "(not yet generated)")
     key = stats.get("pre_declared_interpretation_key", "?")
     an = stats.get("analysis", {})
@@ -298,8 +301,8 @@ def write_memo(payload: dict) -> str:
         f"- Historical regression: {'green' if payload['regression']['ok'] else 'RED'} "
         f"({', '.join(g['gate'] for g in payload['regression']['gates'])}).",
         "- Evidence root and results/SC-01..04.jsonl + results/matrix.jsonl byte-identical "
-        "before and after P9; new rows only in results/sweep-runs.jsonl and thesis/analysis, "
-        "thesis/related-work.\n",
+        "before and after P9; new rows only in results/sweep-runs.jsonl and analysis-out/analysis, "
+        "analysis-out/related-work.\n",
     ]
     return "\n".join(lines)
 

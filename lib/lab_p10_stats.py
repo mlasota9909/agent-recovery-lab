@@ -607,9 +607,9 @@ def run(out_dir: Path | None = None, fig_path: Path | None = None) -> dict:
                           "gate": gate}, indent=2, sort_keys=True), file=sys.stderr)
         raise SystemExit(1)
     if out_dir is not None and fig_path is None:
-        fig_path = out_dir / "FIG-P10-two-curve.png"     # never touch thesis/figures from a scratch run
-    out_dir = out_dir or (root() / "thesis" / "analysis")
-    fig_path = fig_path or (root() / "thesis" / "figures" / "FIG-P10-two-curve.png")
+        fig_path = out_dir / "FIG-P10-two-curve.png"     # never touch analysis-out/figures from a scratch run
+    out_dir = out_dir or (root() / "analysis-out" / "analysis")
+    fig_path = fig_path or (root() / "analysis-out" / "figures" / "FIG-P10-two-curve.png")
     res = analyse()
     res["gate"] = {k: gate[k] for k in ("plan_digest_live", "preregistered_utc", "frozen_before_data")}
     res["figure"] = figure(cells(load()[0]), fig_path)

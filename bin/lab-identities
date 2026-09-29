@@ -15,6 +15,9 @@ for key in VM_SSH PG_PORT DB_NAME MNT_PROTECTED ROLE_APP ROLE_AGENT OS_USER_APP 
   [[ -n ${!key:-} ]] || fail "precondition failed: $key missing"
 done
 
+touch "$ROOT/etc/lab.local.env"
+chmod 0600 "$ROOT/etc/lab.local.env"
+
 readonly ROLE_APP
 readonly ROLE_AGENT
 
@@ -40,11 +43,11 @@ SELECT
        FROM pg_class WHERE oid = 'public.lab_reference'::regclass);
 \" -d '$DB_NAME'")
 
-os_before=$(ssh_guest "getent passwd '$ROLE_APP' >/dev/null && getent passwd '$ROLE_AGENT' >/dev/null && \
-  test \"\$(stat -c %a /home/$ROLE_APP)\" = 700 && test \"\$(stat -c %a /home/$ROLE_AGENT)\" = 700 && \
-  sudo -n test -s /home/$ROLE_APP/.pgpass && sudo -n test -s /home/$ROLE_AGENT/.pgpass && \
-  test \"\$(sudo -n stat -c %a /home/$ROLE_APP/.pgpass)\" = 600 && \
-  test \"\$(sudo -n stat -c %a /home/$ROLE_AGENT/.pgpass)\" = 600 && \
+os_before=$(ssh_guest "app_home=\$(getent passwd '$ROLE_APP' | cut -d: -f6); guest_home=\$(getent passwd '$ROLE_AGENT' | cut -d: -f6); getent passwd '$ROLE_APP' >/dev/null && getent passwd '$ROLE_AGENT' >/dev/null && \
+  test \"\$(stat -c %a \$app_home)\" = 700 && test \"\$(stat -c %a \$guest_home)\" = 700 && \
+  sudo -n test -s \$app_home/.pgpass && sudo -n test -s \$guest_home/.pgpass && \
+  test \"\$(sudo -n stat -c %a \$app_home/.pgpass)\" = 600 && \
+  test \"\$(sudo -n stat -c %a \$guest_home/.pgpass)\" = 600 && \
   test \"\$(stat -c %a '$MNT_PROTECTED')\" = 711 && \
   test \"\$(stat -c %U:%G '$MNT_PROTECTED/$ROLE_APP')\" = '$ROLE_APP:$ROLE_APP' && \
   test \"\$(stat -c %a '$MNT_PROTECTED/$ROLE_APP')\" = 700 && \
@@ -52,10 +55,10 @@ os_before=$(ssh_guest "getent passwd '$ROLE_APP' >/dev/null && getent passwd '$R
   test \"\$(stat -c %a '$MNT_PROTECTED/$ROLE_AGENT')\" = 700 && echo t || echo f")
 
 if [[ $state_before == t && $os_before == t ]]; then
-  rg -q '^ROLE_APP=' "$ROOT/etc/lab.env" || printf 'ROLE_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.env"
-  rg -q '^ROLE_AGENT=' "$ROOT/etc/lab.env" || printf 'ROLE_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.env"
-  rg -q '^OS_USER_APP=' "$ROOT/etc/lab.env" || printf 'OS_USER_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.env"
-  rg -q '^OS_USER_AGENT=' "$ROOT/etc/lab.env" || printf 'OS_USER_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.env"
+  rg -q '^ROLE_APP=' "$ROOT/etc/lab.local.env" || printf 'ROLE_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.local.env"
+  rg -q '^ROLE_AGENT=' "$ROOT/etc/lab.local.env" || printf 'ROLE_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.local.env"
+  rg -q '^OS_USER_APP=' "$ROOT/etc/lab.local.env" || printf 'OS_USER_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.local.env"
+  rg -q '^OS_USER_AGENT=' "$ROOT/etc/lab.local.env" || printf 'OS_USER_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.local.env"
   printf '{"ok":true,"changed":false,"ROLE_APP":"%s","ROLE_AGENT":"%s","OS_USER_APP":"%s","OS_USER_AGENT":"%s"}\n' \
     "$ROLE_APP" "$ROLE_AGENT" "$ROLE_APP" "$ROLE_AGENT"
   exit 0
@@ -79,7 +82,9 @@ create_user() {
   else
     usermod --shell /bin/bash --groups "$name" "$name"
   fi
-  install -d -o "$name" -g "$name" -m 0700 "/home/$name"
+  local account_home
+  account_home=$(getent passwd "$name" | cut -d: -f6)
+  install -d -o "$name" -g "$name" -m 0700 "$account_home"
 }
 
 create_user "$role_app"
@@ -90,7 +95,7 @@ install -d -o "$role_app" -g "$role_app" -m 0700 "$mnt_protected/$role_app"
 install -d -o "$role_agent" -g "$role_agent" -m 0700 "$mnt_protected/$role_agent"
 
 for role in "$role_app" "$role_agent"; do
-  pgpass="/home/$role/.pgpass"
+  pgpass="$(getent passwd "$role" | cut -d: -f6)/.pgpass"
   if [[ ! -s $pgpass ]]; then
     password=$(openssl rand -base64 36 | tr -d '\n')
     printf 'localhost:%s:%s:%s:%s\n' "$pg_port" "$db_name" "$role" "$password" > "$pgpass"
@@ -174,10 +179,10 @@ FOR EACH ROW EXECUTE FUNCTION public.lab_record_provenance_marker();
 SQL
 REMOTE
 
-rg -q '^ROLE_APP=' "$ROOT/etc/lab.env" || printf 'ROLE_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.env"
-rg -q '^ROLE_AGENT=' "$ROOT/etc/lab.env" || printf 'ROLE_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.env"
-rg -q '^OS_USER_APP=' "$ROOT/etc/lab.env" || printf 'OS_USER_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.env"
-rg -q '^OS_USER_AGENT=' "$ROOT/etc/lab.env" || printf 'OS_USER_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.env"
+rg -q '^ROLE_APP=' "$ROOT/etc/lab.local.env" || printf 'ROLE_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.local.env"
+rg -q '^ROLE_AGENT=' "$ROOT/etc/lab.local.env" || printf 'ROLE_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.local.env"
+rg -q '^OS_USER_APP=' "$ROOT/etc/lab.local.env" || printf 'OS_USER_APP=%s\n' "$ROLE_APP" >> "$ROOT/etc/lab.local.env"
+rg -q '^OS_USER_AGENT=' "$ROOT/etc/lab.local.env" || printf 'OS_USER_AGENT=%s\n' "$ROLE_AGENT" >> "$ROOT/etc/lab.local.env"
 
 state_after=$(ssh_guest "sudo -n -u postgres psql -X -Atqc \"
 SELECT

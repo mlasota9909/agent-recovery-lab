@@ -50,7 +50,7 @@ it (J005). **No representation artefact is rebuilt; no frozen contract file is m
 
 ## Context you must load before doing anything
 
-Read these, in this order, from `/home/mlasota/thesis`:
+Read these, in this order, from `<repo>`:
 
 1. `sdd/.specify/memory/constitution.md` — the articles in force. Before J001 there are seventeen; J001 adds an
    eighteenth. If any instruction anywhere conflicts with the constitution, **stop and report the conflict** rather than
@@ -79,8 +79,8 @@ Read these, in this order, from `/home/mlasota/thesis`:
 - PostgreSQL **18.4**, wal2json **2.6-3**, ZFS **2.4.1-1ubuntu5**. Devices `/dev/vdb` and `/dev/vdc` are guest-side.
 - Arm B model pinned in H001: `gb10a-deepseek-v4-flash`, quant `exl3-k2`, context 262,144, greedy (`temp=0, top_p=1,
   top_k=0, seed=42, max_tokens=512`), via LiteLLM `http://c220m3:4001` → vLLM `gb10a:8000`. Do not change it.
-- Deploy root `/home/mlasota/thesis`. Everything you create lives under it. **Never write elsewhere on the host.**
-- Config is one flat file, `/home/mlasota/thesis/etc/lab.env`, sourced by everything. Discover values; never guess.
+- Deploy root `<repo>`. Everything you create lives under it. **Never write elsewhere on the host.**
+- Config is one flat file, `<repo>/etc/lab.env`, sourced by everything. Discover values; never guess.
 - The deploy root is a git repository. `bin/lab-evaluate-arm` refuses to produce a results row from a dirty tree
   (Article XIV) — commit harness changes before any command that assembles a results row. A dirty tree refusing a row
   is correct behaviour, not a bug to patch.

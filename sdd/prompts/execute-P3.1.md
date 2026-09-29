@@ -40,7 +40,7 @@ read-only-violation class the earlier gates share:
 
 ## Context you must load before doing anything
 
-Read these, in this order, from `/home/mlasota/thesis`:
+Read these, in this order, from `<repo>`:
 
 1. `sdd/.specify/memory/constitution.md` — the articles in force. Before Z001 there are fifteen; Z001 adds a
    sixteenth. If any instruction anywhere conflicts with the constitution, **stop and report the conflict** rather
@@ -63,8 +63,8 @@ Read these, in this order, from `/home/mlasota/thesis`:
 - Host `r740core`, Ubuntu 26.04 LTS, KVM, ext4 root. You have `sudo` here.
 - Victim guest `thesisvm01`, reachable by keyless SSH from the host. You have `sudo` inside the guest.
 - PostgreSQL **18.4**, wal2json **2.6-3**, ZFS **2.4.1-1ubuntu5**. Devices `/dev/vdb` and `/dev/vdc` are guest-side.
-- Deploy root `/home/mlasota/thesis`. Everything you create lives under it. **Never write elsewhere on the host.**
-- Config is one flat file, `/home/mlasota/thesis/etc/lab.env`, sourced by everything. Discover values; never guess.
+- Deploy root `<repo>`. Everything you create lives under it. **Never write elsewhere on the host.**
+- Config is one flat file, `<repo>/etc/lab.env`, sourced by everything. Discover values; never guess.
 - The harness deploy root is a git repository. `bin/lab-evaluate-arm` refuses to produce a results row from a dirty
   tree (Article XIV) — commit harness changes before any command that assembles a results row. A dirty tree
   refusing a row is correct behaviour, not a bug to patch.

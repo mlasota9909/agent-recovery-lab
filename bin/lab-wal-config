@@ -9,7 +9,6 @@ source "$SCRIPT_DIR/../etc/lab.env"
 EXIT_ASSERT=1
 EXIT_PRECOND=2
 EXIT_USAGE=3
-HOST_ARCHIVE_USER=mlasota
 ARCHIVE_TIMEOUT=1min
 WAL_KEEP_SIZE=64MB
 
@@ -21,7 +20,7 @@ die() {
 }
 
 for key in VM_SSH VM_ADDR PG_VERSION PG_DATA PG_PORT DB_NAME ARCHIVE_MOUNT_IN_VM \
-           LAB_HOST SLOT_NAME SLOT_PLUGIN DDL_AUDIT_TABLE; do
+           LAB_HOST HOST_ARCHIVE_USER SLOT_NAME SLOT_PLUGIN DDL_AUDIT_TABLE; do
   [[ -n ${!key:-} ]] || die "$EXIT_PRECOND" "precondition failed: $key missing from lab.env"
 done
 
@@ -137,17 +136,19 @@ IFS='|' read -r changed wal2json_version hba_rule <<<"$result"
   die "$EXIT_ASSERT" "unexpected guest configuration result"
 
 env_changed=false
+touch "$SCRIPT_DIR/../etc/lab.local.env"
+chmod 0600 "$SCRIPT_DIR/../etc/lab.local.env"
 for entry in "SLOT_NAME=$SLOT_NAME" "SLOT_PLUGIN=$SLOT_PLUGIN" "WAL2JSON_VERSION=$wal2json_version"; do
   key=${entry%%=*}
   value=${entry#*=}
   if ! awk -F= -v key="$key" -v value="$value" '
       $1 == key {seen=1; if ($0 != key "=" value) bad=1}
       END {exit (seen && !bad) ? 0 : 1}
-    ' "$SCRIPT_DIR/../etc/lab.env"; then
-    if awk -F= -v key="$key" '$1 == key {found=1} END {exit found ? 0 : 1}' "$SCRIPT_DIR/../etc/lab.env"; then
+    ' "$SCRIPT_DIR/../etc/lab.local.env"; then
+    if awk -F= -v key="$key" '$1 == key {found=1} END {exit found ? 0 : 1}' "$SCRIPT_DIR/../etc/lab.local.env"; then
       die "$EXIT_ASSERT" "lab.env has a conflicting $key value"
     fi
-    printf '%s\n' "$entry" >>"$SCRIPT_DIR/../etc/lab.env"
+    printf '%s\n' "$entry" >>"$SCRIPT_DIR/../etc/lab.local.env"
     env_changed=true
   fi
 done

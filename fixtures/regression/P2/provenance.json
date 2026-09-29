@@ -1,7 +1,7 @@
 {
   "tranche": "P2",
   "incident": "SC-01_20260824T044259Z",
-  "source": "/home/mlasota/thesis/evidence/SC-01/SC-01_20260824T044259Z",
+  "source": "evidence/SC-01/SC-01_20260824T044259Z",
   "captured_through": "normal pipeline (copied from evidence; not hand-authored)",
   "headline": false,
   "reconcile": {

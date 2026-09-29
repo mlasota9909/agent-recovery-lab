@@ -188,28 +188,9 @@ def ac16(results: list[dict]) -> dict:
     return criterion("AC-P2-16", "M", "this gate prints per-tier totals", "lab-verify-p2", "all PASS", "see footer", True)
 
 
-ENV_COMMENTS = {
-    "RESULTS_GLOB": "# Live analysis glob only. Never matches results/fixtures/. P3+ aggregation must honour this.",
-    "HARNESS_COMMIT_AT_P1_OPEN": "# P1-open provenance only. Not the source of any results-row field.",
-    "SANDBOX_DATASET": "# P4 sandbox (guest). Host has no postgres server; restore never uses victim PGDATA/port.",
-    "TOKENIZER_NAME": "# P5 telemetry. One pinned offline tokenizer; never a model.",
-    "LAB_HOSTS": "# P6.1 R2a–R2d: private-lab endpoint, no public egress, no cloud alias.\n# c220m3 currently resolves to Tailscale CGNAT 203.0.113.30; gb10a to 203.0.113.20.",
-}
-
-
 def restore_lab_env_comments() -> None:
-    """lab-discover (P0 AC-18) rewrites lab.env and drops comments. P1.1 AC-06 requires them."""
-    path = root() / "etc" / "lab.env"
-    lines = path.read_text(encoding="utf-8").splitlines()
-    out: list[str] = []
-    for line in lines:
-        key = line.split("=", 1)[0] if "=" in line and not line.startswith("#") else None
-        if key in ENV_COMMENTS:
-            prev = "\n".join(out[-2:])
-            if ENV_COMMENTS[key] not in prev:
-                out.append(ENV_COMMENTS[key])
-        out.append(line)
-    path.write_text("\n".join(out) + "\n", encoding="utf-8")
+    """The committed template retains its comments; discovery writes local values."""
+    return None
 
 
 def run_gate(argv: list[str], timeout: int) -> subprocess.CompletedProcess[str]:

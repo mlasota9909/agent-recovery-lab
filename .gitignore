@@ -1,23 +1,26 @@
-# Runtime stores — not harness source. Required so git init does not ingest
-# the WAL archive or evidence streams. Also required so Article XIV's dirty-tree
-# check (git status --porcelain --untracked-files=all) names the harness, not
-# incident metadata or review working files. Tracked files stay tracked.
-archive/
-basebackup/
-backups/
-# Real machine-specific environment (internal hostnames/IPs, discovered live by
-# lab-discover). etc/lab.env.example is the tracked, redacted template.
-etc/lab.env
-results/*.jsonl
-results/fixtures/*.jsonl
-evidence/**/*.jsonl
-evidence/**/*.jsonl.frozen
-evidence/**/*.tsv
-evidence/**/*.json
-evidence/**/*.log
-evidence/**/.snapshot-loop.*
-logs/review/**
-var/
+# Site configuration is private; the shared template is versioned.
+/etc/lab.local.env
+
+# Run outputs. Only directory markers and the model-set template are versioned.
+/evidence/*
+!/evidence/.gitkeep
+/archive/*
+!/archive/.gitkeep
+/results/*
+!/results/.gitkeep
+/logs/*
+!/logs/.gitkeep
+/var/*
+!/var/.gitkeep
+/runtime/*
+!/runtime/.gitkeep
+/basebackup/*
+!/basebackup/.gitkeep
+/analysis-out/*
+!/analysis-out/.gitkeep
+!/runtime/p9-model-set.json
+/backups/
+/incidents/scaled/
 __pycache__/
 *.pyc
 *.tar.gz
@@ -27,8 +30,3 @@ __pycache__/
 *.key
 .pgpass
 wal_append_ed25519*
-logs/review/W001/scratch/
-
-
-# P10 padded incidents: bulk, deterministic from (seed, target); digests in runtime/p10-scaled-manifest.json
-incidents/scaled/

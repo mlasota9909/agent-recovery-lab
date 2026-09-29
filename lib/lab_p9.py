@@ -18,6 +18,7 @@ import re
 import socket
 import subprocess
 from pathlib import Path
+from urllib.parse import urlparse
 
 from lab_p3_util import EXIT_ASSERT, EXIT_PRECOND, die
 from lab_paths import lab_root
@@ -31,8 +32,8 @@ CONTRACTS = ("model-sweep-plan.md", "statistical-analysis-plan.md", "related-wor
 # sweep targets the loopback LiteLLM gateway on the lab host instead. Loopback is
 # strictly stronger than the cross-host proxy the P6.1 amendment already accepted
 # (R2a: private address). The frozen P6.1 amendment stays byte-identical.
-P9_ENDPOINT = "http://127.0.0.1:4001"
-P9_GATEWAY_PORT = 4001
+P9_ENDPOINT = os.environ.get("P9_ENDPOINT") or "http://127.0.0.1:4001"
+P9_GATEWAY_PORT = urlparse(P9_ENDPOINT).port or (443 if P9_ENDPOINT.startswith("https:") else 80)
 
 # ADR-P9-3: max_tokens raised from the 512 P6.1 baseline to 8192, uniformly across
 # every model, so a reasoning model is never truncated mid-thought (that would be
@@ -142,7 +143,7 @@ def _resolve(host: str) -> set[str]:
 
 
 def _lab_hosts() -> set[str]:
-    raw = os.environ.get("LAB_HOSTS") or "c220m3,gb10a,r740core,thesisvm01"
+    raw = os.environ.get("LAB_HOSTS") or "localhost,lab-vm"
     return {h.strip().lower() for h in raw.split(",") if h.strip()}
 
 
@@ -218,7 +219,14 @@ def load_model_set() -> dict:
     path = model_set_path()
     if not path.is_file():
         die(EXIT_PRECOND, f"precondition failed: {path} missing (record at N001)")
-    return json.loads(path.read_text(encoding="utf-8"))
+    record = json.loads(path.read_text(encoding="utf-8"))
+    record["endpoint"] = P9_ENDPOINT
+    for model in record.get("models", []):
+        backend = os.environ.get("P9_BACKEND_" + model.get("slot", ""))
+        if backend:
+            model["backend"] = backend
+            model["backend_host"] = host_of(backend)
+    return record
 
 
 def validate_model_set(rec: dict) -> dict:

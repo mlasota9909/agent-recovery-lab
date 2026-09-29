@@ -46,7 +46,7 @@ P1 built **instruments only**. No analytics, ranking, representations, model, re
 | Throughput + plan | `bin/lab-throughput`, `docs/throughput.json`, `docs/sample-size-plan.md` | Replaces "as many as possible" |
 | Gate | `bin/lab-verify-p1` | AC-P1-01..24, per-tier totals |
 
-P1 CLIs live as `bin/lab-*` wrappers that `source etc/lab.env` and `exec python3 lib/lab_*.py`. Implementation is under `lib/`. Guest `/tmp` is `noexec`; the workload worker is `lib/lab_workload_worker.py`, copied to `/home/lab_app/`. Guest has **no psycopg** — inject uses `psql`.
+P1 CLIs live as `bin/lab-*` wrappers that `source etc/lab.env` and `exec python3 lib/lab_*.py`. Implementation is under `lib/`. Guest `/tmp` is `noexec`; the workload worker is `lib/lab_workload_worker.py`, copied to `the guest application user's home directory`. Guest has **no psycopg** — inject uses `psql`.
 
 ---
 
@@ -95,7 +95,7 @@ Meanings of P0 keys unchanged. New keys:
 
 ```
 HARNESS_COMMIT_AT_P1_OPEN=18f05606cfb9327510ba09604a007ebfe16830d5
-RESULTS_SCHEMA=/home/mlasota/thesis/etc/results-row.schema.json
+RESULTS_SCHEMA=<repo>/etc/results-row.schema.json
 RESULTS_FILE_MODE=0444
 BARRIER_TIMEOUT_S=120
 SC01_SEED_ROWS=50000
@@ -188,7 +188,7 @@ These are the expensive lessons. P2/P3 inherit them.
 
 6. **Heartbeat must run during the incident LSN range** or `wall_clock`/`skew_ms` resolve to an old heartbeat (the 2026-08-17 leftover on `043543Z`). CLI-generated incidents start heartbeat after barrier.
 
-7. **Guest `/tmp` is `noexec`.** Worker lives in `/home/lab_app/`.
+7. **Guest `/tmp` is `noexec`.** Worker lives in `the guest application user's home directory`.
 
 ---
 
@@ -247,7 +247,7 @@ Descope ladder: delayed timing, then SC-04, then SC-03; stop at SC-01+SC-02+full
 7. **`bin/lab-verify` does not export sourced keys.** Invoke `set -a; source etc/lab.env; set +a; bin/lab-verify --json`. Same for `lab-verify-p1` if you call the `.py` directly; the wrapper sources `lab.env`.
 8. **`bin/lab-consumer status` requires an incident id.** Discover it from `ARCHIVE_CURRENT`.
 9. Consumer unit is `disabled`. After reboot or idle, start it and wait for `--check` 0. If `invalidation_reason=wal_removed`, roll back to a snapshot that still contains the slot (t1/t2) rather than creating a new slot in the wrong database.
-10. Do not print private keys. Never write outside `/home/mlasota/thesis` on the host.
+10. Do not print private keys. Never write outside `<repo>` on the host.
 11. `lab-evaluate-arm` / `lab-verify-p1` extra that starts the consumer **must restore `db.jsonl`** afterwards.
 12. Do not redirect `lab-verify-p1 --json` onto `logs/review/W010/verify-p1.json` — the runner already writes that path.
 

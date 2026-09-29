@@ -118,7 +118,7 @@ NFR-1 Every capability is a CLI under `bin/`, text in, JSON out (Article IV).
 NFR-2 Every script is idempotent.
 NFR-3 Runtime languages limited to POSIX shell, SQL, Python 3.
 NFR-4 No outbound network calls at experiment time.
-NFR-5 Nothing outside `/home/mlasota/thesis` is written on the host.
+NFR-5 Nothing outside `<repo>` is written on the host.
 
 ## 5. Acceptance criteria
 

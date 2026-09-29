@@ -3,7 +3,7 @@
 Same format as P0, P0.1, P1, P1.1 and P2: **GitHub Spec Kit** layout, extended with a `work-instructions/` tier
 below `tasks.md` that Spec Kit itself does not provide.
 
-Unpack so it **merges into** the existing `/home/mlasota/thesis/sdd`. Nothing under any prior `specs/*/` directory is
+Unpack so it **merges into** the existing `<repo>/sdd`. Nothing under any prior `specs/*/` directory is
 edited, and — this is the point of the tranche — the frozen `capture-completeness.md` contract stays **byte-identical**
 so its recorded hash continues to verify. This tranche repairs one soundness defect found in the P2 acceptance
 review and formalises the frozen-contract deviation that produced it.
@@ -50,7 +50,7 @@ Unchanged and confirmed by the P0/P0.1/P1/P1.1/P2 builds:
 - Host `r740core`, Ubuntu 26.04 LTS, KVM, ext4 root. Agent has `sudo`.
 - Victim guest `thesisvm01`, keyless SSH from host, agent has `sudo` inside.
 - PostgreSQL 18.4, wal2json 2.6-3, ZFS 2.4.1-1ubuntu5, devices `/dev/vdb` + `/dev/vdc` guest-side.
-- Deploy root `/home/mlasota/thesis`. Config `etc/lab.env`.
+- Deploy root `<repo>`. Config `etc/lab.env`.
 - `bin/lab-verify` 18/18, `bin/lab-verify-p1` 24/24, `bin/lab-verify-p1.1` 16/16, `bin/lab-verify-p2` 18/18, all exit 0.
 - `bin/lab-ready` exits 0 (P2 entry gate; still the entry gate here).
 
@@ -58,7 +58,7 @@ Unchanged and confirmed by the P0/P0.1/P1/P1.1/P2 builds:
 
 ```bash
 # on r740core, as mlasota
-cd /home/mlasota/thesis
+cd <repo>
 # unpack this package so that it merges into ./sdd
 ls sdd/specs/P2.1-reconciliation-soundness/tasks.md   # sanity check
 ```
@@ -68,7 +68,7 @@ ls sdd/specs/P2.1-reconciliation-soundness/tasks.md   # sanity check
 One task per invocation, in order, dry run first. **Do not batch.**
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 
 # read-only dry run, changes nothing
 <executor> --print "$(cat sdd/prompts/execute-P2.1.md)
@@ -88,7 +88,7 @@ Order: `Y001 -> Y002 -> Y003 -> Y004`. `Y004` is the gate and runs last.
 ## What you review after each task
 
 Open `sdd/specs/P2.1-reconciliation-soundness/work-instructions/WI-Ynnn.md`, read its *Review bundle* and *Operator
-review checklist*, then check `/home/mlasota/thesis/logs/review/Ynnn/` exists and its `acceptance.md` rows are
+review checklist*, then check `<repo>/logs/review/Ynnn/` exists and its `acceptance.md` rows are
 **tier-labelled** per Article XIII. Tick the row in `checklist.md` yourself — the agent does not own the `Reviewed`
 column.
 

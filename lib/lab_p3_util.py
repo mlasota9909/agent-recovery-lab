@@ -125,9 +125,9 @@ def write_jsonl(path: Path, rows: list[dict], mode: int = 0o644) -> None:
 
 
 def dump_lab_env_snapshot(task: str) -> None:
-    src = lab_root() / "etc" / "lab.env"
+    from lab_config import config_snapshot
     dst = review_dir(task) / "lab.env.snapshot"
-    shutil.copy2(src, dst)
+    dst.write_text(config_snapshot(lab_root()), encoding="utf-8")
     os.chmod(dst, 0o644)
 
 

@@ -3,7 +3,7 @@
 Same format as P0..P7: **GitHub Spec Kit** layout, extended with a `work-instructions/` tier below `tasks.md` that
 Spec Kit itself does not provide.
 
-Unpack so it **merges into** the existing `/home/mlasota/thesis/sdd`. Nothing under any prior `specs/*/` directory is
+Unpack so it **merges into** the existing `<repo>/sdd`. Nothing under any prior `specs/*/` directory is
 edited, and no frozen contract file is mutated. This tranche repairs the P7 acceptance findings and closes the class
 behind the most serious one with a new constitutional article.
 
@@ -58,7 +58,7 @@ Unchanged and confirmed by the P0..P7 builds:
 - PostgreSQL 18.4, wal2json 2.6-3, ZFS 2.4.1-1ubuntu5, devices `/dev/vdb` + `/dev/vdc` guest-side, pool `labpool`.
 - Arm B model (pinned in H001, amended P6.1): `gb10a-deepseek-v4-flash`, quant `exl3-k2`, 262,144-token context, greedy,
   via LiteLLM `http://c220m3:4001` fronting vLLM `gb10a:8000`. Cloud alias `deepseek-v4-pro` not used.
-- Deploy root `/home/mlasota/thesis`. Config `etc/lab.env`.
+- Deploy root `<repo>`. Config `etc/lab.env`.
 - Gates today: `-p0` 18/18 ... `-p6` 19/19, `-p6.1` 16/16, `-p7` 21/21. Constitution: eighteen articles in force
   (Article XVIII = null results root-caused before reported); L001 adds the nineteenth.
 - Canonical P7 incidents (from the addendum): SC-01 `SC-01_20260824T091611Z` (banked headline — **never re-run**),
@@ -70,7 +70,7 @@ Unchanged and confirmed by the P0..P7 builds:
 
 ```bash
 # on r740core, as mlasota
-cd /home/mlasota/thesis
+cd <repo>
 ls sdd/specs/P7.1-matrix-isolation/tasks.md   # sanity check
 ```
 
@@ -80,7 +80,7 @@ One task per invocation, in order, dry run first. **Do not batch.** You are runn
 one-task-per-invocation discipline applies regardless of the agent.
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 
 <executor> "$(cat sdd/prompts/execute-P7.1.md)
 
@@ -109,7 +109,7 @@ countersigns the decision before L002 begins.
 ## What you review after each task
 
 Open `sdd/specs/P7.1-matrix-isolation/work-instructions/WI-Lnnn.md`, read its *Review bundle* and *Operator review
-checklist*, then check `/home/mlasota/thesis/logs/review/Lnnn/` exists and its `acceptance.md` rows are tier-labelled
+checklist*, then check `<repo>/logs/review/Lnnn/` exists and its `acceptance.md` rows are tier-labelled
 per Article XIII. Tick the row in `checklist.md` yourself — the agent does not own the `Reviewed` column.
 
 The task to read line by line is **L002**, because the sibling-safety negative test (reset one incident, prove another

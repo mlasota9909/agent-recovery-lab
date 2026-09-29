@@ -28,9 +28,9 @@ if [[ $action == create ]]; then
   inc_pgdata="$inc_pg_mount/data"
   inc_protected="/srv/lab-incidents/$inc_id/protected"
   # Stable and collision-checked port in the unprivileged lab range.
-  port=$(python3 - "$inc_id" <<'PY'
+  port=$(python3 - "$inc_id" "$INCIDENT_PORT_BASE" "$INCIDENT_PORT_COUNT" <<'PY'
 import hashlib, sys
-print(56000 + int(hashlib.sha256(sys.argv[1].encode()).hexdigest()[:8], 16) % 4000)
+print(int(sys.argv[2]) + int(hashlib.sha256(sys.argv[1].encode()).hexdigest()[:8], 16) % int(sys.argv[3]))
 PY
 )
   slot="lab_${inc_id:2:40}"; slot=${slot//-/_}; slot=${slot,,}
@@ -45,9 +45,9 @@ PY
     exit 0
   fi
   mkdir -p "$runtime_root"
-  ssh -o BatchMode=yes "$VM_SSH" "sudo -n bash -s -- '$inc_ds' '$inc_pg_mount' '$inc_pgdata' '$inc_protected' '$port' '$PG_VERSION' '$PG_PORT' '$DB_NAME' '$slot'" <<'REMOTE'
+  ssh -o BatchMode=yes "$VM_SSH" "sudo -n bash -s -- '$inc_ds' '$inc_pg_mount' '$inc_pgdata' '$inc_protected' '$port' '$PG_VERSION' '$PG_PORT' '$DB_NAME' '$slot' '${HOST_PG_CIDR:?configure HOST_PG_CIDR in etc/lab.local.env}' '$ROLE_APP' '$ROLE_AGENT'" <<'REMOTE'
 set -euo pipefail
-ds=$1; pgmount=$2; pgdata=$3; protected=$4; port=$5; version=$6; source_port=$7; db=$8; slot=$9
+ds=$1; pgmount=$2; pgdata=$3; protected=$4; port=$5; version=$6; source_port=$7; db=$8; slot=$9; host_cidr=${10}; ROLE_APP=${11}; ROLE_AGENT=${12}
 bindir=/usr/lib/postgresql/$version/bin
 sudo -n systemctl start "postgresql@$version-main"
 sudo -n zfs create -o canmount=off -o mountpoint=none "$ds"
@@ -67,8 +67,8 @@ max_replication_slots = 16
 max_wal_senders = 16
 output_plugin_libraries = 'wal2json'
 EOF
-printf '%s\n' 'host replication postgres 203.0.113.0/24 trust' \
-  'host all postgres 203.0.113.0/24 trust' | sudo -n -u postgres tee -a "$pgdata/pg_hba.conf" >/dev/null
+printf '%s\n' "host replication postgres $host_cidr trust" \
+  "host all postgres $host_cidr trust" | sudo -n -u postgres tee -a "$pgdata/pg_hba.conf" >/dev/null
 archive_command=$(sudo -n -u postgres psql -X -At -p "$source_port" -d postgres -c 'show archive_command')
 printf "archive_mode = on\narchive_command = '%s'\n" "$archive_command" | \
   sudo -n -u postgres tee -a "$pgdata/postgresql.auto.conf" >/dev/null

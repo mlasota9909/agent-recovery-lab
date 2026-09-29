@@ -6,7 +6,7 @@ so a wrong-but-plausible implementation is worse than a refusal.
 
 ## Context you must load before doing anything
 
-Read these, in this order, from `/home/mlasota/thesis`:
+Read these, in this order, from `<repo>`:
 
 1. `sdd/.specify/memory/constitution.md` — non-negotiable principles. If an instruction anywhere conflicts with the
    constitution, stop and report the conflict instead of resolving it yourself.
@@ -22,9 +22,9 @@ Read these, in this order, from `/home/mlasota/thesis`:
 
 - Host `r740core`, Ubuntu Server, KVM hypervisor, ext4 root. You have `sudo` here.
 - Victim guest `thesisvm01`, reachable by keyless SSH from the host. You have `sudo` inside the guest.
-- Deploy root `/home/mlasota/thesis`. Everything you create lives under it. Never write elsewhere on the host.
+- Deploy root `<repo>`. Everything you create lives under it. Never write elsewhere on the host.
 - `/dev/vdb` and `/dev/vdc` are expected to be disks **inside `thesisvm01`**. T001 proves or disproves this.
-- Config is one flat file, `/home/mlasota/thesis/etc/lab.env`, created by T001 and sourced by everything after.
+- Config is one flat file, `<repo>/etc/lab.env`, created by T001 and sourced by everything after.
 
 ## Rules of engagement
 

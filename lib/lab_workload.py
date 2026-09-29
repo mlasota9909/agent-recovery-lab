@@ -9,6 +9,7 @@ import subprocess
 import sys
 import time
 from datetime import datetime
+from functools import lru_cache
 from pathlib import Path
 
 EXIT_ASSERT = 1
@@ -64,24 +65,33 @@ def evidence_dir() -> Path:
     return path
 
 
+@lru_cache(maxsize=None)
+def guest_home(user: str) -> str:
+    result = ssh(f"getent passwd {shlex.quote(user)}")
+    fields = result.stdout.strip().split(":")
+    if len(fields) != 7 or not fields[5].startswith("/"):
+        die(EXIT_PRECOND, f"precondition failed: no home directory for {user}")
+    return fields[5]
+
+
 def manifest_paths() -> tuple[Path, str]:
     host = evidence_dir() / "workload-manifest.jsonl"
-    guest = f"/home/{env('OS_USER_APP')}/workload-manifest.jsonl"
+    guest = f"{guest_home(env('OS_USER_APP'))}/workload-manifest.jsonl"
     return host, guest
 
 
 def guest_worker_path() -> str:
-    return f"/home/{env('OS_USER_APP')}/{WORKER_NAME}"
+    return f"{guest_home(env('OS_USER_APP'))}/{WORKER_NAME}"
 
 
 def guest_pid_path() -> str:
-    return f"/home/{env('OS_USER_APP')}/{PID_NAME}"
+    return f"{guest_home(env('OS_USER_APP'))}/{PID_NAME}"
 
 
 def pid_running() -> int | None:
-    user = env("OS_USER_APP")
+    pid_path = shlex.quote(guest_pid_path())
     probe = ssh(
-        f"if sudo -n test -f /home/{user}/{PID_NAME}; then sudo -n cat /home/{user}/{PID_NAME}; fi",
+        f"if sudo -n test -f {pid_path}; then sudo -n cat {pid_path}; fi",
         check=True,
     )
     raw = probe.stdout.strip()

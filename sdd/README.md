@@ -12,8 +12,8 @@ and review bundle.
 | Host | `r740core`, Ubuntu Server, KVM, ext4 root, ZFS packages installed |
 | Victim VM | `thesisvm01`, KVM guest, keyless SSH from host already working |
 | Block devices | `/dev/vdb`, `/dev/vdc` (virtio -> **inside `thesisvm01`**) |
-| Deploy root | `/home/mlasota/thesis` on the host |
-| This package | `/home/mlasota/thesis/sdd` |
+| Deploy root | `<repo>` on the host |
+| This package | `<repo>/sdd` |
 | Agent rights | sudo on host; keyless SSH to `thesisvm01` with sudo in guest |
 | Executor | any spec-following executor |
 
@@ -25,9 +25,9 @@ and review bundle.
 
 ```bash
 # on r740core, as mlasota
-mkdir -p /home/mlasota/thesis
-cd /home/mlasota/thesis
-# upload/unzip this package so that it lands at /home/mlasota/thesis/sdd
+mkdir -p <repo>
+cd <repo>
+# upload/unzip this package so that it lands at <repo>/sdd
 git init -q 2>/dev/null || true
 ```
 
@@ -37,7 +37,7 @@ Run **one task at a time**, in order. Do not paste the whole tranche in one go: 
 task boundaries, collapse the contracts, and you lose the ability to tell which layer broke.
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 
 # read-only dry run first, no changes made
 <executor> --print "$(cat sdd/prompts/execute-tranche.md)
@@ -53,7 +53,7 @@ MODE: EXECUTE"
 ```
 
 After each task, read `sdd/specs/P0-lab-substrate/work-instructions/WI-Tnnn.md` -> *Review bundle*, and check the
-agent wrote `/home/mlasota/thesis/logs/review/Tnnn/`. Then tick the row in `sdd/specs/P0-lab-substrate/checklist.md`.
+agent wrote `<repo>/logs/review/Tnnn/`. Then tick the row in `sdd/specs/P0-lab-substrate/checklist.md`.
 
 ## Order
 

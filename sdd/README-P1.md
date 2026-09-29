@@ -3,7 +3,7 @@
 Same format as P0 and P0.1: **GitHub Spec Kit** layout, extended with a `work-instructions/` tier below `tasks.md`
 that Spec Kit itself does not provide.
 
-Unpack so it **merges into** the existing `/home/mlasota/thesis/sdd`. Nothing under `specs/P0-lab-substrate/` or
+Unpack so it **merges into** the existing `<repo>/sdd`. Nothing under `specs/P0-lab-substrate/` or
 `specs/P0.1-remediation/` is edited. P0's three contracts stay frozen; this tranche **adds** two new frozen
 contracts and appends keys to `etc/lab.env`.
 
@@ -37,7 +37,7 @@ Unchanged and confirmed by the P0/P0.1 builds:
 - Host `r740core`, Ubuntu 26.04 LTS, kernel 7.0.0-29-generic, KVM, ext4 root. Agent has `sudo`.
 - Victim guest `thesisvm01`, same OS, keyless SSH from host, agent has `sudo` inside.
 - PostgreSQL 18.4, wal2json 2.6-3, ZFS 2.4.1-1ubuntu5, devices `/dev/vdb` + `/dev/vdc` guest-side.
-- Deploy root `/home/mlasota/thesis`. Config `etc/lab.env`.
+- Deploy root `<repo>`. Config `etc/lab.env`.
 - `bin/lab-verify` reports **TIER M 9/9 · TIER A 9/9 · TOTAL 18/18**, exit 0.
 
 ## A correction to the P0.1 handoff
@@ -55,7 +55,7 @@ handoff so a future agent is not misled.
 
 ```bash
 # on r740core, as mlasota
-cd /home/mlasota/thesis
+cd <repo>
 # unpack this package so that it merges into ./sdd
 ls sdd/specs/P1-ground-truth-harness/tasks.md   # sanity check
 ```
@@ -66,7 +66,7 @@ One task per invocation, in order, dry run first. **Do not batch.** Batching let
 boundaries, collapse the contracts, and leaves you unable to tell which layer broke.
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 
 # read-only dry run, changes nothing
 <executor> --print "$(cat sdd/prompts/execute-P1.md)
@@ -87,7 +87,7 @@ Order: `W001 → W002 → W003 → W004 → W005 → W006 → W007 → W008 → 
 ## What you review after each task
 
 Open `sdd/specs/P1-ground-truth-harness/work-instructions/WI-Wnnn.md`, read its *Review bundle* and *Operator review
-checklist*, then check `/home/mlasota/thesis/logs/review/Wnnn/` exists and its `acceptance.md` rows are
+checklist*, then check `<repo>/logs/review/Wnnn/` exists and its `acceptance.md` rows are
 **tier-labelled** per Article XIII. Tick the row in `sdd/specs/P1-ground-truth-harness/checklist.md` yourself — the
 agent does not own the `Reviewed` column.
 

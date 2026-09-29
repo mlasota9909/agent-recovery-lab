@@ -38,7 +38,7 @@ If neither t1 nor t2 is valid, stop. Do not invent a slot.
 
 ## Procedure
 
-Work from `/home/mlasota/thesis` with `etc/lab.env` sourced. Substitute the
+Work from `<repo>` with `etc/lab.env` sourced. Substitute the
 incident id discovered above; do not hard-code it.
 
 1. **Stop PostgreSQL** (required; a live cluster makes `lab-reset` exit 2 with

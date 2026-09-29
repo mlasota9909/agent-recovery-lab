@@ -87,7 +87,7 @@ build, do not reinvent.
 
 ## Context you must load before doing anything
 
-Read these, in this order, from `/home/mlasota/thesis`:
+Read these, in this order, from `<repo>`:
 
 1. `sdd/.specify/memory/constitution.md` — the articles in force. There are **sixteen** (I determinism, II provenance
    for scoring not detection, V stock mechanisms, VI simplicity, VIII fail loud, X lab containment, XII no test hatches
@@ -119,8 +119,8 @@ Read these, in this order, from `/home/mlasota/thesis`:
   Representations are materialised as artefacts under `var/repr/<incident>/{R0,R1,R2}/` on the host.
 - DuckDB is the sanctioned query tool over the ledger. P5 adds **no** model and **no** new heavyweight runtime; the
   token estimate uses one vendored, pinned tokenizer file, declared in F008. Prefer stock Python 3 + DuckDB SQL.
-- Deploy root `/home/mlasota/thesis`. Everything you create lives under it. **Never write elsewhere on the host.**
-- Config is one flat file, `/home/mlasota/thesis/etc/lab.env`, sourced by everything. Discover values; never guess.
+- Deploy root `<repo>`. Everything you create lives under it. **Never write elsewhere on the host.**
+- Config is one flat file, `<repo>/etc/lab.env`, sourced by everything. Discover values; never guess.
 - The harness deploy root is a git repository. Its HEAD is the harness version recorded in provenance fields.
 
 ## Operational warnings carried forward — read before you touch anything

@@ -58,12 +58,12 @@ def regen_state() -> dict:
     for name in ("fig51", "fig52", "fig53", "fig54"):
         result = generate_figure(name, fig_dir); stem = result["figure"]
         for suffix in ("png", "meta.json"):
-            produced = fig_dir / f"{stem}.{suffix}"; committed = ROOT / "thesis/figures" / f"{stem}.{suffix}"
+            produced = fig_dir / f"{stem}.{suffix}"; committed = ROOT / "analysis-out/figures" / f"{stem}.{suffix}"
             rows.append({"path": str(committed.relative_to(ROOT)), "produced": sha(produced), "committed": sha(committed), "match": sha(produced) == sha(committed)})
     for name in ("tab51", "tab52", "tab53", "tab54"):
         result = generate_table(name, tab_dir); stem = result["table"]
         for suffix in ("md", "csv", "meta.json"):
-            produced = tab_dir / f"{stem}.{suffix}"; committed = ROOT / "thesis/tables" / f"{stem}.{suffix}"
+            produced = tab_dir / f"{stem}.{suffix}"; committed = ROOT / "analysis-out/tables" / f"{stem}.{suffix}"
             rows.append({"path": str(committed.relative_to(ROOT)), "produced": sha(produced), "committed": sha(committed), "match": sha(produced) == sha(committed)})
     return {"ok": all(row["match"] for row in rows), "rows": rows}
 
@@ -112,7 +112,7 @@ def run() -> tuple[dict, dict, str]:
     criteria.append(criterion(3, "M", "loader active partition", partition, len(frame) == 51 and partition == {"active_total": 51, "determinations": 25, "refusals": 25, "run_failures": 1, "superseded_excluded": 99}))
     guards = verify_loader(); criteria.append(criterion(4, "M", "comparison view provenance and fixture guards", guards, guards["ok"]))
     regen = regen_state(); criteria.append(criterion(5, "M", "all manifest artefacts regenerate byte-identically", {"rows": len(regen["rows"]), "mismatches": [r for r in regen["rows"] if not r["match"]]}, regen["ok"]))
-    fig51 = loadj(ROOT / "thesis/figures/FIG-5.1.meta.json").get("values", {})
+    fig51 = loadj(ROOT / "analysis-out/figures/FIG-5.1.meta.json").get("values", {})
     criteria.append(criterion(6, "M", "SC-01 actionability counts", fig51,
                               [fig51.get(r, {}).get("determinations") for r in ("R0", "R1", "R2")] == [1, 0, 5]))
     compact = loadj(ROOT / "logs/review/M004/compactness.json")
@@ -136,7 +136,7 @@ def run() -> tuple[dict, dict, str]:
     criteria.append(criterion(13, "M", "all frozen hashes unchanged", {"ok": hashes["ok"], "negative_named": wrong_rows}, hashes["ok"] and wrong_rows == ["etc/results-row.schema.json"]))
     _index, index = collect_index(); _bad_index, bad_index = collect_index("ADR-P8-999")
     criteria.append(criterion(14, "M", "twenty-article and complete ADR index", {"index": index, "negative_dangling": bad_index["dangling"]}, index["ok"] and not bad_index["ok"]))
-    outputs = sorted(str(p.relative_to(ROOT)) for p in (ROOT / "thesis").rglob("*") if p.is_file())
+    outputs = sorted(str(p.relative_to(ROOT)) for p in (ROOT / "analysis-out").rglob("*") if p.is_file())
     preliminary_m = sum(c["result"] == "PASS" for c in criteria if c["tier"] == "M")
     preliminary_a = sum(c["result"] == "PASS" for c in criteria if c["tier"] == "A")
     totals_for_memo = {"M": {"passed": preliminary_m + 1, "total": 13}, "A": {"passed": preliminary_a, "total": 2}}

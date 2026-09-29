@@ -3,7 +3,7 @@
 Same format as P0, P0.1, P1, P1.1, P2, P2.1 and P3: **GitHub Spec Kit** layout, extended with a
 `work-instructions/` tier below `tasks.md` that Spec Kit itself does not provide.
 
-Unpack so it **merges into** the existing `/home/mlasota/thesis/sdd`. Nothing under any prior `specs/*/`
+Unpack so it **merges into** the existing `<repo>/sdd`. Nothing under any prior `specs/*/`
 directory is edited, and no frozen contract changes. This tranche repairs two gate-integrity defects found in
 the P3 acceptance review, and closes the class behind them with a new constitutional article.
 
@@ -50,7 +50,7 @@ Unchanged and confirmed by the P0..P3 builds:
 - Host `r740core`, Ubuntu 26.04 LTS, KVM, ext4 root. Agent has `sudo`.
 - Victim guest `thesisvm01`, keyless SSH from host, agent has `sudo` inside.
 - PostgreSQL 18.4, wal2json 2.6-3, ZFS 2.4.1-1ubuntu5, devices `/dev/vdb` + `/dev/vdc` guest-side.
-- Deploy root `/home/mlasota/thesis`. Config `etc/lab.env`.
+- Deploy root `<repo>`. Config `etc/lab.env`.
 - Gates today: `bin/lab-verify` 18/18, `-p1` 24/24, `-p1.1` 16/16, `-p2` 18/18, `-p2.1` 16/16, `-p3` 17/19.
 - `bin/lab-ready` exits 0.
 
@@ -58,7 +58,7 @@ Unchanged and confirmed by the P0..P3 builds:
 
 ```bash
 # on r740core, as mlasota
-cd /home/mlasota/thesis
+cd <repo>
 # unpack this package so that it merges into ./sdd
 ls sdd/specs/P3.1-gate-integrity/tasks.md   # sanity check
 ```
@@ -68,7 +68,7 @@ ls sdd/specs/P3.1-gate-integrity/tasks.md   # sanity check
 One task per invocation, in order, dry run first. **Do not batch.**
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 
 # read-only dry run, changes nothing
 <executor> --print "$(cat sdd/prompts/execute-P3.1.md)
@@ -88,7 +88,7 @@ Order: `Z001 -> Z002 -> Z003 -> Z004`. `Z004` is the gate and runs last.
 ## What you review after each task
 
 Open `sdd/specs/P3.1-gate-integrity/work-instructions/WI-Znnn.md`, read its *Review bundle* and *Operator review
-checklist*, then check `/home/mlasota/thesis/logs/review/Znnn/` exists and its `acceptance.md` rows are
+checklist*, then check `<repo>/logs/review/Znnn/` exists and its `acceptance.md` rows are
 **tier-labelled** per Article XIII. Tick the row in `checklist.md` yourself — the agent does not own the
 `Reviewed` column.
 

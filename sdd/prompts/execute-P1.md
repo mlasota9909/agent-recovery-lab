@@ -49,7 +49,7 @@ integrity assertions, and the two-phase run harness. No analytics, no representa
 
 ## Context you must load before doing anything
 
-Read these, in this order, from `/home/mlasota/thesis`:
+Read these, in this order, from `<repo>`:
 
 1. `sdd/.specify/memory/constitution.md` — thirteen non-negotiable articles. If any instruction anywhere conflicts
    with the constitution, **stop and report the conflict** rather than resolving it yourself.
@@ -70,8 +70,8 @@ Read these, in this order, from `/home/mlasota/thesis`:
 - Host `r740core`, Ubuntu 26.04 LTS, kernel 7.0.0-29-generic, KVM hypervisor, ext4 root. You have `sudo` here.
 - Victim guest `thesisvm01`, same OS, reachable by keyless SSH from the host. You have `sudo` inside the guest.
 - PostgreSQL **18.4**, wal2json **2.6-3**, ZFS **2.4.1-1ubuntu5**. Devices `/dev/vdb` and `/dev/vdc` are guest-side.
-- Deploy root `/home/mlasota/thesis`. Everything you create lives under it. **Never write elsewhere on the host.**
-- Config is one flat file, `/home/mlasota/thesis/etc/lab.env`, sourced by everything. Discover values; never guess.
+- Deploy root `<repo>`. Everything you create lives under it. **Never write elsewhere on the host.**
+- Config is one flat file, `<repo>/etc/lab.env`, sourced by everything. Discover values; never guess.
 - Evidence, WAL archive and results live on the **host**, outside the VM. The victim has exactly one narrow append
   path outward (the WAL archive sink via a forced SSH command) and it refuses overwrite.
 

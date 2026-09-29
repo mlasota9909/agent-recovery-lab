@@ -3,7 +3,7 @@
 Same format as P0 through P6.1: **GitHub Spec Kit** layout, extended with a `work-instructions/` tier below
 `tasks.md` that Spec Kit itself does not provide.
 
-Unpack so it **merges into** the existing `/home/mlasota/thesis/sdd`. Nothing under any prior `specs/*/` directory is
+Unpack so it **merges into** the existing `<repo>/sdd`. Nothing under any prior `specs/*/` directory is
 edited, and every prior frozen contract — including `capture-completeness.md`, `representation-interface.md` and its
 amendment-1, `arm-b-protocol.md` and its amendment-1, and `model-runtime.md` and its amendment-1 — stays byte-identical
 so its recorded hash keeps verifying.
@@ -73,7 +73,7 @@ Unchanged from the P0->P6.1 builds:
 - PostgreSQL 18.4, wal2json 2.6-3, ZFS 2.4.1-1ubuntu5, devices `/dev/vdb` + `/dev/vdc` guest-side.
 - One offline local model (qwen-family, pinned in H001, greedy+seed+weights hash) reached over the private-lab
   endpoint recorded in `model-runtime.amendment-1` (P6.1): private network, no public egress, pinned local alias.
-- Deploy root `/home/mlasota/thesis`. Config `etc/lab.env`.
+- Deploy root `<repo>`. Config `etc/lab.env`.
 - Gates green: `lab-verify` 18/18, `-p1` 24/24, `-p1.1` 16/16, `-p2` 18/18, `-p2.1` 16/16, `-p3` 19/19, `-p3.1`
   16/16, `-p4` 19/19, `-p5` 19/19, `-p5.1` 16/16, `-p6` 19/19, `-p6.1` 16/16, all exit 0.
 - **Eighteen** constitutional articles in force (through Article XVIII, null results root-caused before reported).
@@ -91,7 +91,7 @@ Unchanged from the P0->P6.1 builds:
 ## Run one task per invocation
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 <executor> --print "$(cat sdd/prompts/execute-P7.md)
 
 TASK_TO_EXECUTE: K001

@@ -85,13 +85,13 @@ def protected_manifest() -> dict:
     r006_outputs = {r006.OUTPUT} if r006 else set()
     paths = set()
     for r in ('evidence', 'results', 'incidents/scaled', 'var/repr', 'var/restore', 'var/arm_b',
-              'fixtures', 'runtime', 'thesis', 'logs/review', 'archive', 'basebackup', 'backups'):
+              'fixtures', 'runtime', 'analysis-out', 'logs/review', 'archive', 'basebackup', 'backups'):
         for p in (root() / r).rglob('*'):
             rel = p.relative_to(root()).as_posix()
             if rel.startswith(tuple('logs/review/' + t + '/' for t in
                                     ('R001', 'R002', 'R003', 'R004', 'R005', 'R006', 'R007', 'P11'))):
                 continue
-            if (rel.startswith('results/rescoring-runs') or rel.startswith('thesis/analysis/p11-')
+            if (rel.startswith('results/rescoring-runs') or rel.startswith('analysis-out/analysis/p11-')
                     or rel.startswith('runtime/p11-') or rel in r006_outputs):
                 continue
             if p.is_file() or p.is_symlink():
@@ -102,6 +102,8 @@ def protected_manifest() -> dict:
         paths.update(p for p in (d / 'contracts').rglob('*') if p.is_file())
     paths.update(p for p in (root() / 'docs').glob('P*-*handoff.md') if p.is_file())
     paths.add(root() / 'etc/lab.env')
+    if (root() / 'etc/lab.local.env').is_file():
+        paths.add(root() / 'etc/lab.local.env')
     entries = {p.relative_to(root()).as_posix(): entry(p) for p in sorted(paths)}
     return {'captured_utc': utc(), 'entries': entries, 'count': len(entries),
             'digest': sha256_text(dumps(entries))}

@@ -37,7 +37,7 @@ containment-verified; every completion `finish_reason=stop` (no truncation).
   variance; greedy decoding over the 17.9k-token R0 context is not bit-identical run to run
   (J004 R0 was 1/5; this run 2/5).
 
-## Pre-registered statistics (`thesis/analysis/p9-statistics.{json,md}`)
+## Pre-registered statistics (`analysis-out/analysis/p9-statistics.{json,md}`)
 
 - **H1** (pre-registered primary = pooled Cochran's Q): Q = 2.889, p = 0.236 → **does not hold**.
   Per model (exploratory): DeepSeek Q = 7.60, p = 0.022; Gemma Q = 6.00, p = 0.050; Qwen Q = 0, p = 1.
@@ -60,7 +60,7 @@ of the frozen plan and the *less* favourable result; taking the per-model readin
 manufacture an "effect detected" headline is the selective-analysis move Article XXI exists
 to prevent.
 
-## Arm A vs Arm B (`thesis/analysis/armA-vs-armB.{json,md}`)
+## Arm A vs Arm B (`analysis-out/analysis/armA-vs-armB.{json,md}`)
 
 Arm A (deterministic ranker `p3-rank-1`) is the **correctness / backbone** layer — model-free,
 bounded, always available; on SC-01 it is `incorrect_safe` (0 damage, 8 legit rows lost).
@@ -147,8 +147,8 @@ injecting a per-model key trips the guard and changes the structural digest.
 `runtime/p9-readonly-baseline.json` captured the evidence-root manifest (567 files) and the
 prior results-row file SHAs before the sweep. After P9: evidence manifest and
 `results/SC-01..04.jsonl` + `results/matrix.jsonl` byte-identical. New rows live only in
-`results/sweep-runs.jsonl`; new analysis only under `thesis/analysis` and
-`thesis/related-work`. The frozen P1 results-row schema digest is unmoved.
+`results/sweep-runs.jsonl`; new analysis only under `analysis-out/analysis` and
+`analysis-out/related-work`. The frozen P1 results-row schema digest is unmoved.
 
 ## New code (all under `bin/lab-p9-*`, `lib/lab_p9*`)
 
@@ -172,7 +172,7 @@ Holm-Bonferroni, block bootstrap CI (pinned seed), Cliff's delta, chi-square SF.
 1. `bin/lab-verify-p9` — terminal gate (`logs/review/N008/gate.json`, `hash_reverify.json`,
    `readonly-manifest-diff.json`, `regression-vs-fixtures.json`, `close-out-memo.md`)
 2. `bin/lab-p9-sweep --completeness` — `logs/review/N004/sweep-completeness.json`
-3. `bin/lab-p9-stats` — regenerates `thesis/analysis/p9-statistics.{json,md}` byte-identical
+3. `bin/lab-p9-stats` — regenerates `analysis-out/analysis/p9-statistics.{json,md}` byte-identical
 4. `bin/lab-p9-analysis --what armab` — regenerates the Arm A/B artefacts
 5. `logs/review/N001..N008/acceptance.md` — per-task tier tables
 6. `logs/review/P9/decision-log.md`

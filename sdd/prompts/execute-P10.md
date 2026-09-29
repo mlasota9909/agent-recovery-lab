@@ -1,6 +1,6 @@
 # Execute Tranche P10 — Token-Scaling (cold-start prompt)
 
-You are executing ONE task from SDD tranche **P10-token-scaling** in the repository rooted at `/home/mlasota/thesis`.
+You are executing ONE task from SDD tranche **P10-token-scaling** in the repository rooted at `<repo>`.
 Everything you need is in `sdd/specs/P10-token-scaling/`. Read `spec.md`, `plan.md`, `tasks.md`, both files in `contracts/`, and the matching `work-instructions/WI-<TASK>.md` before you act.
 
 ## The research context you are serving (do not skip)

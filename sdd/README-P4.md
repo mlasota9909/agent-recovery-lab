@@ -3,7 +3,7 @@
 Same format as P0, P0.1, P1, P1.1, P2, P2.1, P3 and P3.1: **GitHub Spec Kit** layout, extended with a
 `work-instructions/` tier below `tasks.md` that Spec Kit itself does not provide.
 
-Unpack so it **merges into** the existing `/home/mlasota/thesis/sdd`. Nothing under any prior `specs/*/` directory is
+Unpack so it **merges into** the existing `<repo>/sdd`. Nothing under any prior `specs/*/` directory is
 edited, and every prior frozen contract — including `capture-completeness.md` and its amendment — stays
 byte-identical so its recorded hash keeps verifying.
 
@@ -61,7 +61,7 @@ Unchanged and confirmed by the P0→P3.1 builds:
 - Victim guest `thesisvm01`, keyless SSH from host, agent has `sudo` inside.
 - PostgreSQL 18.4, wal2json 2.6-3, ZFS 2.4.1-1ubuntu5, devices `/dev/vdb` + `/dev/vdc` guest-side.
 - DuckDB as the read-only view layer (no new third-party runtime in P4).
-- Deploy root `/home/mlasota/thesis`. Config `etc/lab.env`.
+- Deploy root `<repo>`. Config `etc/lab.env`.
 - Gates green: `lab-verify` **18/18**, `lab-verify-p1` **24/24**, `lab-verify-p1.1` **16/16**, `lab-verify-p2`
   **18/18**, `lab-verify-p2.1` **16/16**, `lab-verify-p3` **19/19**, `lab-verify-p3.1` **16/16**, all exit 0.
 - Sixteen constitutional articles in force (through Article XVI, read-only verification gates).
@@ -77,7 +77,7 @@ Unchanged and confirmed by the P0→P3.1 builds:
 ## Run one task per invocation
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 <executor> --print "$(cat sdd/prompts/execute-P4.md)
 
 TASK_TO_EXECUTE: E001

@@ -1,6 +1,6 @@
 # P0 acceptance memo
 
-Date: 2026-08-17. Host `r740core`, guest `thesisvm01`. Deploy root `/home/mlasota/thesis`.
+Date: 2026-08-17. Host `r740core`, guest `thesisvm01`. Deploy root `<repo>`.
 
 ## What P0 delivers
 

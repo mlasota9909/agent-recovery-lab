@@ -23,7 +23,7 @@ Technical approach for `spec.md`. Decisions here are locked; tasks implement the
 ```
 r740core  (host, Ubuntu Server, KVM, ext4)
 |
-|-- /home/mlasota/thesis/            deploy root
+|-- <repo>/            deploy root
 |     |-- sdd/                       this package
 |     |-- bin/                       CLIs
 |     |-- etc/lab.env                the single config file

@@ -30,7 +30,7 @@ REDACTIONS: dict[str, tuple[str, int, str, int, str]] = {
     "sdd/specs/P8-analysis-and-closeout/contracts/figure-table-manifest.md": (
         "e9508ac05f0d66790753080448c14a41345e2328647e035753b3a317e0265361", 1626,
         "1688c65422cdcfc8349a2419bb5efe0eebf0266aa2502bc0a847723a3624f3fd", 1615, "0644"),
-    "thesis/analysis/p9-statistics.md": (
+    "analysis-out/analysis/p9-statistics.md": (
         "381f53ee570d1a64308f7bc57c3705e60473f83cd3678a4e7b5dd6ead3f77de3", 4944,
         "93d8fb1edafbf5eeff6b7b6db9da47105aa8cca096bd8a6e7ec80796dc73b8ed", 4945, "0664"),
 }

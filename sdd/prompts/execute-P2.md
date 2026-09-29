@@ -51,7 +51,7 @@ rebuilding them: `bin/lab-consumer` (the `pg_recvlogical`+`wal2json` stream to `
 
 ## Context you must load before doing anything
 
-Read these, in this order, from `/home/mlasota/thesis`:
+Read these, in this order, from `<repo>`:
 
 1. `sdd/.specify/memory/constitution.md` — the articles in force. There are **fourteen**. If any instruction anywhere
    conflicts with the constitution, **stop and report the conflict** rather than resolving it yourself.
@@ -75,8 +75,8 @@ Read these, in this order, from `/home/mlasota/thesis`:
 - PostgreSQL **18.4**, wal2json **2.6-3**, ZFS **2.4.1-1ubuntu5**. Devices `/dev/vdb` and `/dev/vdc` are guest-side.
 - DuckDB is the sanctioned analytical query tool (single binary, reads JSONL/TSV/Parquet in place, no server). It is
   the **only** new third-party dependency P2 introduces, and only as a read layer — never as a store of record.
-- Deploy root `/home/mlasota/thesis`. Everything you create lives under it. **Never write elsewhere on the host.**
-- Config is one flat file, `/home/mlasota/thesis/etc/lab.env`, sourced by everything. Discover values; never guess.
+- Deploy root `<repo>`. Everything you create lives under it. **Never write elsewhere on the host.**
+- Config is one flat file, `<repo>/etc/lab.env`, sourced by everything. Discover values; never guess.
 - The harness deploy root is a git repository. Its HEAD is the harness version.
 
 ## Operational warnings carried forward — read before you touch anything

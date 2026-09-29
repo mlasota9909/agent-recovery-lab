@@ -12,7 +12,9 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-ROOT = Path(os.environ["LAB_ROOT"])
+ROOT = Path(os.environ.get("LAB_ROOT") or Path(__file__).resolve().parents[1])
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
+from lab_config import load_env
 REVIEW = ROOT / "logs" / "review"
 ATTESTED_PATH = ROOT / "etc" / "acceptance-attested.json"
 
@@ -45,14 +47,7 @@ def criterion(
 
 
 def env_values() -> dict[str, str]:
-    values: dict[str, str] = {}
-    for line in (ROOT / "etc/lab.env").read_text(encoding="utf-8").splitlines():
-        if line and not line.startswith("#") and "=" in line:
-            key, value = line.split("=", 1)
-            if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
-                value = value[1:-1]
-            values[key] = value
-    return values
+    return load_env(ROOT)
 
 
 def load_attested() -> dict[str, dict]:

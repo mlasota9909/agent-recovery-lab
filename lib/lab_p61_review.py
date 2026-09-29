@@ -127,9 +127,9 @@ def j002() -> None:
                 "containment_verified", "endpoint_is_private", "public_egress_observed",
                 "cloud_alias_targeted", "weights_hash_matches_pin")}, sort_keys=True),
             cont.get("containment_verified") is True),
-        row("J002-3", "M", "inspect containment.json host/alias", "c220m3 / gb10a-deepseek-v4-flash",
+        row("J002-3", "M", "inspect containment.json host/alias", "configured gateway / gb10a-deepseek-v4-flash",
             f"{cont.get('endpoint_host')} {cont.get('alias_targeted')}",
-            cont.get("endpoint_host") == "c220m3" and cont.get("alias_targeted") == "gb10a-deepseek-v4-flash"),
+            cont.get("endpoint_host") == os.environ.get("MODEL_LITELLM_HOST", "model-gateway") and cont.get("alias_targeted") == "gb10a-deepseek-v4-flash"),
     ]
     extra = (
         f"NEGATIVE TEST: public 1.1.1.1 caught={neg['public_caught']} "

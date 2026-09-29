@@ -106,11 +106,11 @@ def ac05() -> dict:
         and rec.get("cloud_alias_targeted") is False
         and rec.get("weights_hash_matches_pin") is True
         and rec.get("alias_targeted") == "gb10a-deepseek-v4-flash"
-        and rec.get("endpoint_host") == "c220m3"
+        and rec.get("endpoint_host") == os.environ.get("MODEL_LITELLM_HOST", "model-gateway")
     )
     return criterion("AC-P6.1-05", "M", "containment_verified true with named sub-checks",
                      "logs/review/J002/containment.json",
-                     "R2a-d all hold; host=c220m3; alias pinned", rec, passed)
+                     "R2a-d all hold; configured gateway host; alias pinned", rec, passed)
 
 
 def ac06() -> dict:

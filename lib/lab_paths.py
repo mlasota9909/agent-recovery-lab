@@ -13,7 +13,7 @@ def env(key: str) -> str:
 
 
 def lab_root() -> Path:
-    return Path(env("LAB_ROOT"))
+    return Path(os.environ.get("LAB_ROOT") or Path(__file__).resolve().parents[1])
 
 
 def bin_path(name: str) -> Path:

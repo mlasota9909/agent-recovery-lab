@@ -144,7 +144,7 @@ NFR-1 Every capability is a CLI under `bin/`, text in, JSON out (Article IV).
 NFR-2 Every script idempotent; pre-existing correct state reported as `"changed": false`.
 NFR-3 POSIX shell, SQL, Python 3 only. No new runtime dependency beyond DuckDB for in-place querying.
 NFR-4 No outbound network calls. No model invocation anywhere in P1.
-NFR-5 Nothing outside `/home/mlasota/thesis` written on the host.
+NFR-5 Nothing outside `<repo>` written on the host.
 
 ## 5. Acceptance criteria
 

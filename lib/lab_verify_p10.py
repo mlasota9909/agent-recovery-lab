@@ -243,20 +243,20 @@ def ac08() -> None:
 
 def ac09_10_11() -> None:
     import lab_p10_stats as T
-    committed = json.loads((root() / "thesis" / "analysis" / "p10-scaling.json").read_text())
+    committed = json.loads((root() / "analysis-out" / "analysis" / "p10-scaling.json").read_text())
     res = T.analyse()
     same = all(json.dumps(res[k], sort_keys=True, default=str) == json.dumps(committed[k], sort_keys=True, default=str)
                for k in ("H1", "H2", "H3", "branch", "cells", "limits", "r2"))
-    record("AC-P10-09", "M", "H1/H2/H3, branch and per-cell metrics recompute identical to thesis/analysis/p10-scaling.json",
+    record("AC-P10-09", "M", "H1/H2/H3, branch and per-cell metrics recompute identical to analysis-out/analysis/p10-scaling.json",
            same, {"H1": res["H1"]["holds"], "H2": res["H2"]["holds"], "H3": res["H3"]["holds"], "branch": res["branch"]})
-    md = (root() / "thesis" / "analysis" / "p10-scaling.md").read_text()
+    md = (root() / "analysis-out" / "analysis" / "p10-scaling.md").read_text()
     verbatim = (not res["branch"]["selectable"]) or (res["branch"]["interpretation"] in md)
     record("AC-P10-09", "M", "realised A4 interpretation present verbatim (or non-selectable branch stated)", verbatim,
            {"selectable": res["branch"]["selectable"]})
     lints = {"p10-scaling.md": T.lint(md)}
     record("AC-P10-09", "M", "universal-language lint passes on the analysis report",
            all(v["ok"] for v in lints.values()), {k: v["violations"][:3] for k, v in lints.items()})
-    fig = root() / "thesis" / "figures" / "FIG-P10-two-curve.png"
+    fig = root() / "analysis-out" / "figures" / "FIG-P10-two-curve.png"
     regen = T.figure(T.cells(T.load()[0]), scratch() / "fig.png")
     record("AC-P10-10", "M", "two-curve figure regenerates byte-identical from scaling-runs.jsonl",
            regen["sha256"] == hashlib.sha256(fig.read_bytes()).hexdigest(),
@@ -293,7 +293,7 @@ def ac12() -> None:
     record("AC-P10-12", "M", "NEG: one byte changed in a scratch copy of the prior manifest -> check fails",
            neg["ok"] is False, {"changed": neg["strict_changed"][:1]})
     rogue = json.loads(json.dumps(after))
-    rogue["strict"]["thesis/analysis/undesignated.md"] = "0" * 64 + " mode=0644 size=1"
+    rogue["strict"]["analysis-out/analysis/undesignated.md"] = "0" * 64 + " mode=0644 size=1"
     neg2 = compare_manifest(before, rogue)
     record("AC-P10-12", "M", "NEG: an undesignated file added inside a strict root -> check fails",
            neg2["ok"] is False, {"added": neg2["strict_added"]})

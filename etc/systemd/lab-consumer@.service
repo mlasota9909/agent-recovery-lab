@@ -1,3 +1,4 @@
+# Render with bin/lab-consumer-unit before installation.
 [Unit]
 Description=Lab logical decoding consumer for incident %i
 After=network-online.target
@@ -5,11 +6,9 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=mlasota
-Group=mlasota
-WorkingDirectory=/home/mlasota/thesis
-EnvironmentFile=/home/mlasota/thesis/etc/lab.env
-ExecStart=/home/mlasota/thesis/bin/lab-consumer run %i
+User=@LAB_USER@
+WorkingDirectory=@LAB_ROOT@
+ExecStart=@LAB_CONSUMER@ run %i
 Restart=always
 RestartSec=3
 StandardOutput=null

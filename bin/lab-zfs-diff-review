@@ -10,6 +10,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "lib"))
+from lab_config import config_snapshot
 REVIEW = ROOT / "logs/review/T013"
 
 
@@ -102,7 +104,7 @@ def main() -> None:
         encoding="utf-8",
     )
     (REVIEW / "lab.env.snapshot").write_text(
-        (ROOT / "etc/lab.env").read_text(encoding="utf-8"), encoding="utf-8"
+        config_snapshot(ROOT), encoding="utf-8"
     )
     (REVIEW / "acceptance.md").write_text(
         "# T013 Acceptance\n\n"

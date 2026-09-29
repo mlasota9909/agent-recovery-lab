@@ -10,7 +10,8 @@ import time
 from pathlib import Path
 
 LAB_ROOT = Path(__file__).resolve().parent.parent
-LAB_ENV = LAB_ROOT / "etc" / "lab.env"
+sys.path.insert(0, str(LAB_ROOT / "lib"))
+from lab_config import load_env as load_config, write_local_env
 EXIT_OK, EXIT_ASSERT, EXIT_PRECOND, EXIT_USAGE = 0, 1, 2, 3
 
 MANAGED_KEYS = ("ZPOOL", "DS_PARENT", "DS_PGDATA", "DS_PROTECTED", "MNT_PROTECTED")
@@ -21,40 +22,12 @@ def err(msg: str) -> None:
 
 
 def load_env() -> dict[str, str]:
-    if not LAB_ENV.exists():
-        err(f"precondition failed: missing {LAB_ENV}")
-        sys.exit(EXIT_PRECOND)
-    vals: dict[str, str] = {}
-    for line in LAB_ENV.read_text().splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        k, v = line.split("=", 1)
-        vals[k] = v
-    return vals
+    return load_config(LAB_ROOT)
 
 
 def save_env(env: dict[str, str], updates: dict[str, str]) -> None:
     env.update(updates)
-    # Preserve order: existing keys first, then new
-    lines = []
-    seen = set()
-    for line in LAB_ENV.read_text().splitlines():
-        if not line.strip() or line.strip().startswith("#") or "=" not in line:
-            lines.append(line)
-            continue
-        k, _ = line.split("=", 1)
-        if k in updates:
-            lines.append(f"{k}={updates[k]}")
-            seen.add(k)
-        else:
-            lines.append(line)
-            seen.add(k)
-    for k, v in updates.items():
-        if k not in seen:
-            lines.append(f"{k}={v}")
-    LAB_ENV.write_text("\n".join(lines) + "\n")
-    os.chmod(LAB_ENV, 0o640)
+    write_local_env(updates, LAB_ROOT)
 
 
 def ssh(vm: str, remote: str, check=True) -> subprocess.CompletedProcess:

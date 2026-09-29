@@ -29,7 +29,7 @@ read, list, modify or delete evidence. Evidence files, once closed, are read-onl
 
 ## Article IV — CLI-first, text in, JSON out
 
-Every capability ships as a CLI under `/home/mlasota/thesis/bin/`. Each accepts arguments and/or stdin, emits JSON
+Every capability ships as a CLI under `<repo>/bin/`. Each accepts arguments and/or stdin, emits JSON
 on stdout, emits human log lines on stderr, and returns non-zero on failure. No capability may exist only as an
 importable function, a notebook cell, or an interactive step. If it cannot be invoked from a batch script it does
 not exist.
@@ -75,7 +75,7 @@ requirement it discharges. An artefact that traces to nothing gets deleted, not 
 
 All data is synthetic and generated in-lab. No production data, no personal data, no third-party data. No component
 makes outbound network calls at experiment time; models run locally. Destructive activity is confined to
-`thesisvm01`. The host's own filesystem outside `/home/mlasota/thesis` is never written to.
+`thesisvm01`. The host's own filesystem outside `<repo>` is never written to.
 
 ## Article XI — Evidence of work
 
@@ -194,7 +194,7 @@ test (Articles VIII/XII/XIII), and CONTINUES.
 
 ### XX.2 Stop and escalate only for these
 1. The action is destructive outside the lab, touches the host outside
-   `/home/mlasota/thesis`, or risks real / production / personal data.
+   `<repo>`, or risks real / production / personal data.
 2. The only way forward would falsify a recorded experimental result, relabel evidence
    dishonestly, drop a unit to keep a metric green (Article XIX), or read provenance into a
    detection path (Article II).

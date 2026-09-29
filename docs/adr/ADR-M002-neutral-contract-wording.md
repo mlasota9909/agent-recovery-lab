@@ -39,7 +39,7 @@ prior-evidence manifest.
 | `sdd/specs/P7-scenario-matrix/contracts/scenario-definition.md` | `74a9c25f15b42ded29a59e3a24414a8bd9ec8f36bee4314bff768a951f78ef55` | `31d8c4a18aa4a9fc52cd2367781b31ac7ca9d03c77a6e7c7bdc6879c4c740855` |
 | `sdd/specs/P8-analysis-and-closeout/contracts/analysis-input.amendment-1.md` | `85448cc6d46839791129b3a29fa4c00ab1bf999f2fc56c842669aac941562459` | `0f1e364d7643488558c554d1e5832783a7aabf821465257388f5fec3a8754fa5` |
 | `sdd/specs/P8-analysis-and-closeout/contracts/figure-table-manifest.md` | `e9508ac05f0d66790753080448c14a41345e2328647e035753b3a317e0265361` | `1688c65422cdcfc8349a2419bb5efe0eebf0266aa2502bc0a847723a3624f3fd` |
-| `thesis/analysis/p9-statistics.md` | `381f53ee570d1a64308f7bc57c3705e60473f83cd3678a4e7b5dd6ead3f77de3` | `93d8fb1edafbf5eeff6b7b6db9da47105aa8cca096bd8a6e7ec80796dc73b8ed` |
+| `analysis-out/analysis/p9-statistics.md` | `381f53ee570d1a64308f7bc57c3705e60473f83cd3678a4e7b5dd6ead3f77de3` | `93d8fb1edafbf5eeff6b7b6db9da47105aa8cca096bd8a6e7ec80796dc73b8ed` |
 
 ## Not affected
 

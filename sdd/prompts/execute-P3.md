@@ -56,7 +56,7 @@ oracle (P1), `bin/lab-capture` and `bin/lab-capture-workload` (P2), `bin/lab-rea
 
 ## Context you must load before doing anything
 
-Read these, in this order, from `/home/mlasota/thesis`:
+Read these, in this order, from `<repo>`:
 
 1. `sdd/.specify/memory/constitution.md` — the articles in force. There are **fifteen** (I determinism, II provenance
    for scoring not detection, V stock mechanisms, VI simplicity, VIII fail loud, X lab containment, XII no test
@@ -84,8 +84,8 @@ Read these, in this order, from `/home/mlasota/thesis`:
 - PostgreSQL **18.4**, wal2json **2.6-3**, ZFS **2.4.1-1ubuntu5**. Devices `/dev/vdb` and `/dev/vdc` are guest-side.
 - DuckDB is the sanctioned analytical query tool and P3 adds **no** new third-party runtime. All analytics are
   DuckDB SQL, Python 3 and POSIX shell.
-- Deploy root `/home/mlasota/thesis`. Everything you create lives under it. **Never write elsewhere on the host.**
-- Config is one flat file, `/home/mlasota/thesis/etc/lab.env`, sourced by everything. Discover values; never guess.
+- Deploy root `<repo>`. Everything you create lives under it. **Never write elsewhere on the host.**
+- Config is one flat file, `<repo>/etc/lab.env`, sourced by everything. Discover values; never guess.
 - The harness deploy root is a git repository. Its HEAD is the harness version recorded in `harness_commit`.
 
 ## Operational warnings carried forward — read before you touch anything

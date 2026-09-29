@@ -19,7 +19,7 @@ CONTRACT = ROOT / "sdd/specs/P1-ground-truth-harness/contracts/results-row.md"
 LEDGER = ROOT / "sdd/specs/P1-ground-truth-harness/contracts/ledger-integrity.md"
 COORDINATE = ROOT / "sdd/specs/P0-lab-substrate/contracts/coordinate.md"
 SCHEMA_PATH = ROOT / "etc/results-row.schema.json"
-ENV_PATH = ROOT / "etc/lab.env"
+from lab_config import load_env, write_local_env
 HASH_PATH = ROOT / "logs/review/W002/contract-hashes.json"
 
 COORDINATE_FIELD_ORDER = (
@@ -300,27 +300,20 @@ def env_get(text: str, key: str) -> str | None:
 
 
 def append_env_keys(schema_path: Path) -> bool:
-    text = ENV_PATH.read_text(encoding="utf-8")
+    values = load_env(ROOT)
     wanted = {
         "RESULTS_SCHEMA": str(schema_path),
         "RESULTS_FILE_MODE": "0444",
         "BARRIER_TIMEOUT_S": "120",
     }
-    changed = False
-    if not text.endswith("\n"):
-        text += "\n"
-        changed = True
+    updates = {}
     for key, value in wanted.items():
-        existing = env_get(text, key)
+        existing = values.get(key)
         if existing is None:
-            text += f"{key}={value}\n"
-            changed = True
+            updates[key] = value
         elif existing != value:
             die(1, f"assertion failed: {key} is {existing!r}, expected {value!r}")
-    if changed:
-        ENV_PATH.write_text(text, encoding="utf-8")
-        os.chmod(ENV_PATH, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-    return changed
+    return write_local_env(updates, ROOT) if updates else False
 
 
 def main() -> int:

@@ -1,0 +1,52 @@
+{
+  "template": true,
+  "endpoint": "",
+  "decoding": {
+    "temperature": 0,
+    "top_p": 1,
+    "seed": 42,
+    "max_tokens": 8192
+  },
+  "p61_baseline_alias": "gb10a-deepseek-v4-flash",
+  "models": [
+    {
+      "slot": "M1",
+      "alias": "gb10a-deepseek-v4-flash",
+      "family": "deepseek",
+      "param_class": "~27B (MoE, DeepSeek-V4-Flash)",
+      "quantisation": "exl3-k2",
+      "served_model": "deepseek-v4-flash-0731-exl3-k2",
+      "backend": "",
+      "is_p61_baseline": true,
+      "backend_host": "",
+      "tokenizer_id": null,
+      "model_digest": null
+    },
+    {
+      "slot": "M2",
+      "alias": "gympc-gemma4-26b",
+      "family": "gemma",
+      "param_class": "~26B (Gemma-4-26B-A4B-IT, QAT q4)",
+      "quantisation": "qat-q4",
+      "served_model": "gemma4-26b-a4b-it-qat-q4",
+      "backend": "",
+      "is_p61_baseline": false,
+      "backend_host": "",
+      "tokenizer_id": null,
+      "model_digest": null
+    },
+    {
+      "slot": "M3",
+      "alias": "alienware-qwen38-27b",
+      "family": "qwen",
+      "param_class": "~27B (Qwen3.8-27B-MTP, NVFP4)",
+      "quantisation": "nvfp4",
+      "served_model": "qwen38-27b-mtp-nvfp4",
+      "backend": "",
+      "is_p61_baseline": false,
+      "backend_host": "",
+      "tokenizer_id": null,
+      "model_digest": null
+    }
+  ]
+}

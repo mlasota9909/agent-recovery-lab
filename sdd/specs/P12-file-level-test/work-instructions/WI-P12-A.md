@@ -4,7 +4,7 @@ Goal: this repository must run from any clone location on any host with the prer
 in one ignored file. Read `sdd/specs/P12-file-level-test/spec.md` (FR-1) and `plan.md` first.
 
 ## Do
-1. Replace every absolute checkout path (for example `/home/mlasota/thesis`, `/home/mlasota/...`) in tracked files
+1. Replace every absolute checkout path (for example `<repo>`, `<old-checkout>`) in tracked files
    with a path derived at run time from the repository root: shell scripts derive it from their own location
    (`$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)`), Python from `Path(__file__).resolve().parents[...]` or a single
    shared helper. Documentation examples use `<repo>`.

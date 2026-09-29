@@ -242,8 +242,8 @@ missed was fixed in lockstep.
 1. `bin/lab-verify-p10` — the terminal gate.
 2. `bin/lab-scale-generate --all` — regenerates `incidents/scaled/`; compare with
    `runtime/p10-scaled-manifest.json`.
-3. `bin/lab-p10-stats` — regenerates `thesis/analysis/p10-scaling.{md,json}` and
-   `thesis/figures/FIG-P10-two-curve.png` byte-identically.
+3. `bin/lab-p10-stats` — regenerates `analysis-out/analysis/p10-scaling.{md,json}` and
+   `analysis-out/figures/FIG-P10-two-curve.png` byte-identically.
 4. `bin/lab-p10-sweep --completeness` — the validity partition.
 5. `logs/review/Q001..Q007/acceptance.md` and `logs/review/P10/decision-log.md`.
 

@@ -3,14 +3,10 @@
 # Excludes WAL archive, basebackups, keys. Dated output plus backups/repomix-latest.md.
 set -euo pipefail
 
-LAB_ROOT="${LAB_ROOT:-/home/mlasota/thesis}"
-if [ -f "$LAB_ROOT/etc/lab.env" ]; then
-  # shellcheck disable=SC1091
-  set -a
-  . "$LAB_ROOT/etc/lab.env"
-  set +a
-fi
-LAB_ROOT="${LAB_ROOT:-/home/mlasota/thesis}"
+ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+set -a
+source "$ROOT/etc/lab.env"
+set +a
 cd "$LAB_ROOT"
 
 export PATH="${HOME}/.local/bin:/usr/bin:${PATH}"

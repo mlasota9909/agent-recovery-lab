@@ -10,7 +10,7 @@ instruction names.
 
 ## Context you must load before doing anything
 
-Read these, in this order, from `/home/mlasota/thesis`:
+Read these, in this order, from `<repo>`:
 
 1. `sdd/.specify/memory/constitution.md` — non-negotiable principles.
 2. `sdd/.specify/memory/constitution-amendment-001.md` — two new articles, XII and XIII, that this tranche exists to
@@ -29,8 +29,8 @@ Read these, in this order, from `/home/mlasota/thesis`:
 
 - Host `r740core`, Ubuntu Server, KVM hypervisor, ext4 root. You have `sudo` here.
 - Victim guest `thesisvm01`, Ubuntu 26.04, PostgreSQL 18.4, reachable by keyless SSH. You have `sudo` in the guest.
-- Deploy root `/home/mlasota/thesis`. Everything you create lives under it. Never write elsewhere on the host.
-- Config is one flat file, `/home/mlasota/thesis/etc/lab.env`. Read it; extend it only where a WI says to.
+- Deploy root `<repo>`. Everything you create lives under it. Never write elsewhere on the host.
+- Config is one flat file, `<repo>/etc/lab.env`. Read it; extend it only where a WI says to.
 - Guest `/tmp` is mounted `noexec`. Do not try to run a compiled or scripted binary from there; if a test needs a
   live process, use a shell builtin, an open file descriptor, or `sleep`, not a dropped executable.
 

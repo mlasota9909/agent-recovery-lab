@@ -1,6 +1,6 @@
 # Execute P8 — Analysis Outputs & Close-out
 
-You are executing ONE task of SDD tranche P8 in the repo at /home/mlasota/thesis.
+You are executing ONE task of SDD tranche P8 in the repo at <repo>.
 
 Read, in order, before doing anything:
 1. sdd/.specify/memory/constitution.md  (all twenty articles; Article XX governs how you

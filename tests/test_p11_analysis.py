@@ -25,7 +25,7 @@ def main(argv=None):
         commands.append({'command': command, 'exit': proc.returncode, 'stdout': proc.stdout, 'stderr': proc.stderr})
         assert proc.returncode == 0, proc.stderr
         hashes[name] = {ext: sha256_file(out / f'p11-rescore.{ext}') for ext in ('json', 'md', 'svg', 'png')}
-    committed = {ext: sha256_file(root() / f'thesis/analysis/p11-rescore.{ext}') for ext in ('json', 'md', 'svg', 'png')}
+    committed = {ext: sha256_file(root() / f'analysis-out/analysis/p11-rescore.{ext}') for ext in ('json', 'md', 'svg', 'png')}
     assert hashes['first'] == hashes['second'] == committed, 'regeneration differs'
     negatives = []
     for name in CONTRACTS:
@@ -40,7 +40,7 @@ def main(argv=None):
         proc = subprocess.run(command, text=True, capture_output=True)
         assert proc.returncode != 0 and not dest.exists(), 'tampered contract did not halt before output'
         negatives.append({'file': name, 'exit': proc.returncode, 'stderr': proc.stderr, 'no_output': True})
-    r = read_json(root() / 'thesis/analysis/p11-rescore.json')
+    r = read_json(root() / 'analysis-out/analysis/p11-rescore.json')
     rr = rows()
     anchor = [x for x in rr if x['analysis_selected'] and x['representation'] == 'R0' and
               x['scale_target'] == 10000 and x['grammar_outcome'] == 'accepted']
@@ -54,7 +54,7 @@ def main(argv=None):
             assert x['bootstrap']['alpha'] == .05 / 3
             assert (x['status'] == 'HOLDS') == (x['bootstrap']['ci_low'] > 0)
     assert r['interpretation'] == interpretations()[r['branch']]
-    text = (root() / 'thesis/analysis/p11-rescore.md').read_text()
+    text = (root() / 'analysis-out/analysis/p11-rescore.md').read_text()
     assert lint(text, r)['ok']
     assert not lint(text + '\nThere is an accuracy cliff.\n', r)['ok']
     result = {'ok': True, 'commands': commands, 'regeneration_hashes': hashes,

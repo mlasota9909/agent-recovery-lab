@@ -3,7 +3,7 @@
 Same format as P0, P0.1, P1 and P1.1: **GitHub Spec Kit** layout, extended with a `work-instructions/` tier below
 `tasks.md` that Spec Kit itself does not provide.
 
-Unpack so it **merges into** the existing `/home/mlasota/thesis/sdd`. Nothing under `specs/P0-lab-substrate/`,
+Unpack so it **merges into** the existing `<repo>/sdd`. Nothing under `specs/P0-lab-substrate/`,
 `specs/P0.1-remediation/`, `specs/P1-ground-truth-harness/` or `specs/P1.1-provenance-labstate/` is edited. All prior
 contracts stay hash-frozen. This tranche adds one new frozen contract (`capture-completeness.md`) and builds the
 collectors that produce the evidence ledger.
@@ -53,7 +53,7 @@ Unchanged and confirmed by the P0/P0.1/P1/P1.1 builds:
 - Victim guest `thesisvm01`, keyless SSH from host, agent has `sudo` inside.
 - PostgreSQL 18.4, wal2json 2.6-3, ZFS 2.4.1-1ubuntu5, devices `/dev/vdb` + `/dev/vdc` guest-side.
 - DuckDB as the read-only view layer (the only new dependency, read-only).
-- Deploy root `/home/mlasota/thesis`. Config `etc/lab.env`.
+- Deploy root `<repo>`. Config `etc/lab.env`.
 - `bin/lab-verify` **18/18**, `bin/lab-verify-p1` **24/24**, `bin/lab-verify-p1.1` **16/16**, all exit 0.
 
 ## Two entry conditions (do not skip)
@@ -65,14 +65,14 @@ Unchanged and confirmed by the P0/P0.1/P1/P1.1 builds:
 
 ```bash
 # on r740core, as mlasota
-cd /home/mlasota/thesis
+cd <repo>
 # unpack this package so that it merges into ./sdd
 ```
 
 ## Run one task per invocation
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 <executor> --print "$(cat sdd/prompts/execute-P2.md)
 
 TASK_TO_EXECUTE: C001

@@ -2,7 +2,7 @@
 
 Read-only on every prior artefact (Article XVI). The only P10 writers are the scale
 generator (incidents/scaled/), the sweep (results/scaling-runs*.jsonl), the analysis
-(thesis/analysis/p10-*), and review bundles (logs/review/Q00N/).
+(analysis-out/analysis/p10-*), and review bundles (logs/review/Q00N/).
 """
 from __future__ import annotations
 
@@ -114,8 +114,8 @@ def scaled_root(target: int) -> Path:
 STRICT_ROOTS = (
     "evidence",
     "var/repr",
-    "thesis/analysis",
-    "thesis/related-work",
+    "analysis-out/analysis",
+    "analysis-out/related-work",
     "results/fixtures",
 )
 STRICT_FILES_GLOBS = (
@@ -126,7 +126,7 @@ STRICT_FILES_GLOBS = (
 )
 APPEND_ONLY_ROOTS = ("var/restore",)
 # P10's own designated outputs inside a strict root (WI-Q005). Any other addition is a violation.
-P10_ALLOWED_STRICT_ADDITIONS = frozenset({"thesis/analysis/p10-scaling.md", "thesis/analysis/p10-scaling.json"})
+P10_ALLOWED_STRICT_ADDITIONS = frozenset({"analysis-out/analysis/p10-scaling.md", "analysis-out/analysis/p10-scaling.json"})
 
 
 def _entry(path: Path) -> str:

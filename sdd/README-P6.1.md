@@ -3,7 +3,7 @@
 Same format as P0..P6: **GitHub Spec Kit** layout, extended with a `work-instructions/` tier below `tasks.md` that
 Spec Kit itself does not provide.
 
-Unpack so it **merges into** the existing `/home/mlasota/thesis/sdd`. Nothing under any prior `specs/*/` directory is
+Unpack so it **merges into** the existing `<repo>/sdd`. Nothing under any prior `specs/*/` directory is
 edited, and no frozen contract file is mutated. This tranche repairs two defects found in the P6 acceptance review and
 closes the class behind the more serious one with a new constitutional article.
 
@@ -51,7 +51,7 @@ Unchanged and confirmed by the P0..P6 builds:
 - PostgreSQL 18.4, wal2json 2.6-3, ZFS 2.4.1-1ubuntu5, devices `/dev/vdb` + `/dev/vdc` guest-side.
 - Arm B model (pinned in H001): `gb10a-deepseek-v4-flash`, quant `exl3-k2`, 262,144-token context, greedy decoding,
   reached via LiteLLM `http://c220m3:4001` fronting vLLM on `gb10a:8000`. The cloud alias `deepseek-v4-pro` is not used.
-- Deploy root `/home/mlasota/thesis`. Config `etc/lab.env`.
+- Deploy root `<repo>`. Config `etc/lab.env`.
 - Gates today: `bin/lab-verify` 18/18, `-p1` 24/24, `-p1.1` 16/16, `-p2` 18/18, `-p2.1` 16/16, `-p3` 19/19, `-p3.1`
   16/16, `-p4` 19/19, `-p5` 19/19 (after P5.1), `-p5.1` 16/16, `-p6` 19/19.
 - Constitution: seventeen articles in force (Article XVII = subject-visible surface excludes the answer); J001 adds the
@@ -61,7 +61,7 @@ Unchanged and confirmed by the P0..P6 builds:
 
 ```bash
 # on r740core, as mlasota
-cd /home/mlasota/thesis
+cd <repo>
 ls sdd/specs/P6.1-arm-b-answerability/tasks.md   # sanity check
 ```
 
@@ -70,7 +70,7 @@ ls sdd/specs/P6.1-arm-b-answerability/tasks.md   # sanity check
 One task per invocation, in order, dry run first. **Do not batch.**
 
 ```bash
-cd /home/mlasota/thesis
+cd <repo>
 
 <executor> --print "$(cat sdd/prompts/execute-P6.1.md)
 
@@ -88,7 +88,7 @@ Order: `J001 -> J002 -> J003 -> J004 -> J005`. `J005` is the gate and runs last.
 ## What you review after each task
 
 Open `sdd/specs/P6.1-arm-b-answerability/work-instructions/WI-Jnnn.md`, read its *Review bundle* and *Operator review
-checklist*, then check `/home/mlasota/thesis/logs/review/Jnnn/` exists and its `acceptance.md` rows are tier-labelled
+checklist*, then check `<repo>/logs/review/Jnnn/` exists and its `acceptance.md` rows are tier-labelled
 per Article XIII. Tick the row in `checklist.md` yourself — the agent does not own the `Reviewed` column.
 
 The task to read line by line is **J001**, because its diagnosis decides whether the null is an instrument artefact you

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -176,13 +177,10 @@ def scratch_evidence(incident: str) -> Path:
 
 
 def scratch_lab_env(evidence_root: Path) -> Path:
-    src = (root() / "etc" / "lab.env").read_text(encoding="utf-8")
-    lines = []
-    for line in src.splitlines():
-        if line.startswith("EVIDENCE_ROOT="):
-            lines.append(f"EVIDENCE_ROOT={evidence_root}")
-        else:
-            lines.append(line)
+    from lab_config import config_snapshot
+    lines = config_snapshot(root()).splitlines()
+    lines = [line for line in lines if not line.startswith("EVIDENCE_ROOT=")]
+    lines.append(f"EVIDENCE_ROOT={shlex.quote(str(evidence_root))}")
     path = review() / "scratch" / "lab.env"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")

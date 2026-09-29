@@ -29,7 +29,7 @@ test (Articles VIII/XII/XIII), and CONTINUES.
 
 ### XX.2 Stop and escalate only for these
 1. The action is destructive outside the lab, touches the host outside
-   `/home/mlasota/thesis`, or risks real / production / personal data.
+   `<repo>`, or risks real / production / personal data.
 2. The only way forward would falsify a recorded experimental result, relabel evidence
    dishonestly, drop a unit to keep a metric green (Article XIX), or read provenance into a
    detection path (Article II).
