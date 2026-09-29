@@ -13,6 +13,16 @@ implement the P0 tasks. Depends on WI-P12-A (configuration in `etc/lab.env` + `e
   `labpool/sandbox`; packages `zfsutils-linux`, `postgresql-18`, `postgresql-18-wal2json`, `python3`; the host user
   exists in the guest with the host's SSH key and passwordless sudo; the lab identities `lab_app` and `lab_agent`.
 
+## P0 task to script mapping (verified)
+T001 `bin/lab-discover`; T002 `bin/lab-zfs-init`; T003 `bin/lab-pgdata-relocate`; T004 `bin/lab-schema-init`;
+T005 `bin/lab-incident`; T006 `bin/lab-wal-config`; T007 `bin/lab-slot`; T008 `bin/lab-identities`;
+T009 `bin/lab-isolation-test`; T010 `bin/lab-heartbeat`; T011 `bin/lab-snapshot`, `bin/lab-snapshots`,
+`bin/lab-coordinate` (loop: `bin/lab-snapshot-loop`); T012 `bin/lab-reset`; T015 `bin/lab-verify`. Related:
+`bin/lab-ready` (read-only readiness gate), `bin/lab-consumer` (host-side consumer; unit from
+`bin/lab-consumer-unit`), `bin/lab-barrier`, `bin/lab-incident-dataset` (isolated incident storage and cluster).
+Steps that were manual in the original lab and need new scripts: VM creation; guest base packages; installing the
+WAL receiver key line from `bin/lab-wal-receiver-key`; trusting the new guest's SSH host key.
+
 ## Do
 Create `provision/` with:
 1. `00-host-check.sh`: verify host prerequisites (commands and versions above, libvirt access, sudo, free space,
