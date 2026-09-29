@@ -12,7 +12,7 @@ contracts and appends keys to `etc/lab.env`.
 P1 builds no intelligence. It builds the **instruments**: the ground-truth oracle, the results row, and the
 two-phase run harness. Everything measured for the rest of the project is measured through what P1 freezes here.
 
-The reason this comes before analytics, representations and models is blunt: a coding agent will happily produce a
+The reason this comes before analytics, representations and models is blunt: it is easy to produce a
 plausible-but-wrong analysis engine, and the only defence is an oracle and a results logger that already exist and
 can catch it. This project studies agent-induced failure; do not let an agent-induced failure produce its results.
 

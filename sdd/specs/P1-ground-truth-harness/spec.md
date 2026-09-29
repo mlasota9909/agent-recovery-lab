@@ -29,7 +29,7 @@ each arm regenerates its own baseline and its own concurrent legitimate workload
 representation and the comparison is worthless. The harness must therefore separate *generating* an incident from
 *evaluating* an arm against it, so one incident can be replayed to many arms over byte-identical evidence.
 
-**Plausible-but-wrong analysis.** A coding agent will produce analysis code that looks right and is not. The oracle
+**Plausible-but-wrong analysis.** Analysis code can look right and still be wrong. The oracle
 and the results logger are the test harness that catches this, so they must exist first. This project is about
 agent-induced failure; it must not be undone by one.
 
