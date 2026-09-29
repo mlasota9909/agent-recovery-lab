@@ -80,9 +80,10 @@ def run_loop(incident: str) -> int:
         while not stop["flag"]:
             record = take_snapshot_tick(incident)
             now = time.monotonic()
-            gap = now - previous
-            status["max_gap_s"] = max(status["max_gap_s"], gap)
-            check_gap(gap, interval)
+            # A tick can finish late after taking its snapshot on time while other
+            # writers hold the snapshot lock. Report that lag; judge missed intervals
+            # on the recorded snapshot times, which define the evidence intervals.
+            status["max_completion_gap_s"] = max(status.get("max_completion_gap_s", 0.0), now - previous)
             snapshot_at = datetime.fromisoformat(record["created_at"].replace("Z", "+00:00"))
             if previous_snapshot is not None:
                 snapshot_gap = (snapshot_at - previous_snapshot).total_seconds()
@@ -100,8 +101,9 @@ def run_loop(incident: str) -> int:
             deadline = max(deadline + interval, now)
             while not stop["flag"] and time.monotonic() < deadline:
                 time.sleep(min(0.1, max(0, deadline - time.monotonic())))
+        # A loop that stalled before the stop request still fails.
         gap = time.monotonic() - previous
-        status["max_gap_s"] = max(status["max_gap_s"], gap)
+        status["max_completion_gap_s"] = max(status.get("max_completion_gap_s", 0.0), gap)
         check_gap(gap, interval)
         status.update(state="stopped", ok=status["ticks"] > 0)
     except BaseException as exc:

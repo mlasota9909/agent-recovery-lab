@@ -409,13 +409,16 @@ class LoopTests(ScratchTest):
         with self.assertRaisesRegex(RuntimeError, "missed an interval"):
             loop.check_gap(4.001, 2)
 
-    def test_tick_latency_violation_is_recorded_as_failure(self):
-        with patch.object(loop, "take_snapshot_tick", return_value=snap("a", 0, "0/10")), \
-             patch.object(loop.signal, "signal"), \
-             patch.object(loop.time, "monotonic", side_effect=[0.0, 4.01]), \
-             patch.dict(os.environ, {"SNAP_INTERVAL_S": "2"}), \
-             contextlib.redirect_stderr(io.StringIO()):
-            self.assertEqual(loop.run_loop(INCIDENT), 1)
+    def test_late_completion_after_an_on_time_snapshot_is_not_a_missed_interval(self):
+        code, ticks = self.run_with_durations([0.5, 4.2])
+        self.assertEqual((code, ticks), (0, [0, 2]))
+        status = loop.read_status(INCIDENT)
+        self.assertGreater(status["max_completion_gap_s"], 4)
+        self.assertLessEqual(status["max_gap_s"], 2 + 1e-9)
+
+    def test_recorded_snapshots_more_than_two_periods_apart_fail(self):
+        code, _ = self.run_with_durations([4.5, 0.5])
+        self.assertEqual(code, 1)
         self.assertIn("missed an interval", loop.read_status(INCIDENT)["error"])
 
     def test_missing_completion_is_fatal(self):
