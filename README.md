@@ -207,7 +207,8 @@ stages (or `run/all.sh`) again. It refuses once a freeze exists.
 
 ## Resuming and independent execution
 
-Stages 00 and 10 can be checked again. The provisioning stage never automatically
+Stages 00 and 10 can be checked again; once the replica holds experiment
+incidents, stage 00 skips provisioning and stage 10 checks the lab. The provisioning stage never automatically
 replaces an existing domain. Follow `provision/README.md` for an interrupted build.
 Stage 20 refuses an open incident and refuses a second generation attempt for the
 same run. An unsuccessful attempt retains its receipt for investigation; it is

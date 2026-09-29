@@ -77,6 +77,13 @@ def lab_health():
 def provision():
     state = lab_root() / "var/provision/vm.json"
     if state.exists():
+        # The provisioning health check applies to a fresh replica; once an experiment
+        # has replaced its archive scope, stage 10 checks the lab instead.
+        baseline = lab_root() / "var/provision/baseline.json"
+        current = Path(os.environ["ARCHIVE_CURRENT"])
+        if baseline.exists() and current.is_symlink() and current.resolve().name != read(baseline).get("incident"):
+            print("Provisioning skipped: the replica already holds experiment incidents; stage 10 checks the lab.")
+            return
         health = command("provision/40-healthcheck.sh", allowed=(0, 1, 2), timeout=3600,
                          out=logdir() / "provision-health.json")
         if health.returncode == 0:

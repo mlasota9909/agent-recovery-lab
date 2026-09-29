@@ -277,6 +277,16 @@ class BoundaryTests(Scratch):
                     self.assertEqual(sc01.main(["--stage", stage, "--incident", "SC-01_20260930T000000Z"]), 1)
                 self.assertIn("dry-run scope runs only the incident and gate stages", err.getvalue())
 
+    def test_provisioning_is_skipped_once_experiments_replaced_the_archive_scope(self):
+        common.save(self.root / "var/provision/vm.json", {"name": "fixture"})
+        common.save(self.root / "var/provision/baseline.json", {"incident": "SC-01_20260101T000000Z"})
+        target = self.root / "archive" / INCIDENT
+        target.mkdir(parents=True)
+        (self.root / "archive/current").symlink_to(target)
+        with patch("sys.stdout", new_callable=io.StringIO) as out:
+            run.provision()
+        self.assertIn("Provisioning skipped: the replica already holds experiment incidents", out.getvalue())
+
     def test_backend_digest_never_substitutes_another_served_model(self):
         response = io.BytesIO(json.dumps({"data": [{"id": "different", "root": "root", "max_model_len": 99}]}).encode())
         with patch.object(p9, "_urlopen", return_value=response):
