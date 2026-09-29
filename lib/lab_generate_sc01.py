@@ -158,6 +158,9 @@ def generate(log: list[dict]) -> dict:
 
         barrier = run_bin("lab-barrier", [], timeout=150)
         add({"step": 9, "action": "barrier", "exit": barrier.returncode})
+        # Stop decode before the window cut so post-close commits cannot land in db.jsonl.
+        consumer = run_bin("lab-consumer", ["stop", incident], timeout=60)
+        add({"step": 9, "action": "consumer_stop", "exit": consumer.returncode})
         from lab_generate_incident import window_ledger
         dropped = window_ledger(ed / "db.jsonl", open_snap["recorded_lsn"], post["recorded_lsn"])
         add({"step": 9, "action": "ledger_window", "dropped": dropped,
