@@ -87,7 +87,8 @@ def build(incident: str, representation: str) -> dict:
         else:
             counts = row["counts"]
             lines.append(f"Interval {row['interval']} [{row['from_time']} .. {row['to_time']}]: "
-                         f"{counts['files_deleted']} files deleted, {counts['files_modified']} modified, "
+                         f"{counts['files_deleted']} {'file' if counts['files_deleted'] == 1 else 'files'} deleted, "
+                         f"{counts['files_modified']} modified, "
                          f"{counts['files_created']} created under {json_line(most_changed_directory(changes))}; "
                          f"anomaly {json_line(row['anomaly_score'])}.")
     view = {"content": "\n".join(lines), "incident_id": incident, "params": {"top_n": 3},

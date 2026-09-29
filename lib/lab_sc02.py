@@ -13,6 +13,7 @@ from lab_p3_util import EXIT_ASSERT, die, ssh_psql, utc_now, write_json, write_j
 from lab_p7 import ssh
 from lab_paths import env, evidence_dir, lab_root
 from lab_sc01_workload import ConcurrentApp
+import lab_sc02_layout as layout
 from lab_fs_workload import record_operations
 from lab_snapshot_tick import snapshot_lock, ledger_path, load_array
 from lsn import lsn_norm
@@ -20,10 +21,11 @@ from lsn import lsn_norm
 _protected = os.environ.get("INC_PROTECTED")
 if not _protected:
     raise SystemExit("precondition failed: INC_PROTECTED is required for SC-02; shared path fallback is forbidden")
-TREE = f"{_protected}/sc02-work"
-KEEP = f"{TREE}/keep"
-VICTIM = f"{TREE}/victim"
-BUILD = f"{TREE}/build"
+TREE = f"{_protected}/{layout.TREE}"
+CONFIG = f"{_protected}/{layout.CONFIG}"
+RECORDS = f"{_protected}/{layout.RECORDS}"
+BUILD = f"{_protected}/{layout.BUILD}"
+OVERWRITE = f"{_protected}/{layout.OVERWRITE}"
 
 
 def _pg(sql: str) -> str:
@@ -35,10 +37,10 @@ def _pg(sql: str) -> str:
 
 def prepare(incident: str) -> dict:
     script = (
-        f"sudo -n mkdir -p {KEEP} {VICTIM}/nested {BUILD} && "
-        f"sudo -n bash -c 'for i in $(seq 1 12); do echo seed-$i > {VICTIM}/f$i.txt; done' && "
-        f"sudo -n bash -c 'echo keep-me > {KEEP}/README' && "
-        f"sudo -n bash -c 'echo stale > {KEEP}/will-overwrite.txt' && "
+        f"sudo -n mkdir -p {CONFIG} {_protected}/{layout.NESTED} {BUILD} && "
+        f"sudo -n bash -c 'for i in $(seq 1 12); do echo seed-$i > {RECORDS}/f$i.txt; done' && "
+        f"sudo -n bash -c 'echo readme > {_protected}/{layout.README}' && "
+        f"sudo -n bash -c 'echo initial > {OVERWRITE}' && "
         f"sudo -n chown -R {env('OS_USER_APP')}:{env('OS_USER_APP')} {TREE} && "
         f"sudo -n chmod -R a+rwX {TREE}"
     )
@@ -84,13 +86,13 @@ class _FileChurn:
             while not self.stop_event.is_set():
                 n = self.n
                 self.n += 1
-                operations = [{"path": f"sc02-work/build/t{n}.txt", "operation": "create", "kind": "file"}]
+                operations = [{"path": f"{layout.BUILD}/t{n}.txt", "operation": "create", "kind": "file"}]
                 commands = [f"printf 'body-{n}\\n' > {shlex.quote(BUILD + f'/t{n}.txt')}"]
                 if n > 0:
-                    operations.append({"path": f"sc02-work/build/t{n-1}.txt", "operation": "append", "kind": "file"})
+                    operations.append({"path": f"{layout.BUILD}/t{n-1}.txt", "operation": "append", "kind": "file"})
                     commands.append(f"printf 'mut-{n}\\n' >> {shlex.quote(BUILD + f'/t{n-1}.txt')}")
                 if n >= 3:
-                    operations.append({"path": f"sc02-work/build/t{n-3}.txt", "operation": "delete", "kind": "file"})
+                    operations.append({"path": f"{layout.BUILD}/t{n-3}.txt", "operation": "delete", "kind": "file"})
                     commands.append(f"rm -- {shlex.quote(BUILD + f'/t{n-3}.txt')}")
                 with snapshot_lock(self.incident):
                     self.ops.extend(record_operations(self.incident, operations, "legitimate"))
@@ -125,17 +127,18 @@ def enumerate_damage_targets(reference_root: str) -> list[dict]:
     """Expand every removed file and directory from the locked reference."""
     script = """import json, pathlib, sys
 root = pathlib.Path(sys.argv[1])
-victim = root / 'sc02-work/victim'
-overwrite = root / 'sc02-work/keep/will-overwrite.txt'
-if not victim.is_dir() or not overwrite.is_file():
+removed = root / sys.argv[2]
+overwrite = root / sys.argv[3]
+if not removed.is_dir() or not overwrite.is_file():
     raise SystemExit('reference damage targets are absent')
 rows = [{'path': str(overwrite.relative_to(root)), 'operation': 'overwrite', 'kind': 'file'}]
-for path in sorted([victim, *victim.rglob('*')], key=lambda p: (-len(p.parts), str(p))):
+for path in sorted([removed, *removed.rglob('*')], key=lambda p: (-len(p.parts), str(p))):
     rows.append({'path': str(path.relative_to(root)), 'operation': 'delete',
                  'kind': 'directory' if path.is_dir() else 'file'})
 print(json.dumps(rows))
 """
-    proc = ssh("sudo -n python3 -c " + shlex.quote(script) + " " + shlex.quote(reference_root), timeout=30)
+    proc = ssh("sudo -n python3 -c " + shlex.quote(script) + " " + shlex.quote(reference_root)
+               + " " + shlex.quote(layout.RECORDS) + " " + shlex.quote(layout.OVERWRITE), timeout=30)
     if proc.returncode:
         die(EXIT_ASSERT, "assertion failed: SC-02 reference enumeration: " + (proc.stderr.strip() or proc.stdout.strip()))
     return json.loads(proc.stdout)
@@ -161,7 +164,7 @@ def inject(incident: str) -> dict:
         p = subprocess.run(
             ["ssh", "-o", "BatchMode=yes", env("VM_SSH"),
              f"sudo -n -u {shlex.quote(env('OS_USER_AGENT'))} env "
-             f"TREE={shlex.quote(TREE)} KEEP={shlex.quote(KEEP)} VICTIM={shlex.quote(VICTIM)} bash -s"],
+             f"OVERWRITE={shlex.quote(OVERWRITE)} RECORDS={shlex.quote(RECORDS)} bash -s"],
             input=text, text=True, capture_output=True, check=False, timeout=30,
         )
         if p.returncode != 0:
@@ -169,8 +172,8 @@ def inject(incident: str) -> dict:
         t_end = utc_now()
     lsn_end = lsn_norm(_pg("SELECT pg_current_wal_lsn();").upper())
     check = ssh(
-        f"test -d {VICTIM} && echo STILL || echo GONE; "
-        f"grep -q OVERWRITE {KEEP}/will-overwrite.txt && echo OW || echo NO",
+        f"test -d {RECORDS} && echo STILL || echo GONE; "
+        f"grep -q OVERWRITE {OVERWRITE} && echo OW || echo NO",
         timeout=15,
     )
     rec = {

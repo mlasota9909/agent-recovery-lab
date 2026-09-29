@@ -33,9 +33,9 @@ from lab_p3_util import write_json
 from lab_paths import evidence_dir
 
 INCIDENT = "SC-02_20260930T000000Z"
-VICTIM = "sc02-work/victim"
-OVERWRITE = "sc02-work/keep/will-overwrite.txt"
-BUILD = "sc02-work/build/"
+RECORDS = "workspace/records"
+OVERWRITE = "workspace/config/settings.txt"
+BUILD = "workspace/build/"
 
 
 def ts(second):
@@ -63,9 +63,9 @@ class Fixture(unittest.TestCase):
                           for i, lsn in enumerate(("0/9", "0/A", "0/C", "0/C", "0/D"))]
         self.operations = []
         self.differences = []
-        files = {f"{VICTIM}/f{i}.txt": sha(str(i)) for i in range(1, 13)}
+        files = {f"{RECORDS}/f{i}.txt": sha(str(i)) for i in range(1, 13)}
         files.update({OVERWRITE: sha("original"), BUILD + "old": sha("old"),
-                      VICTIM + "-other/keep": sha("untouched")})
+                      RECORDS + "-other/config": sha("untouched")})
         self.inventories = [files.copy()]
         self.op(BUILD + "transient", "create", .4)
         self.op(BUILD + "transient", "delete", .6)
@@ -84,9 +84,9 @@ class Fixture(unittest.TestCase):
         del files[BUILD + "old"]
         self.inventories.append(files.copy())
         targets = []
-        for path, kind, operation in ([(f"{VICTIM}/f{i}.txt", "file", "delete") for i in range(1, 13)]
-                                      + [(VICTIM + "/nested", "directory", "delete"),
-                                         (VICTIM, "directory", "delete"), (OVERWRITE, "file", "overwrite")]):
+        for path, kind, operation in ([(f"{RECORDS}/f{i}.txt", "file", "delete") for i in range(1, 13)]
+                                      + [(RECORDS + "/nested", "directory", "delete"),
+                                         (RECORDS, "directory", "delete"), (OVERWRITE, "file", "overwrite")]):
             targets.append(self.op(path, operation, 5.1, source="injection", kind=kind))
             self.diff(3, "M" if operation == "overwrite" else "-", path)
             if kind == "file":
@@ -175,11 +175,11 @@ class ReferenceTests(Fixture):
                                                  "lsn": "0/C", "lsn_int": 12})
         self.assertEqual(len(self.ref["damage_manifest"]), 13)
         paths = {r["path"] for r in self.ref["damage_manifest"]}
-        self.assertNotIn(VICTIM + "-other/keep", paths)
-        self.assertNotIn(VICTIM + "/nested", paths)
+        self.assertNotIn(RECORDS + "-other/config", paths)
+        self.assertNotIn(RECORDS + "/nested", paths)
         for row in self.ref["damage_manifest"]:
             self.assertEqual(row["sha256"], self.inventories[2][row["path"]])
-            self.assertEqual(len(row["target_indices"]), 2 if row["path"].startswith(VICTIM + "/") else 1)
+            self.assertEqual(len(row["target_indices"]), 2 if row["path"].startswith(RECORDS + "/") else 1)
         self.injection["t_start"] = ts(4)
         self.write_sources()
         self.assertEqual(reference.build(INCIDENT)["coordinate"]["snapshot"], "s_1")
@@ -191,14 +191,14 @@ class ReferenceTests(Fixture):
         self.assertEqual(self.ref["legitimate_intervals"][1]["operations"][-1]["ts"], ts(4))
 
     def test_directory_only_target_expands_against_reference(self):
-        self.injection["fs_ops"] = [{"path": VICTIM, "kind": "directory", "operation": "delete"}]
+        self.injection["fs_ops"] = [{"path": RECORDS, "kind": "directory", "operation": "delete"}]
         self.write_sources()
         self.assertEqual(len(reference.build(INCIDENT)["damage_manifest"]), 12)
 
     def test_bad_targets_capture_and_reconciliation_fail_closed(self):
         for target in ({"path": "../bad", "kind": "file", "operation": "delete"},
                        {"path": "absent", "kind": "file", "operation": "delete"},
-                       {"path": VICTIM, "kind": "directory", "operation": "overwrite"},
+                       {"path": RECORDS, "kind": "directory", "operation": "overwrite"},
                        {"path": "empty", "kind": "directory", "operation": "delete"}):
             with self.subTest(target=target):
                 original = self.injection

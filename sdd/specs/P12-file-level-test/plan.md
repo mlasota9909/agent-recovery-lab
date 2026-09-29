@@ -11,12 +11,16 @@ The lab is rebuilt in a fresh repository and a fresh VM by scripts, and the P12 
 
 ## ADRs
 
-- ADR-1 Scenario. SC-02 as defined in scenarios/sc02 and lib/lab_sc02.py: a protected tree `sc02-work` with `keep/`
-  (a README and `will-overwrite.txt`), `victim/` (twelve files `f1.txt`-`f12.txt` and `nested/`) and `build/`;
-  legitimate file churn every 0.4 s (create `t<n>.txt`, append to the previous file, delete `t<n-3>.txt`) and database
-  work at 6 transactions per second; the injection overwrites `keep/will-overwrite.txt` and removes `victim/`
-  recursively; 8 s baseline, 4 s after.
-- ADR-2 Snapshots. One recorded snapshot every 2 s from the start of the baseline until 4 s after the injection ends,
+- ADR-1 Scenario. SC-02 as defined in scenarios/sc02 and lib/lab_sc02.py, with the tree layout of
+  lib/lab_sc02_layout.py: a protected tree `workspace` with `config/` (a README and `settings.txt`), `records/`
+  (twelve files `f1.txt`-`f12.txt` and `nested/`) and `build/`. Legitimate file churn in `build/`: each change set
+  creates `t<n>.txt`, appends to the previous file and deletes `t<n-3>.txt`, then pauses 0.4 s; a change set waits
+  for any snapshot in progress, so the achieved period is longer and is measured from `fs-workload.jsonl`.
+  Database work runs at 6 transactions per second. The injection overwrites `config/settings.txt` and removes
+  `records/` recursively; 8 s baseline, 4 s after. Model inputs show these paths, so the names carry no role label,
+  as in the database-level test, where damage and legitimate work share one relation name.
+- ADR-2 Snapshots. One recorded snapshot every 2 s from before the baseline (the loop starts with evidence
+  capture) until 4 s after the injection ends,
   plus the generator's open, pre-injection and post-capture snapshots, all through one writer with collision-free
   names (UTC milliseconds plus a sequence number) and one host record per incident. Each snapshot keeps the P0 order:
   snapshot, recorded LSN, WAL switch.

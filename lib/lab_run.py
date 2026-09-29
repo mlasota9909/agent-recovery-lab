@@ -11,6 +11,7 @@ import subprocess
 import sys
 
 from lab_paths import evidence_dir, lab_root
+import lab_sc02_layout as layout
 from lab_run_common import (command, incident_id, json_command, logdir, model_registry,
                             read, save, sha, utc, verify_freeze)
 
@@ -198,8 +199,8 @@ def capture_gate(incident):
             raise ValueError("capture receipt count differs from stored evidence")
     injection = read(directory / "injection.json")
     paths = {(r["change_type"], r["path"]) for r in differences}
-    required = {("-", f"sc02-work/victim/f{i}.txt") for i in range(1, 13)}
-    required |= {("-", "sc02-work/victim"), ("M", "sc02-work/keep/will-overwrite.txt")}
+    required = {("-", path) for path in layout.RECORD_FILES}
+    required |= {("-", layout.RECORDS), ("M", layout.OVERWRITE)}
     if not required <= paths or not injection.get("fs_ops"):
         raise ValueError("captured differences do not contain every SC-02 damage target")
     return {"pure_C7": pure, "ledger_C7": integrated, "snapshots": len(snapshots),

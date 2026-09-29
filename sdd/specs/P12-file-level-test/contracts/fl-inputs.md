@@ -89,8 +89,8 @@ then path, then change type for equal paths. No truncation or row cap applies.
 
 ```jsonl
 {"intervals":[{"interval":3,"from_snapshot":"s2","to_snapshot":"s3","from_time":"2026-09-29T00:00:04Z","to_time":"2026-09-29T00:00:06Z"}]}
-{"interval":3,"from_snapshot":"s2","to_snapshot":"s3","from_time":"2026-09-29T00:00:04Z","to_time":"2026-09-29T00:00:06Z","change_type":"M","path":"sc02-work/keep/will-overwrite.txt"}
-{"interval":3,"from_snapshot":"s2","to_snapshot":"s3","from_time":"2026-09-29T00:00:04Z","to_time":"2026-09-29T00:00:06Z","change_type":"-","path":"sc02-work/victim/f1.txt"}
+{"interval":3,"from_snapshot":"s2","to_snapshot":"s3","from_time":"2026-09-29T00:00:04Z","to_time":"2026-09-29T00:00:06Z","change_type":"M","path":"workspace/config/settings.txt"}
+{"interval":3,"from_snapshot":"s2","to_snapshot":"s3","from_time":"2026-09-29T00:00:04Z","to_time":"2026-09-29T00:00:06Z","change_type":"-","path":"workspace/records/f1.txt"}
 ```
 
 ### R1 — Structured Summaries
@@ -110,9 +110,10 @@ Exactly one templated sentence per selected interval. The directory named is the
 parent directory with the most captured changes in that interval (ties: alphabetical
 first; both ends of a rename count), mirroring the database-level template, which names
 the table with the most changes. Empty intervals use `.` (the protected root). Directory names
-are JSON-quoted; scores use their full JSON numeric spelling.
+are JSON-quoted; scores use their full JSON numeric spelling. A deleted count of one reads
+`1 file deleted`; every other count reads `files`.
 
 ```text
 {"intervals":[{"interval":3,"from_snapshot":"s2","to_snapshot":"s3","from_time":"2026-09-29T00:00:04Z","to_time":"2026-09-29T00:00:06Z"}]}
-Interval 3 [2026-09-29T00:00:04Z .. 2026-09-29T00:00:06Z]: 4 files deleted, 1 modified, 0 created under "sc02-work/victim"; anomaly 4.0.
+Interval 3 [2026-09-29T00:00:04Z .. 2026-09-29T00:00:06Z]: 4 files deleted, 1 modified, 0 created under "workspace/records"; anomaly 4.0.
 ```

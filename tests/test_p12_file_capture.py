@@ -305,10 +305,10 @@ class ReconcileTests(ScratchTest):
     def test_exact_visible_and_invisible_counts(self):
         ops = [op("build/new", "create", 1), op("build/new", "append", 1),
                op("build/temp", "create", 1), op("build/temp", "delete", 1),
-               op("keep/file", "overwrite", 3), op("victim/file", "delete", 3)]
+               op("config/file", "overwrite", 3), op("records/file", "delete", 3)]
         diffs = [diff("build/new", "+"), diff("build", "M"),
-                 diff("keep/file", "M", "b", "c"), diff("victim/file", "-", "b", "c"),
-                 diff("victim", "M", "b", "c")]
+                 diff("config/file", "M", "b", "c"), diff("records/file", "-", "b", "c"),
+                 diff("records", "M", "b", "c")]
         report = self.check(ops, diffs)
         self.assertTrue(report["ok"], report)
         self.assertEqual((report["matched"], report["invisible"]), (4, 2))
@@ -343,12 +343,12 @@ class ReconcileTests(ScratchTest):
         self.assertEqual(report["matched"], 2)
 
     def test_deleted_directory_and_children_are_exact_targets(self):
-        report = self.check([op("victim/f", "delete", 1), op("victim/nested", "delete", 1),
-                             op("victim", "delete", 1)],
-                            [diff("victim/f", "-"), diff("victim/nested", "-"),
-                             diff("victim", "-"), diff(".", "M")])
+        report = self.check([op("records/f", "delete", 1), op("records/nested", "delete", 1),
+                             op("records", "delete", 1)],
+                            [diff("records/f", "-"), diff("records/nested", "-"),
+                             diff("records", "-"), diff(".", "M")])
         self.assertTrue(report["ok"], report)
-        report = self.check([op("victim/f", "delete", 1)], [diff("victim/f", "-"), diff("other", "M")])
+        report = self.check([op("records/f", "delete", 1)], [diff("records/f", "-"), diff("other", "M")])
         self.assertFalse(report["ok"])
 
     def test_unbracketed_and_invalid_records_fail(self):
@@ -452,11 +452,11 @@ class WorkloadTests(ScratchTest):
     def test_reference_enumeration_includes_files_empty_directories_and_overwrite(self):
         module = self.scenario()
         root = self.root / "reference"
-        (root / "sc02-work/victim/nested").mkdir(parents=True)
-        (root / "sc02-work/keep").mkdir()
+        (root / "workspace/records/nested").mkdir(parents=True)
+        (root / "workspace/config").mkdir()
         for i in range(1, 13):
-            (root / f"sc02-work/victim/f{i}.txt").write_text("seed")
-        (root / "sc02-work/keep/will-overwrite.txt").write_text("original")
+            (root / f"workspace/records/f{i}.txt").write_text("seed")
+        (root / "workspace/config/settings.txt").write_text("original")
         def local_python(command, **kw):
             args = shlex.split(command)
             self.assertEqual(args[:3], ["sudo", "-n", "python3"])
@@ -484,8 +484,8 @@ class WorkloadTests(ScratchTest):
         rows = [json.loads(line) for line in (self.ed / "fs-workload.jsonl").read_text().splitlines()]
         self.assertEqual([row["operation"] for row in rows],
                          ["create", "create", "append", "create", "append", "create", "append", "delete"])
-        self.assertTrue(all(row["ts"].endswith("Z") and row["path"].startswith("sc02-work/build/") for row in rows))
-        self.assertEqual(rows[-1]["path"], "sc02-work/build/t0.txt")
+        self.assertTrue(all(row["ts"].endswith("Z") and row["path"].startswith("workspace/build/") for row in rows))
+        self.assertEqual(rows[-1]["path"], "workspace/build/t0.txt")
         self.assertFalse((self.ed / "workload.jsonl").exists())
         self.assertIsNone(churn.error)
 
@@ -506,11 +506,11 @@ class ExpectedFingerprintTests(unittest.TestCase):
             ev = Path(tmp)
             (ev / "oracle.json").write_text(json.dumps({"coordinate": {"snapshot": "s_ref"}}))
             (ev / "fs_hashes.tsv").write_text(
-                "s_ref\tkeep/a.txt\t" + "a" * 64 + "\n"
-                "s_late\tkeep/a.txt\t" + "b" * 64 + "\n")
+                "s_ref\tconfig/a.txt\t" + "a" * 64 + "\n"
+                "s_late\tconfig/a.txt\t" + "b" * 64 + "\n")
             snapshot, rows = expected_fingerprints(ev)
             self.assertEqual(snapshot, "s_ref")
-            self.assertEqual(rows, [("keep/a.txt", "a" * 64)])
+            self.assertEqual(rows, [("config/a.txt", "a" * 64)])
 
 
 

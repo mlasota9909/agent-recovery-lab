@@ -189,7 +189,7 @@ class GateTests(Fixture):
         with self.assertRaisesRegex(ValueError, "incomplete capture"):
             run.capture_gate(INCIDENT)
         common.save(path, rows)
-        self.differences = [d for d in self.differences if d["path"] != "sc02-work/victim/f12.txt"]
+        self.differences = [d for d in self.differences if d["path"] != "workspace/records/f12.txt"]
         self.write_sources()
         with self.assertRaisesRegex(ValueError, "C-7"):
             run.capture_gate(INCIDENT)

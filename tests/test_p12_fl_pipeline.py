@@ -56,25 +56,25 @@ class Fixture(unittest.TestCase):
                           for i, name in enumerate("abcdef")]
         self.differences = []
         self.inventories = []
-        files = {f"sc02-work/victim/f{i}.txt" for i in range(4)} | {
-            "sc02-work/keep/will-overwrite.txt", "sc02-work/build/existing.txt"}
+        files = {f"workspace/records/f{i}.txt" for i in range(4)} | {
+            "workspace/config/settings.txt", "workspace/build/existing.txt"}
         self.inventories.append(files.copy())
         for i in range(1, 6):
             changes = []
             if i in (1, 2):
-                path = f"sc02-work/build/t{i}.txt"
+                path = f"workspace/build/t{i}.txt"
                 files.add(path)
-                changes = [("+", path), ("M", "sc02-work/build/existing.txt"), ("M", "sc02-work/build")]
+                changes = [("+", path), ("M", "workspace/build/existing.txt"), ("M", "workspace/build")]
             elif i == 3:
-                deleted = sorted(path for path in files if "/victim/" in path)
+                deleted = sorted(path for path in files if "/records/" in path)
                 files.difference_update(deleted)
                 changes = [("-", path) for path in deleted] + [
-                    ("-", "sc02-work/victim"), ("-", "sc02-work/victim/nested"),
-                    ("M", "sc02-work/keep/will-overwrite.txt")]
+                    ("-", "workspace/records"), ("-", "workspace/records/nested"),
+                    ("M", "workspace/config/settings.txt")]
             elif i == 4:
-                added = [f"sc02-work/build/q{k}.txt" for k in range(4)]
+                added = [f"workspace/build/q{k}.txt" for k in range(4)]
                 files.update(added)
-                changes = [("+", path) for path in added] + [("M", "sc02-work/build/t2.txt")]
+                changes = [("+", path) for path in added] + [("M", "workspace/build/t2.txt")]
             self.differences.extend({"from_snapshot": "abcdef"[i-1], "to_snapshot": "abcdef"[i],
                                      "change_type": change, "path": path} for change, path in changes)
             self.inventories.append(files.copy())
@@ -93,7 +93,7 @@ class Fixture(unittest.TestCase):
             f"{name}\t{path}\t{hashlib.sha256((name + path).encode()).hexdigest()}\n"
             for name, paths in zip("abcdef", self.inventories) for path in sorted(paths)))
         (self.directory / "fs-workload.jsonl").write_text(json.dumps(
-            {"path": "sc02-work/build/t1.txt", "ts": time(1), "operation": "create", "source": "legitimate"}) + "\n")
+            {"path": "workspace/build/t1.txt", "ts": time(1), "operation": "create", "source": "legitimate"}) + "\n")
 
     def save_artifact(self):
         write_json(self.directory / "fl-intervals.json", self.artifact)
@@ -213,14 +213,14 @@ class InputTests(Fixture):
         self.assertEqual(len(raw), len(expected))
         self.assertEqual([{key: row[key] for key in expected[0]} for row in raw],
                          sorted(expected, key=lambda row: (row["from_snapshot"], row["path"], row["change_type"])))
-        self.assertTrue(any(row["path"] == "sc02-work/victim/nested" for row in raw))
+        self.assertTrue(any(row["path"] == "workspace/records/nested" for row in raw))
         structured = [json.loads(line) for line in views[1]["content"].splitlines()[1:]]
         self.assertEqual(structured, [{"interval": 1, "anomaly_score": 0, "last_safe_snapshot": "a"},
                                      {"interval": 3, "anomaly_score": 4, "last_safe_snapshot": "c"},
                                      {"interval": 4, "anomaly_score": 3, "last_safe_snapshot": "d"}])
         self.assertEqual(views[2]["content"].splitlines()[2],
                          f'Interval 3 [{time(4)} .. {time(6)}]: 4 files deleted, 1 modified, '
-                         '0 created under "sc02-work/victim"; anomaly 4.0.')
+                         '0 created under "workspace/records"; anomaly 4.0.')
 
     def test_empty_intervals_are_visible_and_directory_falls_back_to_root(self):
         self.artifact["intervals"][4]["anomaly_score"] = 9
@@ -230,6 +230,9 @@ class InputTests(Fixture):
         self.assertFalse(any(json.loads(line)["interval"] == 5 for line in raw.splitlines()[1:]))
         written = inputs.build(INCIDENT, "R2")["content"]
         self.assertIn('0 files deleted, 0 modified, 0 created under ".";', written)
+        self.artifact["intervals"][4]["counts"]["files_deleted"] = 1
+        self.save_artifact()
+        self.assertIn(': 1 file deleted, 0 modified, 0 created under', inputs.build(INCIDENT, "R2")["content"])
         for paths, expected in (([], "."), (["root-file"], "."), (["one/file", "two/file"], "one"),
                                 (["a/x", "b/y", "b/z"], "b"), (["a/old -> b/new"], "a")):
             self.assertEqual(inputs.most_changed_directory([{"path": p, "change_type": "R" if " -> " in p else "M"}
