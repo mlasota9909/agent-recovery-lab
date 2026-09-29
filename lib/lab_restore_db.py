@@ -74,10 +74,16 @@ def sandbox_pgdata_path(incident: str, tag: str) -> str:
 
 def stop_sandbox(pgdata: str, port: int, log: Path) -> None:
     refuse_victim_target("pg_ctl stop", pgdata)
+    # A fresh clone carries the source cluster's postmaster.pid, and pg_ctl stop
+    # signals whatever process that file names. Stop only a postmaster whose
+    # working directory is this sandbox.
     cmd = (
         f"if [ -d '{pgdata}' ]; then "
+        f"pid=$(head -n 1 '{pgdata}/postmaster.pid' 2>/dev/null || true); "
+        "case $pid in ''|*[!0-9]*) pid= ;; esac; "
+        f"if [ -n \"$pid\" ] && [ \"$(readlink -f /proc/$pid/cwd 2>/dev/null)\" = \"$(readlink -f '{pgdata}')\" ]; then "
         f"sudo -n -u postgres {PG_BIN}/pg_ctl -D '{pgdata}' -m fast stop >/dev/null 2>&1 || true; "
-        f"fi"
+        "fi; fi"
     )
     append_cmd(log, f"pg_ctl stop sandbox {pgdata} port={port}")
     ssh_sudo(cmd)

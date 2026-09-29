@@ -110,6 +110,11 @@ def generate(scenario: str, log: list[dict]) -> dict:
         entry["elapsed_ms"] = int(round((time.monotonic() - t0) * 1000))
         log.append(entry)
 
+    port_base = int(env("INCIDENT_PORT_BASE"))
+    if (os.environ.get("LAB_ACTIVE_INCIDENT") or "/inc_" in env("DS_PARENT")
+            or port_base <= int(env("PG_PORT")) < port_base + int(env("INCIDENT_PORT_COUNT"))):
+        die(EXIT_PRECOND, "precondition failed: generation must start from the site cluster, "
+                          "not from an incident runtime")
     ensure_sc01_seed()
     relation = os.environ.get("SC01_RELATION") or "p2_probe"
     cleanup = ssh_psql(

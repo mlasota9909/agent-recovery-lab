@@ -8,7 +8,9 @@ if [ -f "${SC01_SCENARIO_CONFIG:-$ROOT/etc/scenarios/sc01.env}" ]; then
   # shellcheck source=/dev/null
   source "${SC01_SCENARIO_CONFIG:-$ROOT/etc/scenarios/sc01.env}"
 fi
-source "$ROOT/lib/lab_incident_env.sh"
 set +a
+# A new incident starts from the site cluster and dataset parent, never from
+# the runtime of the incident that archive/current still names.
+unset LAB_ACTIVE_INCIDENT
 export PYTHONPATH="$ROOT/lib${PYTHONPATH:+:$PYTHONPATH}"
 exec python3 "$ROOT/lib/lab_generate_p7.py" "$@"
