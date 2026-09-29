@@ -48,7 +48,7 @@ def prepare(incident: str) -> dict:
     if proc.returncode != 0:
         die(EXIT_ASSERT, f"assertion failed: SC-02 seed tree: {proc.stderr.strip() or proc.stdout.strip()}")
     return {
-        "baseline_s": 8,
+        "baseline_s": 60,
         "after_s": 4,
         "tps": 6.0,
         "mix": "lab_app-file-churn+lab_app-dml+lab_agent-rm-overwrite",

@@ -17,7 +17,7 @@ The lab is rebuilt in a fresh repository and a fresh VM by scripts, and the P12 
   creates `t<n>.txt`, appends to the previous file and deletes `t<n-3>.txt`, then pauses 0.4 s; a change set waits
   for any snapshot in progress, so the achieved period is longer and is measured from `fs-workload.jsonl`.
   Database work runs at 6 transactions per second. The injection overwrites `config/settings.txt` and removes
-  `records/` recursively; 8 s baseline, 4 s after. Model inputs show these paths, so the names carry no role label,
+  `records/` recursively; 60 s baseline, 4 s after. Model inputs show these paths, so the names carry no role label,
   as in the database-level test, where damage and legitimate work share one relation name.
 - ADR-2 Snapshots. One recorded snapshot every 2 s from before the baseline (the loop starts with evidence
   capture) until 4 s after the injection ends,
