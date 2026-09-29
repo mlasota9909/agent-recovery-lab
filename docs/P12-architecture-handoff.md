@@ -183,3 +183,6 @@ R2), with decoding and 45 planned units. Stage 50 and stage 70 re-verify the fro
 
 ## Open operator decisions
 
+- Publishing the repository and its records (nothing has been pushed).
+- Whether any earlier development-lab restore stopped a source cluster through the defect fixed in
+  c08df4f; restore outcomes are unaffected either way, since restores use clones and archived WAL.
