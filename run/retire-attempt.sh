@@ -64,7 +64,9 @@ mkdir -p "$dest"
 calls=0
 rows=0
 if [[ -n $incident && ( $scenario == SC-03 || $scenario == SC-04 ) ]]; then
-  calls=$(find "$ROOT/logs/run/$incident/$tag/units" -name completion.txt 2>/dev/null | wc -l)
+  if [[ -d $ROOT/logs/run/$incident/$tag/units ]]; then
+    calls=$(find "$ROOT/logs/run/$incident/$tag/units" -name completion.txt | wc -l)
+  fi
   for kind in study comparators; do
     result=$ROOT/results/$tag-$kind-$incident.jsonl
     if [[ -e $result ]]; then
