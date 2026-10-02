@@ -112,6 +112,15 @@ class DamageCounting(unittest.TestCase):
         self.assertEqual(val.legitimate_lost(manifest, chosen=0x260, reference=0x250), (0, 4))
 
 
+class PositionOrder(unittest.TestCase):
+    def test_heartbeats_order_by_number_across_a_hex_digit_boundary(self):
+        import lab_analytics
+        rows = [{"lsn": "E404/14000208"}, {"lsn": "E404/1C000028"}, {"lsn": "E404/9000028"}]
+        self.assertEqual([r["lsn"] for r in lab_analytics.by_position(rows)],
+                         ["E404/9000028", "E404/14000208", "E404/1C000028"])
+        self.assertEqual(sorted(r["lsn"] for r in rows)[0], "E404/14000208")   # the text order the views gave
+
+
 class DamageShown(unittest.TestCase):
     def test_reads_positions_from_each_input(self):
         oracle = {"first_damage_commit_lsn": "0/D0006D8"}

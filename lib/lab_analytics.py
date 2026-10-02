@@ -42,21 +42,28 @@ def fetch(incident: str, sql: str) -> list[dict]:
     return data
 
 
+def by_position(rows: list[dict]) -> list[dict]:
+    """Order rows by numeric log position. The views hold positions as text, and text order breaks where the low
+    part gains a hex digit (0/FFFFFFF to 0/10000000): the first heartbeat, which anchors the windows, was then taken
+    from the middle of the incident and earlier windows were numbered below zero."""
+    return sorted(rows, key=lambda r: lsn_int(lsn_norm(str(r["lsn"]))))
+
+
 def analytics(incident: str) -> dict:
     require_lab()
     cfg = scenario_config()
     window_s = int(cfg.get("SC01_WINDOW_S", "2"))
     version = cfg.get("SC01_ANALYTICS_VERSION", "p3-analytics-1")
-    hbs = fetch(incident, """
+    hbs = by_position(fetch(incident, """
         SELECT lsn, timestamp FROM heartbeats
         WHERE lsn IS NOT NULL AND timestamp IS NOT NULL
         ORDER BY lsn
-    """)
-    changes = fetch(incident, """
+    """))
+    changes = by_position(fetch(incident, """
         SELECT action, lsn, timestamp, "table" FROM db_changes
         WHERE lsn IS NOT NULL
         ORDER BY lsn
-    """)
+    """))
     ddl = fetch(incident, """
         SELECT lsn, timestamp FROM ddl_events
         WHERE lsn IS NOT NULL
