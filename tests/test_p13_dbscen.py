@@ -112,6 +112,40 @@ class DamageCounting(unittest.TestCase):
         self.assertEqual(val.legitimate_lost(manifest, chosen=0x260, reference=0x250), (0, 4))
 
 
+class LockSafeCheck(unittest.TestCase):
+    """A copy stopped inside an uncommitted schema change holds the table's lock: SC-03 reads catalogs only."""
+
+    def test_sc03_never_reads_the_damaged_table_and_every_query_has_timeouts(self):
+        import json
+        import tempfile
+        queries = []
+
+        def fake_psql(port, sql):
+            queries.append(sql)
+            if "pg_attribute" in sql:
+                return "id bigint\namount numeric(12,2)\nstatus text"
+            if "pg_constraint" in sql:
+                return "sc03_orders_pkey\nsc03_amount_positive"
+            raise AssertionError("unexpected query: " + sql)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root, ev = Path(tmp) / "restore", Path(tmp) / "evidence"
+            root.mkdir(); ev.mkdir()
+            (root / "report.partial.json").write_text(json.dumps(
+                {"restore_target": {"sandbox_port": 55432}, "coordinate": {"lsn_int": 0x200}}))
+            (ev / "oracle-manifest.json").write_text(json.dumps(
+                {"optimum_lsn": "0/100", "damage": gen.damage_manifest("SC-03", SC03_INJECTION)}))
+            (ev / "workload-manifest.jsonl").write_text("")
+            with patch.object(val, "psql", fake_psql), patch.object(val, "restore_root", return_value=root), \
+                    patch.object(val, "evidence_dir", return_value=ev), \
+                    patch.object(val, "file_block", return_value={"mismatches": []}), \
+                    patch.object(val, "write_json"):
+                out = val.validate("SC-03_X", "ab-512")
+        self.assertEqual(out["summary"]["damage_units_retained"], 0)
+        self.assertTrue(queries and all(q.startswith(val.TIMEOUTS) for q in queries))
+        self.assertFalse(any("FROM public.sc03_orders" in q for q in queries))
+
+
 class PositionOrder(unittest.TestCase):
     def test_heartbeats_order_by_number_across_a_hex_digit_boundary(self):
         import lab_analytics

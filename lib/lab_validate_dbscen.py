@@ -13,6 +13,15 @@ import sys
 from lab_p4_util import restore_root, write_json
 from lab_paths import evidence_dir
 from lab_validate import expected_fingerprints, guest_sha256, hash_ids, load_jsonl, parse_hash_lines, psql, rec_lsn, rec_rows
+
+# A copy restored to a point inside an uncommitted schema change is paused in recovery, and its startup process holds
+# that transaction's exclusive lock on the table. The schema is therefore read from the catalogs, which need no lock on
+# the table, and every query has lock and statement timeouts so that a wait fails instead of hanging.
+TIMEOUTS = "SET lock_timeout = '10s'; SET statement_timeout = '120s'; "
+
+
+def query(port: int, sql: str) -> str:
+    return psql(port, TIMEOUTS + sql)
 from lab_p4_util import ssh_sudo
 from lsn import lsn_int, lsn_norm
 
@@ -24,7 +33,7 @@ SC03_RULE = "sc03_amount_positive"
 
 
 def columns(port: int, table: str) -> tuple[str, ...]:
-    out = psql(port, "SELECT a.attname||' '||format_type(a.atttypid,a.atttypmod) FROM pg_attribute a "
+    out = query(port, "SELECT a.attname||' '||format_type(a.atttypid,a.atttypmod) FROM pg_attribute a "
                      "JOIN pg_class c ON c.oid=a.attrelid JOIN pg_namespace n ON n.oid=c.relnamespace "
                      f"WHERE n.nspname='public' AND c.relname='{table}' AND a.attnum>0 AND NOT a.attisdropped "
                      "ORDER BY a.attnum;")
@@ -103,12 +112,12 @@ def validate(incident: str, restore_of: str) -> dict:
 
     cols = columns(port, table)
     if table == "sc03_orders":
-        rules = set(psql(port, "SELECT conname FROM pg_constraint c JOIN pg_class t ON t.oid=c.conrelid "
-                               "WHERE t.relname='sc03_orders';").split())
+        rules = set(query(port, "SELECT conname FROM pg_constraint c JOIN pg_class t ON t.oid=c.conrelid "
+                                "WHERE t.relname='sc03_orders';").split())
         retained = sc03_damage(cols, rules, damage["units"])
-        ids = [int(x) for x in psql(port, "SELECT id FROM public.sc03_orders ORDER BY 1;").split()]
+        ids = []   # catalog checks only: the table itself may be locked by a replayed, uncommitted schema change
     else:
-        raw = psql(port, "SELECT id || '|' || payload FROM public.sc04_items ORDER BY id;")
+        raw = query(port, "SELECT id || '|' || payload FROM public.sc04_items ORDER BY id;")
         values = {int(line.split("|", 1)[0]): line.split("|", 1)[1] for line in raw.splitlines() if "|" in line}
         retained = sc04_damage(values, damage["units"])
         ids = sorted(values)

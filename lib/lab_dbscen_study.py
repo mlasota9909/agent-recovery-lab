@@ -150,6 +150,20 @@ def damage_in_evidence(incident):
     return len(xids), sum(1 for x in xids if found[x] > 0)
 
 
+def first_damage_position(incident):
+    """The log position of the first damaging change record, inside its transaction and before its commit."""
+    from lab_repr import load_blind_events
+    from lsn import lsn_int, lsn_norm
+    injection = read(evidence_dir(incident) / "injection.json")
+    first = min(injection["ops"], key=lambda o: lsn_int(lsn_norm(o["commit_lsn"])))
+    xid = int(first["xid"]) & 0xFFFFFFFF
+    events, _ = load_blind_events(incident)
+    positions = [int(e["lsn_int"]) for e in events if e.get("xid") is not None and (int(e["xid"]) & 0xFFFFFFFF) == xid]
+    if not positions:
+        raise ValueError("the first damaging change is not in the evidence")
+    return min(positions)
+
+
 def damage_shown(incident, view):
     """Information only: does an input show a position at or after the first damaging commit?"""
     from lsn import lsn_int, lsn_norm
@@ -233,10 +247,12 @@ def gate(incident):
         post = next(s for s in snaps if timestamp(s["created_at"]) > end)
         reference = read(evidence_dir(incident) / "oracle.json")["coordinate"]
         report["controls"] = []
-        for name, lsn, expected in (("reference", reference["lsn"], "correct"),
-                                    ("earliest", snaps[0]["recorded_lsn"], "incorrect_safe"),
-                                    ("post_damage", post["recorded_lsn"], "incorrect_corrupt")):
-            check = db_check(incident, arm(incident, lsn_int(lsn)), base / "controls" / name)
+        # The second control stops inside the first damaging transaction: an uncommitted change is not in the copy.
+        for name, position, expected in (("reference", lsn_int(reference["lsn"]), "correct"),
+                                         ("inside_damage", first_damage_position(incident), "correct"),
+                                         ("earliest", lsn_int(snaps[0]["recorded_lsn"]), "incorrect_safe"),
+                                         ("post_damage", lsn_int(post["recorded_lsn"]), "incorrect_corrupt")):
+            check = db_check(incident, arm(incident, position), base / "controls" / name)
             report["controls"].append({"control": name, "expected": expected, **check})
             if check.get("verdict_v1") != expected:
                 raise ValueError("control failed: " + name)
