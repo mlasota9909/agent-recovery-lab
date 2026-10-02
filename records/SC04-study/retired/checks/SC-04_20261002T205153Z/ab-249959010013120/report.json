@@ -1,0 +1,154 @@
+{
+  "consistency_verdict": "incorrect-corrupt",
+  "coordinate": {
+    "lsn_int": 249959010013120,
+    "lsn_text": "E356/1E000FC0",
+    "skew_ms": 301,
+    "snapshot": "s_20261002T205310012Z_000023"
+  },
+  "db_validation": {
+    "mismatches": [
+      {
+        "actual": "mal-71",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:71"
+      },
+      {
+        "actual": "mal-190",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:190"
+      },
+      {
+        "actual": "mal-7",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:7"
+      },
+      {
+        "actual": "mal-174",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:174"
+      },
+      {
+        "actual": "mal-63",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:63"
+      },
+      {
+        "actual": "mal-140",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:140"
+      },
+      {
+        "actual": "mal-36",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:36"
+      },
+      {
+        "actual": "mal-189",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:189"
+      },
+      {
+        "actual": "mal-164",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:164"
+      },
+      {
+        "actual": "mal-58.",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:58"
+      },
+      {
+        "actual": "mal-27",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:27"
+      },
+      {
+        "actual": "mal-29",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:29"
+      }
+    ],
+    "p3_analytical_legit_rows_lost": 30,
+    "relations": {
+      "sc04_items": {
+        "content_hash": "2066223c021d5fe0c60e02fcc68bfe6f618de108f9e5afc21200d86b620c305b",
+        "row_count": 200
+      }
+    },
+    "relations_checked": 1,
+    "relations_matched": 0
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261002T205250431Z_000013",
+    "files_checked": 0,
+    "files_compared": 0,
+    "files_matched": 0,
+    "mismatches": []
+  },
+  "harness_commit": "a62cfb272df1ba54628d2a8152628154a7df4384",
+  "incident_id": "SC-04_20261002T205153Z",
+  "promotion": {
+    "authorized_by": null,
+    "clean_verdict": false,
+    "decision": "withheld",
+    "simulated": false
+  },
+  "restore_of": "ab-249959010013120",
+  "restore_target": {
+    "fs_clone_dataset": "labpool/sandbox/SC-04_20261002T205153Z/ab-249959010013120/protected",
+    "fs_mount": "/labpool/sandbox/SC-04_20261002T205153Z/ab-249959010013120/protected",
+    "pgdata_dataset": "labpool/sandbox/SC-04_20261002T205153Z/ab-249959010013120/pgdata",
+    "sandbox_pgdata": "/labpool/sandbox/SC-04_20261002T205153Z/ab-249959010013120/pgdata/data",
+    "sandbox_port": 55453,
+    "tag": "ab-249959010013120"
+  },
+  "safety": {
+    "evidence_untouched": true,
+    "manifest_after": "fbf7b23bdcf6044500e9fd164c5fb61165f713d72415c0f8aade49baa987b83c",
+    "manifest_before": "fbf7b23bdcf6044500e9fd164c5fb61165f713d72415c0f8aade49baa987b83c",
+    "victim_untouched": true
+  },
+  "schema_validation": {
+    "ddl": "id bigint\npayload text",
+    "ddl_match": true,
+    "diffs": []
+  },
+  "selector_provenance": {
+    "arm_no_peek_ok": true,
+    "restored_against_arm": "ab-249959010013120"
+  },
+  "summary": {
+    "damage_rows_retained": 12,
+    "damage_units_retained": 12,
+    "damage_units_total": 12,
+    "files_mismatched": 0,
+    "legit_rows_lost": 0,
+    "p3_analytical_legit_rows_lost": 30,
+    "schema_diffs": 0
+  }
+}

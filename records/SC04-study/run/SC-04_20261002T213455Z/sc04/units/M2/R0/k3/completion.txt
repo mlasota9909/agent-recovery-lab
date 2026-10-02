@@ -1,0 +1,12 @@
+To identify the latest safe point before damaging activity began, we examine the `action` and `detail` fields in the provided evidence.
+
+1.  The first instance of damaging activity is found in the `sc04_items` object:
+    `{"action":"U","detail":{"id":29,"payload":"mal-29"},"lsn_int":244023365208120,"lsn_text":"DDF0/1E000838","natural_key":29,"object":"sc04_items","wall_clock":"2026-10-02T21:36:12.375160Z","xid":1167}`
+    This entry shows a payload containing "mal-29".
+
+2.  The entry immediately preceding this damaging activity is:
+    `{"action":"U","detail":{"id":56,"payload":"legit-56."},"lsn_int":244023365207896,"lsn_text":"DDF0/1E000758","natural_key":56,"object":"sc04_items","wall_clock":"2026-10-02T21:36:12.342103Z","xid":1166}`
+
+3.  The LSN (Log Sequence Number) for this last safe entry is `DDF0/1E000758`.
+
+COORDINATE: lsn=DDF0/1E000758

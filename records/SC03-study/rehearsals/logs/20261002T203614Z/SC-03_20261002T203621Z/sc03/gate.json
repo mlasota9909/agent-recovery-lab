@@ -1,0 +1,185 @@
+{
+  "candidates": {
+    "ok": false,
+    "reason": "no anomalous window"
+  },
+  "controls": [
+    {
+      "checks_complete": true,
+      "control": "reference",
+      "damage_units_retained": 0,
+      "expected": "correct",
+      "legit_rows_lost": 0,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-03_20261002T203621Z/ab-250706166546952/report.json",
+      "report_sha256": "80ca9cbef598e0955a56b94fb7fc880cfe27d43b872a471fb57dea452d8d41ba",
+      "verdict_v1": "correct"
+    },
+    {
+      "checks_complete": true,
+      "control": "earliest",
+      "damage_units_retained": 0,
+      "expected": "incorrect_safe",
+      "legit_rows_lost": 103,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-03_20261002T203621Z/ab-250705966823272/report.json",
+      "report_sha256": "435dbc223ac0ce901e452a6ab640a2686d20942635384e15271e2ea2d0ce750f",
+      "verdict_v1": "incorrect_safe"
+    },
+    {
+      "checks_complete": true,
+      "control": "post_damage",
+      "damage_units_retained": 3,
+      "expected": "incorrect_corrupt",
+      "legit_rows_lost": 0,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-03_20261002T203621Z/ab-250706233658728/report.json",
+      "report_sha256": "69a014650a8c206a46a72f3dfdee3063231764023998982d48eb746074b1cf15",
+      "verdict_v1": "incorrect_corrupt"
+    }
+  ],
+  "damage_in_evidence": {
+    "found": 3,
+    "injected": 3
+  },
+  "damage_shown": {
+    "R0": false,
+    "R1": false,
+    "R2": false
+  },
+  "files": {
+    "etc/arm-b-prompt.txt": "c661ec7a959a657993607c59047a3e1167b08966309a9964b8982e73a0708a46",
+    "evidence/SC-03/SC-03_20261002T203621Z/db.jsonl": "be69de446c1025be9592ad5b04524e7a9608b7a2640a50eeecc14a639450c3d0",
+    "evidence/SC-03/SC-03_20261002T203621Z/fs_hashes.tsv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/SC-03/SC-03_20261002T203621Z/incident.json": "f65b63a8bd873de2c11601c5e92ae4713b2f6528025269bfe5cf060abbb2cc27",
+    "evidence/SC-03/SC-03_20261002T203621Z/injection.json": "27110a8e7e804f8a6de3ad7a0e47efd35ad4550f4218d78dbc725f21bfa9b4e4",
+    "evidence/SC-03/SC-03_20261002T203621Z/oracle-manifest.json": "2730beea7bf03d791db7ab0899abf9d96217d4aa1d0090b246f7ac9cf00f4309",
+    "evidence/SC-03/SC-03_20261002T203621Z/oracle.json": "b35cacfc485ed959059dd026344e2727a80d679a750b2dd8f481a518760e4e05",
+    "evidence/SC-03/SC-03_20261002T203621Z/p3/analytics.jsonl": "5680782fe6bf4455179055fa94e4de1fa0fba5c4c0845cdf352d3df066b1e37e",
+    "evidence/SC-03/SC-03_20261002T203621Z/p3/anomaly.jsonl": "7ace8e2cf17d16e2ce43f039965c4904290ca916ed7d6f3af2c025f3cd113478",
+    "evidence/SC-03/SC-03_20261002T203621Z/snapshots.json": "f205c1608bd1e63434b89301457a2570fece31c7d3be626b4510f527dfd532e2",
+    "evidence/SC-03/SC-03_20261002T203621Z/workload-manifest.jsonl": "e7058857c90c1c91fc3aec4a355581222ae7d44bb6f255e2f2e4933f0ad78345",
+    "evidence/SC-03/SC-03_20261002T203621Z/workload.jsonl": "5e9093a6f9a41c3b17ccd0e42d50fa16052062e0a63b2d15cdec23b7507e3f68",
+    "lib/lab_dbscen_study.py": "b0bae58a6981392a56fe717a8baca66322a76869908f0ba54b6d5034d922e64f",
+    "lib/lab_fl_study.py": "b7a4bcc559c6ef2312c81cc5173dba46a6a7074ed545cc6c2140dd1496e73f28",
+    "lib/lab_generate_dbscen.py": "eb6c3d6b6bd0b3dc0ba0eb357b55ed31854aa56cc5ae01732b84f15b44f0d8e2",
+    "lib/lab_regrammar.py": "02af89358bbfc28699be8419aed6e3e1d2f377921bf578898c535376a0edea5a",
+    "lib/lab_sc01_replication.py": "fd0acc849f224964802afb0fd9019fc1786bffd94eff94f6aa979a9414385856",
+    "lib/lab_validate_dbscen.py": "56979f9602f5811717e39e73c8cce306a60c5fb835247cd1f1b8143a8f32cb31",
+    "logs/dry-run/20261002T203614Z/SC-03_20261002T203621Z/sc03/R0/model-view.json": "eeaa9e2cfee2977e1168162f28310b63d5ae3965919c1e523215756cae654787",
+    "logs/dry-run/20261002T203614Z/SC-03_20261002T203621Z/sc03/R0/prompt.txt": "c57968a5a6c52d01070fe3dc7c64122a683a328f88a1d6346003fc91179f99b5",
+    "logs/dry-run/20261002T203614Z/SC-03_20261002T203621Z/sc03/R1/model-view.json": "1a7118989c12c4055ec4e42e836841a7e824242fcc749e82e27d2a44448c0f93",
+    "logs/dry-run/20261002T203614Z/SC-03_20261002T203621Z/sc03/R1/prompt.txt": "97ef24d7cf15397865c92f983685b752663c13ad31f583bedce2b8a58c032298",
+    "logs/dry-run/20261002T203614Z/SC-03_20261002T203621Z/sc03/R2/model-view.json": "1e4493e77767bb4b298369467c95a1d38bcf591247252a399933a2ea4f8712c1",
+    "logs/dry-run/20261002T203614Z/SC-03_20261002T203621Z/sc03/R2/prompt.txt": "429fb2b711737da29e80ba0c841e16591685bf3f234c7a43360ee191471eab70",
+    "run/optional/sc03-sc04-analysis-plan.md": "44b80870a5a978ebd1583f76684c4639a3a31d47e581e789a9232e59c5a2674a",
+    "runtime/p9-model-set.json": "257a0e92f924f4fcdaf3c740c823ea5a8605f221ac8099bc155af351d564c8c9",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.amendment-1.md": "ab0e09252464bfe357c51a988378f5985bdbae8ed375419b4370f68077cdc538",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.md": "f1e1916a544f05efbc7eb2567ff2624fa5df6e1ffdf15ab307a671bab67d6769"
+  },
+  "incident_id": "SC-03_20261002T203621Z",
+  "ledger": {
+    "changed": false,
+    "duplicate_detail": [],
+    "duplicates": 0,
+    "gap_detail": [],
+    "gaps": 0,
+    "incident": "SC-03_20261002T203621Z",
+    "mapped": 222,
+    "mapping_sample": [
+      {
+        "action": "U",
+        "key": [
+          "DML",
+          862,
+          "sc03_orders",
+          "U",
+          1
+        ],
+        "lsn": "E404/E000168",
+        "op_index": 0,
+        "table": "sc03_orders",
+        "xid": 862
+      },
+      {
+        "action": "U",
+        "key": [
+          "DML",
+          867,
+          "sc03_orders",
+          "U",
+          2
+        ],
+        "lsn": "E404/E000508",
+        "op_index": 1,
+        "table": "sc03_orders",
+        "xid": 867
+      },
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          863,
+          "p2_probe",
+          "I",
+          88000703
+        ],
+        "lsn": "E404/E000208",
+        "op_index": 2,
+        "table": "p2_probe",
+        "xid": 863
+      }
+    ],
+    "ok": true,
+    "ops": 222,
+    "principal_read": false,
+    "rules": {
+      "C-1": {
+        "duplicates": [],
+        "gaps": [],
+        "mapped": 222,
+        "ok": true,
+        "ops": 222
+      },
+      "C-2": {
+        "ok": true,
+        "rule": "C-2"
+      },
+      "C-3": {
+        "ddl_mapped": 6,
+        "ddl_ops": 6,
+        "ok": true,
+        "rule": "C-3"
+      },
+      "C-4": {
+        "ok": true,
+        "rule": "C-4"
+      },
+      "C-5": {
+        "failed": [],
+        "n": 5,
+        "ok": true,
+        "rule": "C-5"
+      },
+      "C-6": {
+        "ok": true,
+        "rule": "C-6"
+      },
+      "C-7": {
+        "errors": [],
+        "fs_ops": 0,
+        "invisible": 0,
+        "matched": 0,
+        "ok": true,
+        "rule": "C-7",
+        "unexplained_captured": 0,
+        "unexplained_captured_detail": [],
+        "unmatched_recorded": 0,
+        "unmatched_recorded_detail": [],
+        "vacuous": true
+      }
+    }
+  },
+  "ok": true,
+  "windows": {
+    "count": 22,
+    "problems": []
+  }
+}

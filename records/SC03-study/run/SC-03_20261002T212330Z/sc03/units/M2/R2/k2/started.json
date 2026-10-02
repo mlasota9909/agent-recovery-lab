@@ -1,0 +1,16 @@
+{
+  "call_started_utc": "2026-10-02T21:29:56.187669Z",
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "freeze_sha256": "8de73622409e871b28259943535a58f2d5a4a9d8dbdca7242114e501e7e47250",
+  "incident_id": "SC-03_20261002T212330Z",
+  "model_alias": "gympc-gemma4-26b",
+  "replicate_index": 2,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|2"
+}

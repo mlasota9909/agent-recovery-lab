@@ -1,0 +1,5 @@
+
+
+Looking at the evidence, the damaging activity is the DELETE operations on relation `p2_probe`, which first appear in **Window 14** (LSN range 244023180656680..244023180660344). The latest safe point before that damaging activity began is the start of Window 14, i.e., LSN 244023180656680.
+
+COORDINATE: lsn=244023180656680

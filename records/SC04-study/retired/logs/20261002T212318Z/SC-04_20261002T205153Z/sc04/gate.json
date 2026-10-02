@@ -1,0 +1,185 @@
+{
+  "candidates": {
+    "ok": false,
+    "reason": "no anomalous window"
+  },
+  "controls": [
+    {
+      "checks_complete": true,
+      "control": "reference",
+      "damage_units_retained": 0,
+      "expected": "correct",
+      "legit_rows_lost": 0,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T205153Z/ab-249958859014408/report.json",
+      "report_sha256": "6c1252e8643261b1c992e2302709060b970fb86ed4a946c9da04e5ba13f4fdec",
+      "verdict_v1": "correct"
+    },
+    {
+      "checks_complete": true,
+      "control": "earliest",
+      "damage_units_retained": 0,
+      "expected": "incorrect_safe",
+      "legit_rows_lost": 114,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T205153Z/ab-249958642526344/report.json",
+      "report_sha256": "48cf3e92ad4c56ac9c4a87cce12347b64d6e185f40bddccd48f54b162d18b8bb",
+      "verdict_v1": "incorrect_safe"
+    },
+    {
+      "checks_complete": true,
+      "control": "post_damage",
+      "damage_units_retained": 12,
+      "expected": "incorrect_corrupt",
+      "legit_rows_lost": 0,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T205153Z/ab-249959010013120/report.json",
+      "report_sha256": "19fc82a1c854f00fbfbe4ab2194184c8e9c38d187c8d2bccd51b51dddbf307e1",
+      "verdict_v1": "incorrect_corrupt"
+    }
+  ],
+  "damage_in_evidence": {
+    "found": 12,
+    "injected": 12
+  },
+  "damage_shown": {
+    "R0": true,
+    "R1": true,
+    "R2": true
+  },
+  "files": {
+    "etc/arm-b-prompt.txt": "c661ec7a959a657993607c59047a3e1167b08966309a9964b8982e73a0708a46",
+    "evidence/SC-04/SC-04_20261002T205153Z/db.jsonl": "2e736bb7bedb1c6b1537d3cc9fecddf0207548bb6fcc2e7439f629fb9089c22d",
+    "evidence/SC-04/SC-04_20261002T205153Z/fs_hashes.tsv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/SC-04/SC-04_20261002T205153Z/incident.json": "21818e60945d22a7e7b9829057ace22d711e6c07c2b9e3fe2cb7ad5a2976e120",
+    "evidence/SC-04/SC-04_20261002T205153Z/injection.json": "2d6475fde27278a415d628dee8b2f701e83e7a049e6e43ea20d6d552b112cb69",
+    "evidence/SC-04/SC-04_20261002T205153Z/oracle-manifest.json": "c0888f6f7dcafff89a9da1081e5874bb9282517cda242aded51a513ee1cad4b6",
+    "evidence/SC-04/SC-04_20261002T205153Z/oracle.json": "2b93f81d351c8ef29c9e6b21a854f74c396fa5ec0f0bd451786d331081e924f0",
+    "evidence/SC-04/SC-04_20261002T205153Z/p3/analytics.jsonl": "f79a2a2e5b46230b052568368919b8014b03d7dc195f7794d768f2fb454c1e1e",
+    "evidence/SC-04/SC-04_20261002T205153Z/p3/anomaly.jsonl": "726486c269c245ec6082705dbacd196c8b4f2d05742c011e3978ac26a60cb753",
+    "evidence/SC-04/SC-04_20261002T205153Z/snapshots.json": "d8f1a5fccc806c2ee802d57168e3457131ec8b3033f0c1081502ea51f179dc27",
+    "evidence/SC-04/SC-04_20261002T205153Z/workload-manifest.jsonl": "1e9a1fe2cb448c96cbca1d1e9a8989f16087238923a39fe1cbee151bfff2c2a9",
+    "evidence/SC-04/SC-04_20261002T205153Z/workload.jsonl": "e1e53993440fd9487005722cc190ad9e412ce50f72a6273a61ef6d04dad81481",
+    "lib/lab_dbscen_study.py": "b0bae58a6981392a56fe717a8baca66322a76869908f0ba54b6d5034d922e64f",
+    "lib/lab_fl_study.py": "b7a4bcc559c6ef2312c81cc5173dba46a6a7074ed545cc6c2140dd1496e73f28",
+    "lib/lab_generate_dbscen.py": "eb6c3d6b6bd0b3dc0ba0eb357b55ed31854aa56cc5ae01732b84f15b44f0d8e2",
+    "lib/lab_regrammar.py": "02af89358bbfc28699be8419aed6e3e1d2f377921bf578898c535376a0edea5a",
+    "lib/lab_sc01_replication.py": "fd0acc849f224964802afb0fd9019fc1786bffd94eff94f6aa979a9414385856",
+    "lib/lab_validate_dbscen.py": "56979f9602f5811717e39e73c8cce306a60c5fb835247cd1f1b8143a8f32cb31",
+    "logs/run/SC-04_20261002T205153Z/sc04/R0/model-view.json": "edb649cee62cea2770c07fb6beb08ed7e421dfe62de43dda509b74ccb13d29cc",
+    "logs/run/SC-04_20261002T205153Z/sc04/R0/prompt.txt": "1ae399f9d73ac737473e7391c4fda7bc005e02e681814f027df2bfbc69d22282",
+    "logs/run/SC-04_20261002T205153Z/sc04/R1/model-view.json": "a12e86293cd710c60d4c5e3d4634e7b6815ca20358c0986546decff1e056e273",
+    "logs/run/SC-04_20261002T205153Z/sc04/R1/prompt.txt": "3299a92d9d19b3e7c8f5deade9b1ad5fa0da064ad8f80ec8c2ab7d9f4ffc6b92",
+    "logs/run/SC-04_20261002T205153Z/sc04/R2/model-view.json": "1e8fd4cb198380dc0f17e08cdacba1fea8eb49ee2df8ffb4dbd8ef56d0dd387f",
+    "logs/run/SC-04_20261002T205153Z/sc04/R2/prompt.txt": "377952f72ed9d24254b0916e401093e9b9ad6f01b928aab170a6ecb4fcda0254",
+    "run/optional/sc03-sc04-analysis-plan.md": "44b80870a5a978ebd1583f76684c4639a3a31d47e581e789a9232e59c5a2674a",
+    "runtime/p9-model-set.json": "257a0e92f924f4fcdaf3c740c823ea5a8605f221ac8099bc155af351d564c8c9",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.amendment-1.md": "ab0e09252464bfe357c51a988378f5985bdbae8ed375419b4370f68077cdc538",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.md": "f1e1916a544f05efbc7eb2567ff2624fa5df6e1ffdf15ab307a671bab67d6769"
+  },
+  "incident_id": "SC-04_20261002T205153Z",
+  "ledger": {
+    "changed": false,
+    "duplicate_detail": [],
+    "duplicates": 0,
+    "gap_detail": [],
+    "gaps": 0,
+    "incident": "SC-04_20261002T205153Z",
+    "mapped": 347,
+    "mapping_sample": [
+      {
+        "action": "U",
+        "key": [
+          "DML",
+          862,
+          "sc04_items",
+          "U",
+          1
+        ],
+        "lsn": "E356/E000060",
+        "op_index": 0,
+        "table": "sc04_items",
+        "xid": 862
+      },
+      {
+        "action": "U",
+        "key": [
+          "DML",
+          868,
+          "sc04_items",
+          "U",
+          2
+        ],
+        "lsn": "E356/E0005C0",
+        "op_index": 1,
+        "table": "sc04_items",
+        "xid": 868
+      },
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          864,
+          "p2_probe",
+          "I",
+          88000703
+        ],
+        "lsn": "E356/E000288",
+        "op_index": 2,
+        "table": "p2_probe",
+        "xid": 864
+      }
+    ],
+    "ok": true,
+    "ops": 347,
+    "principal_read": false,
+    "rules": {
+      "C-1": {
+        "duplicates": [],
+        "gaps": [],
+        "mapped": 347,
+        "ok": true,
+        "ops": 347
+      },
+      "C-2": {
+        "ok": true,
+        "rule": "C-2"
+      },
+      "C-3": {
+        "ddl_mapped": 3,
+        "ddl_ops": 3,
+        "ok": true,
+        "rule": "C-3"
+      },
+      "C-4": {
+        "ok": true,
+        "rule": "C-4"
+      },
+      "C-5": {
+        "failed": [],
+        "n": 5,
+        "ok": true,
+        "rule": "C-5"
+      },
+      "C-6": {
+        "ok": true,
+        "rule": "C-6"
+      },
+      "C-7": {
+        "errors": [],
+        "fs_ops": 0,
+        "invisible": 0,
+        "matched": 0,
+        "ok": true,
+        "rule": "C-7",
+        "unexplained_captured": 0,
+        "unexplained_captured_detail": [],
+        "unmatched_recorded": 0,
+        "unmatched_recorded_detail": [],
+        "vacuous": true
+      }
+    }
+  },
+  "ok": true,
+  "windows": {
+    "count": 28,
+    "problems": []
+  }
+}

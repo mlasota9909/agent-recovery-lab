@@ -1,0 +1,17 @@
+
+
+Looking at the evidence, I need to identify the first "damaging activity" and then name the latest safe point before it.
+
+**Identifying the damaging activity:**
+
+Scanning the log chronologically, the first destructive operation is the **D (delete) on `p2_probe` id 88000700** — the very first record in the log:
+
+```
+{"action":"D","detail":{"id":88000700,"v":"s88000700"},"lsn_int":245552121905944,"lsn_text":"DF54/F000318","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-02T21:24:19.472231Z","xid":883}
+```
+
+This is a DELETE — a destructive/damaging operation. Since it is the first record in the provided evidence, the latest safe point before the damage began is the LSN of that D record itself. In PostgreSQL recovery, recovering to this LSN means the delete is **not** applied, giving a safe state.
+
+The evidence provides the LSN in hex form as `DF54/F000318` (and integer form `245552121905944`).
+
+COORDINATE: lsn=DF54/F000318

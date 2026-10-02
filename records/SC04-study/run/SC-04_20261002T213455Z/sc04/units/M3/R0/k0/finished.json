@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 244023365207896,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 244023365207896,
+        "token": "lsn=DDF0/1E000758",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      244023365207896
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-02T21:42:49.139009Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 11,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+    "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 3222,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-02T21:43:11.070094Z",
+  "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+  "incident_id": "SC-04_20261002T213455Z",
+  "latency_ms": 21619,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R0/k0/model.json",
+  "model_record_sha256": "9e7ce74cf08b11a8666b6de3340807922d5462fcab5d7d7f0e60cea1ce557825",
+  "outcome": "accepted",
+  "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+  "prompt_tokens": 7480,
+  "raw_completion": "\n\nLooking at the evidence, I need to identify the first \"damaging\" (malicious) activity and then find the latest safe point immediately before it.\n\n**Identifying the first damaging activity:**\n\nScanning the entries in LSN order, the first entry with a \"mal-\" payload is:\n- LSN `DDF0/1E000838` (int 244023365208120) \u2014 `sc04_items` id=29, payload \"mal-29\"\n\n**Finding the latest safe point before it:**\n\nThe entry immediately preceding that malicious LSN in the WAL sequence is:\n- LSN `DDF0/1E000758` (int 244023365207896) \u2014 `sc04_items` id=56, payload \"legit-56.\"\n\nThis is the last legitimate (safe) write before the first malicious write. It is the latest point to which one can safely recover without including any damaging activity.\n\nCOORDINATE: lsn=DDF0/1E000758",
+  "replicate_index": 0,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R0|0"
+}

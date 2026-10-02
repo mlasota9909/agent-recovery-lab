@@ -1,0 +1,77 @@
+{
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "endpoint": "http://127.0.0.1:4001",
+  "endpoint_topology": "LiteLLM gateway (http://127.0.0.1:4001) -> per-alias private-lab vLLM backends",
+  "frozen_at": "N001",
+  "models": [
+    {
+      "alias": "gb10a-deepseek-v4-flash",
+      "backend": "http://192.168.1.237:8000/v1",
+      "backend_host": "192.168.1.237",
+      "backend_identity": {
+        "max_model_len": 262144,
+        "root": "/models/huggingface/hub/models--wrldsuksgo2mars--DeepSeek-V4-Flash-0731-EXL3-K2-calibrated-v0/snapshots/dff9afc6f5fe50a890590f7b6d5339ceaf5ba51e",
+        "served_model": "deepseek-v4-flash-0731-exl3-k2"
+      },
+      "backend_is_private": true,
+      "family": "deepseek",
+      "is_p61_baseline": true,
+      "model_digest": "f9d781f34b6dc5bb60d9dd406282852f664163e6835c46d667771df6c1302b8b",
+      "model_digest_kind": "backend_immutable_identity",
+      "param_class": "~27B (MoE, DeepSeek-V4-Flash)",
+      "quantisation": "exl3-k2",
+      "served_model": "deepseek-v4-flash-0731-exl3-k2",
+      "slot": "M1",
+      "tokenizer_id": "deepseek:/models/huggingface/hub/models--wrldsuksgo2mars--DeepSeek-V4-Flash-0731-EXL3-K2-calibrated-v0/snapshots/dff9afc6f5fe50a890590f7b6d5339ceaf5ba51e",
+      "tokenizer_id_source": "served root; no tokenizer endpoint contacted"
+    },
+    {
+      "alias": "gympc-gemma4-26b",
+      "backend": "http://100.70.64.14:8090/v1",
+      "backend_host": "100.70.64.14",
+      "backend_identity": {
+        "max_model_len": 100352,
+        "root": "/model",
+        "served_model": "gemma4-26b-a4b-it-qat-q4"
+      },
+      "backend_is_private": true,
+      "family": "gemma",
+      "is_p61_baseline": false,
+      "model_digest": "abe8906e987bde96d0ef3923d63ffee65f311d86619c8699a4f63b8b74051950",
+      "model_digest_kind": "backend_immutable_identity",
+      "param_class": "~26B (Gemma-4-26B-A4B-IT, QAT q4)",
+      "quantisation": "qat-q4",
+      "served_model": "gemma4-26b-a4b-it-qat-q4",
+      "slot": "M2",
+      "tokenizer_id": "gemma:/model",
+      "tokenizer_id_source": "served root; no tokenizer endpoint contacted"
+    },
+    {
+      "alias": "alienware-qwen38-27b",
+      "backend": "http://192.168.1.168:8010/v1",
+      "backend_host": "192.168.1.168",
+      "backend_identity": {
+        "max_model_len": 196608,
+        "root": "sakamakismile/Qwen3.8-27B-MTP-NVFP4",
+        "served_model": "qwen38-27b-mtp-nvfp4"
+      },
+      "backend_is_private": true,
+      "family": "qwen",
+      "is_p61_baseline": false,
+      "model_digest": "78a0f6634b92cf0cb0bc3da44e4920776b866b7eebb58d1c455ca89e43e2efcf",
+      "model_digest_kind": "backend_immutable_identity",
+      "param_class": "~27B (Qwen3.8-27B-MTP, NVFP4)",
+      "quantisation": "nvfp4",
+      "served_model": "qwen38-27b-mtp-nvfp4",
+      "slot": "M3",
+      "tokenizer_id": "qwen:sakamakismile/Qwen3.8-27B-MTP-NVFP4",
+      "tokenizer_id_source": "served root; no tokenizer endpoint contacted"
+    }
+  ],
+  "p61_baseline_alias": "gb10a-deepseek-v4-flash"
+}

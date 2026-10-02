@@ -1,0 +1,3 @@
+
+
+COORDINATE: window=18 lsn=245552256159536

@@ -1,19 +1,24 @@
-# File-level recovery experiment
+# Agent recovery lab
 
-This lab tests selection of a recovery snapshot after scripted file damage while
-legitimate file and database work continues. SC-02 deletes twelve files and their
-directory and overwrites one retained file. Recorded snapshots, differences and
-fingerprints support three input constructions: raw excerpts (R0), structured
-summaries (R1) and written summaries (R2). Three models receive each input five
-times. Accepted answers, a fixed-rule ranker and a time estimate are restored and
-checked against a script-derived reference. File damage and legitimate file/row
-loss are reported separately. The baseline uses known damage onset; this is a
-single-incident feasibility experiment, not a population study.
+This lab tests how a recovery point is chosen and checked after scripted damage to stored state while legitimate
+work continues. One script, run as `lab_agent`, causes one kind of damage per scenario, and each scenario is run
+as one study:
 
-The design and analysis contract are in
-[P12](sdd/specs/P12-file-level-test/spec.md),
-[plan](sdd/specs/P12-file-level-test/plan.md) and
-[contracts](sdd/specs/P12-file-level-test/contracts/fl-analysis-plan.md).
+| Study | Damage | Entry point | Design and analysis plan | Records |
+| --- | --- | --- | --- | --- |
+| SC-01, deletion | One transaction deletes 200 rows | `run/optional/sc01-replication.sh` | [sc01-analysis-plan.md](run/optional/sc01-analysis-plan.md) | `records/SC01-replication/` |
+| SC-02, files | Twelve files and their directory deleted, one retained file overwritten | `run/all.sh` | [P12](sdd/specs/P12-file-level-test/spec.md), [plan](sdd/specs/P12-file-level-test/plan.md), [contracts](sdd/specs/P12-file-level-test/contracts/fl-analysis-plan.md) | `records/P12/` |
+| SC-03, schema changes | Three schema changes to one table | `run/optional/sc03-study.sh` | [P13](sdd/specs/P13-schema-and-update-studies/spec.md), [sc03-sc04-analysis-plan.md](run/optional/sc03-sc04-analysis-plan.md) | `records/SC03-study/` |
+| SC-04, scattered updates | Twelve rows given damaging values, one update at a time | `run/optional/sc04-study.sh` | [P13](sdd/specs/P13-schema-and-update-studies/spec.md), [sc03-sc04-analysis-plan.md](run/optional/sc03-sc04-analysis-plan.md) | `records/SC04-study/` |
+
+Every study runs the same stages: provisioning (00), preflight (10), incident (20), gate with control restores
+(30), freeze (40), 45 model calls (50), comparators (60) and analysis (70). The captured evidence supports three
+input constructions: raw excerpts (R0), structured summaries (R1) and written summaries (R2). Three models
+receive each input five times. Accepted answers, a fixed-rule ranker and a time estimate are restored in
+isolation and checked against a script-derived reference. Checked damage and lost legitimate work are reported
+separately. The baseline uses known damage onset; each study is a single-incident feasibility experiment, not a
+population study. `python3 records/<study>/verify.py` checks a kept study against its freeze. The database
+studies' entry points are under `run/optional/` because their frozen analysis plans are pinned there.
 
 ## Prerequisites and configuration
 
@@ -160,8 +165,9 @@ decoding are fixed by the contracts rather than configured per host.
 Every entry point derives its root from its own path, uses `set -euo pipefail`,
 serializes against other run stages and keeps a timestamped log in `logs/run/`.
 `run/all.sh` runs 00 through 70, stops at the first failing stage and keeps one
-top-level log containing the child-stage output. It does not run the optional
-database replication. Runtime/result files are private to the checkout.
+top-level log containing the child-stage output. It runs the file study (SC-02);
+the database studies have their own entry points (see below). Runtime/result files
+are private to the checkout.
 
 The times below are planning estimates, not measurements of this implementation.
 Downloads, model latency, WAL volume and storage throughput dominate elapsed time.
@@ -237,33 +243,48 @@ counts, but will not label them final. `summary.json` retains all descriptive
 counts, explicit denominators, per-unit losses, sums/medians/ranges and exploratory
 test block counts/exclusions. Comparators and controls are not pooled with models.
 
-## Optional database replication
+## Database studies (SC-01, SC-03, SC-04)
 
 ```bash
-run/optional/sc01-replication.sh
-# Or prepare/check a fresh, already generated named SC-01 incident:
-run/optional/sc01-replication.sh --incident SC-01_YYYYMMDDTHHMMSSZ --stage 30
-run/optional/sc01-replication.sh --incident SC-01_YYYYMMDDTHHMMSSZ --stage 40
-run/optional/sc01-replication.sh --incident SC-01_YYYYMMDDTHHMMSSZ --stage 50
-run/optional/sc01-replication.sh --incident SC-01_YYYYMMDDTHHMMSSZ --stage 60
-run/optional/sc01-replication.sh --incident SC-01_YYYYMMDDTHHMMSSZ --stage 70
+run/optional/sc01-replication.sh        # deletion study, stages 00 to 70
+run/optional/sc03-study.sh              # schema-change study, stages 00 to 70
+run/optional/sc04-study.sh              # scattered-update study, stages 00 to 70
+# Or one stage at a time for a named incident, for example:
+run/optional/sc03-study.sh --stage 20
+run/optional/sc03-study.sh --incident SC-03_YYYYMMDDTHHMMSSZ --stage 30
+run/optional/sc03-study.sh --incident SC-03_YYYYMMDDTHHMMSSZ --stage 40
+run/optional/sc03-study.sh --incident SC-03_YYYYMMDDTHHMMSSZ --stage 50
+run/optional/sc03-study.sh --incident SC-03_YYYYMMDDTHHMMSSZ --stage 60
+run/optional/sc03-study.sh --incident SC-03_YYYYMMDDTHHMMSSZ --stage 70
+# Rehearse stages 20 and 30 in a separate scope:
+LAB_RUN_SCOPE=dry-run/$(date -u +%Y%m%dT%H%M%SZ) run/optional/sc03-study.sh --stage 20
 ```
 
-The optional entry point exposes `--stage 00|10|20|30|40|50|60|70|all`. With
-`--incident`, stage 20 uses that fresh named incident. Without it, it uses the
-existing SC-01 generator and shared database substrate. Run it in a separate
-replica checkout; historical Primary Sweep evidence is refused. The generalized
-driver is `bin/lab-p9-sweep --incident <incident> --revised-rules`. It uses the
-database inputs/prompt, revised P11 visible-locator rules, fixed 45-unit design
-and existing verdict v1 checks. The database reference, earliest and post-damage
-controls must pass before its exclusive freeze. Its plan is
-[sc01-analysis-plan.md](run/optional/sc01-analysis-plan.md).
+Each entry point exposes `--stage 00|10|20|30|40|50|60|70|all`, with `all` the
+default; stages 30 to 70 need `--incident`. A dry-run scope runs only stages 20
+and 30. The three studies use the database inputs and prompt, the revised P11
+visible-locator rules, the fixed 45-unit design and verdict v1 checks. Run them
+in a separate replica checkout. SC-01 refuses the earlier headline incident
+named in `lib/lab_repr.py`, which stays read-only.
 
-Optional output is separate: `logs/run/<incident>/sc01/`,
-`results/sc01-replication-<incident>.jsonl`,
-`results/sc01-comparators-<incident>.jsonl` and
-`analysis-out/sc01/<incident>/`. Existing `sweep-runs.jsonl`, other database studies
-and their verdict v1 records are not updated.
+SC-01 uses the existing SC-01 generator; its driver is `bin/lab-p9-sweep
+--incident <incident> --revised-rules`, and the reference, earliest and
+post-damage controls must pass before its exclusive freeze. SC-03 and SC-04 use
+`bin/lab-generate-dbscen` (an isolated incident cluster with the SC-01
+legitimate work, the scenario's own table and work, and the injection, every
+operation recorded), `bin/lab-validate-dbscen` (damage counted in units) and
+the driver `lib/lab_dbscen_study.py`. Their gate requires complete
+reconciliation of every operation, injected ones included, ordered windows and
+four controls before the freeze: the reference, a point inside the damage's first
+open transaction, the earliest snapshot and the first snapshot after the damage. An
+unfrozen attempt is retired with `run/retire-attempt.sh --sc01|--sc03|--sc04
+"<reason>"`.
+
+Output is separate per study: `logs/run/<incident>/sc0N/`,
+`results/sc01-replication-<incident>.jsonl` or `results/sc0N-study-<incident>.jsonl`,
+`results/sc0N-comparators-<incident>.jsonl` and `analysis-out/sc0N/<incident>/`.
+The kept studies are `records/SC01-replication/`, `records/SC03-study/` and
+`records/SC04-study/`.
 
 ## Teardown and verification limits
 
@@ -275,10 +296,9 @@ Teardown validates ownership and removes only the recorded VM and its three
 volumes. It retains evidence, results, downloaded images, pool and host SSH/systemd
 configuration; see `provision/README.md` for the exact scope.
 
-Offline checks cover run journals, interruption handling, frozen-byte rejection,
-capture/C-7 gating, accounting and statistics with simulated responses. No live
-run-through result is claimed. Actual provisioning, DHCP/SSH behavior, image and
-package availability, all served identity fields, containment observations,
-incident captures, restore controls, cleanup and end-to-end runtime still need
-confirmation on the configured host. The P0 health suite explicitly reports its
-omitted historical review criteria; those are not fresh acceptance evidence.
+Offline checks (`tests/`) cover run journals, interruption handling, frozen-byte
+rejection, capture/C-7 gating, accounting, damage counting and statistics with
+simulated responses, and run no lab commands. The live runs are the four studies
+kept in `records/`, with the fresh-clone reproduction of the file study in
+`records/P12/reproduction/`. The P0 health suite explicitly reports its omitted
+historical review criteria; those are not fresh acceptance evidence.

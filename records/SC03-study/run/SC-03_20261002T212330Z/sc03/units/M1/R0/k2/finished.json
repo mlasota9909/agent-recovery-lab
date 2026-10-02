@@ -1,0 +1,61 @@
+{
+  "answer": {
+    "chosen_lsn_int": 245552189015608,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 245552189015608,
+        "token": "lsn=DF54/13000638",
+        "type": "lsn_hex"
+      },
+      {
+        "discard_reason": "no explicit visible commit in this UTC second",
+        "resolved_lsn_int": null,
+        "token": "ts=2026-10-02T21:24:27.438037Z",
+        "type": "ts"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex",
+      "ts"
+    ],
+    "locators_resolved_to": [
+      245552189015608
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-02T21:27:38.082182Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 0,
+    "legit_rows_lost": 19,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-03_20261002T212330Z/ab-245552189015608/report.json",
+    "report_sha256": "dd288cb4cd9663d8867531a147c653ba11d6a504e7de4076eb498668314e7529",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 33,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-02T21:27:39.737583Z",
+  "freeze_sha256": "8de73622409e871b28259943535a58f2d5a4a9d8dbdca7242114e501e7e47250",
+  "incident_id": "SC-03_20261002T212330Z",
+  "latency_ms": 1314,
+  "model_alias": "gb10a-deepseek-v4-flash",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-03_20261002T212330Z/sc03/units/M1/R0/k2/model.json",
+  "model_record_sha256": "4aac40d090f530dada9c1cca59b4e8b387b44122555ef1b15c7c59249d66dc83",
+  "outcome": "accepted",
+  "prompt_sha256": "8cc534ff8085b28a7001c74e51fab3e5857c759b362ba6e3dc0201c62d9cc983",
+  "prompt_tokens": 6359,
+  "raw_completion": "COORDINATE: lsn=DF54/13000638 ts=2026-10-02T21:24:27.438037Z",
+  "replicate_index": 2,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gb10a-deepseek-v4-flash|R0|2"
+}

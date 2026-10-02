@@ -1,0 +1,7 @@
+Stage sc03-study; log /home/mlasota/agent-recovery-lab/logs/run/20261002T210103.895502452Z-725088-sc03-study.log
+Recorded SC-03 gb10a-deepseek-v4-flash|R0|0: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R0|1: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R0|2: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R0|3: accepted
+Terminated                 python3 "$ROOT/lib/lab_dbscen_study.py" --scenario SC-03 "$@"
+Exit 143 at 2026-10-02T21:12:09Z

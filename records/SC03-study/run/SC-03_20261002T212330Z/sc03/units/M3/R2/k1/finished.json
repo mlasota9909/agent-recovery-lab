@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 245552121905944,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 245552121905944,
+        "token": "lsn=245552121905944",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      245552121905944
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-02T21:32:48.624080Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 0,
+    "legit_rows_lost": 95,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-03_20261002T212330Z/ab-245552121905944/report.json",
+    "report_sha256": "f87ee4f5acd0c729593b61dcc79fa36466de972af0d601d651cca265f1be877c",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 1461,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-02T21:32:59.419412Z",
+  "freeze_sha256": "8de73622409e871b28259943535a58f2d5a4a9d8dbdca7242114e501e7e47250",
+  "incident_id": "SC-03_20261002T212330Z",
+  "latency_ms": 10410,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-03_20261002T212330Z/sc03/units/M3/R2/k1/model.json",
+  "model_record_sha256": "c150c3edcb134459497b09b7285f087a59fa8eac629ece544c62a183ddc1e556",
+  "outcome": "accepted",
+  "prompt_sha256": "163bbd2af5a78727dac3046a777f8b3007b14327911cb2e1303fd21faf8bbab2",
+  "prompt_tokens": 420,
+  "raw_completion": "\n\nLooking at the evidence, the damaging activity (DELETE on relation p2_probe) first appears in **Window 10**, whose range is [245552121905944..245552138684064].\n\nThe latest safe point before that damaging activity began is the start of Window 10 \u2014 the boundary at which the first DELETEs occur. That value is **245552121905944**, which appears in the evidence as an integer-form LSN.\n\nCOORDINATE: lsn=245552121905944",
+  "replicate_index": 1,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|1"
+}

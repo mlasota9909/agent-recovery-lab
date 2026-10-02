@@ -19,5 +19,8 @@ Its analysis plan is `run/optional/sc01-analysis-plan.md`.
 `python3 records/SC01-replication/verify.py` checks every frozen hash. The freeze pins
 `lib/lab_regrammar.py`, `lib/lab_sc01_replication.py`, `lib/lab_fl_study.py`,
 `lib/lab_arm_b_score.py`, `etc/arm-b-prompt.txt`, the analysis plan and the answer-grammar
-contracts in place, so those files stay unchanged. No credentials are included; paths and
-private addresses are the reference environment's.
+contracts in place, so those files stay unchanged.
+
+Positions in `workload-manifest.jsonl` were read with `pg_current_wal_lsn()` once after each batch, so they bound
+each commit rather than locate it. The decoded log, `db.jsonl`, holds each transaction's commit record. No
+credentials are included; paths and private addresses are the reference environment's.

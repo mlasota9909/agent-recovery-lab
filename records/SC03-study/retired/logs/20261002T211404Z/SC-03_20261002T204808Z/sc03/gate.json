@@ -1,0 +1,185 @@
+{
+  "candidates": {
+    "ok": false,
+    "reason": "no anomalous window"
+  },
+  "controls": [
+    {
+      "checks_complete": true,
+      "control": "reference",
+      "damage_units_retained": 0,
+      "expected": "correct",
+      "legit_rows_lost": 0,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-03_20261002T204808Z/ab-255907371943640/report.json",
+      "report_sha256": "9e14c824413a63cc0081d563881d0918cfa6b9317644f52e228304c2dd820dcd",
+      "verdict_v1": "correct"
+    },
+    {
+      "checks_complete": true,
+      "control": "earliest",
+      "damage_units_retained": 0,
+      "expected": "incorrect_safe",
+      "legit_rows_lost": 112,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-03_20261002T204808Z/ab-255907172220784/report.json",
+      "report_sha256": "5fab95f88237ca05208c757a3a040da19da6049b1c7311580eb549f304b0e537",
+      "verdict_v1": "incorrect_safe"
+    },
+    {
+      "checks_complete": true,
+      "control": "post_damage",
+      "damage_units_retained": 3,
+      "expected": "incorrect_corrupt",
+      "legit_rows_lost": 0,
+      "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-03_20261002T204808Z/ab-255907439090296/report.json",
+      "report_sha256": "79b6d63ffbf866219ad6d7ee47df7986d57ae3a109948f922222a817b956c7e9",
+      "verdict_v1": "incorrect_corrupt"
+    }
+  ],
+  "damage_in_evidence": {
+    "found": 3,
+    "injected": 3
+  },
+  "damage_shown": {
+    "R0": true,
+    "R1": true,
+    "R2": true
+  },
+  "files": {
+    "etc/arm-b-prompt.txt": "c661ec7a959a657993607c59047a3e1167b08966309a9964b8982e73a0708a46",
+    "evidence/SC-03/SC-03_20261002T204808Z/db.jsonl": "27b4a8fc0097e1506b1a99d7280f64fe32d3c174cfbdeae299101d1fe1981fbe",
+    "evidence/SC-03/SC-03_20261002T204808Z/fs_hashes.tsv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/SC-03/SC-03_20261002T204808Z/incident.json": "a5701f87fcb441d6502953da0974f2cb91a4be9217f717f6f9ca4c00249127dd",
+    "evidence/SC-03/SC-03_20261002T204808Z/injection.json": "c61bd20490d4add7ddd5f89d6116d114491f79c10a94d7ff96a4a7096963f7db",
+    "evidence/SC-03/SC-03_20261002T204808Z/oracle-manifest.json": "592d876e9df5b792ef93e8560d8deee89c37d540308eb35c446a60e89c249632",
+    "evidence/SC-03/SC-03_20261002T204808Z/oracle.json": "455952b3e31d118696eddbfb6667c1d9e9270e99f2cced47358e7501123333e6",
+    "evidence/SC-03/SC-03_20261002T204808Z/p3/analytics.jsonl": "69e018e9edf8091ecd9b4ba3b8f6d3c16f36372d981609e1f1b68da74bd1bd15",
+    "evidence/SC-03/SC-03_20261002T204808Z/p3/anomaly.jsonl": "836f93abe76fbfd731cef4e3c1621d5d62a30fd5661949077b321134a3f74e2f",
+    "evidence/SC-03/SC-03_20261002T204808Z/snapshots.json": "cc520b530ae230a346376a531c0421411e25763a1f2c20c512c660daaa55ebe4",
+    "evidence/SC-03/SC-03_20261002T204808Z/workload-manifest.jsonl": "0213bad09cbc8ad7910988ccf393855b9b8f74f32d1296fc82a158bea4903a11",
+    "evidence/SC-03/SC-03_20261002T204808Z/workload.jsonl": "967b71f6641b001d8c5a916c0520fc5c605125ac8f844b16381d8ae6efb3405f",
+    "lib/lab_dbscen_study.py": "b0bae58a6981392a56fe717a8baca66322a76869908f0ba54b6d5034d922e64f",
+    "lib/lab_fl_study.py": "b7a4bcc559c6ef2312c81cc5173dba46a6a7074ed545cc6c2140dd1496e73f28",
+    "lib/lab_generate_dbscen.py": "eb6c3d6b6bd0b3dc0ba0eb357b55ed31854aa56cc5ae01732b84f15b44f0d8e2",
+    "lib/lab_regrammar.py": "02af89358bbfc28699be8419aed6e3e1d2f377921bf578898c535376a0edea5a",
+    "lib/lab_sc01_replication.py": "fd0acc849f224964802afb0fd9019fc1786bffd94eff94f6aa979a9414385856",
+    "lib/lab_validate_dbscen.py": "56979f9602f5811717e39e73c8cce306a60c5fb835247cd1f1b8143a8f32cb31",
+    "logs/run/SC-03_20261002T204808Z/sc03/R0/model-view.json": "7702924a45b0626c92248d3c855153d63c8d7140890378566371d330830cf571",
+    "logs/run/SC-03_20261002T204808Z/sc03/R0/prompt.txt": "ca162c51bdbdf55b2e7a242431ea1ed2f5b9d819546a174ec024c9314160d645",
+    "logs/run/SC-03_20261002T204808Z/sc03/R1/model-view.json": "f16304aaab3ef09ad7dff7fb2ba0d7c0d006070ce124dc08e197fb2e0e77576e",
+    "logs/run/SC-03_20261002T204808Z/sc03/R1/prompt.txt": "6409a8159096384eb3326e9bac42ba1948141f35588841c4abb19d688a170a12",
+    "logs/run/SC-03_20261002T204808Z/sc03/R2/model-view.json": "796f976284c2bded2f7750c1c655dbfba4ca584d82cb67e88434446fa73534b1",
+    "logs/run/SC-03_20261002T204808Z/sc03/R2/prompt.txt": "9e6161aead07e1743501b10a39ae81bf6b15ddc8852f4571e8ce8944493817c9",
+    "run/optional/sc03-sc04-analysis-plan.md": "44b80870a5a978ebd1583f76684c4639a3a31d47e581e789a9232e59c5a2674a",
+    "runtime/p9-model-set.json": "257a0e92f924f4fcdaf3c740c823ea5a8605f221ac8099bc155af351d564c8c9",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.amendment-1.md": "ab0e09252464bfe357c51a988378f5985bdbae8ed375419b4370f68077cdc538",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.md": "f1e1916a544f05efbc7eb2567ff2624fa5df6e1ffdf15ab307a671bab67d6769"
+  },
+  "incident_id": "SC-03_20261002T204808Z",
+  "ledger": {
+    "changed": false,
+    "duplicate_detail": [],
+    "duplicates": 0,
+    "gap_detail": [],
+    "gaps": 0,
+    "incident": "SC-03_20261002T204808Z",
+    "mapped": 230,
+    "mapping_sample": [
+      {
+        "action": "U",
+        "key": [
+          "DML",
+          862,
+          "sc03_orders",
+          "U",
+          1
+        ],
+        "lsn": "E8BF/E000028",
+        "op_index": 0,
+        "table": "sc03_orders",
+        "xid": 862
+      },
+      {
+        "action": "U",
+        "key": [
+          "DML",
+          868,
+          "sc03_orders",
+          "U",
+          2
+        ],
+        "lsn": "E8BF/E000540",
+        "op_index": 1,
+        "table": "sc03_orders",
+        "xid": 868
+      },
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          863,
+          "p2_probe",
+          "I",
+          88000703
+        ],
+        "lsn": "E8BF/E0000C8",
+        "op_index": 2,
+        "table": "p2_probe",
+        "xid": 863
+      }
+    ],
+    "ok": true,
+    "ops": 230,
+    "principal_read": false,
+    "rules": {
+      "C-1": {
+        "duplicates": [],
+        "gaps": [],
+        "mapped": 230,
+        "ok": true,
+        "ops": 230
+      },
+      "C-2": {
+        "ok": true,
+        "rule": "C-2"
+      },
+      "C-3": {
+        "ddl_mapped": 6,
+        "ddl_ops": 6,
+        "ok": true,
+        "rule": "C-3"
+      },
+      "C-4": {
+        "ok": true,
+        "rule": "C-4"
+      },
+      "C-5": {
+        "failed": [],
+        "n": 5,
+        "ok": true,
+        "rule": "C-5"
+      },
+      "C-6": {
+        "ok": true,
+        "rule": "C-6"
+      },
+      "C-7": {
+        "errors": [],
+        "fs_ops": 0,
+        "invisible": 0,
+        "matched": 0,
+        "ok": true,
+        "rule": "C-7",
+        "unexplained_captured": 0,
+        "unexplained_captured_detail": [],
+        "unmatched_recorded": 0,
+        "unmatched_recorded_detail": [],
+        "vacuous": true
+      }
+    }
+  },
+  "ok": true,
+  "windows": {
+    "count": 23,
+    "problems": []
+  }
+}

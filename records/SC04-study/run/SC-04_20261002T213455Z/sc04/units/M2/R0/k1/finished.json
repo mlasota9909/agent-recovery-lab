@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 244023365207896,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 244023365207896,
+        "token": "lsn=DDF0/1E000758",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      244023365207896
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-02T21:40:37.603942Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 11,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+    "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 388,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-02T21:40:50.778540Z",
+  "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+  "incident_id": "SC-04_20261002T213455Z",
+  "latency_ms": 12849,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R0/k1/model.json",
+  "model_record_sha256": "4c312daeac681d7993aba48c9cffdc83eedfe7514b82161f5e19bb14be4c813c",
+  "outcome": "accepted",
+  "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+  "prompt_tokens": 7897,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the `action` and `detail` fields in the provided evidence.\n\n1.  The first instance of damaging activity is found in the `sc04_items` object:\n    `{\"action\":\"U\",\"detail\":{\"id\":29,\"payload\":\"mal-29\"},\"lsn_int\":244023365208120,\"lsn_text\":\"DDF0/1E000838\",\"natural_key\":29,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:12.375160Z\",\"xid\":1167}`\n    This entry has a payload containing \"mal-29\".\n\n2.  The entry immediately preceding this damaging activity is:\n    `{\"action\":\"U\",\"detail\":{\"id\":56,\"payload\":\"legit-56.\"},\"lsn_int\":244023365207896,\"lsn_text\":\"DDF0/1E000758\",\"natural_key\":56,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:12.342103Z\",\"xid\":1166}`\n\n3.  The LSN (Log Sequence Number) for this safe point is `DDF0/1E000758` (hex) or `244023365207896` (integer).\n\nCOORDINATE: lsn=DDF0/1E000758",
+  "replicate_index": 1,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|1"
+}

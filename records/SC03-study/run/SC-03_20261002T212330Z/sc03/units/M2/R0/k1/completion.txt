@@ -1,0 +1,8 @@
+To identify the latest safe point before damaging activity began, we look for the last transaction before the first "D" (Delete) action.
+
+1.  The first "D" action occurs at `lsn_text: "DF54/F000A68"` (xid 893) with `wall_clock: "2026-10-02T21:24:20.394661Z"`.
+2.  The transaction immediately preceding this is an "U" (Update) action at `lsn_text: "DF54/F0009C8"` (xid 892) with `wall_clock: "2026-10-02T21:24:20.372327Z"`.
+
+The latest safe point is the LSN of the last non-damaging transaction.
+
+COORDINATE: lsn=DF54/F0009C8

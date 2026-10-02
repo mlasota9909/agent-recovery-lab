@@ -1,0 +1,2 @@
+Retired SC-04 attempt SC-04_20261002T205153Z before any freeze on 2026-10-02T21:23:18Z.
+Reason: Regenerate with the lock-safe checker and the inside-damage control before freezing (gate inputs recorded the earlier checker).

@@ -1,0 +1,17 @@
+
+
+Looking at the evidence, I need to identify the first "damaging" (malicious) activity and then find the latest safe point immediately before it.
+
+**Identifying the first damaging activity:**
+
+Scanning the entries in LSN order, the first entry with a "mal-" payload is:
+- LSN `DDF0/1E000838` (int 244023365208120) — `sc04_items` id=29, payload "mal-29"
+
+**Finding the latest safe point before it:**
+
+The entry immediately preceding that malicious LSN in the WAL sequence is:
+- LSN `DDF0/1E000758` (int 244023365207896) — `sc04_items` id=56, payload "legit-56."
+
+This is the last legitimate (safe) write before the first malicious write. It is the latest point to which one can safely recover without including any damaging activity.
+
+COORDINATE: lsn=DDF0/1E000758

@@ -1,0 +1,120 @@
+{
+  "db_validation": {
+    "mismatches": [
+      {
+        "actual": "mal-71",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:71"
+      },
+      {
+        "actual": "mal-190",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:190"
+      },
+      {
+        "actual": "mal-7",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:7"
+      },
+      {
+        "actual": "mal-174",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:174"
+      },
+      {
+        "actual": "mal-63",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:63"
+      },
+      {
+        "actual": "mal-140",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:140"
+      },
+      {
+        "actual": "mal-36",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:36"
+      },
+      {
+        "actual": "mal-189",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:189"
+      },
+      {
+        "actual": "mal-164",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:164"
+      },
+      {
+        "actual": "mal-58.",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:58"
+      },
+      {
+        "actual": "mal-27",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:27"
+      },
+      {
+        "actual": "mal-29",
+        "classification": "damage_retained",
+        "expected": "pre-damage value",
+        "kind": "row_value",
+        "object": "public.sc04_items:29"
+      }
+    ],
+    "p3_analytical_legit_rows_lost": 30,
+    "relations": {
+      "sc04_items": {
+        "content_hash": "2066223c021d5fe0c60e02fcc68bfe6f618de108f9e5afc21200d86b620c305b",
+        "row_count": 200
+      }
+    },
+    "relations_checked": 1,
+    "relations_matched": 0
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261002T205250431Z_000013",
+    "files_checked": 0,
+    "files_compared": 0,
+    "files_matched": 0,
+    "mismatches": []
+  },
+  "schema_validation": {
+    "ddl": "id bigint\npayload text",
+    "ddl_match": true,
+    "diffs": []
+  },
+  "summary": {
+    "damage_rows_retained": 12,
+    "damage_units_retained": 12,
+    "damage_units_total": 12,
+    "files_mismatched": 0,
+    "legit_rows_lost": 0,
+    "p3_analytical_legit_rows_lost": 30,
+    "schema_diffs": 0
+  }
+}

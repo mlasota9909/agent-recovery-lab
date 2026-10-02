@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 245552121905944,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 245552121905944,
+        "token": "lsn=DF54/F000318",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      245552121905944
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-02T21:30:21.056366Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 0,
+    "legit_rows_lost": 95,
+    "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-03_20261002T212330Z/ab-245552121905944/report.json",
+    "report_sha256": "f87ee4f5acd0c729593b61dcc79fa36466de972af0d601d651cca265f1be877c",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 2726,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-02T21:31:04.228786Z",
+  "freeze_sha256": "8de73622409e871b28259943535a58f2d5a4a9d8dbdca7242114e501e7e47250",
+  "incident_id": "SC-03_20261002T212330Z",
+  "latency_ms": 19882,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-03_20261002T212330Z/sc03/units/M3/R0/k0/model.json",
+  "model_record_sha256": "f8c3f118b25a12c6bac7350a19bbb1fda6375b0c747e6b59f0e257ba65dd08a0",
+  "outcome": "accepted",
+  "prompt_sha256": "8cc534ff8085b28a7001c74e51fab3e5857c759b362ba6e3dc0201c62d9cc983",
+  "prompt_tokens": 9275,
+  "raw_completion": "\n\nLooking at the evidence, I need to identify the first \"damaging activity\" and then name the latest safe point before it.\n\n**Identifying the damaging activity:**\n\nScanning the log chronologically, the first destructive operation is the **D (delete) on `p2_probe` id 88000700** \u2014 the very first record in the log:\n\n```\n{\"action\":\"D\",\"detail\":{\"id\":88000700,\"v\":\"s88000700\"},\"lsn_int\":245552121905944,\"lsn_text\":\"DF54/F000318\",\"natural_key\":88000700,\"object\":\"p2_probe\",\"wall_clock\":\"2026-10-02T21:24:19.472231Z\",\"xid\":883}\n```\n\nThis is a DELETE \u2014 a destructive/damaging operation. Since it is the first record in the provided evidence, the latest safe point before the damage began is the LSN of that D record itself. In PostgreSQL recovery, recovering to this LSN means the delete is **not** applied, giving a safe state.\n\nThe evidence provides the LSN in hex form as `DF54/F000318` (and integer form `245552121905944`).\n\nCOORDINATE: lsn=DF54/F000318",
+  "replicate_index": 0,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R0|0"
+}

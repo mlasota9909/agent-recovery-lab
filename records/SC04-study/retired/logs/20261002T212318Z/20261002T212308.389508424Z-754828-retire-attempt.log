@@ -1,0 +1,37 @@
++ printf 'Stage %s; log %s\n' retire-attempt /home/mlasota/agent-recovery-lab/logs/run/20261002T212308.389508424Z-754828-retire-attempt.log
+Stage retire-attempt; log /home/mlasota/agent-recovery-lab/logs/run/20261002T212308.389508424Z-754828-retire-attempt.log
++ trap 'rc=$?; printf "Exit %s at %s\n" "$rc" "$(date -u +%FT%TZ)"' EXIT
+++ printf %s SC-04
+++ tr -d -
+++ tr A-Z a-z
++ tag=sc04
++ scope=/home/mlasota/agent-recovery-lab/logs/run
++ [[ SC-04 == SC-02 ]]
++ scope=/home/mlasota/agent-recovery-lab/logs/run/sc04
++ [[ -f /home/mlasota/agent-recovery-lab/logs/run/sc04/incident-started.json ]]
+++ python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("incident_id", ""))' /home/mlasota/agent-recovery-lab/logs/run/sc04/latest-incident.json
++ incident=SC-04_20261002T205153Z
++ [[ SC-04 == SC-02 ]]
++ frozen=/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T205153Z/sc04/frozen-hashes.json
++ [[ -e /home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T205153Z/sc04/frozen-hashes.json ]]
++ status=0
++ python3 -
++ ((  status == 3  ))
++ ((  status != 0  ))
++ [[ -z SC-04_20261002T205153Z ]]
++ /home/mlasota/agent-recovery-lab/bin/lab-consumer stop SC-04_20261002T205153Z
+++ date -u +%Y%m%dT%H%M%SZ
++ dest=/home/mlasota/agent-recovery-lab/logs/superseded/20261002T212308Z
++ mkdir -p /home/mlasota/agent-recovery-lab/logs/superseded/20261002T212308Z
++ calls=0
++ rows=0
++ [[ -n SC-04_20261002T205153Z ]]
++ [[ SC-04 == SC-03 ]]
++ [[ SC-04 == SC-04 ]]
+++ find /home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T205153Z/sc04/units -name completion.txt
+++ wc -l
++ calls=0
++ rc=1
+++ date -u +%FT%TZ
++ printf 'Exit %s at %s\n' 1 2026-10-02T21:23:08Z
+Exit 1 at 2026-10-02T21:23:08Z

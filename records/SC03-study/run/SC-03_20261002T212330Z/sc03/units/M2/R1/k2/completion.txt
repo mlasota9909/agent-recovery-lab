@@ -1,0 +1,5 @@
+To identify the latest safe point before damaging activity began, we look at the provided evidence. The evidence contains three entries with increasing `last_safe_lsn_int` and `window_index` values. The latest (highest) safe point provided in the sequence is the final entry.
+
+The last safe LSN is 245552256159536 and the window index is 18.
+
+COORDINATE: lsn=245552256159536 window=18

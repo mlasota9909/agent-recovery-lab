@@ -1,0 +1,4 @@
+Stage sc03-study; log /home/mlasota/agent-recovery-lab/logs/dry-run/20261002T203614Z/20261002T204024.017704182Z-683960-sc03-study.log
+SC-03 study failed: bin/lab-candidates exited 1: assertion failed: no anomalous window; cannot propose candidates
+
+Exit 1 at 2026-10-02T20:40:30Z

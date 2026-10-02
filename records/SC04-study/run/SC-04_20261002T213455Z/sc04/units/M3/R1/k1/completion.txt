@@ -1,0 +1,13 @@
+
+
+Looking at the three evidence records, I need to find the **latest** safe point (i.e., the most recent one before damage).
+
+| Window | LSN (int) | Anomaly Score |
+|--------|-----------|---------------|
+| 14 | 244023163881904 | 2.046 |
+| 24 | 244023348432200 | 2.257 |
+| 25 | 244023365209896 | 1.649 |
+
+The latest safe point is the record with the highest window index (25), which also carries the lowest anomaly score (1.649), consistent with a safe state. Its LSN is 244023365209896.
+
+COORDINATE: window=25 lsn=244023365209896

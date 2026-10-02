@@ -1,0 +1,13 @@
+To identify the latest safe point before damaging activity began, we examine the `detail` payloads for "mal-" content:
+
+1.  `{"action":"U","detail":{"id":29,"payload":"mal-29"},"lsn_int":244023365208120,"lsn_text":"DDF0/1E000838",...}`
+2.  `{"action":"U","detail":{"id":58,"payload":"mal-58."},"lsn_int":244023365210120,"lsn_text":"DDF0/1E001008",...}`
+
+The first instance of damaging activity is at `lsn_int` 244023365208120 (LSN `DDF0/1E000838`). 
+
+The transaction immediately preceding this damaging activity is:
+`{"action":"U","detail":{"id":56,"payload":"legit-56."},"lsn_int":244023365207896,"lsn_text":"DDF0/1E000758","natural_key":56,"object":"sc04_items","wall_clock":"2026-10-02T21:36:12.342103Z","xid":1166}`
+
+The latest safe point is the LSN of this legitimate transaction.
+
+COORDINATE: lsn=DDF0/1E000758

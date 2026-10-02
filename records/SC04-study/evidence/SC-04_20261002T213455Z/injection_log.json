@@ -1,0 +1,161 @@
+{
+  "commit_lsn": "DDF0/15000718",
+  "earliest_malicious_commit_lsn": "DDF0/15000718",
+  "incident": "SC-04_20261002T213455Z",
+  "lsn_end": "DDF0/1E0007F8",
+  "lsn_start": "DDF0/15000248",
+  "malicious_set": [
+    {
+      "row_id": 71,
+      "xid": 986
+    },
+    {
+      "row_id": 190,
+      "xid": 1000
+    },
+    {
+      "row_id": 7,
+      "xid": 1019
+    },
+    {
+      "row_id": 174,
+      "xid": 1039
+    },
+    {
+      "row_id": 63,
+      "xid": 1050
+    },
+    {
+      "row_id": 140,
+      "xid": 1071
+    },
+    {
+      "row_id": 36,
+      "xid": 1092
+    },
+    {
+      "row_id": 189,
+      "xid": 1104
+    },
+    {
+      "row_id": 164,
+      "xid": 1117
+    },
+    {
+      "row_id": 58,
+      "xid": 1135
+    },
+    {
+      "row_id": 27,
+      "xid": 1147
+    },
+    {
+      "row_id": 29,
+      "xid": 1167
+    }
+  ],
+  "ops": [
+    {
+      "commit_lsn": "DDF0/15000718",
+      "lsn_before": "DDF0/15000248",
+      "principal": "lab_agent",
+      "row_id": 71,
+      "t": "2026-10-02T21:35:55.026570Z",
+      "xid": 986
+    },
+    {
+      "commit_lsn": "DDF0/160005A8",
+      "lsn_before": "DDF0/160004C8",
+      "principal": "lab_agent",
+      "row_id": 190,
+      "t": "2026-10-02T21:35:56.788589Z",
+      "xid": 1000
+    },
+    {
+      "commit_lsn": "DDF0/170006B8",
+      "lsn_before": "DDF0/170005D8",
+      "principal": "lab_agent",
+      "row_id": 7,
+      "t": "2026-10-02T21:35:58.440664Z",
+      "xid": 1019
+    },
+    {
+      "commit_lsn": "DDF0/180006F8",
+      "lsn_before": "DDF0/17C00000",
+      "principal": "lab_agent",
+      "row_id": 174,
+      "t": "2026-10-02T21:35:59.934493Z",
+      "xid": 1039
+    },
+    {
+      "commit_lsn": "DDF0/18000F68",
+      "lsn_before": "DDF0/18000F68",
+      "principal": "lab_agent",
+      "row_id": 63,
+      "t": "2026-10-02T21:36:01.204564Z",
+      "xid": 1050
+    },
+    {
+      "commit_lsn": "DDF0/19000DA8",
+      "lsn_before": "DDF0/19000B88",
+      "principal": "lab_agent",
+      "row_id": 140,
+      "t": "2026-10-02T21:36:03.078137Z",
+      "xid": 1071
+    },
+    {
+      "commit_lsn": "DDF0/1A000DA8",
+      "lsn_before": "DDF0/1A0007F8",
+      "principal": "lab_agent",
+      "row_id": 36,
+      "t": "2026-10-02T21:36:05.052644Z",
+      "xid": 1092
+    },
+    {
+      "commit_lsn": "DDF0/1B0006B8",
+      "lsn_before": "DDF0/1B0005D8",
+      "principal": "lab_agent",
+      "row_id": 189,
+      "t": "2026-10-02T21:36:06.271767Z",
+      "xid": 1104
+    },
+    {
+      "commit_lsn": "DDF0/1C000000",
+      "lsn_before": "DDF0/1B000F28",
+      "principal": "lab_agent",
+      "row_id": 164,
+      "t": "2026-10-02T21:36:07.850674Z",
+      "xid": 1117
+    },
+    {
+      "commit_lsn": "DDF0/1C000EC0",
+      "lsn_before": "DDF0/1C000918",
+      "principal": "lab_agent",
+      "row_id": 58,
+      "t": "2026-10-02T21:36:09.146205Z",
+      "xid": 1135
+    },
+    {
+      "commit_lsn": "DDF0/1D0005D8",
+      "lsn_before": "DDF0/1D0005D8",
+      "principal": "lab_agent",
+      "row_id": 27,
+      "t": "2026-10-02T21:36:10.553352Z",
+      "xid": 1147
+    },
+    {
+      "commit_lsn": "DDF0/1E0007F8",
+      "lsn_before": "DDF0/1E000718",
+      "principal": "lab_agent",
+      "row_id": 29,
+      "t": "2026-10-02T21:36:12.405080Z",
+      "xid": 1167
+    }
+  ],
+  "principal": "lab_agent",
+  "scenario_id": "SC-04",
+  "seed": 42,
+  "t_end": "2026-10-02T21:36:12.405080Z",
+  "t_start": "2026-10-02T21:35:55.026570Z",
+  "timing_pattern": "randomized"
+}

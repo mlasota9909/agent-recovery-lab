@@ -1,0 +1,2926 @@
+{
+  "cells": [
+    {
+      "accepted": 5,
+      "accepted_rate": 1.0,
+      "correct": 0,
+      "correct_given_accepted": 0.0,
+      "correct_rate": 0.0,
+      "declined": 0,
+      "execution_failure": 0,
+      "incorrect_corrupt": 5,
+      "incorrect_safe": 0,
+      "input": "R0",
+      "missing": 0,
+      "model": "gb10a-deepseek-v4-flash",
+      "not_recovered": 0,
+      "pending_checks": 0,
+      "planned": 5,
+      "rule_rejection": 0
+    },
+    {
+      "accepted": 5,
+      "accepted_rate": 1.0,
+      "correct": 0,
+      "correct_given_accepted": 0.0,
+      "correct_rate": 0.0,
+      "declined": 0,
+      "execution_failure": 0,
+      "incorrect_corrupt": 5,
+      "incorrect_safe": 0,
+      "input": "R1",
+      "missing": 0,
+      "model": "gb10a-deepseek-v4-flash",
+      "not_recovered": 0,
+      "pending_checks": 0,
+      "planned": 5,
+      "rule_rejection": 0
+    },
+    {
+      "accepted": 0,
+      "accepted_rate": 0.0,
+      "correct": 0,
+      "correct_given_accepted": null,
+      "correct_rate": 0.0,
+      "declined": 0,
+      "execution_failure": 0,
+      "incorrect_corrupt": 0,
+      "incorrect_safe": 0,
+      "input": "R2",
+      "missing": 0,
+      "model": "gb10a-deepseek-v4-flash",
+      "not_recovered": 0,
+      "pending_checks": 0,
+      "planned": 5,
+      "rule_rejection": 5
+    },
+    {
+      "accepted": 5,
+      "accepted_rate": 1.0,
+      "correct": 0,
+      "correct_given_accepted": 0.0,
+      "correct_rate": 0.0,
+      "declined": 0,
+      "execution_failure": 0,
+      "incorrect_corrupt": 5,
+      "incorrect_safe": 0,
+      "input": "R0",
+      "missing": 0,
+      "model": "gympc-gemma4-26b",
+      "not_recovered": 0,
+      "pending_checks": 0,
+      "planned": 5,
+      "rule_rejection": 0
+    },
+    {
+      "accepted": 5,
+      "accepted_rate": 1.0,
+      "correct": 0,
+      "correct_given_accepted": 0.0,
+      "correct_rate": 0.0,
+      "declined": 0,
+      "execution_failure": 0,
+      "incorrect_corrupt": 5,
+      "incorrect_safe": 0,
+      "input": "R1",
+      "missing": 0,
+      "model": "gympc-gemma4-26b",
+      "not_recovered": 0,
+      "pending_checks": 0,
+      "planned": 5,
+      "rule_rejection": 0
+    },
+    {
+      "accepted": 0,
+      "accepted_rate": 0.0,
+      "correct": 0,
+      "correct_given_accepted": null,
+      "correct_rate": 0.0,
+      "declined": 4,
+      "execution_failure": 0,
+      "incorrect_corrupt": 0,
+      "incorrect_safe": 0,
+      "input": "R2",
+      "missing": 0,
+      "model": "gympc-gemma4-26b",
+      "not_recovered": 0,
+      "pending_checks": 0,
+      "planned": 5,
+      "rule_rejection": 1
+    },
+    {
+      "accepted": 5,
+      "accepted_rate": 1.0,
+      "correct": 0,
+      "correct_given_accepted": 0.0,
+      "correct_rate": 0.0,
+      "declined": 0,
+      "execution_failure": 0,
+      "incorrect_corrupt": 5,
+      "incorrect_safe": 0,
+      "input": "R0",
+      "missing": 0,
+      "model": "alienware-qwen38-27b",
+      "not_recovered": 0,
+      "pending_checks": 0,
+      "planned": 5,
+      "rule_rejection": 0
+    },
+    {
+      "accepted": 5,
+      "accepted_rate": 1.0,
+      "correct": 0,
+      "correct_given_accepted": 0.0,
+      "correct_rate": 0.0,
+      "declined": 0,
+      "execution_failure": 0,
+      "incorrect_corrupt": 5,
+      "incorrect_safe": 0,
+      "input": "R1",
+      "missing": 0,
+      "model": "alienware-qwen38-27b",
+      "not_recovered": 0,
+      "pending_checks": 0,
+      "planned": 5,
+      "rule_rejection": 0
+    },
+    {
+      "accepted": 5,
+      "accepted_rate": 1.0,
+      "correct": 0,
+      "correct_given_accepted": 0.0,
+      "correct_rate": 0.0,
+      "declined": 0,
+      "execution_failure": 0,
+      "incorrect_corrupt": 0,
+      "incorrect_safe": 5,
+      "input": "R2",
+      "missing": 0,
+      "model": "alienware-qwen38-27b",
+      "not_recovered": 0,
+      "pending_checks": 0,
+      "planned": 5,
+      "rule_rejection": 0
+    }
+  ],
+  "comparators": [
+    {
+      "check": null,
+      "failure_reason": "bin/lab-rank exited 2: precondition failed: candidates.jsonl missing; run lab-candidates first\n",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "outcome": "execution_failure",
+      "unit_id": "rank"
+    },
+    {
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023348432592/report.json",
+        "report_sha256": "40fd8aabaeaf36efd7e3268f8be43ee2847c127267c23d607169a062c6a1583e",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "coordinate": {
+        "arm": "arm_b",
+        "chosen_candidate_id": null,
+        "incident_id": "i_20261002T213455Z_981197",
+        "lsn_int": 244023348432592,
+        "lsn_text": "DDF0/1D000ED0",
+        "rationale": "visible locator",
+        "representation": "n/a",
+        "selection_inputs": {
+          "approx_incident_time": null,
+          "incident_time_error_seconds": null,
+          "ledger_view": "views.analysis_view",
+          "read_injection_log": false,
+          "read_oracle_optimum": false,
+          "read_provenance": false
+        },
+        "selector_version": "revised-grammar",
+        "snapshot": "s_20261002T213610595Z_000022",
+        "wall_clock": "2026-10-02T21:36:11.138683Z"
+      },
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "outcome": "accepted",
+      "unit_id": "naive"
+    }
+  ],
+  "complete": true,
+  "exploratory": {
+    "cochran": [
+      {
+        "Q": 10.0,
+        "blocks": 5,
+        "col_sums": [
+          5,
+          5,
+          0
+        ],
+        "df": 2,
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "gb10a-deepseek-v4-flash",
+        "p": 0.006737946999085467,
+        "planned_blocks": 5
+      },
+      {
+        "Q": 10.0,
+        "blocks": 5,
+        "col_sums": [
+          5,
+          5,
+          0
+        ],
+        "df": 2,
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "gympc-gemma4-26b",
+        "p": 0.006737946999085467,
+        "planned_blocks": 5
+      },
+      {
+        "Q": 0.0,
+        "blocks": 5,
+        "col_sums": [
+          5,
+          5,
+          5
+        ],
+        "df": 2,
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "alienware-qwen38-27b",
+        "note": "degenerate (all blocks constant)",
+        "p": 1.0,
+        "planned_blocks": 5
+      },
+      {
+        "Q": 20.0,
+        "blocks": 15,
+        "col_sums": [
+          15,
+          15,
+          5
+        ],
+        "df": 2,
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "pooled",
+        "p": 4.5399929762484854e-05,
+        "planned_blocks": 15
+      }
+    ],
+    "effects": [
+      {
+        "alpha": 0.05,
+        "ci_high": -1,
+        "ci_low": -1,
+        "ci_lower_exceeds_zero": false,
+        "comparison": "R2-R0",
+        "delta": -1.0,
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "magnitude": "large",
+        "missing_units": 0,
+        "model": "gb10a-deepseek-v4-flash",
+        "n_blocks": 5,
+        "n_resamples": 10000,
+        "observed_direction": "R2<R0",
+        "point": -1,
+        "seed": 42
+      },
+      {
+        "alpha": 0.05,
+        "ci_high": -1,
+        "ci_low": -1,
+        "ci_lower_exceeds_zero": false,
+        "comparison": "R2-R0",
+        "delta": -1.0,
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "magnitude": "large",
+        "missing_units": 0,
+        "model": "gympc-gemma4-26b",
+        "n_blocks": 5,
+        "n_resamples": 10000,
+        "observed_direction": "R2<R0",
+        "point": -1,
+        "seed": 42
+      },
+      {
+        "alpha": 0.05,
+        "ci_high": 0,
+        "ci_low": 0,
+        "ci_lower_exceeds_zero": false,
+        "comparison": "R2-R0",
+        "delta": 0.0,
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "magnitude": "negligible",
+        "missing_units": 0,
+        "model": "alienware-qwen38-27b",
+        "n_blocks": 5,
+        "n_resamples": 10000,
+        "observed_direction": "equal",
+        "point": 0,
+        "seed": 42
+      }
+    ],
+    "mcnemar": [
+      {
+        "b": 0,
+        "blocks": 5,
+        "c": 0,
+        "comparison": "R0/R1",
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "gb10a-deepseek-v4-flash",
+        "n_discordant": 0,
+        "note": "no discordant pairs",
+        "p": 1.0,
+        "p_holm": 1.0,
+        "p_raw": 1.0,
+        "reject_at_0.05": false
+      },
+      {
+        "b": 5,
+        "blocks": 5,
+        "c": 0,
+        "comparison": "R0/R2",
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "gb10a-deepseek-v4-flash",
+        "n_discordant": 5,
+        "p": 0.0625,
+        "p_holm": 0.1875,
+        "p_raw": 0.0625,
+        "reject_at_0.05": false
+      },
+      {
+        "b": 5,
+        "blocks": 5,
+        "c": 0,
+        "comparison": "R1/R2",
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "gb10a-deepseek-v4-flash",
+        "n_discordant": 5,
+        "p": 0.0625,
+        "p_holm": 0.1875,
+        "p_raw": 0.0625,
+        "reject_at_0.05": false
+      },
+      {
+        "b": 0,
+        "blocks": 5,
+        "c": 0,
+        "comparison": "R0/R1",
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "gympc-gemma4-26b",
+        "n_discordant": 0,
+        "note": "no discordant pairs",
+        "p": 1.0,
+        "p_holm": 1.0,
+        "p_raw": 1.0,
+        "reject_at_0.05": false
+      },
+      {
+        "b": 5,
+        "blocks": 5,
+        "c": 0,
+        "comparison": "R0/R2",
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "gympc-gemma4-26b",
+        "n_discordant": 5,
+        "p": 0.0625,
+        "p_holm": 0.1875,
+        "p_raw": 0.0625,
+        "reject_at_0.05": false
+      },
+      {
+        "b": 5,
+        "blocks": 5,
+        "c": 0,
+        "comparison": "R1/R2",
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "gympc-gemma4-26b",
+        "n_discordant": 5,
+        "p": 0.0625,
+        "p_holm": 0.1875,
+        "p_raw": 0.0625,
+        "reject_at_0.05": false
+      },
+      {
+        "b": 0,
+        "blocks": 5,
+        "c": 0,
+        "comparison": "R0/R1",
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "alienware-qwen38-27b",
+        "n_discordant": 0,
+        "note": "no discordant pairs",
+        "p": 1.0,
+        "p_holm": 1.0,
+        "p_raw": 1.0,
+        "reject_at_0.05": false
+      },
+      {
+        "b": 0,
+        "blocks": 5,
+        "c": 0,
+        "comparison": "R0/R2",
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "alienware-qwen38-27b",
+        "n_discordant": 0,
+        "note": "no discordant pairs",
+        "p": 1.0,
+        "p_holm": 1.0,
+        "p_raw": 1.0,
+        "reject_at_0.05": false
+      },
+      {
+        "b": 0,
+        "blocks": 5,
+        "c": 0,
+        "comparison": "R1/R2",
+        "excluded_blocks": 0,
+        "execution_failures": 0,
+        "missing_units": 0,
+        "model": "alienware-qwen38-27b",
+        "n_discordant": 0,
+        "note": "no discordant pairs",
+        "p": 1.0,
+        "p_holm": 1.0,
+        "p_raw": 1.0,
+        "reject_at_0.05": false
+      }
+    ]
+  },
+  "incident_id": "SC-04_20261002T213455Z",
+  "units": [
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365208120,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365208120,
+            "token": "lsn=DDF0/1E000838",
+            "type": "lsn_hex"
+          },
+          {
+            "discard_reason": "no explicit visible commit in this UTC second",
+            "resolved_lsn_int": null,
+            "token": "ts=2026-10-02T21:36:12.375160Z",
+            "type": "ts"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex",
+          "ts"
+        ],
+        "locators_resolved_to": [
+          244023365208120
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:38:46.394850Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365208120/report.json",
+        "report_sha256": "bf1a5c70f5bbd4d86b1c66174fc8581fc9f85052d8780c60b552c299cdfe8761",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 34,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:14.304065Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 5026,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R0/k0/model.json",
+      "model_record_sha256": "71b82ca53738f96b01dbf2a739d83676c5d1627c9ade677942d590bdc6857bc7",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 5288,
+      "raw_completion": "COORDINATE: lsn=DDF0/1E000838 ts=2026-10-02T21:36:12.375160Z",
+      "replicate_index": 0,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R0|0"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365208120,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365208120,
+            "token": "lsn=DDF0/1E000838",
+            "type": "lsn_hex"
+          },
+          {
+            "discard_reason": "no explicit visible commit in this UTC second",
+            "resolved_lsn_int": null,
+            "token": "ts=2026-10-02T21:36:12.375160Z",
+            "type": "ts"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex",
+          "ts"
+        ],
+        "locators_resolved_to": [
+          244023365208120
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:39:14.408677Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365208120/report.json",
+        "report_sha256": "bf1a5c70f5bbd4d86b1c66174fc8581fc9f85052d8780c60b552c299cdfe8761",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 34,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:16.020936Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 1270,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R0/k1/model.json",
+      "model_record_sha256": "e8710b86eef7a1244008adf572de154ad5ce6245545584015431862de81d6eec",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 5288,
+      "raw_completion": "COORDINATE: lsn=DDF0/1E000838 ts=2026-10-02T21:36:12.375160Z",
+      "replicate_index": 1,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R0|1"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365208120,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365208120,
+            "token": "lsn=DDF0/1E000838",
+            "type": "lsn_hex"
+          },
+          {
+            "discard_reason": "no explicit visible commit in this UTC second",
+            "resolved_lsn_int": null,
+            "token": "ts=2026-10-02T21:36:12.375160Z",
+            "type": "ts"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex",
+          "ts"
+        ],
+        "locators_resolved_to": [
+          244023365208120
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:39:16.081103Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365208120/report.json",
+        "report_sha256": "bf1a5c70f5bbd4d86b1c66174fc8581fc9f85052d8780c60b552c299cdfe8761",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 34,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:17.599549Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 1179,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R0/k2/model.json",
+      "model_record_sha256": "2bc0c289d21871b6302792cf0ee6d07ac50c4f3cbd94075379b8cc844e9c3fe3",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 5288,
+      "raw_completion": "COORDINATE: lsn=DDF0/1E000838 ts=2026-10-02T21:36:12.375160Z",
+      "replicate_index": 2,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R0|2"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365208120,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365208120,
+            "token": "lsn=DDF0/1E000838",
+            "type": "lsn_hex"
+          },
+          {
+            "discard_reason": "no explicit visible commit in this UTC second",
+            "resolved_lsn_int": null,
+            "token": "ts=2026-10-02T21:36:12.375160Z",
+            "type": "ts"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex",
+          "ts"
+        ],
+        "locators_resolved_to": [
+          244023365208120
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:39:17.670169Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365208120/report.json",
+        "report_sha256": "bf1a5c70f5bbd4d86b1c66174fc8581fc9f85052d8780c60b552c299cdfe8761",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 34,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:19.357010Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 1283,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R0/k3/model.json",
+      "model_record_sha256": "7e2f23545c24fbbdc81d55a488a4c838e66dc5d47b27f883f9f7a795fa40c16e",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 5288,
+      "raw_completion": "COORDINATE: lsn=DDF0/1E000838 ts=2026-10-02T21:36:12.375160Z",
+      "replicate_index": 3,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R0|3"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365208120,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365208120,
+            "token": "lsn=DDF0/1E000838",
+            "type": "lsn_hex"
+          },
+          {
+            "discard_reason": "no explicit visible commit in this UTC second",
+            "resolved_lsn_int": null,
+            "token": "ts=2026-10-02T21:36:12.375160Z",
+            "type": "ts"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex",
+          "ts"
+        ],
+        "locators_resolved_to": [
+          244023365208120
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:39:19.399742Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365208120/report.json",
+        "report_sha256": "bf1a5c70f5bbd4d86b1c66174fc8581fc9f85052d8780c60b552c299cdfe8761",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 34,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:21.180032Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 1250,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R0/k4/model.json",
+      "model_record_sha256": "81947bca4cdc436cb508c24e240827ceaf6ba62239d80183fc82e01d04a33434",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 5288,
+      "raw_completion": "COORDINATE: lsn=DDF0/1E000838 ts=2026-10-02T21:36:12.375160Z",
+      "replicate_index": 4,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R0|4"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023348432200,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=24",
+            "type": "window"
+          },
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023348432200,
+            "token": "lsn=244023348432200",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "window",
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023348432200
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:39:21.230215Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023348432200/report.json",
+        "report_sha256": "9c0cf21addbd726304e5f38dba9abb5c0a8d4868e6b1741b5fbf8b0054a8914d",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 17,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:43.234201Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 901,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R1/k0/model.json",
+      "model_record_sha256": "b7c4a805552cc958d036356d89c6d766c22addab395d5a76e54687a9a6466066",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 295,
+      "raw_completion": "COORDINATE: window=24 lsn=244023348432200",
+      "replicate_index": 0,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R1|0"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023348432200,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=24",
+            "type": "window"
+          },
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023348432200,
+            "token": "lsn=244023348432200",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "window",
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023348432200
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:39:43.338920Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023348432200/report.json",
+        "report_sha256": "9c0cf21addbd726304e5f38dba9abb5c0a8d4868e6b1741b5fbf8b0054a8914d",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 17,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:44.754199Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 990,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R1/k1/model.json",
+      "model_record_sha256": "62754bbb01cc8d4a09b0719c3e3e5a1efbb5f76eb9af4154e323e502b2d67493",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 295,
+      "raw_completion": "COORDINATE: window=24 lsn=244023348432200",
+      "replicate_index": 1,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R1|1"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023348432200,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=24",
+            "type": "window"
+          },
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023348432200,
+            "token": "lsn=244023348432200",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "window",
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023348432200
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:39:44.842233Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023348432200/report.json",
+        "report_sha256": "9c0cf21addbd726304e5f38dba9abb5c0a8d4868e6b1741b5fbf8b0054a8914d",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 17,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:46.076521Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 894,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R1/k2/model.json",
+      "model_record_sha256": "ba2c0898754d54fec617c7d2fb1598fff4220223a0dd85e21929580b2e617632",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 295,
+      "raw_completion": "COORDINATE: window=24 lsn=244023348432200",
+      "replicate_index": 2,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R1|2"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023348432200,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=24",
+            "type": "window"
+          },
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023348432200,
+            "token": "lsn=244023348432200",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "window",
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023348432200
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:39:46.146950Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023348432200/report.json",
+        "report_sha256": "9c0cf21addbd726304e5f38dba9abb5c0a8d4868e6b1741b5fbf8b0054a8914d",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 17,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:47.314078Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 889,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R1/k3/model.json",
+      "model_record_sha256": "dfa7fb94becebeb4c81701556d2419f9dad8975805fa4b26ca1d2b7c883d35cf",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 295,
+      "raw_completion": "COORDINATE: window=24 lsn=244023348432200",
+      "replicate_index": 3,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R1|3"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023348432200,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=24",
+            "type": "window"
+          },
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023348432200,
+            "token": "lsn=244023348432200",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "window",
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023348432200
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:39:47.367628Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023348432200/report.json",
+        "report_sha256": "9c0cf21addbd726304e5f38dba9abb5c0a8d4868e6b1741b5fbf8b0054a8914d",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 17,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:48.699775Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 894,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R1/k4/model.json",
+      "model_record_sha256": "ba2c0898754d54fec617c7d2fb1598fff4220223a0dd85e21929580b2e617632",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 295,
+      "raw_completion": "COORDINATE: window=24 lsn=244023348432200",
+      "replicate_index": 4,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R1|4"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": null,
+        "grammar_outcome": "refusal_parser",
+        "locators": [
+          {
+            "discard_reason": "immediately preceding window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=14",
+            "type": "window"
+          }
+        ],
+        "locators_offered": [
+          "window"
+        ],
+        "locators_resolved_to": [],
+        "outcome": "rule_rejection",
+        "reason": "no locator resolves from the supplied view"
+      },
+      "call_started_utc": "2026-10-02T21:39:48.776900Z",
+      "check": null,
+      "completion_tokens": 9,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:49.944646Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 846,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R2/k0/model.json",
+      "model_record_sha256": "011b20363a90747bbb483b5800bebdcc82cd58fda86ff3a720a58b91ecbc6041",
+      "outcome": "rule_rejection",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 319,
+      "raw_completion": "COORDINATE: window=14",
+      "replicate_index": 0,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R2|0"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": null,
+        "grammar_outcome": "refusal_parser",
+        "locators": [
+          {
+            "discard_reason": "immediately preceding window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=14",
+            "type": "window"
+          }
+        ],
+        "locators_offered": [
+          "window"
+        ],
+        "locators_resolved_to": [],
+        "outcome": "rule_rejection",
+        "reason": "no locator resolves from the supplied view"
+      },
+      "call_started_utc": "2026-10-02T21:39:50.008311Z",
+      "check": null,
+      "completion_tokens": 9,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:51.331661Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 834,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R2/k1/model.json",
+      "model_record_sha256": "0410b80d0a45566a36f180743bf4cd47e5c40bf3cf0d8ae123403c1ea1b79628",
+      "outcome": "rule_rejection",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 319,
+      "raw_completion": "COORDINATE: window=14",
+      "replicate_index": 1,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R2|1"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": null,
+        "grammar_outcome": "refusal_parser",
+        "locators": [
+          {
+            "discard_reason": "immediately preceding window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=14",
+            "type": "window"
+          }
+        ],
+        "locators_offered": [
+          "window"
+        ],
+        "locators_resolved_to": [],
+        "outcome": "rule_rejection",
+        "reason": "no locator resolves from the supplied view"
+      },
+      "call_started_utc": "2026-10-02T21:39:51.372321Z",
+      "check": null,
+      "completion_tokens": 9,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:52.548015Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 836,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R2/k2/model.json",
+      "model_record_sha256": "ab8757b230b3fb86aae1ba1d1cef3bdd08821f3c2363d510dc31730bcc8c3fbf",
+      "outcome": "rule_rejection",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 319,
+      "raw_completion": "COORDINATE: window=14",
+      "replicate_index": 2,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R2|2"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": null,
+        "grammar_outcome": "refusal_parser",
+        "locators": [
+          {
+            "discard_reason": "immediately preceding window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=14",
+            "type": "window"
+          }
+        ],
+        "locators_offered": [
+          "window"
+        ],
+        "locators_resolved_to": [],
+        "outcome": "rule_rejection",
+        "reason": "no locator resolves from the supplied view"
+      },
+      "call_started_utc": "2026-10-02T21:39:52.618827Z",
+      "check": null,
+      "completion_tokens": 9,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:53.723386Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 836,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R2/k3/model.json",
+      "model_record_sha256": "ab8757b230b3fb86aae1ba1d1cef3bdd08821f3c2363d510dc31730bcc8c3fbf",
+      "outcome": "rule_rejection",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 319,
+      "raw_completion": "COORDINATE: window=14",
+      "replicate_index": 3,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R2|3"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": null,
+        "grammar_outcome": "refusal_parser",
+        "locators": [
+          {
+            "discard_reason": "immediately preceding window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=14",
+            "type": "window"
+          }
+        ],
+        "locators_offered": [
+          "window"
+        ],
+        "locators_resolved_to": [],
+        "outcome": "rule_rejection",
+        "reason": "no locator resolves from the supplied view"
+      },
+      "call_started_utc": "2026-10-02T21:39:53.783027Z",
+      "check": null,
+      "completion_tokens": 9,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:39:54.946802Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 833,
+      "model_alias": "gb10a-deepseek-v4-flash",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M1/R2/k4/model.json",
+      "model_record_sha256": "4d6e2f1ee82cc2b7145a282bae549092494307355e83f23fc5f7eca6dc8fd2bc",
+      "outcome": "rule_rejection",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 319,
+      "raw_completion": "COORDINATE: window=14",
+      "replicate_index": 4,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "gb10a-deepseek-v4-flash|R2|4"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365207896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365207896,
+            "token": "lsn=DDF0/1E000758",
+            "type": "lsn_hex"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex"
+        ],
+        "locators_resolved_to": [
+          244023365207896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:39:54.990380Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+        "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 568,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:40:37.522711Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 21205,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R0/k0/model.json",
+      "model_record_sha256": "3b52766be001d77bba2ee36b3fdbf54d5f6951f183d3d6f8b1a251ed4b83914b",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 7897,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we examine the `action` and `detail` fields in the provided evidence.\n\n1.  The first instance of damaging activity is found in the `sc04_items` object:\n    `{\"action\":\"U\",\"detail\":{\"id\":29,\"payload\":\"mal-29\"},\"lsn_int\":244023365208120,\"lsn_text\":\"DDF0/1E000838\",\"natural_key\":29,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:12.375160Z\",\"xid\":1167}`\n    This occurs at `lsn_text: DDF0/1E000838`.\n\n2.  The second instance of damaging activity is found in the `sc04_items` object:\n    `{\"action\":\"U\",\"detail\":{\"id\":58,\"payload\":\"mal-58.\"},\"lsn_int\":244023365210120,\"lsn_text\":\"DDF0/1E001008\",\"natural_key\":58,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:13.280723Z\",\"xid\":1177}`\n    This occurs at `lsn_text: DDF0/1E001008`.\n\n3.  We look for the latest transaction *before* the first damaging activity (`DDF0/1E000838`).\n    The transaction immediately preceding the first `mal-` payload is:\n    `{\"action\":\"U\",\"detail\":{\"id\":56,\"payload\":\"legit-56.\"},\"lsn_int\":244023365207896,\"lsn_text\":\"DDF0/1E000758\",\"natural_key\":56,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:12.342103Z\",\"xid\":1166}`\n\nThe latest safe point is the transaction at `lsn_text: DDF0/1E000758`.\n\nCOORDINATE: lsn=DDF0/1E000758",
+      "replicate_index": 0,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R0|0"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365207896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365207896,
+            "token": "lsn=DDF0/1E000758",
+            "type": "lsn_hex"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex"
+        ],
+        "locators_resolved_to": [
+          244023365207896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:40:37.603942Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+        "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 388,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:40:50.778540Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 12849,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R0/k1/model.json",
+      "model_record_sha256": "4c312daeac681d7993aba48c9cffdc83eedfe7514b82161f5e19bb14be4c813c",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 7897,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we examine the `action` and `detail` fields in the provided evidence.\n\n1.  The first instance of damaging activity is found in the `sc04_items` object:\n    `{\"action\":\"U\",\"detail\":{\"id\":29,\"payload\":\"mal-29\"},\"lsn_int\":244023365208120,\"lsn_text\":\"DDF0/1E000838\",\"natural_key\":29,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:12.375160Z\",\"xid\":1167}`\n    This entry has a payload containing \"mal-29\".\n\n2.  The entry immediately preceding this damaging activity is:\n    `{\"action\":\"U\",\"detail\":{\"id\":56,\"payload\":\"legit-56.\"},\"lsn_int\":244023365207896,\"lsn_text\":\"DDF0/1E000758\",\"natural_key\":56,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:12.342103Z\",\"xid\":1166}`\n\n3.  The LSN (Log Sequence Number) for this safe point is `DDF0/1E000758` (hex) or `244023365207896` (integer).\n\nCOORDINATE: lsn=DDF0/1E000758",
+      "replicate_index": 1,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R0|1"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365207896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365207896,
+            "token": "lsn=DDF0/1E000758",
+            "type": "lsn_hex"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex"
+        ],
+        "locators_resolved_to": [
+          244023365207896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:40:50.837392Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+        "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 365,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:41:02.719081Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 11539,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R0/k2/model.json",
+      "model_record_sha256": "45f826a6c78240293a98de2d5ce47d110553bb7f91ceae235ee43b6963d5ed7a",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 7897,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we examine the `action` and `detail` fields in the provided evidence.\n\n1.  The first instance of damaging activity is found in the `sc04_items` object:\n    `{\"action\":\"U\",\"detail\":{\"id\":29,\"payload\":\"mal-29\"},\"lsn_int\":244023365208120,\"lsn_text\":\"DDF0/1E000838\",\"natural_key\":29,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:12.375160Z\",\"xid\":1167}`\n    This entry has a payload containing \"mal-29\".\n\n2.  The entry immediately preceding this damaging activity is:\n    `{\"action\":\"U\",\"detail\":{\"id\":56,\"payload\":\"legit-56.\"},\"lsn_int\":244023365207896,\"lsn_text\":\"DDF0/1E000758\",\"natural_key\":56,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:12.342103Z\",\"xid\":1166}`\n\n3.  The LSN (Log Sequence Number) for this last safe entry is `DDF0/1E000758`.\n\nCOORDINATE: lsn=DDF0/1E000758",
+      "replicate_index": 2,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R0|2"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365207896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365207896,
+            "token": "lsn=DDF0/1E000758",
+            "type": "lsn_hex"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex"
+        ],
+        "locators_resolved_to": [
+          244023365207896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:41:02.776318Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+        "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 365,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:41:14.771717Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 11644,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R0/k3/model.json",
+      "model_record_sha256": "d4956240421d46584927fb47f185000a3374316c795ec005cfe03bb95e8865f2",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 7897,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we examine the `action` and `detail` fields in the provided evidence.\n\n1.  The first instance of damaging activity is found in the `sc04_items` object:\n    `{\"action\":\"U\",\"detail\":{\"id\":29,\"payload\":\"mal-29\"},\"lsn_int\":244023365208120,\"lsn_text\":\"DDF0/1E000838\",\"natural_key\":29,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:12.375160Z\",\"xid\":1167}`\n    This entry shows a payload containing \"mal-29\".\n\n2.  The entry immediately preceding this damaging activity is:\n    `{\"action\":\"U\",\"detail\":{\"id\":56,\"payload\":\"legit-56.\"},\"lsn_int\":244023365207896,\"lsn_text\":\"DDF0/1E000758\",\"natural_key\":56,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:12.342103Z\",\"xid\":1166}`\n\n3.  The LSN (Log Sequence Number) for this last safe entry is `DDF0/1E000758`.\n\nCOORDINATE: lsn=DDF0/1E000758",
+      "replicate_index": 3,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R0|3"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365207896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365207896,
+            "token": "lsn=DDF0/1E000758",
+            "type": "lsn_hex"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex"
+        ],
+        "locators_resolved_to": [
+          244023365207896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:41:14.839227Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+        "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 367,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:41:26.831884Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 11655,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R0/k4/model.json",
+      "model_record_sha256": "af2a7859b9c42d249e20110ff0f4daa49da3a9f65318370847ae19328731b0f9",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 7897,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we examine the `detail` payloads for \"mal-\" content:\n\n1.  `{\"action\":\"U\",\"detail\":{\"id\":29,\"payload\":\"mal-29\"},\"lsn_int\":244023365208120,\"lsn_text\":\"DDF0/1E000838\",...}`\n2.  `{\"action\":\"U\",\"detail\":{\"id\":58,\"payload\":\"mal-58.\"},\"lsn_int\":244023365210120,\"lsn_text\":\"DDF0/1E001008\",...}`\n\nThe first instance of damaging activity is at `lsn_int` 244023365208120 (LSN `DDF0/1E000838`). \n\nThe transaction immediately preceding this damaging activity is:\n`{\"action\":\"U\",\"detail\":{\"id\":56,\"payload\":\"legit-56.\"},\"lsn_int\":244023365207896,\"lsn_text\":\"DDF0/1E000758\",\"natural_key\":56,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-02T21:36:12.342103Z\",\"xid\":1166}`\n\nThe latest safe point is the LSN of this legitimate transaction.\n\nCOORDINATE: lsn=DDF0/1E000758",
+      "replicate_index": 4,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R0|4"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365209896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365209896,
+            "token": "lsn=244023365209896",
+            "type": "lsn_int"
+          },
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=25",
+            "type": "window"
+          }
+        ],
+        "locators_offered": [
+          "lsn_int",
+          "window"
+        ],
+        "locators_resolved_to": [
+          244023365209896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:41:26.880246Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 12,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365209896/report.json",
+        "report_sha256": "fc89a40422cc3d91882e2cd4e35fda227456aa59ac981c616757529e10af6f2e",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 233,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:41:56.366156Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 7665,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R1/k0/model.json",
+      "model_record_sha256": "efda4bfa09c159a3e0919087a6a55c74b803800014c94492c657255f5457d7d2",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 381,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we must look at the provided data points. The evidence contains three entries with `last_safe_lsn_int` and `window_index` values.\n\n1. `last_safe_lsn_int`: 244023348432200, `window_index`: 24\n2. `last_safe_lsn_int`: 244023163881904, `window_index`: 14\n3. `last_safe_lsn_int`: 244023365209896, `window_index`: 25\n\nThe highest (latest) `last_safe_lsn_int` provided is 244023365209896, which corresponds to `window_index` 25.\n\nCOORDINATE: lsn=244023365209896 window=25",
+      "replicate_index": 0,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R1|0"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365209896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365209896,
+            "token": "lsn=244023365209896",
+            "type": "lsn_int"
+          },
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=25",
+            "type": "window"
+          }
+        ],
+        "locators_offered": [
+          "lsn_int",
+          "window"
+        ],
+        "locators_resolved_to": [
+          244023365209896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:41:56.463536Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 12,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365209896/report.json",
+        "report_sha256": "fc89a40422cc3d91882e2cd4e35fda227456aa59ac981c616757529e10af6f2e",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 233,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:42:04.299367Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 7448,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R1/k1/model.json",
+      "model_record_sha256": "5e8a540bb378e0e615763365f961183749b9477ba3f6ee743bcd9152d3c9a5f7",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 381,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we must look at the provided data points. The evidence contains three entries with `last_safe_lsn_int` and `window_index` values.\n\n1. `last_safe_lsn_int`: 244023348432200, `window_index`: 24\n2. `last_safe_lsn_int`: 244023163881904, `window_index`: 14\n3. `last_safe_lsn_int`: 244023365209896, `window_index`: 25\n\nThe highest (latest) `last_safe_lsn_int` provided is 244023365209896, which corresponds to `window_index` 25.\n\nCOORDINATE: lsn=244023365209896 window=25",
+      "replicate_index": 1,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R1|1"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365209896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365209896,
+            "token": "lsn=244023365209896",
+            "type": "lsn_int"
+          },
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=25",
+            "type": "window"
+          }
+        ],
+        "locators_offered": [
+          "lsn_int",
+          "window"
+        ],
+        "locators_resolved_to": [
+          244023365209896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:42:04.357756Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 12,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365209896/report.json",
+        "report_sha256": "fc89a40422cc3d91882e2cd4e35fda227456aa59ac981c616757529e10af6f2e",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 233,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:42:12.279107Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 7481,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R1/k2/model.json",
+      "model_record_sha256": "7a5179d2007dea42609595bca18d14b8343c702c49390710041a4b03ce55f803",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 381,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we must look at the provided data points. The evidence contains three entries with `last_safe_lsn_int` and `window_index` values.\n\n1. `last_safe_lsn_int`: 244023348432200, `window_index`: 24\n2. `last_safe_lsn_int`: 244023163881904, `window_index`: 14\n3. `last_safe_lsn_int`: 244023365209896, `window_index`: 25\n\nThe highest (latest) `last_safe_lsn_int` provided is 244023365209896, which corresponds to `window_index` 25.\n\nCOORDINATE: lsn=244023365209896 window=25",
+      "replicate_index": 2,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R1|2"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365209896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365209896,
+            "token": "lsn=244023365209896",
+            "type": "lsn_int"
+          },
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=25",
+            "type": "window"
+          }
+        ],
+        "locators_offered": [
+          "lsn_int",
+          "window"
+        ],
+        "locators_resolved_to": [
+          244023365209896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:42:12.385774Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 12,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365209896/report.json",
+        "report_sha256": "fc89a40422cc3d91882e2cd4e35fda227456aa59ac981c616757529e10af6f2e",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 233,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:42:20.468538Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 7688,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R1/k3/model.json",
+      "model_record_sha256": "9b8febc8757df8791dcbfe08a76a8efc37d4c7200ffe225fe8aa758b4da36ddb",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 381,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we must look at the provided data points. The evidence contains three entries with `last_safe_lsn_int` and `window_index` values.\n\n1. `last_safe_lsn_int`: 244023348432200, `window_index`: 24\n2. `last_safe_lsn_int`: 244023163881904, `window_index`: 14\n3. `last_safe_lsn_int`: 244023365209896, `window_index`: 25\n\nThe highest (latest) `last_safe_lsn_int` provided is 244023365209896, which corresponds to `window_index` 25.\n\nCOORDINATE: lsn=244023365209896 window=25",
+      "replicate_index": 3,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R1|3"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365209896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365209896,
+            "token": "lsn=244023365209896",
+            "type": "lsn_int"
+          },
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=25",
+            "type": "window"
+          }
+        ],
+        "locators_offered": [
+          "lsn_int",
+          "window"
+        ],
+        "locators_resolved_to": [
+          244023365209896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:42:20.577425Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 12,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365209896/report.json",
+        "report_sha256": "fc89a40422cc3d91882e2cd4e35fda227456aa59ac981c616757529e10af6f2e",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 233,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:42:28.605177Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 7650,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R1/k4/model.json",
+      "model_record_sha256": "7989874c5701e2e35e9255a59adc59093af1054cbd9ec70081972f53bfe8290a",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 381,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we must look at the provided data points. The evidence contains three entries with `last_safe_lsn_int` and `window_index` values.\n\n1. `last_safe_lsn_int`: 244023348432200, `window_index`: 24\n2. `last_safe_lsn_int`: 244023163881904, `window_index`: 14\n3. `last_safe_lsn_int`: 244023365209896, `window_index`: 25\n\nThe highest (latest) `last_safe_lsn_int` provided is 244023365209896, which corresponds to `window_index` 25.\n\nCOORDINATE: lsn=244023365209896 window=25",
+      "replicate_index": 4,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R1|4"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": null,
+        "grammar_outcome": "refusal_genuine",
+        "locators": [],
+        "locators_offered": [],
+        "locators_resolved_to": [],
+        "outcome": "declined",
+        "reason": "declared refusal without coordinate"
+      },
+      "call_started_utc": "2026-10-02T21:42:28.638161Z",
+      "check": null,
+      "completion_tokens": 135,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:42:33.625039Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 4645,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R2/k0/model.json",
+      "model_record_sha256": "225cb51194c1178853447dcc431b6bb1741c338be1e93a8c5b0a27e645d34e90",
+      "outcome": "declined",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 429,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we examine the provided windows:\n\n- Window 14: Contains `DELETE` and `INSERT` operations (damaging activity).\n- Window 24: Contains `DELETE` and `INSERT` operations (damaging activity).\n- Window 25: Contains `DELETE` and `INSERT` operations (damaging activity).\n\nThe evidence shows that damaging activity (DELETE/INSERT) is present in all listed windows. There is no window or timestamp provided that represents a state *before* this activity began.\n\nREFUSAL: The evidence only contains windows where damaging activity has already occurred.",
+      "replicate_index": 0,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R2|0"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": null,
+        "grammar_outcome": "refusal_genuine",
+        "locators": [],
+        "locators_offered": [],
+        "locators_resolved_to": [],
+        "outcome": "declined",
+        "reason": "declared refusal without coordinate"
+      },
+      "call_started_utc": "2026-10-02T21:42:33.676758Z",
+      "check": null,
+      "completion_tokens": 135,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:42:38.460445Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 4506,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R2/k1/model.json",
+      "model_record_sha256": "8c142cab1065d52ea6ad10d71214dfeb67d44b0622e20138d911f7d8ab462875",
+      "outcome": "declined",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 429,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we examine the provided windows:\n\n- Window 14: Contains `DELETE` and `INSERT` operations (damaging activity).\n- Window 24: Contains `DELETE` and `INSERT` operations (damaging activity).\n- Window 25: Contains `DELETE` and `INSERT` operations (damaging activity).\n\nThe evidence shows that damaging activity (DELETE/INSERT) is present in all listed windows. There is no window or timestamp provided that represents a state *before* this activity began.\n\nREFUSAL: The evidence only contains windows where damaging activity has already occurred.",
+      "replicate_index": 1,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R2|1"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": null,
+        "grammar_outcome": "refusal_parser",
+        "locators": [
+          {
+            "discard_reason": "immediately preceding window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=14",
+            "type": "window"
+          }
+        ],
+        "locators_offered": [
+          "window"
+        ],
+        "locators_resolved_to": [],
+        "outcome": "rule_rejection",
+        "reason": "no locator resolves from the supplied view"
+      },
+      "call_started_utc": "2026-10-02T21:42:38.572830Z",
+      "check": null,
+      "completion_tokens": 9,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:42:39.266675Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 371,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R2/k2/model.json",
+      "model_record_sha256": "d5117901dba60e3c5ca6a6a8839f604b0ef60bf0e033fbefc165bbba7417cc11",
+      "outcome": "rule_rejection",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 429,
+      "raw_completion": "COORDINATE: window=14",
+      "replicate_index": 2,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R2|2"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": null,
+        "grammar_outcome": "refusal_genuine",
+        "locators": [],
+        "locators_offered": [],
+        "locators_resolved_to": [],
+        "outcome": "declined",
+        "reason": "declared refusal without coordinate"
+      },
+      "call_started_utc": "2026-10-02T21:42:39.319781Z",
+      "check": null,
+      "completion_tokens": 147,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:42:44.394726Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 4809,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R2/k3/model.json",
+      "model_record_sha256": "2e87c4a30bacf8007b150a8f00046c5643c727b76dc46df7b9b1b2c4afd7528a",
+      "outcome": "declined",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 429,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we examine the provided windows:\n\n- Window 14: Contains `DELETE` and `INSERT` operations (damaging activity).\n- Window 24: Contains `DELETE` and `INSERT` operations (damaging activity).\n- Window 25: Contains `DELETE` and `INSERT` operations (damaging activity).\n\nThe evidence shows that damaging activity (DELETE/INSERT) is present in all listed windows. There is no window provided that represents a state prior to the start of these activities. Therefore, a safe point cannot be localized from the provided evidence.\n\nREFUSAL: The evidence only contains windows where damaging activity has already occurred.",
+      "replicate_index": 3,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R2|3"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": null,
+        "grammar_outcome": "refusal_genuine",
+        "locators": [],
+        "locators_offered": [],
+        "locators_resolved_to": [],
+        "outcome": "declined",
+        "reason": "declared refusal without coordinate"
+      },
+      "call_started_utc": "2026-10-02T21:42:44.466106Z",
+      "check": null,
+      "completion_tokens": 135,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:42:49.068884Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 4339,
+      "model_alias": "gympc-gemma4-26b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M2/R2/k4/model.json",
+      "model_record_sha256": "d3313ebc22e928c729fc64dfd868ee915602bc6a24cf598400fc1b72ebde2d26",
+      "outcome": "declined",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 429,
+      "raw_completion": "To identify the latest safe point before damaging activity began, we examine the provided windows:\n\n- Window 14: Contains `DELETE` and `INSERT` operations (damaging activity).\n- Window 24: Contains `DELETE` and `INSERT` operations (damaging activity).\n- Window 25: Contains `DELETE` and `INSERT` operations (damaging activity).\n\nThe evidence shows that damaging activity (DELETE/INSERT) is present in all listed windows. There is no window or timestamp provided that represents a state *before* this activity began.\n\nREFUSAL: The evidence only contains windows where damaging activity has already occurred.",
+      "replicate_index": 4,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "gympc-gemma4-26b|R2|4"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365207896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365207896,
+            "token": "lsn=DDF0/1E000758",
+            "type": "lsn_hex"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex"
+        ],
+        "locators_resolved_to": [
+          244023365207896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:42:49.139009Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+        "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 3222,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:43:11.070094Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 21619,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R0/k0/model.json",
+      "model_record_sha256": "9e7ce74cf08b11a8666b6de3340807922d5462fcab5d7d7f0e60cea1ce557825",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 7480,
+      "raw_completion": "\n\nLooking at the evidence, I need to identify the first \"damaging\" (malicious) activity and then find the latest safe point immediately before it.\n\n**Identifying the first damaging activity:**\n\nScanning the entries in LSN order, the first entry with a \"mal-\" payload is:\n- LSN `DDF0/1E000838` (int 244023365208120) \u2014 `sc04_items` id=29, payload \"mal-29\"\n\n**Finding the latest safe point before it:**\n\nThe entry immediately preceding that malicious LSN in the WAL sequence is:\n- LSN `DDF0/1E000758` (int 244023365207896) \u2014 `sc04_items` id=56, payload \"legit-56.\"\n\nThis is the last legitimate (safe) write before the first malicious write. It is the latest point to which one can safely recover without including any damaging activity.\n\nCOORDINATE: lsn=DDF0/1E000758",
+      "replicate_index": 0,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R0|0"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365207896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365207896,
+            "token": "lsn=DDF0/1E000758",
+            "type": "lsn_hex"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex"
+        ],
+        "locators_resolved_to": [
+          244023365207896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:43:11.143121Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+        "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 3222,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:43:32.808900Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 21298,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R0/k1/model.json",
+      "model_record_sha256": "14d68ad349c7b1269ea23f2b560fad2ff7f741901db74bdfc7a4a4f8e2711639",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 7480,
+      "raw_completion": "\n\nLooking at the evidence, I need to identify the first \"damaging\" (malicious) activity and then find the latest safe point immediately before it.\n\n**Identifying the first damaging activity:**\n\nScanning the entries in LSN order, the first entry with a \"mal-\" payload is:\n- LSN `DDF0/1E000838` (int 244023365208120) \u2014 `sc04_items` id=29, payload \"mal-29\"\n\n**Finding the latest safe point before it:**\n\nThe entry immediately preceding that malicious LSN in the WAL sequence is:\n- LSN `DDF0/1E000758` (int 244023365207896) \u2014 `sc04_items` id=56, payload \"legit-56.\"\n\nThis is the last legitimate (safe) write before the first malicious write. It is the latest point to which one can safely recover without including any damaging activity.\n\nCOORDINATE: lsn=DDF0/1E000758",
+      "replicate_index": 1,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R0|1"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365207896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365207896,
+            "token": "lsn=DDF0/1E000758",
+            "type": "lsn_hex"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex"
+        ],
+        "locators_resolved_to": [
+          244023365207896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:43:32.870756Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+        "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 3222,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:43:54.518385Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 21305,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R0/k2/model.json",
+      "model_record_sha256": "e07dd9ae4066663835712cbf4693b3b4f02f4d0bf11c5f19a5791c8fa99dc27f",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 7480,
+      "raw_completion": "\n\nLooking at the evidence, I need to identify the first \"damaging\" (malicious) activity and then find the latest safe point immediately before it.\n\n**Identifying the first damaging activity:**\n\nScanning the entries in LSN order, the first entry with a \"mal-\" payload is:\n- LSN `DDF0/1E000838` (int 244023365208120) \u2014 `sc04_items` id=29, payload \"mal-29\"\n\n**Finding the latest safe point before it:**\n\nThe entry immediately preceding that malicious LSN in the WAL sequence is:\n- LSN `DDF0/1E000758` (int 244023365207896) \u2014 `sc04_items` id=56, payload \"legit-56.\"\n\nThis is the last legitimate (safe) write before the first malicious write. It is the latest point to which one can safely recover without including any damaging activity.\n\nCOORDINATE: lsn=DDF0/1E000758",
+      "replicate_index": 2,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R0|2"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365207896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365207896,
+            "token": "lsn=DDF0/1E000758",
+            "type": "lsn_hex"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex"
+        ],
+        "locators_resolved_to": [
+          244023365207896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:43:54.589060Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+        "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 3222,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:44:16.255887Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 21309,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R0/k3/model.json",
+      "model_record_sha256": "52e35f26a991380cef611695efc17938c72c9510185232250548402c6e3af03e",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 7480,
+      "raw_completion": "\n\nLooking at the evidence, I need to identify the first \"damaging\" (malicious) activity and then find the latest safe point immediately before it.\n\n**Identifying the first damaging activity:**\n\nScanning the entries in LSN order, the first entry with a \"mal-\" payload is:\n- LSN `DDF0/1E000838` (int 244023365208120) \u2014 `sc04_items` id=29, payload \"mal-29\"\n\n**Finding the latest safe point before it:**\n\nThe entry immediately preceding that malicious LSN in the WAL sequence is:\n- LSN `DDF0/1E000758` (int 244023365207896) \u2014 `sc04_items` id=56, payload \"legit-56.\"\n\nThis is the last legitimate (safe) write before the first malicious write. It is the latest point to which one can safely recover without including any damaging activity.\n\nCOORDINATE: lsn=DDF0/1E000758",
+      "replicate_index": 3,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R0|3"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365207896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365207896,
+            "token": "lsn=DDF0/1E000758",
+            "type": "lsn_hex"
+          }
+        ],
+        "locators_offered": [
+          "lsn_hex"
+        ],
+        "locators_resolved_to": [
+          244023365207896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:44:16.322126Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 11,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365207896/report.json",
+        "report_sha256": "ff887f26216eef3b10612bc88af5138cb4a21dad0e0c4b453ae727c0bfd69261",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 3222,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:44:37.959150Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 21327,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R0/k4/model.json",
+      "model_record_sha256": "3b4fd24da15a8d1ac35c7d006d65b5554621b5608eff1548bdcb7d1eb77c8ecd",
+      "outcome": "accepted",
+      "prompt_sha256": "cbc87f0f86f9dc911d462d05396656a55a23b942eae1ff2936554fb4fe2c06bc",
+      "prompt_tokens": 7480,
+      "raw_completion": "\n\nLooking at the evidence, I need to identify the first \"damaging\" (malicious) activity and then find the latest safe point immediately before it.\n\n**Identifying the first damaging activity:**\n\nScanning the entries in LSN order, the first entry with a \"mal-\" payload is:\n- LSN `DDF0/1E000838` (int 244023365208120) \u2014 `sc04_items` id=29, payload \"mal-29\"\n\n**Finding the latest safe point before it:**\n\nThe entry immediately preceding that malicious LSN in the WAL sequence is:\n- LSN `DDF0/1E000758` (int 244023365207896) \u2014 `sc04_items` id=56, payload \"legit-56.\"\n\nThis is the last legitimate (safe) write before the first malicious write. It is the latest point to which one can safely recover without including any damaging activity.\n\nCOORDINATE: lsn=DDF0/1E000758",
+      "replicate_index": 4,
+      "representation": "R0",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R0|4"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365209896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=25",
+            "type": "window"
+          },
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365209896,
+            "token": "lsn=244023365209896",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "window",
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023365209896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:44:38.041938Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 12,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365209896/report.json",
+        "report_sha256": "fc89a40422cc3d91882e2cd4e35fda227456aa59ac981c616757529e10af6f2e",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 886,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:44:44.538329Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 6138,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R1/k0/model.json",
+      "model_record_sha256": "131cb0bb13537f54b95815ffe81080c69aba2e50cd4db297149168be7083ba8f",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 361,
+      "raw_completion": "\n\nLooking at the three evidence records, I need to find the **latest** safe point (i.e., the most recent one before damage).\n\n| Window | LSN (int) | Anomaly Score |\n|--------|-----------|---------------|\n| 14 | 244023163881904 | 2.046 |\n| 24 | 244023348432200 | 2.257 |\n| 25 | 244023365209896 | 1.649 |\n\nThe latest safe point is the record with the highest window index (25), which also carries the lowest anomaly score (1.649), consistent with a safe state. Its LSN is 244023365209896.\n\nCOORDINATE: window=25 lsn=244023365209896",
+      "replicate_index": 0,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R1|0"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365209896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=25",
+            "type": "window"
+          },
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365209896,
+            "token": "lsn=244023365209896",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "window",
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023365209896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:44:44.606030Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 12,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365209896/report.json",
+        "report_sha256": "fc89a40422cc3d91882e2cd4e35fda227456aa59ac981c616757529e10af6f2e",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 886,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:44:51.049344Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 6149,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R1/k1/model.json",
+      "model_record_sha256": "583fbf89c2a5700b92b83c31ebea52dda36279a4d714bb22cdf3bde1b88336c5",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 361,
+      "raw_completion": "\n\nLooking at the three evidence records, I need to find the **latest** safe point (i.e., the most recent one before damage).\n\n| Window | LSN (int) | Anomaly Score |\n|--------|-----------|---------------|\n| 14 | 244023163881904 | 2.046 |\n| 24 | 244023348432200 | 2.257 |\n| 25 | 244023365209896 | 1.649 |\n\nThe latest safe point is the record with the highest window index (25), which also carries the lowest anomaly score (1.649), consistent with a safe state. Its LSN is 244023365209896.\n\nCOORDINATE: window=25 lsn=244023365209896",
+      "replicate_index": 1,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R1|1"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365209896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=25",
+            "type": "window"
+          },
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365209896,
+            "token": "lsn=244023365209896",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "window",
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023365209896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:44:51.097498Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 12,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365209896/report.json",
+        "report_sha256": "fc89a40422cc3d91882e2cd4e35fda227456aa59ac981c616757529e10af6f2e",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 886,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:44:57.584883Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 6147,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R1/k2/model.json",
+      "model_record_sha256": "f7d66d950d2a4cd312f13ffb53ba1dad162d06ba7be1a9fac1dd3d4f4a96fd40",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 361,
+      "raw_completion": "\n\nLooking at the three evidence records, I need to find the **latest** safe point (i.e., the most recent one before damage).\n\n| Window | LSN (int) | Anomaly Score |\n|--------|-----------|---------------|\n| 14 | 244023163881904 | 2.046 |\n| 24 | 244023348432200 | 2.257 |\n| 25 | 244023365209896 | 1.649 |\n\nThe latest safe point is the record with the highest window index (25), which also carries the lowest anomaly score (1.649), consistent with a safe state. Its LSN is 244023365209896.\n\nCOORDINATE: window=25 lsn=244023365209896",
+      "replicate_index": 2,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R1|2"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365209896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=25",
+            "type": "window"
+          },
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365209896,
+            "token": "lsn=244023365209896",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "window",
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023365209896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:44:57.653448Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 12,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365209896/report.json",
+        "report_sha256": "fc89a40422cc3d91882e2cd4e35fda227456aa59ac981c616757529e10af6f2e",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 886,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:45:04.170859Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 6170,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R1/k3/model.json",
+      "model_record_sha256": "6cad8f46862963db851f829bb8923b32642b5677c1637e33b014c9773f460de2",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 361,
+      "raw_completion": "\n\nLooking at the three evidence records, I need to find the **latest** safe point (i.e., the most recent one before damage).\n\n| Window | LSN (int) | Anomaly Score |\n|--------|-----------|---------------|\n| 14 | 244023163881904 | 2.046 |\n| 24 | 244023348432200 | 2.257 |\n| 25 | 244023365209896 | 1.649 |\n\nThe latest safe point is the record with the highest window index (25), which also carries the lowest anomaly score (1.649), consistent with a safe state. Its LSN is 244023365209896.\n\nCOORDINATE: window=25 lsn=244023365209896",
+      "replicate_index": 3,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R1|3"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023365209896,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": "named window is not visible",
+            "resolved_lsn_int": null,
+            "token": "window=25",
+            "type": "window"
+          },
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023365209896,
+            "token": "lsn=244023365209896",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "window",
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023365209896
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:45:04.208629Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 12,
+        "legit_rows_lost": 0,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023365209896/report.json",
+        "report_sha256": "fc89a40422cc3d91882e2cd4e35fda227456aa59ac981c616757529e10af6f2e",
+        "verdict_v1": "incorrect_corrupt"
+      },
+      "completion_tokens": 886,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:45:10.662751Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 6134,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R1/k4/model.json",
+      "model_record_sha256": "9f16cad8624b05b36b135103d064fd6309a6ee74b72151c7ae8084d5b3d9c2df",
+      "outcome": "accepted",
+      "prompt_sha256": "b056abf3e820cf6cfc0dac51ed809485f415c39f678ca61d895cfe1894319b68",
+      "prompt_tokens": 361,
+      "raw_completion": "\n\nLooking at the three evidence records, I need to find the **latest** safe point (i.e., the most recent one before damage).\n\n| Window | LSN (int) | Anomaly Score |\n|--------|-----------|---------------|\n| 14 | 244023163881904 | 2.046 |\n| 24 | 244023348432200 | 2.257 |\n| 25 | 244023365209896 | 1.649 |\n\nThe latest safe point is the record with the highest window index (25), which also carries the lowest anomaly score (1.649), consistent with a safe state. Its LSN is 244023365209896.\n\nCOORDINATE: window=25 lsn=244023365209896",
+      "replicate_index": 4,
+      "representation": "R1",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R1|4"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023180656680,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023180656680,
+            "token": "lsn=244023180656680",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023180656680
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:45:10.728877Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 0,
+        "legit_rows_lost": 29,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023180656680/report.json",
+        "report_sha256": "4fd8000d256f2c02be8f2eb96f2905155eb1edbb8f869c33c525a1c5ffad582b",
+        "verdict_v1": "incorrect_safe"
+      },
+      "completion_tokens": 1487,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:45:43.799830Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 10341,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R2/k0/model.json",
+      "model_record_sha256": "f01121adddbadfbd3f5aef7601d6961beffa344537f379d3cf9e6420e8f85b21",
+      "outcome": "accepted",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 418,
+      "raw_completion": "\n\nLooking at the evidence, the damaging activity is the DELETE operations on relation `p2_probe`, which first appear in **Window 14** (LSN range 244023180656680..244023180660344). The latest safe point before that damaging activity began is the start of Window 14, i.e., LSN 244023180656680.\n\nCOORDINATE: lsn=244023180656680",
+      "replicate_index": 0,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R2|0"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023180656680,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023180656680,
+            "token": "lsn=244023180656680",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023180656680
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:45:43.888231Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 0,
+        "legit_rows_lost": 29,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023180656680/report.json",
+        "report_sha256": "4fd8000d256f2c02be8f2eb96f2905155eb1edbb8f869c33c525a1c5ffad582b",
+        "verdict_v1": "incorrect_safe"
+      },
+      "completion_tokens": 1487,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:45:54.604456Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 10345,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R2/k1/model.json",
+      "model_record_sha256": "d6c15ce27aa36b6367317acf882f66501f5fadfb798e67676be59a4cf05cf5e1",
+      "outcome": "accepted",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 418,
+      "raw_completion": "\n\nLooking at the evidence, the damaging activity is the DELETE operations on relation `p2_probe`, which first appear in **Window 14** (LSN range 244023180656680..244023180660344). The latest safe point before that damaging activity began is the start of Window 14, i.e., LSN 244023180656680.\n\nCOORDINATE: lsn=244023180656680",
+      "replicate_index": 1,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R2|1"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023180656680,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023180656680,
+            "token": "lsn=244023180656680",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023180656680
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:45:54.673874Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 0,
+        "legit_rows_lost": 29,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023180656680/report.json",
+        "report_sha256": "4fd8000d256f2c02be8f2eb96f2905155eb1edbb8f869c33c525a1c5ffad582b",
+        "verdict_v1": "incorrect_safe"
+      },
+      "completion_tokens": 1487,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:46:05.390792Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 10348,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R2/k2/model.json",
+      "model_record_sha256": "351b33700d203e45031eabccd77a98008d9711acc68adc7a1ef8be7a516fcb94",
+      "outcome": "accepted",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 418,
+      "raw_completion": "\n\nLooking at the evidence, the damaging activity is the DELETE operations on relation `p2_probe`, which first appear in **Window 14** (LSN range 244023180656680..244023180660344). The latest safe point before that damaging activity began is the start of Window 14, i.e., LSN 244023180656680.\n\nCOORDINATE: lsn=244023180656680",
+      "replicate_index": 2,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R2|2"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023180656680,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023180656680,
+            "token": "lsn=244023180656680",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023180656680
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:46:05.468520Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 0,
+        "legit_rows_lost": 29,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023180656680/report.json",
+        "report_sha256": "4fd8000d256f2c02be8f2eb96f2905155eb1edbb8f869c33c525a1c5ffad582b",
+        "verdict_v1": "incorrect_safe"
+      },
+      "completion_tokens": 1487,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:46:16.143203Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 10341,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R2/k3/model.json",
+      "model_record_sha256": "f01121adddbadfbd3f5aef7601d6961beffa344537f379d3cf9e6420e8f85b21",
+      "outcome": "accepted",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 418,
+      "raw_completion": "\n\nLooking at the evidence, the damaging activity is the DELETE operations on relation `p2_probe`, which first appear in **Window 14** (LSN range 244023180656680..244023180660344). The latest safe point before that damaging activity began is the start of Window 14, i.e., LSN 244023180656680.\n\nCOORDINATE: lsn=244023180656680",
+      "replicate_index": 3,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R2|3"
+    },
+    {
+      "answer": {
+        "chosen_lsn_int": 244023180656680,
+        "grammar_outcome": "accepted",
+        "locators": [
+          {
+            "discard_reason": null,
+            "resolved_lsn_int": 244023180656680,
+            "token": "lsn=244023180656680",
+            "type": "lsn_int"
+          }
+        ],
+        "locators_offered": [
+          "lsn_int"
+        ],
+        "locators_resolved_to": [
+          244023180656680
+        ],
+        "outcome": "accepted",
+        "reason": "all resolved locators agree"
+      },
+      "call_started_utc": "2026-10-02T21:46:16.218451Z",
+      "check": {
+        "checks_complete": true,
+        "damage_units_retained": 0,
+        "legit_rows_lost": 29,
+        "report": "/home/mlasota/agent-recovery-lab/var/restore/SC-04_20261002T213455Z/ab-244023180656680/report.json",
+        "report_sha256": "4fd8000d256f2c02be8f2eb96f2905155eb1edbb8f869c33c525a1c5ffad582b",
+        "verdict_v1": "incorrect_safe"
+      },
+      "completion_tokens": 1487,
+      "containment_verified": true,
+      "decoding": {
+        "max_tokens": 8192,
+        "seed": 42,
+        "temperature": 0,
+        "top_p": 1
+      },
+      "finished_utc": "2026-10-02T21:46:26.926762Z",
+      "freeze_sha256": "a3963aa099f1ef7acb210aac9d009787f95ce56428b78f1196ab081d6e79b694",
+      "incident_id": "SC-04_20261002T213455Z",
+      "latency_ms": 10349,
+      "model_alias": "alienware-qwen38-27b",
+      "model_record": "/home/mlasota/agent-recovery-lab/logs/run/SC-04_20261002T213455Z/sc04/units/M3/R2/k4/model.json",
+      "model_record_sha256": "94916c04af1d1c8aafb0181392f4904aa59ddab0b0423095eb46b7e93778d709",
+      "outcome": "accepted",
+      "prompt_sha256": "f34d97cd09565d7e19b6b99c248640fe5217b0dedc5906e988822a87bdfab1ed",
+      "prompt_tokens": 418,
+      "raw_completion": "\n\nLooking at the evidence, the damaging activity is the DELETE operations on relation `p2_probe`, which first appear in **Window 14** (LSN range 244023180656680..244023180660344). The latest safe point before that damaging activity began is the start of Window 14, i.e., LSN 244023180656680.\n\nCOORDINATE: lsn=244023180656680",
+      "replicate_index": 4,
+      "representation": "R2",
+      "schema_version": 1,
+      "unit_id": "alienware-qwen38-27b|R2|4"
+    }
+  ],
+  "verdict_version": 1
+}

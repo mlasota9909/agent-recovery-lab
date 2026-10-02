@@ -1,0 +1,9 @@
+To identify the latest safe point before damaging activity began, we must look at the provided data points. The evidence contains three entries with `last_safe_lsn_int` and `window_index` values.
+
+1. `last_safe_lsn_int`: 244023348432200, `window_index`: 24
+2. `last_safe_lsn_int`: 244023163881904, `window_index`: 14
+3. `last_safe_lsn_int`: 244023365209896, `window_index`: 25
+
+The highest (latest) `last_safe_lsn_int` provided is 244023365209896, which corresponds to `window_index` 25.
+
+COORDINATE: lsn=244023365209896 window=25

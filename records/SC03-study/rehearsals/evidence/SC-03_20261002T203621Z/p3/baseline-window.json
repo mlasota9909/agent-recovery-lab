@@ -1,0 +1,23 @@
+{
+  "baseline_lsn_end_exclusive": "E404/14000208",
+  "baseline_t_end": "2026-10-02T20:37:18.493302Z",
+  "baseline_t_start": "2026-10-02T20:37:05.785422Z",
+  "incident": "SC-03_20261002T203621Z",
+  "injection_lsn_start": "E404/14000208",
+  "n_baseline_windows": 15,
+  "predates_injection": true,
+  "stats": {
+    "change_burst_density": {
+      "mu": 7.019848502596848,
+      "sigma": 8.298463955486325
+    },
+    "n_changes": {
+      "mu": 7.133333333333334,
+      "sigma": 8.381461023526201
+    },
+    "n_deletes": {
+      "mu": 0.6666666666666666,
+      "sigma": 0.8692269873603532
+    }
+  }
+}

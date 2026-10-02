@@ -6,6 +6,6 @@
 - [x] T4 Driver `lab_dbscen_study.py`, gate checks, run scripts and analysis plan; offline tests.
 - [x] T5 SC-03 dry run (stages 20 and 30): gate, windows, inputs and controls inspected.
 - [x] T6 SC-04 dry run (stages 20 and 30): gate, windows, inputs and controls inspected.
-- [ ] T7 SC-03 study: incident, gate, freeze, 45 units, comparators, analysis.
-- [ ] T8 SC-04 study: incident, gate, freeze, 45 units, comparators, analysis.
-- [ ] T9 Records with `verify.py`, README and handoff.
+- [x] T7 SC-03 study: incident, gate, freeze, 45 units, comparators, analysis.
+- [x] T8 SC-04 study: incident, gate, freeze, 45 units, comparators, analysis.
+- [x] T9 Records with `verify.py`, README and handoff.
