@@ -58,7 +58,11 @@ def paths(incident):
     files += [evidence_dir(incident) / name for name in
               ("incident.json", "snapshots.json", "db.jsonl", "oracle.json", "oracle-manifest.json",
                "workload.jsonl", "workload-manifest.jsonl", "injection.json", "fs_hashes.tsv")]
-    files += [evidence_dir(incident) / "p3" / name for name in ("analytics.jsonl", "anomaly.jsonl", "candidates.jsonl")]
+    files += [evidence_dir(incident) / "p3" / name for name in ("analytics.jsonl", "anomaly.jsonl")]
+    # Candidates exist only when a window is flagged; the ranker then has nothing to choose from (stage 60).
+    candidates = evidence_dir(incident) / "p3" / "candidates.jsonl"
+    if candidates.exists():
+        files.append(candidates)
     return files
 
 
@@ -184,11 +188,20 @@ def gate(incident):
         report["damage_in_evidence"] = {"injected": injected, "found": found}
         if injected == 0 or found != injected:
             raise ValueError(f"damaging operations missing from the evidence: {found} of {injected}")
+        # A candidates file from an earlier gate attempt must not survive a run that flags no window.
+        (evidence_dir(incident) / "p3" / "candidates.jsonl").unlink(missing_ok=True)
         for name in ("lab-analytics", "lab-anomaly", "lab-candidates"):
             old = os.environ.get("LAB_P7_HOST_COORD")
             try:
                 os.environ["LAB_P7_HOST_COORD"] = "1"
                 command("bin/" + name, incident)
+                if name == "lab-candidates":
+                    report["candidates"] = {"ok": True}
+            except RuntimeError as exc:
+                # Same rule as SC-01: no window at or above the threshold leaves the ranker without candidates.
+                if name != "lab-candidates" or "no anomalous window" not in str(exc):
+                    raise
+                report["candidates"] = {"ok": False, "reason": "no anomalous window"}
             finally:
                 if old is None:
                     os.environ.pop("LAB_P7_HOST_COORD", None)
