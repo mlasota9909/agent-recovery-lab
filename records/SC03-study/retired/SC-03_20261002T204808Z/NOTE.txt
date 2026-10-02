@@ -1,0 +1,6 @@
+Retired SC-03 attempt SC-03_20261002T204808Z after its freeze, with 5 model call(s) made and 4 result row(s) recorded, none used on 2026-10-02T21:14:04Z.
+Reason: First check blocked: the answer named a position inside the first schema change, the restored copy was paused in recovery holding that table's exclusive lock, and the checker read the table. Engineering fault in the checker, found before any outcome was recorded; fixed in the following commit's checker and gate.
+Correction (2026-10-02T21:20Z): at retirement 5 calls had been made (DeepSeek, Raw Log Excerpts, repeats 0-4) and 4
+rows recorded. Three of the four recorded checks had timed out (180 s) on the blocked copy at the same position; one
+check was complete (repeat 2: incorrect_corrupt, 3 damage units). The reason above wrongly says no outcome was recorded.
+The retirement was decided on the checker fault, which had failed three of four checks, not on that outcome.
