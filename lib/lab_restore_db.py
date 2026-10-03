@@ -198,10 +198,31 @@ def wait_replay(port: int, target_int: int, timeout_s: int = 90) -> dict:
     return last
 
 
+def injection_commit(ev: Path, inj: dict) -> tuple[int, str]:
+    """Position of the injection's commit record, and where it was read.
+
+    injection.json records commit_lsn from pg_current_wal_lsn() read before COMMIT. That is a bound, and it can lie
+    before the transaction's own change records. The decoded change log holds the commit record itself, so it is
+    used when present. A target at or after the commit record replays it; a target before it does not.
+    """
+    xid = inj.get("xid")
+    log = ev / "db.jsonl"
+    if xid is not None and log.is_file():
+        with log.open(encoding="utf-8") as fh:
+            for line in fh:
+                try:
+                    rec = json.loads(line)
+                except ValueError:
+                    continue
+                if rec.get("action") == "C" and str(rec.get("xid")) == str(xid) and rec.get("lsn"):
+                    return lsn_int(rec["lsn"]), "change_log"
+    return lsn_int(inj["commit_lsn"]), "recorded_bound"
+
+
 def beyond_target_absent(incident: str, target_int: int, port: int) -> dict:
     ev = evidence_dir(incident)
     inj = json.loads((ev / "injection.json").read_text(encoding="utf-8"))
-    inj_lsn = lsn_int(inj["commit_lsn"])
+    inj_lsn, inj_source = injection_commit(ev, inj)
     destroyed = [int(x) for x in inj.get("row_ids") or []][:1]
     rel = inj.get("relation") or os.environ.get("SC01_RELATION") or "p2_probe"
     rid = destroyed[0] if destroyed else None
@@ -226,6 +247,7 @@ def beyond_target_absent(incident: str, target_int: int, port: int) -> dict:
         "present": present,
         "absent_ok": ok,
         "inject_lsn_int": inj_lsn,
+        "inject_lsn_source": inj_source,
     }
 
 
