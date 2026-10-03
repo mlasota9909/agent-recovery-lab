@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 248992390711000,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 248992390711000,
+        "token": "lsn=248992390711000",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      248992390711000
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:27:57.099709Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 0,
+    "legit_rows_lost": 48,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-03_20261003T092004Z/ab-248992390711000/report.json",
+    "report_sha256": "04a3e1ef74ac165dd4829ee4be5e94d116eaeb7317cbc5f8f604734092d1f664",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 436,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:28:31.787452Z",
+  "freeze_sha256": "83711a5b1db0ffdf7f633718e658d13f3bb4c300026a08ab1191ed9376feac7b",
+  "incident_id": "SC-03_20261003T092004Z",
+  "latency_ms": 14046,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-03_20261003T092004Z/sc03/units/M2/R2/k0/model.json",
+  "model_record_sha256": "5661c4ab04a8ed8457c2bb68b015596bc09e9e5ef7cbf0f62cc819ca9a586155",
+  "outcome": "accepted",
+  "prompt_sha256": "cf032e6ad65bda7a59a7ff0bb8ae6662d90df012a8985cfd9756a86bf4906258",
+  "prompt_tokens": 476,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the provided windows:\n\n- **Window 12**: Contains INSERT, UPDATE, and DELETE operations.\n- **Window 13**: Contains INSERT, UPDATE, and DELETE operations.\n- **Window 15**: Contains INSERT, UPDATE, DELETE, and a schema change (ALTER TABLE).\n\nThe damaging activity (updates/deletes/schema changes) is present in all listed windows. The latest safe point before the activity in Window 12 began is the end of the previous window. However, the evidence only provides the boundaries for Windows 12, 13, and 15. \n\nThe end of the window immediately preceding the first recorded activity (Window 12) is the timestamp/LSN at the start of Window 12. Since Window 12 starts at `248992390711000`, the point immediately before it is the end of the previous (unlisted) window. However, within the context of the provided evidence, the last known safe point before the activity in Window 12 is the boundary at the start of that window.\n\nWait, looking closer at the windows:\nWindow 12 starts at `248992390711000`.\nWindow 13 starts at `248992407488376`.\nWindow 15 starts at `248992457819864`.\n\nThe activity (INSERT, UPDATE, DELETE) starts at the beginning of Window 12. Therefore, the latest safe point before this activity is the value immediately preceding the start of Window 12. Since we must use the evidence provided and the evidence defines the start of the damage at `248992390711000`, the safe point is the boundary before that.\n\nCOORDINATE: lsn=248992390711000",
+  "replicate_index": 0,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|0"
+}

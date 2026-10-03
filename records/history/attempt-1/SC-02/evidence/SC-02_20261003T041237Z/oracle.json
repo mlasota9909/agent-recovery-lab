@@ -1,0 +1,32 @@
+{
+  "coordinate": {
+    "lsn": "DDEE/2C000638",
+    "resolved_by": "live_heartbeat",
+    "skew_bytes": 0,
+    "skew_ms": 654,
+    "snapshot": "s_20261003T041423369Z_000038",
+    "wall_clock": "2026-10-03T04:14:23.149867Z"
+  },
+  "incident": "SC-02_20261003T041237Z",
+  "sc02": {
+    "checkpoint_gap_seconds": 1.1290760040283203,
+    "checkpoint_snapshot": "s_20261003T041423369Z_000038",
+    "computed_from": "archive snapshots.json recorded_lsn <= damage lsn_start",
+    "coordinate": {
+      "lsn": "DDEE/2C000638",
+      "resolved_by": "live_heartbeat",
+      "skew_bytes": 0,
+      "skew_ms": 654,
+      "snapshot": "s_20261003T041423369Z_000038",
+      "wall_clock": "2026-10-03T04:14:23.149867Z"
+    },
+    "files_lost_if_restored_to_checkpoint": null,
+    "fs_db_skew_ms": 653,
+    "incident_extra": {
+      "checkpoint_gap_seconds": 1.1290760040283203,
+      "checkpoint_snapshot": "s_20261003T041423369Z_000038",
+      "fs_db_skew_ms": 653
+    },
+    "malicious_deletions_retained_if_later": null
+  }
+}

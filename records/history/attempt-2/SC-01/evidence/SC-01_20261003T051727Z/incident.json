@@ -1,0 +1,55 @@
+{
+  "analytics_version": "p3-analytics-1",
+  "approx_incident_time": "2026-10-03T05:18:09.467971Z",
+  "archive_incident": "SC-01_20261003T051727Z",
+  "close_coordinate": {
+    "lsn": "0/300002A8",
+    "resolved_by": "snapshot_first",
+    "skew_bytes": 0,
+    "skew_ms": 0,
+    "snapshot": "s_20261003T051819108Z_000018",
+    "wall_clock": "2026-10-03T05:18:19.819696Z"
+  },
+  "incident_id": "i_20261003T051727Z_cd8087",
+  "ledger_account": {
+    "duplicates": 0,
+    "gaps": 0,
+    "mapped": 335,
+    "ops": 335
+  },
+  "ledger_integrity_ok": true,
+  "naive_time_error_seconds": 20,
+  "open_coordinate": {
+    "lsn": "0/1F009558",
+    "resolved_by": "snapshot_first",
+    "skew_bytes": 0,
+    "skew_ms": 0,
+    "snapshot": "s_20261003T051738660Z_000001",
+    "wall_clock": "2026-10-03T05:17:39.205174Z"
+  },
+  "oracle_coordinate": {
+    "lsn": "0/2B000638",
+    "resolved_by": "lsn_first",
+    "skew_bytes": 0,
+    "skew_ms": 297,
+    "snapshot": "s_20261003T051810338Z_000013",
+    "wall_clock": "2026-10-03T05:18:10.730465Z"
+  },
+  "quiescent_baseline": {
+    "baseline_s": 10,
+    "declared_in": "etc/scenarios/sc01.env",
+    "lsn_end_exclusive": "0/2B0004F8",
+    "lsn_start": "0/1F009558",
+    "t_end": "2026-10-03T05:18:11.094111Z",
+    "t_start": "2026-10-03T05:17:57.567553Z",
+    "window_s": 2
+  },
+  "relation": "p2_probe",
+  "scenario_id": "SC-01",
+  "snapshot_open": "s_20261003T051738660Z_000001",
+  "snapshot_post_capture": "s_20261003T051819108Z_000018",
+  "snapshot_pre_injection": "s_20261003T051808493Z_000012",
+  "workload_mix": "repeated-keys:lab_app+sc01-inject:lab_agent",
+  "workload_rate_tps": 8.0,
+  "workload_seed": 7
+}

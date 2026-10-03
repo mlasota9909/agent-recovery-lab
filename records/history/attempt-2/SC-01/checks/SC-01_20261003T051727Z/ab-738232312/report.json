@@ -1,0 +1,1468 @@
+{
+  "consistency_verdict": "incorrect-corrupt",
+  "coordinate": {
+    "lsn_int": 738232312,
+    "lsn_text": "0/2C0087F8",
+    "skew_ms": 375,
+    "snapshot": "s_20261003T051811836Z_000014"
+  },
+  "db_validation": {
+    "mismatches": [
+      {
+        "actual": "missing:1",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:2",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:3",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:4",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:5",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:6",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:7",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:8",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:9",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:10",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:11",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:12",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:13",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:14",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:15",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:16",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:17",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:18",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:19",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:20",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:21",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:22",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:23",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:24",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:25",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:26",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:27",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:28",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:29",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:30",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:31",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:32",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:33",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:34",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:35",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:36",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:37",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:38",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:39",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:40",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:41",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:42",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:43",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:44",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:45",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:46",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:47",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:48",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:49",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:50",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:51",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:52",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:53",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:54",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:55",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:56",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:57",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:58",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:59",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:60",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:61",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:62",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:63",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:64",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:65",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:66",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:67",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:68",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:69",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:70",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:71",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:72",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:73",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:74",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:75",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:76",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:77",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:78",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:79",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:80",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:81",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:82",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:83",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:84",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:85",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:86",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:87",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:88",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:89",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:90",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:91",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:92",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:93",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:94",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:95",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:96",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:97",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:98",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:99",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:100",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:101",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:102",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:103",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:104",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:105",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:106",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:107",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:108",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:109",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:110",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:111",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:112",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:113",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:114",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:115",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:116",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:117",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:118",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:119",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:120",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:121",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:122",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:123",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:124",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:125",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:126",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:127",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:128",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:129",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:130",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:131",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:132",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:133",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:134",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:135",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:136",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:137",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:138",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:139",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:140",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:141",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:142",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:143",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:144",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:145",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:146",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:147",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:148",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:149",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:150",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:151",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:152",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:153",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:154",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:155",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:156",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:157",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:158",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:159",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:160",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:161",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:162",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:163",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:164",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:165",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:166",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:167",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:168",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:169",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:170",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:171",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:172",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:173",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:174",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:175",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:176",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:177",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:178",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:179",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:180",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:181",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:182",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:183",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:184",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:185",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:186",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:187",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:188",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:189",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:190",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:191",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:192",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:193",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:194",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:195",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:196",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:197",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:198",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:199",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing:200",
+        "classification": "damage_retained",
+        "expected": "present_at_optimum",
+        "kind": "row_count",
+        "object": "public.p2_probe"
+      }
+    ],
+    "p3_analytical_legit_rows_lost": 32,
+    "relations": {
+      "p2_probe": {
+        "content_hash": "b8fd78be37e9829760627ef4b47c1b988636e242cab1729a5c8ece911364a6b7",
+        "row_count": 204
+      }
+    },
+    "relations_checked": 1,
+    "relations_matched": 0
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261003T051810338Z_000013",
+    "files_checked": 0,
+    "files_compared": 0,
+    "files_matched": 0,
+    "mismatches": []
+  },
+  "harness_commit": "1e81d9eeba6c4c49abc09e92976d35c11d2332a1",
+  "incident_id": "SC-01_20261003T051727Z",
+  "promotion": {
+    "authorized_by": null,
+    "clean_verdict": false,
+    "decision": "withheld",
+    "simulated": false
+  },
+  "restore_of": "ab-738232312",
+  "restore_target": {
+    "fs_clone_dataset": "labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/protected",
+    "fs_mount": "/labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/protected",
+    "pgdata_dataset": "labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/pgdata",
+    "sandbox_pgdata": "/labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/pgdata",
+    "sandbox_port": 55504,
+    "tag": "ab-738232312"
+  },
+  "safety": {
+    "evidence_untouched": true,
+    "manifest_after": "715589638dc33e88c75dc2d3f479ca576ac2225ace7d06d45a789d692a2176dd",
+    "manifest_before": "715589638dc33e88c75dc2d3f479ca576ac2225ace7d06d45a789d692a2176dd",
+    "victim_untouched": true
+  },
+  "schema_validation": {
+    "ddl": "id bigint\nv text",
+    "ddl_match": true,
+    "diffs": []
+  },
+  "selector_provenance": {
+    "arm_no_peek_ok": true,
+    "restored_against_arm": "ab-738232312"
+  },
+  "summary": {
+    "damage_rows_retained": 200,
+    "files_mismatched": 0,
+    "legit_rows_lost": 0,
+    "p3_analytical_legit_rows_lost": 32,
+    "schema_diffs": 0
+  }
+}

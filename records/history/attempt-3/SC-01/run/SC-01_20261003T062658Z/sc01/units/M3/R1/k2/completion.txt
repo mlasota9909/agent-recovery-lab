@@ -1,0 +1,11 @@
+
+
+Looking at the evidence:
+
+- **Window 15** has an anomaly score of **198.14** — this is clearly the point where damaging activity began.
+- The `last_safe_lsn_int` recorded in that same window is **721421368**, representing the last safe LSN before the damage.
+- Windows 14 and 17 have low anomaly scores (~2.3 and ~3.0), confirming they are safe, but the *latest* safe point immediately preceding the damage is the `last_safe_lsn_int` from the anomalous window itself.
+
+The latest safe point before damaging activity began is therefore LSN 721421368, identified in window 15.
+
+COORDINATE: lsn=721421368 window=15

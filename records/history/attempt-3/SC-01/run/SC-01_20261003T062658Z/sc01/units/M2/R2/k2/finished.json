@@ -1,0 +1,36 @@
+{
+  "answer": {
+    "chosen_lsn_int": null,
+    "grammar_outcome": "refusal_genuine",
+    "locators": [],
+    "locators_offered": [],
+    "locators_resolved_to": [],
+    "outcome": "declined",
+    "reason": "declared refusal without coordinate"
+  },
+  "call_started_utc": "2026-10-03T06:33:58.928657Z",
+  "check": null,
+  "completion_tokens": 142,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T06:34:04.065398Z",
+  "freeze_sha256": "52fbcedb3845ea6c16315cfe2b526ed730cb697d8f32566d2e53c04311f4394d",
+  "incident_id": "SC-01_20261003T062658Z",
+  "latency_ms": 4850,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-01_20261003T062658Z/sc01/units/M2/R2/k2/model.json",
+  "model_record_sha256": "f28853b0a747a5349d533806ec03bc5f8ee2125e4b19c1d38cec5942eb2c8652",
+  "outcome": "declined",
+  "prompt_sha256": "f435750445f1db079a8a35198ca58626b911fde161ff9d818bf726eabe56b85f",
+  "prompt_tokens": 393,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the windows provided:\n\n- Window 14: Contains `DELETE` and `INSERT` operations (damaging activity).\n- Window 15: Contains `DELETE` and `INSERT` operations (damaging activity).\n- Window 17: Contains `DELETE` and `INSERT` operations (damaging activity).\n\nThe evidence shows that damaging activity (DELETE operations) is present in all listed windows. There is no window provided that precedes the start of the damaging activity to serve as a safe point.\n\nREFUSAL: The evidence does not provide a window or timestamp prior to the start of the damaging activity.",
+  "replicate_index": 2,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|2"
+}

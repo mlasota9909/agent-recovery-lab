@@ -1,0 +1,41 @@
+{
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/evidence/SC-02/SC-02_20261003T084505Z/fl-checks/s_20261003T084704810Z_000045.json",
+    "report_sha256": "2d81c3992caee9f3f55a377c101290856dd2648b7f4446e417be94dc30744948",
+    "summary": {
+      "damage_files_retained": 13,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 0,
+      "legit_rows_lost": 0,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "checked_damage_remains"
+  },
+  "freeze_sha256": "bf978d8c7308a7b5805b08ef9d1d543d6ad25d991ca20cd588f86ae434ef9f93",
+  "incident_id": "SC-02_20261003T084505Z",
+  "outcome": "accepted",
+  "schema_version": 1,
+  "selection": {
+    "approx_incident_time": "2026-10-03T08:46:50.648661Z",
+    "comparator": "naive",
+    "coordinate": {
+      "lsn": "E218/34000310",
+      "lsn_int": 248593579508496,
+      "snapshot": "s_20261003T084704810Z_000045",
+      "time": "2026-10-03T08:47:05.499857Z"
+    },
+    "cutoff": "2026-10-03T08:47:10.648661Z",
+    "declared_error_seconds": 20,
+    "incident_id": "SC-02_20261003T084505Z",
+    "outcome": "accepted",
+    "reason": "latest snapshot at or before estimate",
+    "schema_version": 1
+  },
+  "started_utc": "2026-10-03T08:59:50.286449Z",
+  "unit_id": "naive"
+}

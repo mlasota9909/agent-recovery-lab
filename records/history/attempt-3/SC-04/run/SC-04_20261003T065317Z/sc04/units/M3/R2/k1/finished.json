@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 250070595274432,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 250070595274432,
+        "token": "lsn=250070595274432",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      250070595274432
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T07:17:17.157825Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 8,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner3/var/restore/SC-04_20261003T065317Z/ab-250070595274432/report.json",
+    "report_sha256": "cdb5a2c46ae6c09f06634d5796ac8fa31f306088678d54515f773061de2621db",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 1063,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T07:17:24.915483Z",
+  "freeze_sha256": "ccec7e32e55abd9166e4fa731bbbc1746d419a11acd51ec1f755e75803e0e665",
+  "incident_id": "SC-04_20261003T065317Z",
+  "latency_ms": 7308,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-04_20261003T065317Z/sc04/units/M3/R2/k1/model.json",
+  "model_record_sha256": "b6dca812f07712bb90fa5ba05ea665bd752ca3345adeb6e28687f4706eb4b74b",
+  "outcome": "accepted",
+  "prompt_sha256": "27989a4ce38907aece83aa8788a94558814da355e597b8839a78e0fbaa14dee6",
+  "prompt_tokens": 420,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- **Window 16** [250070511388664..250070528165936]: anomaly \u2248 1.49\n- **Window 20** [250070578497592..250070595274432]: anomaly \u2248 1.49\n- **Window 21** [250070595274976..250070612053416]: anomaly \u2248 2.36\n\nWindows 16 and 20 share the same lower anomaly level (~1.49), while window 21 shows a clearly elevated anomaly (~2.36), indicating the more damaging activity (3 DELETEs on p2_probe) begins there.\n\nThe latest safe point before that elevated-activity window is the **end of window 20**, i.e. LSN 250070595274432.\n\nCOORDINATE: lsn=250070595274432",
+  "replicate_index": 1,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|1"
+}

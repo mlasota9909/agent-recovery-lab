@@ -1,0 +1,60 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T050321058Z_000007",
+        "token": "snapshot=s_20261003T050321058Z_000007"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T050321058Z_000007",
+        "token": "ts=2026-10-03T05:03:21.724856Z"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20261003T050321058Z_000007"
+  },
+  "call_started_utc": "2026-10-03T05:13:00.430496Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner2/evidence/SC-02/SC-02_20261003T050236Z/fl-checks/s_20261003T050321058Z_000007.json",
+    "report_sha256": "51856a56dbf216d89c5a8d71c4ea39db6f0947ce34b40bea98c727e4fdf2f3f2",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 89,
+      "legit_rows_lost": 368,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "extra_work_lost"
+  },
+  "completion_tokens": 316,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:13:11.745115Z",
+  "freeze_sha256": "77963583b8969336180415230812d884bbe50168f675899ec279021e65f5f9dc",
+  "incident_id": "SC-02_20261003T050236Z",
+  "latency_ms": 10678,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-02_20261003T050236Z/units/M2/R2/k2/model.json",
+  "model_record_sha256": "1368d428bff7841313ab0f0bb3cd8147e966485e6dd9b3f86740a6155ea91261",
+  "outcome": "accepted",
+  "prompt_sha256": "553ff5be5b03fe0d2c9e6db63542ee4b5e0125d0405d847d1339a70824d62283",
+  "prompt_tokens": 974,
+  "raw_completion": "To identify the latest safe recorded snapshot before damaging file activity began, we examine the intervals:\n\n1.  **Interval 6**: 0 files deleted, 0 modified, 2 created. Anomaly: 1.135... (No damage indicated).\n2.  **Interval 8**: 1 file deleted, 1 modified, 1 created. Anomaly: 0.216... (Damage/activity begins here).\n3.  **Interval 38**: 13 files deleted, 2 modified, 1 created. Anomaly: 12.216... (Significant damage).\n\nThe damaging activity begins in Interval 8. The latest safe snapshot before this activity is the end of the previous interval (Interval 6). \n\nThe end of Interval 6 is the `to_snapshot` of that interval: `s_20261003T050321058Z_000007`.\nThe timestamp for the end of Interval 6 is `2026-10-03T05:03:21.724856Z`.\n\nCOORDINATE: snapshot=s_20261003T050321058Z_000007 ts=2026-10-03T05:03:21.724856Z",
+  "replicate_index": 2,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|2"
+}

@@ -1,0 +1,26 @@
+{
+  "damage": {
+    "table": "sc03_orders",
+    "units": [
+      {
+        "commit_lsn": "E275/12000638",
+        "statement": "ALTER TABLE public.sc03_orders DROP COLUMN status",
+        "unit": "status_column_dropped"
+      },
+      {
+        "commit_lsn": "E275/14000778",
+        "statement": "ALTER TABLE public.sc03_orders DROP CONSTRAINT sc03_amount_positive",
+        "unit": "amount_rule_dropped"
+      },
+      {
+        "commit_lsn": "E275/15000E08",
+        "statement": "ALTER TABLE public.sc03_orders ALTER COLUMN amount TYPE text USING amount::text",
+        "unit": "amount_type_changed"
+      }
+    ]
+  },
+  "first_damage_commit_lsn": "E275/12000638",
+  "incident": "SC-03_20261003T092004Z",
+  "optimum_lsn": "E275/12000598",
+  "scenario_id": "SC-03"
+}

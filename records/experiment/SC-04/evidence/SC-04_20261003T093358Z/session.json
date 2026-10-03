@@ -1,0 +1,61 @@
+{
+  "action": "start",
+  "append_check": {
+    "consumer": {
+      "appending": true,
+      "bytes_after": 74476,
+      "bytes_before": 72689,
+      "flush_after": "DE76/70008E8",
+      "flush_before": "DE76/70008E8",
+      "growth_signal": "size",
+      "output": "/home/mlasota/agent-recovery-lab-examiner4/evidence/SC-04/SC-04_20261003T093358Z/db.jsonl"
+    },
+    "heartbeat": {
+      "appending": true,
+      "newest_after": "2026-10-03T09:34:38.590386+00",
+      "newest_before": "2026-10-03T09:34:35.540137+00",
+      "output": "guest:lab_heartbeat \u2192 db.jsonl",
+      "rows_last_60s": 27,
+      "running": true,
+      "unit": "lab-heartbeat.service"
+    }
+  },
+  "changed": true,
+  "close_coordinate": null,
+  "collectors": {
+    "consumer": {
+      "name": "consumer",
+      "output": "/home/mlasota/agent-recovery-lab-examiner4/evidence/SC-04/SC-04_20261003T093358Z/db.jsonl",
+      "pid": null,
+      "unit": "reclab6-consumer@SC-04_20261003T093358Z.service"
+    },
+    "heartbeat": {
+      "name": "heartbeat",
+      "output": "guest:lab_heartbeat \u2192 db.jsonl",
+      "pid": null,
+      "unit": "lab-heartbeat.service"
+    },
+    "snapshot_loop": {
+      "name": "snapshot_loop",
+      "output": "/home/mlasota/agent-recovery-lab-examiner4/evidence/SC-04/SC-04_20261003T093358Z/snapshots.json",
+      "pid": 1881226,
+      "unit": null
+    }
+  },
+  "heartbeat_changed": false,
+  "incident": "SC-04_20261003T093358Z",
+  "ok": true,
+  "open_coordinate": {
+    "incident": "SC-04_20261003T093358Z",
+    "lsn": "DE76/B0002A8",
+    "resolved_by": "live_heartbeat",
+    "skew_bytes": 16777216,
+    "skew_ms": 1562,
+    "snapshot": "s_20261003T093437529Z_000005",
+    "wall_clock": "2026-10-03T09:34:39.616762Z"
+  },
+  "opened_at": "2026-10-03T09:34:40.594663Z",
+  "snapshot_loop_changed": true,
+  "state": "running",
+  "teardown_ok": null
+}

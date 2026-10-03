@@ -1,0 +1,11 @@
+
+
+Looking at the evidence:
+
+- **Window 13** (LSN 248966637684440..248966654461656): anomaly ≈ 1.56 — normal/safe.
+- **Window 14** (LSN 248966671237160..248966671243152): anomaly ≈ 2.60 — normal/safe.
+- **Window 18** (LSN 248966738347896..248966738348968): anomaly ≈ 941,528,048.6 — extreme spike, indicating the start of damaging activity.
+
+The latest safe point before the damaging activity (Window 18) is the end of the last safe window, Window 14, which terminates at LSN 248966671243152.
+
+COORDINATE: lsn=248966671243152

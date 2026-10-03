@@ -1,0 +1,55 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T050324873Z_000009",
+        "token": "snapshot=s_20261003T050324873Z_000009"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20261003T050324873Z_000009"
+  },
+  "call_started_utc": "2026-10-03T05:09:15.449708Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner2/evidence/SC-02/SC-02_20261003T050236Z/fl-checks/s_20261003T050324873Z_000009.json",
+    "report_sha256": "50ae6e17cdaa5e54ebea5f9686161108f4cb0e01672b627e8be8181cc7d094c3",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 84,
+      "legit_rows_lost": 344,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "extra_work_lost"
+  },
+  "completion_tokens": 565,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:09:34.940418Z",
+  "freeze_sha256": "77963583b8969336180415230812d884bbe50168f675899ec279021e65f5f9dc",
+  "incident_id": "SC-02_20261003T050236Z",
+  "latency_ms": 18919,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-02_20261003T050236Z/units/M2/R0/k1/model.json",
+  "model_record_sha256": "e13c685d42e4f5841942d7d6532bfdb02a4f85203159047390c8267ebca5d49c",
+  "outcome": "accepted",
+  "prompt_sha256": "bc9cfebdf8e2cc771b4f5fcc02116736621f50c44ed25dccc0714a5ff40d7be5",
+  "prompt_tokens": 4791,
+  "raw_completion": "To identify the latest safe recorded snapshot, we must find the last snapshot taken before the damaging file activity began.\n\n1.  **Analyze the damaging activity:**\n    The damaging activity (deletions and modifications of critical files/directories) is contained within **interval 38**.\n    The `from_snapshot` for interval 38 is `s_20261003T050423123Z_000038`.\n    The activity in interval 38 includes deleting `workspace/records` and its contents, and modifying `workspace/config/settings.txt`.\n\n2.  **Identify the preceding intervals:**\n    *   **Interval 8:** `from_snapshot`: `s_20261003T050322783Z_000008`, `to_snapshot`: `s_20261003T050324873Z_000009`.\n    *   **Interval 6:** `from_snapshot`: `s_20261003T050318742Z_000006`, `to_snapshot`: `s_20261003T050321058Z_000007`.\n\n3.  **Determine the latest safe snapshot:**\n    The damaging activity starts at the beginning of interval 38. Therefore, the latest safe snapshot is the one that marks the end of the last safe interval (interval 8).\n    The `to_snapshot` of interval 8 is `s_20261003T050324873Z_000009`.\n\n    Alternatively, looking at the timestamps:\n    The damaging activity in interval 38 starts at `2026-10-03T05:04:23.581851Z`.\n    The last safe timestamp recorded before this is the `to_time` of interval 8: `2026-10-03T05:03:25.374460Z`.\n\nThe latest safe snapshot is `s_20261003T050324873Z_000009`.\n\nCOORDINATE: snapshot=s_20261003T050324873Z_000009",
+  "replicate_index": 1,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|1"
+}

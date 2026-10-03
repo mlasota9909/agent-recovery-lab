@@ -1,0 +1,3 @@
+The evidence shows damaging file activity began in interval 38, which includes deletions of files under `workspace/records` and modifications to `workspace/config/settings.txt`. The latest safe recorded snapshot before that activity is the snapshot at the start of interval 38, which is `s_20261003T041423369Z_000038`. This snapshot is recorded as the `from_snapshot` of interval 38, and it is the last snapshot before the damaging changes.
+
+COORDINATE: snapshot=s_20261003T041423369Z_000038

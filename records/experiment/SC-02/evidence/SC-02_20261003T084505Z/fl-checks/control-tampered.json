@@ -1,0 +1,122 @@
+{
+  "cache_key": "9fca56e78cba3621c26ff939d6aa916cd39168b9acf1cb370303bf16e6c4815a",
+  "coordinate": {
+    "lsn": "E218/2D000778",
+    "lsn_int": 248593462069112,
+    "snapshot": "s_20261003T084651729Z_000038",
+    "time": "2026-10-03T08:46:52.543642Z"
+  },
+  "db_validation": {
+    "content_hash": "e88373ec829f5a0e91a07f51c86ff3ae1ef40cebe41d33f261e47560cf09149d",
+    "ddl": [
+      "id bigint",
+      "v text"
+    ],
+    "ddl_match": true,
+    "missing_destroyed_row_ids": [],
+    "missing_legitimate_row_ids": [],
+    "p3_analytical_legit_rows_lost": 48,
+    "relation": "p2_probe",
+    "row_count": 404
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261003T084651729Z_000038",
+    "files_compared": 17,
+    "files_matched": 16,
+    "mismatches": [
+      {
+        "actual": "1df4c0b4923895e683a1cc5e49b4a4086b3a4a3ab5d119be7627b5e8e8f5bf86",
+        "classification": "damage_retained",
+        "expected": "da68f54607d5f5644954096ce1597c006c5bb9f2497e07441bf064b81003ef8a",
+        "kind": "byte_hash",
+        "path": "workspace/config/settings.txt"
+      }
+    ]
+  },
+  "incident_id": "SC-02_20261003T084505Z",
+  "probe_sha256": "05bd243003dba4354fc4373fd48f724e5a0f8fa87256c63ce2994bf9898284b6",
+  "restore": {
+    "coordinate": {
+      "lsn": "E218/2D000778",
+      "lsn_int": 248593462069112,
+      "snapshot": "s_20261003T084651729Z_000038",
+      "time": "2026-10-03T08:46:52.543642Z"
+    },
+    "db_restore": {
+      "beyond": {
+        "absent_ok": true,
+        "inject_lsn_int": 248593478847856,
+        "inject_lsn_source": "recorded_bound",
+        "kind": "before_inject",
+        "present": null,
+        "row_id": null
+      },
+      "beyond_target_absent": true,
+      "changed": true,
+      "in_recovery": true,
+      "incident": "SC-02_20261003T084505Z",
+      "ok": true,
+      "replay_lsn": "E218/2E000000",
+      "replay_lsn_int": 248593478844416,
+      "restore_target": {
+        "fs_clone_dataset": null,
+        "pgdata_dataset": "labpool/sandbox/SC-02_20261003T084505Z/fl_9fca56e78cba3621c26ff939/pgdata",
+        "sandbox_pgdata": "/labpool/sandbox/SC-02_20261003T084505Z/fl_9fca56e78cba3621c26ff939/pgdata/data",
+        "sandbox_port": 55579,
+        "tag": "fl_9fca56e78cba3621c26ff939"
+      },
+      "snapshot": "s_20261003T084651729Z_000038",
+      "state": "created",
+      "stopped_at_target": true,
+      "target_lsn": "E218/2D000778",
+      "target_lsn_int": 248593462069112,
+      "victim_zfs_after": "99110326fd4e6cff753e2ae7ddff5101843d25cb253dd3549517168903fc74af",
+      "victim_zfs_before": "99110326fd4e6cff753e2ae7ddff5101843d25cb253dd3549517168903fc74af",
+      "wal_segments": [
+        "000000010000E2180000002B",
+        "000000010000E2180000002C",
+        "000000010000E2180000002D",
+        "000000010000E2180000002E"
+      ]
+    },
+    "fs_restore": {
+      "changed": true,
+      "clone_dataset": "labpool/sandbox/SC-02_20261003T084505Z/fl_9fca56e78cba3621c26ff939/protected",
+      "mountpoint": "/labpool/sandbox/SC-02_20261003T084505Z/fl_9fca56e78cba3621c26ff939/protected",
+      "ok": true,
+      "snapshot": "s_20261003T084651729Z_000038",
+      "snapshot_list_unchanged": true,
+      "victim_zfs_after": "99110326fd4e6cff753e2ae7ddff5101843d25cb253dd3549517168903fc74af",
+      "victim_zfs_before": "99110326fd4e6cff753e2ae7ddff5101843d25cb253dd3549517168903fc74af"
+    },
+    "incident_id": "SC-02_20261003T084505Z",
+    "restore_of": "fl_9fca56e78cba3621c26ff939",
+    "restore_target": {
+      "fs_clone_dataset": "labpool/sandbox/SC-02_20261003T084505Z/fl_9fca56e78cba3621c26ff939/protected",
+      "fs_mount": "/labpool/sandbox/SC-02_20261003T084505Z/fl_9fca56e78cba3621c26ff939/protected",
+      "pgdata_dataset": "labpool/sandbox/SC-02_20261003T084505Z/fl_9fca56e78cba3621c26ff939/pgdata",
+      "sandbox_pgdata": "/labpool/sandbox/SC-02_20261003T084505Z/fl_9fca56e78cba3621c26ff939/pgdata/data",
+      "sandbox_port": 55579,
+      "tag": "fl_9fca56e78cba3621c26ff939"
+    }
+  },
+  "restore_of": "fl_9fca56e78cba3621c26ff939",
+  "restore_ok": true,
+  "schema_version": 2,
+  "source_sha256": {
+    "fl-reference.json": "06bc83b57f62baa5b928480eaf88cdd852ccfab678f4b6f775f0f39381f2b0a4",
+    "oracle-manifest.json": "5cb1288331146635c28494ed5fa56a23343317ad22a99ecedfdcdd3c3ad1b51b",
+    "workload-manifest.jsonl": "e757dfce09db1e10d329028811936d60b577f6665c5f0cee15640f981a42c105"
+  },
+  "summary": {
+    "damage_files_retained": 1,
+    "damage_rows_retained": 0,
+    "legit_file_operations_lost": 0,
+    "legit_rows_lost": 0,
+    "probe_mismatches": 1,
+    "schema_damage": 0,
+    "schema_loss": 0
+  },
+  "tampered_control": true,
+  "verdict_v2": "checked_damage_remains"
+}

@@ -1,0 +1,9 @@
+To identify the latest safe point before damaging activity began, we look for the first instance of a "D" (Delete) action in the sequence of events.
+
+1.  The first "D" action in the log is: `{"action":"D","detail":{"id":1,"v":"seed1"},"lsn_int":738197544,"lsn_text":"0/2C000028","natural_key":1,"object":"p2_probe","wall_clock":"2026-10-03T06:27:40.884534Z","xid":1127}`.
+2.  The event immediately preceding this damaging activity is the last "U" (Update) action before that timestamp.
+3.  The last safe event is: `{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":721421720,"lsn_text":"0/2B000598","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T06:27:40.054381Z","xid":1125}`.
+
+The LSN for this safe point is `0/2B000598`.
+
+COORDINATE: lsn=0/2B000598

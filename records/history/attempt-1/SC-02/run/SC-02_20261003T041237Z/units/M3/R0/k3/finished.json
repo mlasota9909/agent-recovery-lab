@@ -1,0 +1,65 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T041423369Z_000038",
+        "token": "interval=38"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T041423369Z_000038",
+        "token": "snapshot=s_20261003T041423369Z_000038"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T041423369Z_000038",
+        "token": "ts=2026-10-03T04:14:23.802955Z"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20261003T041423369Z_000038"
+  },
+  "call_started_utc": "2026-10-03T04:22:40.949005Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/evidence/SC-02/SC-02_20261003T041237Z/fl-checks/s_20261003T041423369Z_000038.json",
+    "report_sha256": "16a798dc39e83e38026e8239fd72e0c3dafcfa798b8c4ed964e9bde4aa421573",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 0,
+      "legit_rows_lost": 0,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "correct"
+  },
+  "completion_tokens": 2045,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:22:55.502521Z",
+  "freeze_sha256": "48c5817e689ea641b1b2b863f4ff44fba88969be814f9719d7f66cf8eca0c029",
+  "incident_id": "SC-02_20261003T041237Z",
+  "latency_ms": 13982,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-02_20261003T041237Z/units/M3/R0/k3/model.json",
+  "model_record_sha256": "bbf51db83dcb1faf5d294478249212eb6a0addb421b4488bb7d2e7053ec1629a",
+  "outcome": "accepted",
+  "prompt_sha256": "5bc73cfec72e3037bf0355f582cd20e216d375d1c9c795672530a9e7637e961e",
+  "prompt_tokens": 4885,
+  "raw_completion": "\n\nLooking at the evidence, I need to identify when \"damaging file activity\" began.\n\n**Identifying damaging activity:**\n- Interval 38 (from_snapshot `s_20261003T041423369Z_000038` \u2192 to_snapshot `s_20261003T041425695Z_000039`) contains mass deletions: the entire `workspace/records` directory and all its files (f1\u2013f12, nested) are removed, along with `workspace/build/t30.txt`. This is clearly damaging file activity.\n\n**Locating the safe snapshot before that activity:**\nThe `from_snapshot` of interval 38 is `s_20261003T041423369Z_000038`, recorded at `2026-10-03T04:14:23.802955Z`. This is the latest safe recorded snapshot before the deletions in interval 38 began.\n\nAll three locator forms resolve to the same snapshot:\n- `interval=38` \u2192 start snapshot = `s_20261003T041423369Z_000038`\n- `snapshot=s_20261003T041423369Z_000038`\n- `ts=2026-10-03T04:14:23.802955Z` \u2192 latest visible snapshot at or before that time = `s_20261003T041423369Z_000038`\n\nCOORDINATE: interval=38 snapshot=s_20261003T041423369Z_000038 ts=2026-10-03T04:14:23.802955Z",
+  "replicate_index": 3,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R0|3"
+}

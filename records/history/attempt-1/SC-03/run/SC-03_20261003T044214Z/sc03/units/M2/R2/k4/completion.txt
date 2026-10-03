@@ -1,0 +1,11 @@
+To identify the latest safe point before damaging activity began, we examine the provided windows of activity:
+
+- Window 10: [257260169201368..257260185978584]
+- Window 13: [257260219533016..257260236310232]
+- Window 16: [257260286643192..257260303418936]
+
+The damaging activity (DELETE/INSERT anomalies) begins at the start of Window 10. The latest safe point before this activity is the end of the period preceding Window 10. However, the evidence only provides the boundaries for the windows where activity *is* occurring. The last known safe point before the first recorded anomaly in Window 10 would be the LSN immediately preceding the start of Window 10.
+
+Since the evidence provides the range for Window 10 starting at 257260169201368, the latest safe point is the value immediately before that.
+
+COORDINATE: lsn=257260169201367

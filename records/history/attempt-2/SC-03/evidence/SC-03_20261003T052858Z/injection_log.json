@@ -1,0 +1,44 @@
+{
+  "commit_lsn": "E26F/120008B8",
+  "first_ddl_lsn_before": "E26F/120006D8",
+  "incident": "SC-03_20261003T052858Z",
+  "lsn_end": "E26F/15000FE8",
+  "lsn_start": "E26F/120006D8",
+  "ops": [
+    {
+      "commit_lsn": "E26F/120008B8",
+      "lsn_before": "E26F/120006D8",
+      "op_index": 0,
+      "principal": "lab_agent",
+      "sql": "ALTER TABLE public.sc03_orders DROP COLUMN status",
+      "t_end": "2026-10-03T05:29:51.493944Z",
+      "t_start": "2026-10-03T05:29:51.118578Z",
+      "xid": 975
+    },
+    {
+      "commit_lsn": "E26F/14000778",
+      "lsn_before": "E26F/140006D8",
+      "op_index": 1,
+      "principal": "lab_agent",
+      "sql": "ALTER TABLE public.sc03_orders DROP CONSTRAINT sc03_amount_positive",
+      "t_end": "2026-10-03T05:29:54.254424Z",
+      "t_start": "2026-10-03T05:29:53.841338Z",
+      "xid": 1003
+    },
+    {
+      "commit_lsn": "E26F/15000FE8",
+      "lsn_before": "E26F/15000E08",
+      "op_index": 2,
+      "principal": "lab_agent",
+      "sql": "ALTER TABLE public.sc03_orders ALTER COLUMN amount TYPE text USING amount::text",
+      "t_end": "2026-10-03T05:29:57.082861Z",
+      "t_start": "2026-10-03T05:29:56.608068Z",
+      "xid": 1033
+    }
+  ],
+  "principal": "lab_agent",
+  "scenario_id": "SC-03",
+  "t_end": "2026-10-03T05:29:57.082861Z",
+  "t_start": "2026-10-03T05:29:51.118578Z",
+  "timing_pattern": "slow"
+}

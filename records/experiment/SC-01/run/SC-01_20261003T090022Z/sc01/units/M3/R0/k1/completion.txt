@@ -1,0 +1,9 @@
+
+
+Looking at the evidence, the "damaging activity" is the batch of 200 seed-row deletions (action "D", xid 1138, LSNs 721425360–721448400, wall_clock 09:01:05.351822Z).
+
+The last operation recorded **before** that batch is the update on natural_key 88000702 (action "U", xid 1088) at LSN 671090072 (hex 0/28000598), wall_clock 2026-10-03T09:00:58.440396Z. No other operation in the evidence falls between that LSN and the first seed deletion at 721425360.
+
+Therefore the latest safe point before the damaging deletions began is:
+
+COORDINATE: lsn=0/28000598 lsn=671090072 ts=2026-10-03T09:00:58.440396Z

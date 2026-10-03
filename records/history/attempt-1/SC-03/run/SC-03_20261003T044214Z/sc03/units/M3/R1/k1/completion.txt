@@ -1,0 +1,13 @@
+
+
+Looking at the three records, I need the **latest** safe point, i.e. the highest `last_safe_lsn_int`:
+
+| window_index | last_safe_lsn_int |
+|---|---|
+| 10 | 257260169201208 |
+| 13 | 257260219532856 |
+| 16 | 257260286643032 |
+
+The maximum LSN is **257260286643032** (window 16), making it the most recent safe point before the damaging activity.
+
+COORDINATE: lsn=257260286643032 window=16

@@ -1,0 +1,20 @@
+{
+  "chosen_lsn_int": 257260169202280,
+  "grammar_outcome": "accepted",
+  "locators": [
+    {
+      "discard_reason": null,
+      "resolved_lsn_int": 257260169202280,
+      "token": "lsn=E9FA/D000A68",
+      "type": "lsn_hex"
+    }
+  ],
+  "locators_offered": [
+    "lsn_hex"
+  ],
+  "locators_resolved_to": [
+    257260169202280
+  ],
+  "outcome": "accepted",
+  "reason": "all resolved locators agree"
+}

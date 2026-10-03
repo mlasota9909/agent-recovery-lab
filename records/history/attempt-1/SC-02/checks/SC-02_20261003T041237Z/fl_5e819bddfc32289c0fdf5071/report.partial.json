@@ -1,0 +1,64 @@
+{
+  "coordinate": {
+    "lsn": "DDEE/14000C48",
+    "lsn_int": 244014607502408,
+    "snapshot": "s_20261003T041337630Z_000015",
+    "time": "2026-10-03T04:13:38.169881Z"
+  },
+  "db_restore": {
+    "beyond": {
+      "absent_ok": true,
+      "inject_lsn_int": 244015026931576,
+      "kind": "before_inject",
+      "present": null,
+      "row_id": null
+    },
+    "beyond_target_absent": true,
+    "changed": true,
+    "in_recovery": true,
+    "incident": "SC-02_20261003T041237Z",
+    "ok": true,
+    "replay_lsn": "DDEE/15000000",
+    "replay_lsn_int": 244014624276480,
+    "restore_target": {
+      "fs_clone_dataset": null,
+      "pgdata_dataset": "labpool/sandbox/SC-02_20261003T041237Z/fl_5e819bddfc32289c0fdf5071/pgdata",
+      "sandbox_pgdata": "/labpool/sandbox/SC-02_20261003T041237Z/fl_5e819bddfc32289c0fdf5071/pgdata/data",
+      "sandbox_port": 55478,
+      "tag": "fl_5e819bddfc32289c0fdf5071"
+    },
+    "snapshot": "s_20261003T041337630Z_000015",
+    "state": "created",
+    "stopped_at_target": true,
+    "target_lsn": "DDEE/14000C48",
+    "target_lsn_int": 244014607502408,
+    "victim_zfs_after": "a5ffc0b2991450b5aa4fd75839c86ed2cb6dc71118408bbc20f81ca491e0a86c",
+    "victim_zfs_before": "a5ffc0b2991450b5aa4fd75839c86ed2cb6dc71118408bbc20f81ca491e0a86c",
+    "wal_segments": [
+      "000000010000DDEE00000012",
+      "000000010000DDEE00000013",
+      "000000010000DDEE00000014",
+      "000000010000DDEE00000015"
+    ]
+  },
+  "fs_restore": {
+    "changed": true,
+    "clone_dataset": "labpool/sandbox/SC-02_20261003T041237Z/fl_5e819bddfc32289c0fdf5071/protected",
+    "mountpoint": "/labpool/sandbox/SC-02_20261003T041237Z/fl_5e819bddfc32289c0fdf5071/protected",
+    "ok": true,
+    "snapshot": "s_20261003T041337630Z_000015",
+    "snapshot_list_unchanged": true,
+    "victim_zfs_after": "a5ffc0b2991450b5aa4fd75839c86ed2cb6dc71118408bbc20f81ca491e0a86c",
+    "victim_zfs_before": "a5ffc0b2991450b5aa4fd75839c86ed2cb6dc71118408bbc20f81ca491e0a86c"
+  },
+  "incident_id": "SC-02_20261003T041237Z",
+  "restore_of": "fl_5e819bddfc32289c0fdf5071",
+  "restore_target": {
+    "fs_clone_dataset": "labpool/sandbox/SC-02_20261003T041237Z/fl_5e819bddfc32289c0fdf5071/protected",
+    "fs_mount": "/labpool/sandbox/SC-02_20261003T041237Z/fl_5e819bddfc32289c0fdf5071/protected",
+    "pgdata_dataset": "labpool/sandbox/SC-02_20261003T041237Z/fl_5e819bddfc32289c0fdf5071/pgdata",
+    "sandbox_pgdata": "/labpool/sandbox/SC-02_20261003T041237Z/fl_5e819bddfc32289c0fdf5071/pgdata/data",
+    "sandbox_port": 55478,
+    "tag": "fl_5e819bddfc32289c0fdf5071"
+  }
+}

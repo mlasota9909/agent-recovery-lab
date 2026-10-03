@@ -1,0 +1,14 @@
+
+
+Looking at the evidence, the "damaging activity" is the mass deletion of seed rows (id 1–200), all under xid 1126, beginning at LSN `0/2C000028`.
+
+The last safe (non-damaging) operation immediately before that batch is:
+
+- action: U, natural_key 88000702, v "u88000702a"
+- LSN: `0/2B000B08` (lsn_int 721423112)
+- wall_clock: 2026-10-03T04:26:25.540853Z
+- xid: 1125
+
+This is the latest point at which the database state is still safe (no seed rows have been deleted yet).
+
+COORDINATE: lsn=0/2B000B08

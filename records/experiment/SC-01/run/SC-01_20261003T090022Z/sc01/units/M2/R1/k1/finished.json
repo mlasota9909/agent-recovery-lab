@@ -1,0 +1,61 @@
+{
+  "answer": {
+    "chosen_lsn_int": 654312856,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": "named window is not visible",
+        "resolved_lsn_int": null,
+        "token": "window=11",
+        "type": "window"
+      },
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 654312856,
+        "token": "lsn=654312856",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "window",
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      654312856
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:15:37.554135Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 64,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-01_20261003T090022Z/ab-654312856/report.json",
+    "report_sha256": "fd024608a6c679131d9c2f84167a62e5e698913d4a509d62a30d8fb53a0e7bab",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 251,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:15:45.972051Z",
+  "freeze_sha256": "b4f644cfb5370e1ae3f1b0aa4a736d7cdb7a1ae58b6d9bc2a7cb3430b3b6c4cf",
+  "incident_id": "SC-01_20261003T090022Z",
+  "latency_ms": 8112,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-01_20261003T090022Z/sc01/units/M2/R1/k1/model.json",
+  "model_record_sha256": "cbfcf91b914085c40e51dd3f3c570d5019ee05058ae5eef2a3778e42c6a29085",
+  "outcome": "accepted",
+  "prompt_sha256": "4c6b0e2889f189706cc3092a7eadc4e5752fff51f8a98f90bcc84d8b8e7f55ac",
+  "prompt_tokens": 365,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we must look for the entry with the highest `last_safe_lsn_int` (or highest `window_index`) that represents a state before the anomaly.\n\nLooking at the evidence:\n1. `window_index`: 15, `last_safe_lsn_int`: 721421720, `anomaly_score`: 215.67... (This represents the state during/after the anomaly).\n2. `window_index`: 11, `last_safe_lsn_int`: 654312856, `anomaly_score`: 1.36...\n3. `window_index`: 10, `last_safe_lsn_int`: 637535640, `anomaly_score`: 1.36...\n\nThe latest safe point (the highest LSN/window index where the anomaly score is low/normal) is `window_index` 11.\n\nCOORDINATE: window=11 lsn=654312856",
+  "replicate_index": 1,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|1"
+}

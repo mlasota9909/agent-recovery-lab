@@ -1,0 +1,18 @@
+
+
+Looking at the evidence, I need to identify the "damaging activity" and find the last safe record before it.
+
+**Identifying the damaging activity:**
+The `ALTER TABLE` on `public.sc03_orders` (LSN `E275/14000B68`, xid 1002) is a schema-modifying DDL statement — this is the damaging activity.
+
+**Finding the latest safe point before it:**
+The record immediately preceding the ALTER TABLE is:
+
+- Action: `U` on `sc03_orders` (id=24, amount=10.01)
+- LSN: `E275/140006D8` (lsn_int 248992474597080)
+- Wall clock: `2026-10-03T09:21:00.474739Z`
+- xid: 1003
+
+This is the last safe write before the schema-altering DDL.
+
+COORDINATE: lsn=E275/140006D8

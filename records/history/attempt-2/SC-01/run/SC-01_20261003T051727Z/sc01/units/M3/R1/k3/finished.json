@@ -1,0 +1,61 @@
+{
+  "answer": {
+    "chosen_lsn_int": 654314576,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": "named window is not visible",
+        "resolved_lsn_int": null,
+        "token": "window=12",
+        "type": "window"
+      },
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 654314576,
+        "token": "lsn=654314576",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "window",
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      654314576
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T05:26:30.464303Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 56,
+    "report": "/home/mlasota/agent-recovery-lab-examiner2/var/restore/SC-01_20261003T051727Z/ab-654314576/report.json",
+    "report_sha256": "562190baa2611d12760c29b491300be61d36e40418b732cccc9d07a3b08b4e13",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 1067,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:26:38.312360Z",
+  "freeze_sha256": "d7d34aed2d8ad6768330edf061f74360fdbe9a03ab1ff54d2d1a644acca3dc56",
+  "incident_id": "SC-01_20261003T051727Z",
+  "latency_ms": 7479,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-01_20261003T051727Z/sc01/units/M3/R1/k3/model.json",
+  "model_record_sha256": "e969f765d99730af29be0843975e0b1e56e2f824567b16d25d4301f532c4f3b5",
+  "outcome": "accepted",
+  "prompt_sha256": "2e66605fea2f08b8fdaeec9c322708b125be23369a076f3c6ed51bbf032c67c3",
+  "prompt_tokens": 343,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- **Window 15**: anomaly_score \u2248 231.62 \u2192 this is the damaging activity.\n- **Window 12**: anomaly_score \u2248 1.86 \u2192 safe, LSN = 654314576\n- **Window 16**: anomaly_score \u2248 1.85 \u2192 safe, LSN = 738231992\n\nThe damaging activity is localised at window 15. The latest safe point *before* that is window 12 (the most recent safe window preceding the anomaly). Its `last_safe_lsn_int` is 654314576.\n\nCOORDINATE: window=12 lsn=654314576",
+  "replicate_index": 3,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R1|3"
+}

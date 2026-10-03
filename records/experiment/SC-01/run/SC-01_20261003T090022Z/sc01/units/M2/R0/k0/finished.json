@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 637536552,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 637536552,
+        "token": "lsn=0/26000928",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      637536552
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:03:58.880423Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 72,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-01_20261003T090022Z/ab-637536552/report.json",
+    "report_sha256": "a3ba4c06ab81e45d0bf71bd6ef6f80b437c0c80dadec69e9bb12f6c978a55551",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 771,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:04:59.193322Z",
+  "freeze_sha256": "b4f644cfb5370e1ae3f1b0aa4a736d7cdb7a1ae58b6d9bc2a7cb3430b3b6c4cf",
+  "incident_id": "SC-01_20261003T090022Z",
+  "latency_ms": 40506,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-01_20261003T090022Z/sc01/units/M2/R0/k0/model.json",
+  "model_record_sha256": "facf796d9e61ddd76adaf3e5b4dd2ce7c013d7323e55a2685871035a7a19e812",
+  "outcome": "accepted",
+  "prompt_sha256": "9b09806d7b4911455deafc30adebe4ff1871f967851dac4b3945b6737e703645",
+  "prompt_tokens": 26406,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the sequence of operations in the evidence.\n\nThe evidence contains two sets of logs. The first set (IDs 1-200) consists of `D` (Delete) actions, which represent the damaging activity. The second set (IDs 88000700 and onwards) contains `U` (Update), `D` (Delete), and `I` (Insert) actions.\n\nLooking at the timestamps and LSNs:\n1. The `D` actions in the first block start at `2026-10-03T09:01:05.351822Z` (LSN `0/2B0013D0`).\n2. The second block contains operations with timestamps around `2026-10-03T09:00:55Z` to `2026-10-03T09:01:05Z`.\n3. Crucially, the `D` actions in the first block (the damaging activity) begin at LSN `0/2B0013D0`.\n4. The last operation *before* the first `D` action in the first block is the last operation from the second block that occurred earlier in time or has a lower LSN.\n5. The last operation in the second block that is not a `D` (Delete) or `U` (Update) that might be part of the damage is the `I` (Insert) at `2026-10-03T09:00:57.509787Z` (LSN `0/27000AB0`).\n6. However, the question asks for the latest safe point *before* damaging activity began. The damaging activity (the `D` actions) starts at LSN `0/2B0013D0`.\n7. The last safe operation before the first `D` action in the first block is the last operation in the second block that is not a `D` action. The last `I` action in the second block is at LSN `0/27000AB0`.\n8. Wait, looking closer at the second block, there are `D` actions there too (e.g., ID 88000700 at `0/260009C8`).\n9. The very first `D` action in the entire log is at `2026-10-03T09:00:55.601814Z` (LSN `0/260009C8`).\n10. The last operation before this first `D` action is the `U` action at `2026-10-03T09:00:55.599059Z` (LSN `0/26000928`).\n\nWait, let's re-evaluate. The first block is a continuous stream of `D` actions starting at `0/2B0013D0`. The second block contains `U`, `D`, and `I`. The earliest `D` action in the entire evidence is `0/260009C8`. The operation immediately preceding it is `0/26000928`.\n\nCOORDINATE: lsn=0/26000928",
+  "replicate_index": 0,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|0"
+}

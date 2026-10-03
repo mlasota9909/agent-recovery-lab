@@ -1,0 +1,49 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T061549544Z_000037",
+        "token": "interval=37"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T061549544Z_000037",
+        "token": "snapshot=s_20261003T061549544Z_000037"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T061457346Z_000011",
+        "token": "ts=2026-10-03T06:15:49.544Z"
+      }
+    ],
+    "outcome": "rule_rejection",
+    "reason": "resolved locators identify distinct snapshots",
+    "snapshot": null
+  },
+  "call_started_utc": "2026-10-03T06:19:15.079398Z",
+  "check": null,
+  "completion_tokens": 40,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T06:19:16.557391Z",
+  "freeze_sha256": "31cf6fdf4b0ff77477af8edaae1983749810bbaad8b75b406c05bcbc771f0b7c",
+  "incident_id": "SC-02_20261003T061403Z",
+  "latency_ms": 1195,
+  "model_alias": "gb10a-deepseek-v4-flash",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-02_20261003T061403Z/units/M1/R1/k2/model.json",
+  "model_record_sha256": "04f565417c254ea18de4c2eab7f44723f3c3fa2dbdfe2b5e65c398ed96243f95",
+  "outcome": "rule_rejection",
+  "prompt_sha256": "5364a5d06b2bf18a11a38d516cf31c37345d1de8d5f4e13b266a2d32c88cf7bf",
+  "prompt_tokens": 604,
+  "raw_completion": "COORDINATE: interval=37 snapshot=s_20261003T061549544Z_000037 ts=2026-10-03T06:15:49.544Z",
+  "replicate_index": 2,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gb10a-deepseek-v4-flash|R1|2"
+}

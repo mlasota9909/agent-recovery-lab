@@ -1,0 +1,45 @@
+{
+  "answer": {
+    "chosen_lsn_int": null,
+    "grammar_outcome": "refusal_parser",
+    "locators": [
+      {
+        "discard_reason": "immediately preceding window is not visible",
+        "resolved_lsn_int": null,
+        "token": "window=17",
+        "type": "window"
+      }
+    ],
+    "locators_offered": [
+      "window"
+    ],
+    "locators_resolved_to": [],
+    "outcome": "rule_rejection",
+    "reason": "no locator resolves from the supplied view"
+  },
+  "call_started_utc": "2026-10-03T09:38:53.902303Z",
+  "check": null,
+  "completion_tokens": 9,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:38:55.338668Z",
+  "freeze_sha256": "711616cfd451192c165ded9385af03bdc6e4d378325d86ad78a303dae005f7f7",
+  "incident_id": "SC-04_20261003T093358Z",
+  "latency_ms": 626,
+  "model_alias": "gb10a-deepseek-v4-flash",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-04_20261003T093358Z/sc04/units/M1/R2/k3/model.json",
+  "model_record_sha256": "e629802cbd28e72eb0dbf53db6bcbcda9f97776aebddba3cbc86d7b11943fe67",
+  "outcome": "rule_rejection",
+  "prompt_sha256": "b1b1aa63bbeeb67ed3eb79a538d6d21412a8713b96438a8241f3ae3c4179271a",
+  "prompt_tokens": 351,
+  "raw_completion": "COORDINATE: window=17",
+  "replicate_index": 3,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gb10a-deepseek-v4-flash|R2|3"
+}

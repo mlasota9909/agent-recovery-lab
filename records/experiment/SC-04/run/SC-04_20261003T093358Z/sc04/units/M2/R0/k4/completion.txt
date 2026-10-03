@@ -1,0 +1,13 @@
+To identify the latest safe point before damaging activity began, we examine the `action` and `payload` fields in the provided evidence.
+
+1.  The first instance of damaging activity is found in the entry:
+    `{"action":"U","detail":{"id":174,"payload":"mal-174"},"lsn_int":244598756606048,"lsn_text":"DE76/16000060","natural_key":174,"object":"sc04_items","wall_clock":"2026-10-03T09:34:59.025975Z","xid":1037}`
+    This entry contains a "mal-" payload.
+
+2.  The entry immediately preceding this damaging activity is:
+    `{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":244598739832704,"lsn_text":"DE76/15000F80","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:34:58.539792Z","xid":1036}`
+    This entry is a legitimate update (`action: U` with a value `v`).
+
+The latest safe point is the LSN or timestamp of the last legitimate entry before the first "mal-" payload.
+
+COORDINATE: lsn=DE76/15000F80 ts=2026-10-03T09:34:58.539792Z

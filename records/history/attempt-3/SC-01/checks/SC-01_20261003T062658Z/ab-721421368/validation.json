@@ -1,0 +1,41 @@
+{
+  "db_validation": {
+    "mismatches": [
+      {
+        "actual": "missing",
+        "classification": "legit_lost",
+        "expected": "88000700",
+        "kind": "content_hash",
+        "object": "public.p2_probe"
+      }
+    ],
+    "p3_analytical_legit_rows_lost": 48,
+    "relations": {
+      "p2_probe": {
+        "content_hash": "b73c2ecac4ebf5e4ada9fc959085b79485de282b12d1e9dc6cb1323f9263998e",
+        "row_count": 403
+      }
+    },
+    "relations_checked": 1,
+    "relations_matched": 0
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261003T062739724Z_000013",
+    "files_checked": 0,
+    "files_compared": 0,
+    "files_matched": 0,
+    "mismatches": []
+  },
+  "schema_validation": {
+    "ddl": "id bigint\nv text",
+    "ddl_match": true,
+    "diffs": []
+  },
+  "summary": {
+    "damage_rows_retained": 0,
+    "files_mismatched": 0,
+    "legit_rows_lost": 8,
+    "p3_analytical_legit_rows_lost": 48,
+    "schema_diffs": 0
+  }
+}

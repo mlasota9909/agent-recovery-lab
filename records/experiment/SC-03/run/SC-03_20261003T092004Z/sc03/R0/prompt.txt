@@ -1,0 +1,79 @@
+You are an experimental subject. Locate a recovery coordinate from the evidence below.
+Use only this evidence. You are not given a reference answer.
+
+Task: identify the latest safe point before damaging activity began. Name that point
+using whichever locator the evidence provides — a window index, a PostgreSQL LSN in
+whatever form it appears (hex HIGH/LOW or integer), or a timestamp. Refuse only when
+the evidence genuinely does not let you localise a safe point.
+
+Evidence:
+<<<ARM_B_CONTENT
+{"action":"U","detail":{"amount":10.01,"id":21},"lsn_int":248992457819864,"lsn_text":"E275/130006D8","natural_key":21,"object":"sc03_orders","wall_clock":"2026-10-03T09:20:58.812255Z","xid":983}
+{"action":"U","detail":{"id":88000703,"v":"u88000703a"},"lsn_int":248992457820024,"lsn_text":"E275/13000778","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.142597Z","xid":984}
+{"action":"U","detail":{"id":88000703,"v":"u88000703b"},"lsn_int":248992457820184,"lsn_text":"E275/13000818","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.145041Z","xid":985}
+{"action":"U","detail":{"id":88000701,"v":"u88000701a"},"lsn_int":248992457820344,"lsn_text":"E275/130008B8","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.146572Z","xid":986}
+{"action":"U","detail":{"id":88000701,"v":"u88000701b"},"lsn_int":248992457820456,"lsn_text":"E275/13000928","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.146572Z","xid":986}
+{"action":"D","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992457820936,"lsn_text":"E275/13000B08","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.168693Z","xid":988}
+{"action":"I","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992457821064,"lsn_text":"E275/13000B88","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.182277Z","xid":989}
+{"action":"U","detail":{"id":88000702,"v":"u88000702a"},"lsn_int":248992457821256,"lsn_text":"E275/13000C48","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.192323Z","xid":990}
+{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":248992457821416,"lsn_text":"E275/13000CE8","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.196036Z","xid":991}
+{"action":"U","detail":{"amount":10.01,"id":22},"lsn_int":248992457821576,"lsn_text":"E275/13000D88","natural_key":22,"object":"sc03_orders","wall_clock":"2026-10-03T09:20:59.363709Z","xid":992}
+{"action":"U","detail":{"amount":10.01,"id":23},"lsn_int":248992474595368,"lsn_text":"E275/14000028","natural_key":23,"object":"sc03_orders","wall_clock":"2026-10-03T09:20:59.942182Z","xid":993}
+{"action":"U","detail":{"id":88000703,"v":"u88000703a"},"lsn_int":248992474595528,"lsn_text":"E275/140000C8","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.970083Z","xid":994}
+{"action":"U","detail":{"id":88000703,"v":"u88000703b"},"lsn_int":248992474595688,"lsn_text":"E275/14000168","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.977746Z","xid":995}
+{"action":"U","detail":{"id":88000701,"v":"u88000701a"},"lsn_int":248992474595848,"lsn_text":"E275/14000208","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.988570Z","xid":996}
+{"action":"U","detail":{"id":88000701,"v":"u88000701b"},"lsn_int":248992474595960,"lsn_text":"E275/14000278","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:59.988570Z","xid":996}
+{"action":"D","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992474596120,"lsn_text":"E275/14000318","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:21:00.001974Z","xid":997}
+{"action":"I","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992474596248,"lsn_text":"E275/14000398","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:21:00.008254Z","xid":998}
+{"action":"U","detail":{"id":88000702,"v":"u88000702a"},"lsn_int":248992474596440,"lsn_text":"E275/14000458","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:21:00.035552Z","xid":999}
+{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":248992474596600,"lsn_text":"E275/140004F8","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:21:00.040037Z","xid":1000}
+{"action":"U","detail":{"amount":10.01,"id":24},"lsn_int":248992474597080,"lsn_text":"E275/140006D8","natural_key":24,"object":"sc03_orders","wall_clock":"2026-10-03T09:21:00.474739Z","xid":1003}
+{"action":"ALTER TABLE","detail":{"command_tag":"ALTER TABLE","object_identity":"public.sc03_orders"},"lsn_int":248992474598248,"lsn_text":"E275/14000B68","natural_key":"public.sc03_orders","object":"public.sc03_orders","wall_clock":"2026-10-03T09:21:00.483918Z","xid":1002}
+{"action":"U","detail":{"amount":10.01,"id":11,"status":"open"},"lsn_int":248992390711000,"lsn_text":"E275/F0006D8","natural_key":11,"object":"sc03_orders","wall_clock":"2026-10-03T09:20:52.819640Z","xid":924}
+{"action":"U","detail":{"id":88000703,"v":"u88000703a"},"lsn_int":248992390711480,"lsn_text":"E275/F0008B8","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:53.306344Z","xid":926}
+{"action":"U","detail":{"id":88000703,"v":"u88000703b"},"lsn_int":248992390711640,"lsn_text":"E275/F000958","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:53.308008Z","xid":927}
+{"action":"U","detail":{"id":88000701,"v":"u88000701a"},"lsn_int":248992390711800,"lsn_text":"E275/F0009F8","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:53.309835Z","xid":928}
+{"action":"U","detail":{"id":88000701,"v":"u88000701b"},"lsn_int":248992390711912,"lsn_text":"E275/F000A68","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:53.309835Z","xid":928}
+{"action":"D","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992390712072,"lsn_text":"E275/F000B08","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:20:53.320538Z","xid":929}
+{"action":"I","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992390712200,"lsn_text":"E275/F000B88","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:20:53.336261Z","xid":930}
+{"action":"U","detail":{"id":88000702,"v":"u88000702a"},"lsn_int":248992390712392,"lsn_text":"E275/F000C48","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:20:53.338510Z","xid":931}
+{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":248992390712552,"lsn_text":"E275/F000CE8","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:20:53.343157Z","xid":932}
+{"action":"U","detail":{"amount":10.01,"id":12,"status":"open"},"lsn_int":248992390712712,"lsn_text":"E275/F000D88","natural_key":12,"object":"sc03_orders","wall_clock":"2026-10-03T09:20:53.360035Z","xid":933}
+{"action":"U","detail":{"amount":10.01,"id":13,"status":"open"},"lsn_int":248992407486504,"lsn_text":"E275/10000028","natural_key":13,"object":"sc03_orders","wall_clock":"2026-10-03T09:20:53.910172Z","xid":934}
+{"action":"U","detail":{"id":88000703,"v":"u88000703a"},"lsn_int":248992407486984,"lsn_text":"E275/10000208","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:54.159083Z","xid":936}
+{"action":"U","detail":{"id":88000703,"v":"u88000703b"},"lsn_int":248992407487144,"lsn_text":"E275/100002A8","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:54.161964Z","xid":937}
+{"action":"U","detail":{"id":88000701,"v":"u88000701a"},"lsn_int":248992407487304,"lsn_text":"E275/10000348","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:54.163711Z","xid":938}
+{"action":"U","detail":{"id":88000701,"v":"u88000701b"},"lsn_int":248992407487416,"lsn_text":"E275/100003B8","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:54.163711Z","xid":938}
+{"action":"D","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992407487576,"lsn_text":"E275/10000458","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:20:54.194915Z","xid":939}
+{"action":"I","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992407487704,"lsn_text":"E275/100004D8","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:20:54.214457Z","xid":940}
+{"action":"U","detail":{"id":88000702,"v":"u88000702a"},"lsn_int":248992407487896,"lsn_text":"E275/10000598","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:20:54.223629Z","xid":941}
+{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":248992407488056,"lsn_text":"E275/10000638","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:20:54.236835Z","xid":942}
+{"action":"U","detail":{"amount":10.01,"id":14,"status":"open"},"lsn_int":248992407488216,"lsn_text":"E275/100006D8","natural_key":14,"object":"sc03_orders","wall_clock":"2026-10-03T09:20:54.492995Z","xid":943}
+{"action":"U","detail":{"amount":10.01,"id":15,"status":"open"},"lsn_int":248992407488376,"lsn_text":"E275/10000778","natural_key":15,"object":"sc03_orders","wall_clock":"2026-10-03T09:20:54.987458Z","xid":944}
+{"action":"U","detail":{"id":88000703,"v":"u88000703a"},"lsn_int":248992407488536,"lsn_text":"E275/10000818","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:55.006639Z","xid":945}
+{"action":"U","detail":{"id":88000703,"v":"u88000703b"},"lsn_int":248992407489016,"lsn_text":"E275/100009F8","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:55.109038Z","xid":947}
+{"action":"U","detail":{"id":88000701,"v":"u88000701a"},"lsn_int":248992407489176,"lsn_text":"E275/10000A98","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:55.121760Z","xid":948}
+{"action":"U","detail":{"id":88000701,"v":"u88000701b"},"lsn_int":248992407489288,"lsn_text":"E275/10000B08","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:55.121760Z","xid":948}
+{"action":"D","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992407489448,"lsn_text":"E275/10000BA8","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:20:55.136119Z","xid":949}
+{"action":"I","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992407489576,"lsn_text":"E275/10000C28","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:20:55.140514Z","xid":950}
+{"action":"U","detail":{"id":88000702,"v":"u88000702a"},"lsn_int":248992407489768,"lsn_text":"E275/10000CE8","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:20:55.155672Z","xid":951}
+{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":248992407489928,"lsn_text":"E275/10000D88","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:20:55.163692Z","xid":952}
+{"action":"U","detail":{"amount":10.01,"id":16,"status":"open"},"lsn_int":248992424263720,"lsn_text":"E275/11000028","natural_key":16,"object":"sc03_orders","wall_clock":"2026-10-03T09:20:55.713249Z","xid":953}
+{"action":"U","detail":{"id":88000703,"v":"u88000703a"},"lsn_int":248992424263880,"lsn_text":"E275/110000C8","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:55.997142Z","xid":954}
+{"action":"U","detail":{"id":88000703,"v":"u88000703b"},"lsn_int":248992424264040,"lsn_text":"E275/11000168","natural_key":88000703,"object":"p2_probe","wall_clock":"2026-10-03T09:20:55.999059Z","xid":955}
+{"action":"U","detail":{"id":88000701,"v":"u88000701a"},"lsn_int":248992424264200,"lsn_text":"E275/11000208","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:56.011499Z","xid":956}
+{"action":"U","detail":{"id":88000701,"v":"u88000701b"},"lsn_int":248992424264312,"lsn_text":"E275/11000278","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T09:20:56.011499Z","xid":956}
+{"action":"D","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992424264472,"lsn_text":"E275/11000318","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:20:56.028411Z","xid":957}
+{"action":"I","detail":{"id":88000700,"v":"s88000700"},"lsn_int":248992424264600,"lsn_text":"E275/11000398","natural_key":88000700,"object":"p2_probe","wall_clock":"2026-10-03T09:20:56.031604Z","xid":958}
+{"action":"U","detail":{"id":88000702,"v":"u88000702a"},"lsn_int":248992424264792,"lsn_text":"E275/11000458","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:20:56.043067Z","xid":959}
+{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":248992424264952,"lsn_text":"E275/110004F8","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:20:56.046315Z","xid":960}
+{"action":"U","detail":{"amount":10.01,"id":17,"status":"open"},"lsn_int":248992424265432,"lsn_text":"E275/110006D8","natural_key":17,"object":"sc03_orders","wall_clock":"2026-10-03T09:20:56.280238Z","xid":962}
+
+ARM_B_CONTENT>>>
+
+End with exactly one tagged line and nothing after it, in one of these two forms:
+COORDINATE: <locator> [<locator> ...]
+where each locator is one of window=<int>, lsn=<hex-or-int>, ts=<iso8601>
+REFUSAL: <reason>
+
+If the evidence does not localise a safe point, refuse. Do not guess.

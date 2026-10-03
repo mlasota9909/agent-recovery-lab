@@ -1,0 +1,45 @@
+{
+  "answer": {
+    "chosen_lsn_int": null,
+    "grammar_outcome": "refusal_parser",
+    "locators": [
+      {
+        "discard_reason": "named window is not visible",
+        "resolved_lsn_int": null,
+        "token": "window=14",
+        "type": "window"
+      }
+    ],
+    "locators_offered": [
+      "window"
+    ],
+    "locators_resolved_to": [],
+    "outcome": "rule_rejection",
+    "reason": "no locator resolves from the supplied view"
+  },
+  "call_started_utc": "2026-10-03T05:35:08.982544Z",
+  "check": null,
+  "completion_tokens": 318,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:35:20.091110Z",
+  "freeze_sha256": "d7ae2134f83be2f5a431e2e790c7501d65c381edda98ace3d594cf268ed38c3a",
+  "incident_id": "SC-03_20261003T052858Z",
+  "latency_ms": 10860,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-03_20261003T052858Z/sc03/units/M2/R1/k4/model.json",
+  "model_record_sha256": "6ba0905db5a5d3c0fe128eb6dbaf713363c509bc4124c0086817189c1eb22816",
+  "outcome": "rule_rejection",
+  "prompt_sha256": "d5fe8b189cd6ed4140349fb593d11e48bfaed76c0500faf7effa7252ac0b2648",
+  "prompt_tokens": 378,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we must look for the entry with the lowest anomaly score (indicating the most normal/safe state) that precedes the high anomaly score.\n\nLooking at the evidence:\n1. `{\"anomaly_score\":941528048.59755, \"last_safe_lsn_int\":248966738347416, \"window_index\":18}` (High anomaly)\n2. `{\"anomaly_score\":2.600160930851514, \"last_safe_lsn_int\":248966654461656, \"window_index\":14}` (Low anomaly)\n3. `{\"anomaly_score\":1.563734135294183, \"last_safe_lsn_int\":248966637684280, \"window_index\":13}` (Lowest anomaly)\n\nThe latest safe point before the high anomaly score (index 18) is the entry with the next highest LSN/index that is still considered \"safe\" (low anomaly score). The entry at `window_index: 14` has a very low anomaly score (2.6) and represents the latest point before the spike.\n\nCOORDINATE: window=14",
+  "replicate_index": 4,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|4"
+}

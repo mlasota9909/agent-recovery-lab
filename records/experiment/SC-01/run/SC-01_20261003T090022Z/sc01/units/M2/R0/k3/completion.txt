@@ -1,0 +1,14 @@
+To identify the latest safe point before damaging activity began, we examine the sequence of operations. The "damaging activity" refers to the `D` (Delete) operations that occur after the initial sequence of `D` operations.
+
+Looking at the log, the first set of `D` operations (IDs 1-120) are part of a continuous stream. However, the log contains a significant jump in LSN and timestamps. The most critical transition occurs when the `action` changes from `D` (Delete) to `U` (Update) or `I` (Insert) in a way that suggests a state change or a point of divergence.
+
+The sequence of `D` operations (IDs 1-120) ends at `lsn_int: 721443096` (`0/2B005918`).
+The next operation is an `U` (Update) at `lsn_int: 721443176` (`0/2B005968`).
+However, looking further down, there is a large block of `U` and `I` operations with much lower LSNs (e.g., `lsn_int: 637536120`) and earlier timestamps (`09:00:55`).
+
+The "damaging activity" in this context is the series of `D` (Delete) operations. The last `D` operation in the primary sequence (the one with the highest LSN/latest time) is:
+`{"action":"D","detail":{"id":120,"v":"seed120"},"lsn_int":721443096,"lsn_text":"0/2B005918","natural_key":120,"object":"p2_probe","wall_clock":"2026-10-03T09:01:05.351822Z","xid":1138}`
+
+The very next operation is an `U` (Update) at `lsn_int: 721443176`. Therefore, the last safe point before the next type of activity (or the end of the `D` sequence) is the LSN of the last `D` operation.
+
+COORDINATE: lsn=0/2B005918

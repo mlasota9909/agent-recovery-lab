@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 721421400,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 721421400,
+        "token": "lsn=0/2B000458",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      721421400
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T05:22:55.476582Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 8,
+    "report": "/home/mlasota/agent-recovery-lab-examiner2/var/restore/SC-01_20261003T051727Z/ab-721421400/report.json",
+    "report_sha256": "b545e3dc32ca5b541d8f29a915edd188c8a756df1736bb84f64543151b62b060",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 356,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:23:08.057706Z",
+  "freeze_sha256": "d7d34aed2d8ad6768330edf061f74360fdbe9a03ab1ff54d2d1a644acca3dc56",
+  "incident_id": "SC-01_20261003T051727Z",
+  "latency_ms": 12209,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-01_20261003T051727Z/sc01/units/M2/R0/k4/model.json",
+  "model_record_sha256": "b66eb8db846a6bd0b6823dabb38aed8a24c2770103166e18c975024fcc052d83",
+  "outcome": "accepted",
+  "prompt_sha256": "e9f79e171040bb2aad3b8db528251355ee0b7cbf4eaf0b8d76a5ac31f5a045d4",
+  "prompt_tokens": 27400,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we look for the first instance of a \"D\" (Delete) action that is part of the damaging sequence.\n\nThe evidence shows a series of \"D\" actions starting at `lsn_int: 738197544` (`lsn_text: 0/2C000028`) where multiple \"seed\" records are deleted. Before this sequence, the last safe transaction was an \"I\" (Insert) action at `lsn_int: 721421048` (`lsn_text: 0/2B0002F8`) or a \"U\" (Update) action at `lsn_int: 721421400` (`lsn_text: 0/2B000458`).\n\nHowever, looking at the sequence of events:\n1. The last \"safe\" (non-deleting) action before the mass deletion of seeds is the `U` action on `p2_probe` with `id: 88000702` at `lsn_int: 721421400`.\n2. The first \"damaging\" action is the `D` action on `p2_probe` with `id: 1` at `lsn_int: 738197544`.\n\nThe latest safe point before the deletion sequence began is the LSN of the last transaction prior to the first deletion.\n\nCOORDINATE: lsn=0/2B000458",
+  "replicate_index": 4,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|4"
+}

@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 721421720,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 721421720,
+        "token": "lsn=721421720",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      721421720
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T04:35:54.690699Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 8,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/var/restore/SC-01_20261003T042542Z/ab-721421720/report.json",
+    "report_sha256": "5bfdde08658b2f2b57f73dffc7faa774116596ba14589207a1d8fdcacf4ff267",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 1431,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:36:05.080677Z",
+  "freeze_sha256": "ebece73ddaa9d903167040e4dc37ef2ab22068ed64e6d85b25acadf7cf412c5e",
+  "incident_id": "SC-01_20261003T042542Z",
+  "latency_ms": 10033,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-01_20261003T042542Z/sc01/units/M3/R1/k3/model.json",
+  "model_record_sha256": "52c769165e7db80ac5a83a38ee350eb385c838b4012efca1d35bfb1d6f84f5dd",
+  "outcome": "accepted",
+  "prompt_sha256": "07137b5621d4f7e39bf924b741fee030182fd0cd4c7fbd16599c5413d3b3a5d9",
+  "prompt_tokens": 331,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- **Window 15**: anomaly_score = 250.5 (very high \u2192 damaging activity present), last_safe_lsn_int = 721421720\n- **Window 16**: anomaly_score \u2248 1.79 (normal), last_safe_lsn_int = 738229984\n- **Window 17**: anomaly_score \u2248 1.77 (normal), last_safe_lsn_int = 754976696\n\nThe damaging activity is clearly flagged in window 15 (anomaly score 250.5 vs. ~1.8 in the other windows). The `last_safe_lsn_int` recorded in that window (721421720) represents the last safe LSN before the damage began.\n\nCOORDINATE: lsn=721421720",
+  "replicate_index": 3,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R1|3"
+}

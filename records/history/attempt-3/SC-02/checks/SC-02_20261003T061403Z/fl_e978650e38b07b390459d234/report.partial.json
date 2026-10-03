@@ -1,0 +1,64 @@
+{
+  "coordinate": {
+    "lsn": "DEC1/31000348",
+    "lsn_int": 244921332138824,
+    "snapshot": "s_20261003T061601157Z_000043",
+    "time": "2026-10-03T06:16:02.478835Z"
+  },
+  "db_restore": {
+    "beyond": {
+      "absent_ok": true,
+      "inject_lsn_int": 244921248253816,
+      "inject_lsn_source": "recorded_bound",
+      "kind": "at_or_after_inject",
+      "present": null,
+      "row_id": null
+    },
+    "beyond_target_absent": true,
+    "changed": true,
+    "in_recovery": true,
+    "incident": "SC-02_20261003T061403Z",
+    "ok": true,
+    "replay_lsn": "DEC1/32000000",
+    "replay_lsn_int": 244921348915200,
+    "restore_target": {
+      "fs_clone_dataset": null,
+      "pgdata_dataset": "labpool/sandbox/SC-02_20261003T061403Z/fl_e978650e38b07b390459d234/pgdata",
+      "sandbox_pgdata": "/labpool/sandbox/SC-02_20261003T061403Z/fl_e978650e38b07b390459d234/pgdata/data",
+      "sandbox_port": 55433,
+      "tag": "fl_e978650e38b07b390459d234"
+    },
+    "snapshot": "s_20261003T061601157Z_000043",
+    "state": "created",
+    "stopped_at_target": true,
+    "target_lsn": "DEC1/31000348",
+    "target_lsn_int": 244921332138824,
+    "victim_zfs_after": "97c4cd3a198da0665b123af92d0090b4d97e448bc943ac9be0525519f9b7cb8b",
+    "victim_zfs_before": "97c4cd3a198da0665b123af92d0090b4d97e448bc943ac9be0525519f9b7cb8b",
+    "wal_segments": [
+      "000000010000DEC10000002F",
+      "000000010000DEC100000030",
+      "000000010000DEC100000031"
+    ]
+  },
+  "fs_restore": {
+    "changed": true,
+    "clone_dataset": "labpool/sandbox/SC-02_20261003T061403Z/fl_e978650e38b07b390459d234/protected",
+    "mountpoint": "/labpool/sandbox/SC-02_20261003T061403Z/fl_e978650e38b07b390459d234/protected",
+    "ok": true,
+    "snapshot": "s_20261003T061601157Z_000043",
+    "snapshot_list_unchanged": true,
+    "victim_zfs_after": "97c4cd3a198da0665b123af92d0090b4d97e448bc943ac9be0525519f9b7cb8b",
+    "victim_zfs_before": "97c4cd3a198da0665b123af92d0090b4d97e448bc943ac9be0525519f9b7cb8b"
+  },
+  "incident_id": "SC-02_20261003T061403Z",
+  "restore_of": "fl_e978650e38b07b390459d234",
+  "restore_target": {
+    "fs_clone_dataset": "labpool/sandbox/SC-02_20261003T061403Z/fl_e978650e38b07b390459d234/protected",
+    "fs_mount": "/labpool/sandbox/SC-02_20261003T061403Z/fl_e978650e38b07b390459d234/protected",
+    "pgdata_dataset": "labpool/sandbox/SC-02_20261003T061403Z/fl_e978650e38b07b390459d234/pgdata",
+    "sandbox_pgdata": "/labpool/sandbox/SC-02_20261003T061403Z/fl_e978650e38b07b390459d234/pgdata/data",
+    "sandbox_port": 55433,
+    "tag": "fl_e978650e38b07b390459d234"
+  }
+}

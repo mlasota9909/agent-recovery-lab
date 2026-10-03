@@ -1,0 +1,55 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T041337630Z_000015",
+        "token": "snapshot=s_20261003T041337630Z_000015"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20261003T041337630Z_000015"
+  },
+  "call_started_utc": "2026-10-03T04:24:43.028307Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/evidence/SC-02/SC-02_20261003T041237Z/fl-checks/s_20261003T041337630Z_000015.json",
+    "report_sha256": "7009ba9e0614f80fbaa03c0613025a742477259e6cc645515636a6dfce6fba24",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 69,
+      "legit_rows_lost": 272,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "extra_work_lost"
+  },
+  "completion_tokens": 889,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:24:49.710488Z",
+  "freeze_sha256": "48c5817e689ea641b1b2b863f4ff44fba88969be814f9719d7f66cf8eca0c029",
+  "incident_id": "SC-02_20261003T041237Z",
+  "latency_ms": 6174,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-02_20261003T041237Z/units/M3/R2/k4/model.json",
+  "model_record_sha256": "6ce8af9c2f56bb5ef28e83a5b8cd483be2ecf4af113d00c50f1421e544bde24b",
+  "outcome": "accepted",
+  "prompt_sha256": "5f199eb517ac001769776a2ea7e254cfc279bf16c05ee57914a570bc3a22e57c",
+  "prompt_tokens": 957,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- **Interval 6** (04:13:20 \u2013 04:13:22): 0 deleted, 0 modified \u2192 safe.\n- **Interval 15** (04:13:38 \u2013 04:13:40): 2 deleted, 1 modified \u2192 first interval with damaging file activity.\n- **Interval 38** (04:14:23 \u2013 04:14:26): 13 deleted, 2 modified \u2192 further damage.\n\nThe first interval showing damaging activity (deletions/modifications) is **Interval 15**. The latest safe snapshot before that damaging activity began is the start snapshot of Interval 15: `s_20261003T041337630Z_000015`.\n\nCOORDINATE: snapshot=s_20261003T041337630Z_000015",
+  "replicate_index": 4,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|4"
+}

@@ -1,0 +1,6 @@
+{
+  "locators": [],
+  "outcome": "declined",
+  "reason": "The evidence does not provide a snapshot recorded before the start of the first interval of activity.",
+  "snapshot": null
+}

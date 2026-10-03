@@ -1,0 +1,22 @@
+{
+  "locators": [
+    {
+      "discard_reason": null,
+      "resolved_snapshot": "s_20261003T050423123Z_000038",
+      "token": "interval=38"
+    },
+    {
+      "discard_reason": null,
+      "resolved_snapshot": "s_20261003T050423123Z_000038",
+      "token": "snapshot=s_20261003T050423123Z_000038"
+    },
+    {
+      "discard_reason": null,
+      "resolved_snapshot": "s_20261003T050423123Z_000038",
+      "token": "ts=2026-10-03T05:04:23.581851Z"
+    }
+  ],
+  "outcome": "accepted",
+  "reason": "all resolved locators agree",
+  "snapshot": "s_20261003T050423123Z_000038"
+}

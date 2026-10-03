@@ -1,0 +1,11 @@
+To identify the latest safe point before damaging activity began, we look for the first instance of a "D" (Delete) action that is part of the damaging sequence.
+
+The evidence shows a series of "D" actions starting at `lsn_int: 738197544` (`lsn_text: 0/2C000028`) where multiple "seed" records are deleted. Before this sequence, the last safe transaction was an "I" (Insert) action at `lsn_int: 721421048` (`lsn_text: 0/2B0002F8`) or a "U" (Update) action at `lsn_int: 721421400` (`lsn_text: 0/2B000458`).
+
+However, looking at the sequence of events:
+1. The last "safe" (non-deleting) action before the mass deletion of seeds is the `U` action on `p2_probe` with `id: 88000702` at `lsn_int: 721421400`.
+2. The first "damaging" action is the `D` action on `p2_probe` with `id: 1` at `lsn_int: 738197544`.
+
+The latest safe point before the deletion sequence began is the LSN of the last transaction prior to the first deletion.
+
+COORDINATE: lsn=0/2B000458

@@ -1,0 +1,45 @@
+{
+  "answer": {
+    "chosen_lsn_int": null,
+    "grammar_outcome": "refusal_parser",
+    "locators": [
+      {
+        "discard_reason": "named window is not visible",
+        "resolved_lsn_int": null,
+        "token": "window=16",
+        "type": "window"
+      }
+    ],
+    "locators_offered": [
+      "window"
+    ],
+    "locators_resolved_to": [],
+    "outcome": "rule_rejection",
+    "reason": "no locator resolves from the supplied view"
+  },
+  "call_started_utc": "2026-10-03T09:41:35.417331Z",
+  "check": null,
+  "completion_tokens": 133,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:41:40.063826Z",
+  "freeze_sha256": "711616cfd451192c165ded9385af03bdc6e4d378325d86ad78a303dae005f7f7",
+  "incident_id": "SC-04_20261003T093358Z",
+  "latency_ms": 4376,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-04_20261003T093358Z/sc04/units/M2/R2/k4/model.json",
+  "model_record_sha256": "560a09f670b8a52aec9ef68a3a173c345dba9e1c391969d065b24550a776ef0c",
+  "outcome": "rule_rejection",
+  "prompt_sha256": "b1b1aa63bbeeb67ed3eb79a538d6d21412a8713b96438a8241f3ae3c4179271a",
+  "prompt_tokens": 464,
+  "raw_completion": "The evidence provided contains three windows (17, 22, and 25) that all describe the same pattern of damaging activity (INSERT, UPDATE, and DELETE operations on relation p2_probe). To find the latest safe point before this activity began, we must look at the timestamp/index immediately preceding the first recorded window of damage.\n\nThe first window of damage is Window 17, which begins at index 244598739828840. Therefore, the latest safe point is the index immediately preceding the start of Window 17.\n\nCOORDINATE: window=16",
+  "replicate_index": 4,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|4"
+}

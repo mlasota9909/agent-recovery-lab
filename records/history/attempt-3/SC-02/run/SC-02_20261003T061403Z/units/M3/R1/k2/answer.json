@@ -1,0 +1,22 @@
+{
+  "locators": [
+    {
+      "discard_reason": null,
+      "resolved_snapshot": "s_20261003T061549544Z_000037",
+      "token": "interval=37"
+    },
+    {
+      "discard_reason": "unrecognised locator key",
+      "resolved_snapshot": null,
+      "token": "[snapshot=s_20261003T061549544Z_000037]"
+    },
+    {
+      "discard_reason": "unrecognised locator key",
+      "resolved_snapshot": null,
+      "token": "[ts=2026-10-03T06:15:50.224567Z]"
+    }
+  ],
+  "outcome": "accepted",
+  "reason": "all resolved locators agree",
+  "snapshot": "s_20261003T061549544Z_000037"
+}

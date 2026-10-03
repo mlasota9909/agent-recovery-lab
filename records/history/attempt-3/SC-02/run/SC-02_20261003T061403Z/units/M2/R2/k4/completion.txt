@@ -1,0 +1,3 @@
+The damaging file activity began in Interval 9 (the first interval listed with deletions/modifications). The latest safe recorded snapshot before this activity is the `from_snapshot` of Interval 9.
+
+COORDINATE: snapshot=s_20261003T061453264Z_000009

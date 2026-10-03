@@ -1,0 +1,14 @@
+
+
+Looking at the evidence, I need to identify the "damaging activity" and find the last safe LSN before it.
+
+**Identifying the damaging activity:**
+Scanning the log in LSN order, the standout event is the **ALTER TABLE** on `public.sc03_orders` at LSN `E26F/120011A0` (lsn_int 248966671241632, xid 975). A DDL schema change is the clearest "damaging" operation in this log — it alters the table structure and could invalidate prior assumptions about the schema.
+
+**Finding the last safe point before it:**
+The operation immediately preceding the ALTER TABLE is:
+- `U` on `sc03_orders` id=20 at LSN **E26F/120006D8** (lsn_int 248966671238872, xid 973, wall_clock 2026-10-03T05:29:51.252010Z)
+
+This is the latest safe point before the damaging ALTER TABLE began.
+
+COORDINATE: lsn=E26F/120006D8

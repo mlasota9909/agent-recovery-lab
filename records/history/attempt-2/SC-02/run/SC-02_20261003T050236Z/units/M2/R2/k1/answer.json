@@ -1,0 +1,17 @@
+{
+  "locators": [
+    {
+      "discard_reason": null,
+      "resolved_snapshot": "s_20261003T050321058Z_000007",
+      "token": "snapshot=s_20261003T050321058Z_000007"
+    },
+    {
+      "discard_reason": null,
+      "resolved_snapshot": "s_20261003T050321058Z_000007",
+      "token": "ts=2026-10-03T05:03:21.724856Z"
+    }
+  ],
+  "outcome": "accepted",
+  "reason": "all resolved locators agree",
+  "snapshot": "s_20261003T050321058Z_000007"
+}

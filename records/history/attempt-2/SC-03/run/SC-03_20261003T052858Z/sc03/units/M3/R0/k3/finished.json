@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 248966671238872,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 248966671238872,
+        "token": "lsn=E26F/120006D8",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      248966671238872
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T05:36:57.885320Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 0,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner2/var/restore/SC-03_20261003T052858Z/ab-248966671238872/report.json",
+    "report_sha256": "cdc6095bf932d2570e089ffe34ee947c7f05c75148098a5ada4b3a88ddd4500f",
+    "verdict_v1": "correct"
+  },
+  "completion_tokens": 3215,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:37:19.677019Z",
+  "freeze_sha256": "d7ae2134f83be2f5a431e2e790c7501d65c381edda98ace3d594cf268ed38c3a",
+  "incident_id": "SC-03_20261003T052858Z",
+  "latency_ms": 21439,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-03_20261003T052858Z/sc03/units/M3/R0/k3/model.json",
+  "model_record_sha256": "f2f1647ae4dceb74136fbd0e4703de37d139df577f942acfddaa31e83fa5e839",
+  "outcome": "accepted",
+  "prompt_sha256": "cc36ccac05e10943783e4a9c86371738e5e9c4a9bf66a61406f5ad9b1be32b76",
+  "prompt_tokens": 5993,
+  "raw_completion": "\n\nLooking at the evidence, I need to identify the \"damaging activity\" and find the last safe LSN before it.\n\n**Identifying the damaging activity:**\nScanning the log in LSN order, the standout event is the **ALTER TABLE** on `public.sc03_orders` at LSN `E26F/120011A0` (lsn_int 248966671241632, xid 975). A DDL schema change is the clearest \"damaging\" operation in this log \u2014 it alters the table structure and could invalidate prior assumptions about the schema.\n\n**Finding the last safe point before it:**\nThe operation immediately preceding the ALTER TABLE is:\n- `U` on `sc03_orders` id=20 at LSN **E26F/120006D8** (lsn_int 248966671238872, xid 973, wall_clock 2026-10-03T05:29:51.252010Z)\n\nThis is the latest safe point before the damaging ALTER TABLE began.\n\nCOORDINATE: lsn=E26F/120006D8",
+  "replicate_index": 3,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R0|3"
+}

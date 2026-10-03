@@ -1,0 +1,11 @@
+
+
+Looking at the evidence:
+
+- **Window 15**: anomaly_score ≈ 231.62 → this is the damaging activity.
+- **Window 12**: anomaly_score ≈ 1.86 → safe, LSN = 654314576
+- **Window 16**: anomaly_score ≈ 1.85 → safe, LSN = 738231992
+
+The damaging activity is localised at window 15. The latest safe point *before* that is window 12 (the most recent safe window preceding the anomaly). Its `last_safe_lsn_int` is 654314576.
+
+COORDINATE: window=12 lsn=654314576

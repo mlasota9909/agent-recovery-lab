@@ -1,0 +1,116 @@
+{
+  "chosen_lsn_int": null,
+  "grammar_outcome": "refusal_parser",
+  "locators": [
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "REFUSAL:",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "The",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "evidence",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "does",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "not",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "provide",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "any",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "safe",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "point",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "prior",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "to",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "the",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "first",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "damaging",
+      "type": "unknown"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "activity.",
+      "type": "unknown"
+    }
+  ],
+  "locators_offered": [
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown",
+    "unknown"
+  ],
+  "locators_resolved_to": [],
+  "outcome": "rule_rejection",
+  "reason": "no locator resolves from the supplied view"
+}

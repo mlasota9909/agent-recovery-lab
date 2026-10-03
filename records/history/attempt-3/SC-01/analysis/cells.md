@@ -1,0 +1,11 @@
+| model | input | planned | missing | accepted | rule_rejection | declined | execution_failure | pending_checks | accepted_rate | correct_rate | correct_given_accepted | correct | incorrect_safe | incorrect_corrupt | not_recovered |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| gb10a-deepseek-v4-flash | R0 | 5 | 0 | 5 | 0 | 0 | 0 | 0 | 1.0 | 0.0 | 0.0 | 0 | 5 | 0 | 0 |
+| gb10a-deepseek-v4-flash | R1 | 5 | 0 | 5 | 0 | 0 | 0 | 0 | 1.0 | 0.0 | 0.0 | 0 | 0 | 5 | 0 |
+| gb10a-deepseek-v4-flash | R2 | 5 | 0 | 4 | 1 | 0 | 0 | 0 | 0.8 | 0.0 | 0.0 | 0 | 4 | 0 | 0 |
+| gympc-gemma4-26b | R0 | 5 | 0 | 5 | 0 | 0 | 0 | 0 | 1.0 | 0.0 | 0.0 | 0 | 5 | 0 | 0 |
+| gympc-gemma4-26b | R1 | 5 | 0 | 5 | 0 | 0 | 0 | 0 | 1.0 | 0.0 | 0.0 | 0 | 5 | 0 | 0 |
+| gympc-gemma4-26b | R2 | 5 | 0 | 0 | 0 | 5 | 0 | 0 | 0.0 | 0.0 | null | 0 | 0 | 0 | 0 |
+| alienware-qwen38-27b | R0 | 5 | 0 | 5 | 0 | 0 | 0 | 0 | 1.0 | 0.0 | 0.0 | 0 | 5 | 0 | 0 |
+| alienware-qwen38-27b | R1 | 5 | 0 | 5 | 0 | 0 | 0 | 0 | 1.0 | 0.0 | 0.0 | 0 | 5 | 0 | 0 |
+| alienware-qwen38-27b | R2 | 5 | 0 | 5 | 0 | 0 | 0 | 0 | 1.0 | 0.0 | 0.0 | 0 | 5 | 0 | 0 |

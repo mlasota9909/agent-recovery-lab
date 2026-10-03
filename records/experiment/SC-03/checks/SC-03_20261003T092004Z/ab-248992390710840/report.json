@@ -1,0 +1,69 @@
+{
+  "consistency_verdict": "incorrect-safe",
+  "coordinate": {
+    "lsn_int": 248992390710840,
+    "lsn_text": "E275/F000638",
+    "skew_ms": 722,
+    "snapshot": "s_20261003T092050744Z_000009"
+  },
+  "db_validation": {
+    "mismatches": [],
+    "p3_analytical_legit_rows_lost": 170,
+    "relations": {
+      "sc03_orders": {
+        "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "row_count": 0
+      }
+    },
+    "relations_checked": 1,
+    "relations_matched": 1
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261003T092055887Z_000012",
+    "files_checked": 0,
+    "files_compared": 0,
+    "files_matched": 0,
+    "mismatches": []
+  },
+  "harness_commit": "633952fa979da450457e8b6b254559b7525ef2ab",
+  "incident_id": "SC-03_20261003T092004Z",
+  "promotion": {
+    "authorized_by": null,
+    "clean_verdict": false,
+    "decision": "withheld",
+    "simulated": false
+  },
+  "restore_of": "ab-248992390710840",
+  "restore_target": {
+    "fs_clone_dataset": "labpool/sandbox/SC-03_20261003T092004Z/ab-248992390710840/protected",
+    "fs_mount": "/labpool/sandbox/SC-03_20261003T092004Z/ab-248992390710840/protected",
+    "pgdata_dataset": "labpool/sandbox/SC-03_20261003T092004Z/ab-248992390710840/pgdata",
+    "sandbox_pgdata": "/labpool/sandbox/SC-03_20261003T092004Z/ab-248992390710840/pgdata/data",
+    "sandbox_port": 55495,
+    "tag": "ab-248992390710840"
+  },
+  "safety": {
+    "evidence_untouched": true,
+    "manifest_after": "e1a01636a91fb2c836ba9a2f3e7255e928b63f4b6f2bdb16e2366f8bcfd5847f",
+    "manifest_before": "e1a01636a91fb2c836ba9a2f3e7255e928b63f4b6f2bdb16e2366f8bcfd5847f",
+    "victim_untouched": true
+  },
+  "schema_validation": {
+    "ddl": "id bigint\namount numeric(12,2)\nstatus text",
+    "ddl_match": true,
+    "diffs": []
+  },
+  "selector_provenance": {
+    "arm_no_peek_ok": true,
+    "restored_against_arm": "ab-248992390710840"
+  },
+  "summary": {
+    "damage_rows_retained": 0,
+    "damage_units_retained": 0,
+    "damage_units_total": 3,
+    "files_mismatched": 0,
+    "legit_rows_lost": 57,
+    "p3_analytical_legit_rows_lost": 170,
+    "schema_diffs": 0
+  }
+}

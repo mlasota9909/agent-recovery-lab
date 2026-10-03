@@ -1,0 +1,16 @@
+
+
+Looking at the evidence:
+
+- **Interval 6**: anomaly_score ≈ 1.135, last_safe_snapshot = `s_20261003T050318742Z_000006`
+- **Interval 8**: anomaly_score ≈ 0.216, last_safe_snapshot = `s_20261003T050322783Z_000008`
+- **Interval 38**: anomaly_score ≈ 12.216, last_safe_snapshot = `s_20261003T050423123Z_000038`
+
+The latest safe snapshot chronologically is from interval 38, recorded at `2026-10-03T05:04:23.581851Z`. This is the start snapshot of interval 38, which is the last safe state before the high-anomaly (damaging) activity within that interval.
+
+All three locator forms resolve to the same snapshot:
+- `interval=38` → from_snapshot = `s_20261003T050423123Z_000038`
+- `snapshot=s_20261003T050423123Z_000038`
+- `ts=2026-10-03T05:04:23.581851Z` (the from_time of interval 38)
+
+COORDINATE: interval=38 snapshot=s_20261003T050423123Z_000038 ts=2026-10-03T05:04:23.581851Z

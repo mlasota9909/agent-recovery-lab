@@ -1,0 +1,60 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T041319534Z_000006",
+        "token": "interval=6"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T041319534Z_000006",
+        "token": "snapshot=s_20261003T041319534Z_000006"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20261003T041319534Z_000006"
+  },
+  "call_started_utc": "2026-10-03T04:21:48.061336Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/evidence/SC-02/SC-02_20261003T041237Z/fl-checks/s_20261003T041319534Z_000006.json",
+    "report_sha256": "6a06e1a493e1dd5b4de67cf6541f64f6edb3262693d57077b01d2b257494e065",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 95,
+      "legit_rows_lost": 372,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "extra_work_lost"
+  },
+  "completion_tokens": 253,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:21:56.804088Z",
+  "freeze_sha256": "48c5817e689ea641b1b2b863f4ff44fba88969be814f9719d7f66cf8eca0c029",
+  "incident_id": "SC-02_20261003T041237Z",
+  "latency_ms": 8175,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-02_20261003T041237Z/units/M2/R2/k4/model.json",
+  "model_record_sha256": "8c18bc6b78c0f964f525d80361463bae58dc4d8e6a38796e67e3162971ad3413",
+  "outcome": "accepted",
+  "prompt_sha256": "5f199eb517ac001769776a2ea7e254cfc279bf16c05ee57914a570bc3a22e57c",
+  "prompt_tokens": 974,
+  "raw_completion": "To identify the latest safe recorded snapshot before damaging file activity began, we examine the intervals:\n\n1.  **Interval 6**: 0 files deleted, 0 modified, 2 created. Anomaly: 1.108... (Safe)\n2.  **Interval 15**: 2 files deleted, 1 modified, 2 created. Anomaly: 1.189... (Damaging activity begins here)\n3.  **Interval 38**: 13 files deleted, 2 modified, 1 created. Anomaly: 12.189... (Damaging activity)\n\nThe damaging activity (deletions and modifications) begins in Interval 15. The latest safe interval is Interval 6. \n\nThe instructions state: \"An interval locator means its start snapshot.\"\nThe start snapshot for Interval 6 is `s_20261003T041319534Z_000006`.\n\nCOORDINATE: interval=6 snapshot=s_20261003T041319534Z_000006",
+  "replicate_index": 4,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|4"
+}

@@ -1,0 +1,44 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T061455267Z_000010",
+        "token": "interval=10"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T061457346Z_000011",
+        "token": "snapshot=s_20261003T061457346Z_000011"
+      }
+    ],
+    "outcome": "rule_rejection",
+    "reason": "resolved locators identify distinct snapshots",
+    "snapshot": null
+  },
+  "call_started_utc": "2026-10-03T06:20:27.769819Z",
+  "check": null,
+  "completion_tokens": 280,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T06:20:37.465151Z",
+  "freeze_sha256": "31cf6fdf4b0ff77477af8edaae1983749810bbaad8b75b406c05bcbc771f0b7c",
+  "incident_id": "SC-02_20261003T061403Z",
+  "latency_ms": 9401,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-02_20261003T061403Z/units/M2/R0/k2/model.json",
+  "model_record_sha256": "1916944d636155d5904e57f6d699cab0f4c3a0a5a9ebc473ae5a35b6bf7f4fb0",
+  "outcome": "rule_rejection",
+  "prompt_sha256": "270348dd077cf1c714561411d24dcc0110c1ebed539b00fcbb426a1c899c5841",
+  "prompt_tokens": 4950,
+  "raw_completion": "To identify the latest safe recorded snapshot before damaging file activity began, we examine the provided evidence:\n\n1.  **Identify damaging activity:** The damaging activity (deletions and modifications of critical files in `workspace/records`) occurs in **interval 37**.\n2.  **Identify the interval before the damage:** The interval immediately preceding the damage is **interval 10**.\n3.  **Locate the latest snapshot of the safe interval:** Interval 10 spans from `s_20261003T061455267Z_000010` to `s_20261003T061457346Z_000011`. The latest snapshot recorded at or before the start of the damage (the start of interval 37) is the end of interval 10.\n4.  **Determine the snapshot name:** The end snapshot of interval 10 is `s_20261003T061457346Z_000011`.\n\nCOORDINATE: interval=10 snapshot=s_20261003T061457346Z_000011",
+  "replicate_index": 2,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|2"
+}

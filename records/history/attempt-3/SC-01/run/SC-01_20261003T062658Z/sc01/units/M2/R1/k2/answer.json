@@ -1,0 +1,20 @@
+{
+  "chosen_lsn_int": 704643112,
+  "grammar_outcome": "accepted",
+  "locators": [
+    {
+      "discard_reason": null,
+      "resolved_lsn_int": 704643112,
+      "token": "lsn=704643112",
+      "type": "lsn_int"
+    }
+  ],
+  "locators_offered": [
+    "lsn_int"
+  ],
+  "locators_resolved_to": [
+    704643112
+  ],
+  "outcome": "accepted",
+  "reason": "all resolved locators agree"
+}

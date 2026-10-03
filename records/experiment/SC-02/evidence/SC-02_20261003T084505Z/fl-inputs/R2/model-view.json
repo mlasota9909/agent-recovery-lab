@@ -1,0 +1,10 @@
+{
+  "content": "{\"intervals\":[{\"interval\":10,\"from_snapshot\":\"s_20261003T084555851Z_000010\",\"to_snapshot\":\"s_20261003T084558311Z_000011\",\"from_time\":\"2026-10-03T08:45:56.378136Z\",\"to_time\":\"2026-10-03T08:45:58.793244Z\"},{\"interval\":14,\"from_snapshot\":\"s_20261003T084603776Z_000014\",\"to_snapshot\":\"s_20261003T084606053Z_000015\",\"from_time\":\"2026-10-03T08:46:04.276622Z\",\"to_time\":\"2026-10-03T08:46:06.616987Z\"},{\"interval\":38,\"from_snapshot\":\"s_20261003T084651729Z_000038\",\"to_snapshot\":\"s_20261003T084654405Z_000039\",\"from_time\":\"2026-10-03T08:46:52.543642Z\",\"to_time\":\"2026-10-03T08:46:54.848290Z\"}]}\nInterval 10 [2026-10-03T08:45:56.378136Z .. 2026-10-03T08:45:58.793244Z]: 2 files deleted, 1 modified, 2 created under \"workspace/build\"; anomaly 1.1621621621621623.\nInterval 14 [2026-10-03T08:46:04.276622Z .. 2026-10-03T08:46:06.616987Z]: 2 files deleted, 1 modified, 2 created under \"workspace/build\"; anomaly 1.1621621621621623.\nInterval 38 [2026-10-03T08:46:52.543642Z .. 2026-10-03T08:46:54.848290Z]: 13 files deleted, 2 modified, 1 created under \"workspace/records\"; anomaly 12.162162162162161.",
+  "incident_id": "SC-02_20261003T084505Z",
+  "params": {
+    "top_n": 3
+  },
+  "probe_id": "FL-intervals",
+  "representation": "R2",
+  "telemetry": {}
+}

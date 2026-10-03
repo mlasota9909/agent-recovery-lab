@@ -1,0 +1,226 @@
+{
+  "cache_key": "5c28d828710aec74e6058ca52f314519c5a0326281251c1f49ab901712df3084",
+  "coordinate": {
+    "lsn": "E218/34000310",
+    "lsn_int": 248593579508496,
+    "snapshot": "s_20261003T084704810Z_000045",
+    "time": "2026-10-03T08:47:05.499857Z"
+  },
+  "db_validation": {
+    "content_hash": "e88373ec829f5a0e91a07f51c86ff3ae1ef40cebe41d33f261e47560cf09149d",
+    "ddl": [
+      "id bigint",
+      "v text"
+    ],
+    "ddl_match": true,
+    "missing_destroyed_row_ids": [],
+    "missing_legitimate_row_ids": [],
+    "p3_analytical_legit_rows_lost": 0,
+    "relation": "p2_probe",
+    "row_count": 404
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261003T084651729Z_000038",
+    "files_compared": 17,
+    "files_matched": 1,
+    "mismatches": [
+      {
+        "actual": null,
+        "classification": "outside_damage_manifest",
+        "expected": "0b406eddf0eedaf3583e375ad90f3990f68e3f9a410d5c8522145a358278d7c8",
+        "kind": "missing",
+        "path": "workspace/build/t31.txt"
+      },
+      {
+        "actual": null,
+        "classification": "outside_damage_manifest",
+        "expected": "825a82fb5810520c816dc88931f8055ab8c8d18e9a3ff86e7991b570abf363a3",
+        "kind": "missing",
+        "path": "workspace/build/t32.txt"
+      },
+      {
+        "actual": null,
+        "classification": "outside_damage_manifest",
+        "expected": "6139ccadcc88bca4d1c3def540182cbfbc32eaecd5ee04985bd9d9ac16f3136b",
+        "kind": "missing",
+        "path": "workspace/build/t33.txt"
+      },
+      {
+        "actual": "d1df9069e46aeea973bbcf9795bc9eed383529fdcf992f195faaa800672df489",
+        "classification": "damage_retained",
+        "expected": "da68f54607d5f5644954096ce1597c006c5bb9f2497e07441bf064b81003ef8a",
+        "kind": "byte_hash",
+        "path": "workspace/config/settings.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "edbb9fe7e7bcf4e367111b3763d2aa04e9dc6bdfbce1f1e87d1894e91ffcc35f",
+        "kind": "missing",
+        "path": "workspace/records/f1.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "1f0ebf6944a1d5fda615948f7197b5bd64c67965a6286e9c4d7f6b314921afa3",
+        "kind": "missing",
+        "path": "workspace/records/f10.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "17cc61265c8e69fb8174bd338856dab919a21ac391b7f9d9010c5a6f51a3fc9f",
+        "kind": "missing",
+        "path": "workspace/records/f11.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "5bfa2c45f3c764bf5535373233e10e96d1368956022615bc77366f2c6e196197",
+        "kind": "missing",
+        "path": "workspace/records/f12.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "ecd079a9a9e6e3f23da0e11d556d02a18e59de211e4a724b64e930a828e6b3f9",
+        "kind": "missing",
+        "path": "workspace/records/f2.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "7ea93c7d95afac4058cabcf3f78ecc59290f51f7791375965ebe2752e86343f5",
+        "kind": "missing",
+        "path": "workspace/records/f3.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "b457b4bebe883c74b9301eb8004f6f7b32ae8bb0729a93a2d488588725c5a955",
+        "kind": "missing",
+        "path": "workspace/records/f4.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "f5f99dd5018cbda5f13d00197b893206583a53006c74c8c94d954c25990ae8e0",
+        "kind": "missing",
+        "path": "workspace/records/f5.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "e90f937eef0664ec55c1e290a054685621afc27999868068e13f81d730eacd65",
+        "kind": "missing",
+        "path": "workspace/records/f6.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "7015bfd6ffe4da35e294f7e5fd74a66a4cf4709050d3b8fd1020ba49e348e174",
+        "kind": "missing",
+        "path": "workspace/records/f7.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "53fbc9f5067b3e3257642b89d169c1994f42261605c855758c58132ee9645a9c",
+        "kind": "missing",
+        "path": "workspace/records/f8.txt"
+      },
+      {
+        "actual": null,
+        "classification": "damage_retained",
+        "expected": "358fb7d1f436786be30588bb3133a8a1bd594b12ceb66cef8f9c789f58c3f7c2",
+        "kind": "missing",
+        "path": "workspace/records/f9.txt"
+      }
+    ]
+  },
+  "incident_id": "SC-02_20261003T084505Z",
+  "probe_sha256": null,
+  "restore": {
+    "coordinate": {
+      "lsn": "E218/34000310",
+      "lsn_int": 248593579508496,
+      "snapshot": "s_20261003T084704810Z_000045",
+      "time": "2026-10-03T08:47:05.499857Z"
+    },
+    "db_restore": {
+      "beyond": {
+        "absent_ok": true,
+        "inject_lsn_int": 248593478847856,
+        "inject_lsn_source": "recorded_bound",
+        "kind": "at_or_after_inject",
+        "present": null,
+        "row_id": null
+      },
+      "beyond_target_absent": true,
+      "changed": true,
+      "in_recovery": true,
+      "incident": "SC-02_20261003T084505Z",
+      "ok": true,
+      "replay_lsn": "E218/35000000",
+      "replay_lsn_int": 248593596284928,
+      "restore_target": {
+        "fs_clone_dataset": null,
+        "pgdata_dataset": "labpool/sandbox/SC-02_20261003T084505Z/fl_5c28d828710aec74e6058ca5/pgdata",
+        "sandbox_pgdata": "/labpool/sandbox/SC-02_20261003T084505Z/fl_5c28d828710aec74e6058ca5/pgdata/data",
+        "sandbox_port": 55556,
+        "tag": "fl_5c28d828710aec74e6058ca5"
+      },
+      "snapshot": "s_20261003T084704810Z_000045",
+      "state": "created",
+      "stopped_at_target": true,
+      "target_lsn": "E218/34000310",
+      "target_lsn_int": 248593579508496,
+      "victim_zfs_after": "99110326fd4e6cff753e2ae7ddff5101843d25cb253dd3549517168903fc74af",
+      "victim_zfs_before": "99110326fd4e6cff753e2ae7ddff5101843d25cb253dd3549517168903fc74af",
+      "wal_segments": [
+        "000000010000E21800000032",
+        "000000010000E21800000033",
+        "000000010000E21800000034"
+      ]
+    },
+    "fs_restore": {
+      "changed": true,
+      "clone_dataset": "labpool/sandbox/SC-02_20261003T084505Z/fl_5c28d828710aec74e6058ca5/protected",
+      "mountpoint": "/labpool/sandbox/SC-02_20261003T084505Z/fl_5c28d828710aec74e6058ca5/protected",
+      "ok": true,
+      "snapshot": "s_20261003T084704810Z_000045",
+      "snapshot_list_unchanged": true,
+      "victim_zfs_after": "99110326fd4e6cff753e2ae7ddff5101843d25cb253dd3549517168903fc74af",
+      "victim_zfs_before": "99110326fd4e6cff753e2ae7ddff5101843d25cb253dd3549517168903fc74af"
+    },
+    "incident_id": "SC-02_20261003T084505Z",
+    "restore_of": "fl_5c28d828710aec74e6058ca5",
+    "restore_target": {
+      "fs_clone_dataset": "labpool/sandbox/SC-02_20261003T084505Z/fl_5c28d828710aec74e6058ca5/protected",
+      "fs_mount": "/labpool/sandbox/SC-02_20261003T084505Z/fl_5c28d828710aec74e6058ca5/protected",
+      "pgdata_dataset": "labpool/sandbox/SC-02_20261003T084505Z/fl_5c28d828710aec74e6058ca5/pgdata",
+      "sandbox_pgdata": "/labpool/sandbox/SC-02_20261003T084505Z/fl_5c28d828710aec74e6058ca5/pgdata/data",
+      "sandbox_port": 55556,
+      "tag": "fl_5c28d828710aec74e6058ca5"
+    }
+  },
+  "restore_of": "fl_5c28d828710aec74e6058ca5",
+  "restore_ok": true,
+  "schema_version": 2,
+  "source_sha256": {
+    "fl-reference.json": "06bc83b57f62baa5b928480eaf88cdd852ccfab678f4b6f775f0f39381f2b0a4",
+    "oracle-manifest.json": "5cb1288331146635c28494ed5fa56a23343317ad22a99ecedfdcdd3c3ad1b51b",
+    "workload-manifest.jsonl": "e757dfce09db1e10d329028811936d60b577f6665c5f0cee15640f981a42c105"
+  },
+  "summary": {
+    "damage_files_retained": 13,
+    "damage_rows_retained": 0,
+    "legit_file_operations_lost": 0,
+    "legit_rows_lost": 0,
+    "probe_mismatches": 0,
+    "schema_damage": 0,
+    "schema_loss": 0
+  },
+  "tampered_control": false,
+  "verdict_v2": "checked_damage_remains"
+}

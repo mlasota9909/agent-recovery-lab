@@ -1,0 +1,13 @@
+
+
+Looking at the evidence:
+
+- **Window 16** [250070511388664..250070528165936]: anomaly ≈ 1.49
+- **Window 20** [250070578497592..250070595274432]: anomaly ≈ 1.49
+- **Window 21** [250070595274976..250070612053416]: anomaly ≈ 2.36
+
+Windows 16 and 20 share the same lower anomaly level (~1.49), while window 21 shows a clearly elevated anomaly (~2.36), indicating the more damaging activity (3 DELETEs on p2_probe) begins there.
+
+The latest safe point before that elevated-activity window is the **end of window 20**, i.e. LSN 250070595274432.
+
+COORDINATE: lsn=250070595274432

@@ -1,0 +1,12 @@
+To identify the latest safe point before damaging activity began, we look for the last transaction before the first "D" (Delete) action that is part of the damaging sequence.
+
+Looking at the evidence:
+1. The first "D" action occurs at `lsn_int: 721422792` (`0/2B0009C8`) with `xid: 1123`.
+2. The transaction immediately preceding this is an "U" (Update) action at `lsn_int: 721422632` (`0/2B000928`) with `xid: 1122`.
+3. However, the sequence of "D" actions starting from `xid: 1126` (at `lsn_int: 738197544`) represents a massive deletion of many records.
+4. Looking at the very first "D" action in the log: `{"action":"D","detail":{"id":88000700,"v":"s88000700"},"lsn_int":721422792,"lsn_text":"0/2B0009C8",...}`.
+5. The transaction immediately before this first "D" is: `{"action":"U","detail":{"id":88000701,"v":"u88000701b"},"lsn_int":721422632,"lsn_text":"0/2B000928",...}`.
+
+The latest safe point before the first "D" action is the LSN of the preceding transaction.
+
+COORDINATE: lsn=0/2B000928

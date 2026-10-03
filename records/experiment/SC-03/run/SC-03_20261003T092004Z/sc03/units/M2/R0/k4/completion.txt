@@ -1,0 +1,30 @@
+To identify the latest safe point before the damaging activity began, we must look for the first instance of a "damaging" action (such as `ALTER TABLE` or `D` for Delete) and find the state immediately preceding it.
+
+Looking at the evidence:
+1. The `ALTER TABLE` action occurs at `lsn_int: 248992474598248` (`E275/14000B68`).
+2. The transaction immediately preceding this `ALTER TABLE` is an `U` (Update) action on `sc03_orders` with `id: 24` at `lsn_int: 248992474597080` (`E275/140006D8`).
+3. However, we must check if there were any other damaging actions earlier in the log.
+4. Scanning the log for `D` (Delete) or `ALTER TABLE`:
+   - `D` at `lsn_int: 248992474596120` (`E275/14000318`)
+   - `D` at `lsn_int: 248992407487576` (`E275/10000458`)
+   - `D` at `lsn_int: 248992407489448` (`E275/10000BA8`)
+   - `D` at `lsn_int: 248992424264472` (`E275/11000318`)
+   - `D` at `lsn_int: 248992390712072` (`E275/F000B08`)
+
+The earliest damaging action in the provided sequence (chronologically by LSN/Time) is the `D` action at `lsn_int: 248992390712072` (`E275/F000B08`).
+The record immediately preceding this is:
+`{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":248992390712552,"lsn_text":"E275/F000CE8","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T09:20:53.343157Z","xid":932}`
+
+Wait, looking at the LSNs, the log is not strictly chronological in the text provided. Let's sort by `lsn_int`:
+- 248992390711000 (U)
+- 248992390711480 (U)
+- 248992390711640 (U)
+- 248992390711800 (U)
+- 248992390711912 (U)
+- 248992390712072 (D) -> **Damaging activity starts here.**
+
+The latest safe point is the record immediately before the first `D` or `ALTER TABLE` in the entire dataset.
+The first damaging action is `D` at `lsn_int: 248992390712072`.
+The record before it is `lsn_int: 248992390711912`.
+
+COORDINATE: lsn=248992390711912

@@ -1,0 +1,15 @@
+
+
+Looking at the evidence, I need to identify when "damaging file activity" (deletions, change_type "-") first appears.
+
+**Interval 6** (05:03:19 → 05:03:21): modifications and additions only (M, +) — safe activity.
+
+**Interval 8** (05:03:23 → 05:03:25): contains a deletion (`- workspace/build/t0.txt`) — this is the first damaging (deletion) activity.
+
+**Interval 38** (05:04:23 → 05:04:26): contains mass deletions of `workspace/records` and its files — clearly damaging.
+
+The first damaging activity (a file deletion) begins in interval 8. The latest safe recorded snapshot **before** that damaging activity is the start snapshot of interval 8: `s_20261003T050322783Z_000008`.
+
+Both `interval=8` (resolves to its start snapshot) and `snapshot=s_20261003T050322783Z_000008` identify the same snapshot.
+
+COORDINATE: interval=8 snapshot=s_20261003T050322783Z_000008

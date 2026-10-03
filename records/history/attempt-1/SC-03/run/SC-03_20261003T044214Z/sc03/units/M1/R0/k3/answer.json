@@ -1,0 +1,27 @@
+{
+  "chosen_lsn_int": 257260219533016,
+  "grammar_outcome": "accepted",
+  "locators": [
+    {
+      "discard_reason": null,
+      "resolved_lsn_int": 257260219533016,
+      "token": "lsn=E9FA/100006D8",
+      "type": "lsn_hex"
+    },
+    {
+      "discard_reason": "no explicit visible commit in this UTC second",
+      "resolved_lsn_int": null,
+      "token": "ts=2026-10-03T04:43:05.369256Z",
+      "type": "ts"
+    }
+  ],
+  "locators_offered": [
+    "lsn_hex",
+    "ts"
+  ],
+  "locators_resolved_to": [
+    257260219533016
+  ],
+  "outcome": "accepted",
+  "reason": "all resolved locators agree"
+}

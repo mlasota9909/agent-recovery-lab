@@ -1,0 +1,25 @@
+You are an experimental subject. Locate a recovery snapshot from the evidence below.
+Use only this evidence. You are not given a reference answer.
+
+Task: identify the latest safe recorded snapshot before damaging file activity began.
+Name that snapshot using whichever locator the evidence provides: an interval index,
+a snapshot name, or an ISO-8601 UTC timestamp. An interval locator means its start
+snapshot. A timestamp means the latest visible snapshot recorded at or before it.
+The interval catalogue lists the visible snapshot names and their recorded times.
+Refuse only when the evidence does not let you localise a safe snapshot.
+
+Evidence:
+<<<FL_CONTENT
+{"intervals":[{"interval":6,"from_snapshot":"s_20261003T041319534Z_000006","to_snapshot":"s_20261003T041321867Z_000007","from_time":"2026-10-03T04:13:20.034751Z","to_time":"2026-10-03T04:13:22.530569Z"},{"interval":15,"from_snapshot":"s_20261003T041337630Z_000015","to_snapshot":"s_20261003T041339987Z_000016","from_time":"2026-10-03T04:13:38.169881Z","to_time":"2026-10-03T04:13:40.621799Z"},{"interval":38,"from_snapshot":"s_20261003T041423369Z_000038","to_snapshot":"s_20261003T041425695Z_000039","from_time":"2026-10-03T04:14:23.802955Z","to_time":"2026-10-03T04:14:26.304924Z"}]}
+{"interval":6,"anomaly_score":1.1081081081081081,"last_safe_snapshot":"s_20261003T041319534Z_000006"}
+{"interval":15,"anomaly_score":1.189189189189189,"last_safe_snapshot":"s_20261003T041337630Z_000015"}
+{"interval":38,"anomaly_score":12.18918918918919,"last_safe_snapshot":"s_20261003T041423369Z_000038"}
+FL_CONTENT>>>
+
+End with exactly one tagged line and nothing after it, in one of these two forms:
+COORDINATE: <locator> [<locator> ...]
+where each locator is one of interval=<N>, snapshot=<name>, ts=<ISO-8601 UTC>
+REFUSAL: <reason>
+
+All locators that resolve must identify the same snapshot. Timestamps must include Z or +00:00.
+If the evidence does not localise a safe snapshot, refuse. Do not guess.

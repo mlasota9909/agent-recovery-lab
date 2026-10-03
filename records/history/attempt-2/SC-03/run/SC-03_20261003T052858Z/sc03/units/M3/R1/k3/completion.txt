@@ -1,0 +1,10 @@
+
+
+Looking at the evidence:
+
+- **Window 18** has an extremely high anomaly score (941,528,048.6), indicating damaging activity. Its `last_safe_lsn_int` is **248966738347416** — this is the last safe LSN before the damage.
+- Windows 13 and 14 have low anomaly scores (1.56 and 2.60), confirming they are safe windows.
+
+The latest safe point before the damaging activity (window 18) is identified by the LSN `248966738347416` (integer form, as provided in the evidence).
+
+COORDINATE: lsn=248966738347416 window=18

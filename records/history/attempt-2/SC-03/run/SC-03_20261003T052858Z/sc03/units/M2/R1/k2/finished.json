@@ -1,0 +1,45 @@
+{
+  "answer": {
+    "chosen_lsn_int": null,
+    "grammar_outcome": "refusal_parser",
+    "locators": [
+      {
+        "discard_reason": "named window is not visible",
+        "resolved_lsn_int": null,
+        "token": "window=14",
+        "type": "window"
+      }
+    ],
+    "locators_offered": [
+      "window"
+    ],
+    "locators_resolved_to": [],
+    "outcome": "rule_rejection",
+    "reason": "no locator resolves from the supplied view"
+  },
+  "call_started_utc": "2026-10-03T05:34:48.451487Z",
+  "check": null,
+  "completion_tokens": 308,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:34:59.208783Z",
+  "freeze_sha256": "d7ae2134f83be2f5a431e2e790c7501d65c381edda98ace3d594cf268ed38c3a",
+  "incident_id": "SC-03_20261003T052858Z",
+  "latency_ms": 10485,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-03_20261003T052858Z/sc03/units/M2/R1/k2/model.json",
+  "model_record_sha256": "9ae67dfce2a151d079f44a949d8f4b6da5a6145e875c43b5e42a574a913c0169",
+  "outcome": "rule_rejection",
+  "prompt_sha256": "d5fe8b189cd6ed4140349fb593d11e48bfaed76c0500faf7effa7252ac0b2648",
+  "prompt_tokens": 378,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the provided evidence:\n\n1.  `{\"anomaly_score\":941528048.59755,\"last_safe_lsn_int\":248966738347416,\"window_index\":18}`\n2.  `{\"anomaly_score\":2.600160930851514,\"last_safe_lsn_int\":248966654461656,\"window_index\":14}`\n3.  `{\"anomaly_score\":1.563734135294183,\"last_safe_lsn_int\":248966637684280,\"window_index\":13}`\n\nThe anomaly score represents the level of deviation/damage. The highest anomaly score (941528048.59755) is associated with `window_index: 18`. The latest safe point before this high anomaly score occurred is the next highest safe point provided in the sequence, which is `window_index: 14` (with a lower anomaly score of 2.600160930851514).\n\nCOORDINATE: window=14",
+  "replicate_index": 2,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|2"
+}

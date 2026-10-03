@@ -1,0 +1,7 @@
+
+
+Looking at the evidence, all three windows (16, 18, 19) contain DELETE operations on relation `p2_probe`, which constitute the damaging activity. The earliest window with DELETEs is Window 16, meaning the damaging activity began at the start of Window 16.
+
+The latest safe point before that damaging activity began is the LSN at the start of Window 16: **247802768656648**.
+
+COORDINATE: lsn=247802768656648

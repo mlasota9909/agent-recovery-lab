@@ -1,0 +1,5 @@
+
+
+Looking at the evidence, window 21 shows a sharply elevated anomaly score (2.355…) compared to windows 16 and 20 (both 1.491…), indicating that damaging activity began at window 21. The latest safe point immediately before that is **window 20**, whose recorded `last_safe_lsn_int` is 250070578497368.
+
+COORDINATE: window=20 lsn=250070578497368

@@ -1,0 +1,9 @@
+To identify the latest safe point before damaging activity began, we examine the provided evidence:
+
+1.  `{"anomaly_score":941528048.59755,"last_safe_lsn_int":248966738347416,"window_index":18}`
+2.  `{"anomaly_score":2.600160930851514,"last_safe_lsn_int":248966654461656,"window_index":14}`
+3.  `{"anomaly_score":1.563734135294183,"last_safe_lsn_int":248966637684280,"window_index":13}`
+
+The highest `anomaly_score` (indicating the onset of damaging activity) is associated with the first entry. The `last_safe_lsn_int` provided in that entry represents the latest safe point before that anomaly.
+
+COORDINATE: lsn=248966738347416

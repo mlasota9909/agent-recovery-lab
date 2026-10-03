@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 721421720,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 721421720,
+        "token": "lsn=721421720",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      721421720
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T04:31:33.045410Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 8,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/var/restore/SC-01_20261003T042542Z/ab-721421720/report.json",
+    "report_sha256": "5bfdde08658b2f2b57f73dffc7faa774116596ba14589207a1d8fdcacf4ff267",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 859,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:32:01.689620Z",
+  "freeze_sha256": "ebece73ddaa9d903167040e4dc37ef2ab22068ed64e6d85b25acadf7cf412c5e",
+  "incident_id": "SC-01_20261003T042542Z",
+  "latency_ms": 28296,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-01_20261003T042542Z/sc01/units/M2/R1/k1/model.json",
+  "model_record_sha256": "1251427ed99848729491f6e830f72d5ac52b885479a51bbea01b6fa45fdc8c7b",
+  "outcome": "accepted",
+  "prompt_sha256": "07137b5621d4f7e39bf924b741fee030182fd0cd4c7fbd16599c5413d3b3a5d9",
+  "prompt_tokens": 351,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the provided evidence:\n\n1.  `{\"anomaly_score\":250.5,\"last_safe_lsn_int\":721421720,\"window_index\":15}`: High anomaly score (250.5) indicates damaging activity is present here.\n2.  `{\"anomaly_score\":1.7851020517273075,\"last_safe_lsn_int\":738229984,\"window_index\":16}`: Low anomaly score.\n3.  `{\"anomaly_score\":1.767704580390564,\"last_safe_lsn_int\":754976696,\"window_index\":17}`: Low anomaly score.\n\nThe evidence shows that the anomaly (damaging activity) is present at `window_index` 15. The latest safe point before this activity is the last known safe LSN provided in the sequence before the anomaly. However, looking at the sequence, the anomaly is at the *start* of the provided data (index 15). In a chronological sequence where index 15 is the first entry and contains the anomaly, the \"latest safe point before damaging activity\" must be the LSN associated with the state immediately preceding the anomaly. \n\nWait, looking closer at the data:\nIndex 15: Anomaly 250.5 (Damaging)\nIndex 16: Anomaly 1.78 (Safe)\nIndex 17: Anomaly 1.76 (Safe)\n\nIf the anomaly is at index 15, and we are looking for the latest safe point *before* damaging activity, and index 15 is the first entry provided, the evidence does not provide a safe point prior to index 15. \n\nHowever, if the anomaly score represents the *current* state and the sequence is chronological, the anomaly is at index 15. If the sequence is reverse-chronological, the anomaly is at index 15. \n\nRe-evaluating: The task asks for the latest safe point *before* damaging activity began. In the provided list, index 15 has a high anomaly score. Indices 16 and 17 have low scores. If the data is ordered by time (15, 16, 17), the damage is at 15. If the data is ordered by time (17, 16, 15), the damage is at 15. \n\nIf index 15 is the point where damage is detected, the \"last safe lsn\" provided in that specific record is 721421720. But the prompt asks for the latest safe point *before* damaging activity began. If index 15 is the damaging activity, we need the LSN from the record immediately preceding it. Since index 15 is the first record, there is no preceding record in the evidence.\n\nWait, looking at the `last_safe_lsn_int` field:\nIndex 15: `last_safe_lsn_int`: 721421720\nIndex 16: `last_safe_lsn_int`: 738229984\nIndex 17: `last_safe_lsn_int`: 754976696\n\nIf the anomaly is at index 15, the latest safe LSN *before* that anomaly is not present. However, if the anomaly is at index 15, and the `last_safe_lsn_int` in that record (721421720) is the LSN of the last known safe state, that is the coordinate.\n\nCOORDINATE: lsn=721421720",
+  "replicate_index": 1,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|1"
+}

@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 721443096,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 721443096,
+        "token": "lsn=0/2B005918",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      721443096
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:13:58.749509Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-01_20261003T090022Z/ab-721443096/report.json",
+    "report_sha256": "548f92eaeefeb48719e4fee0a0ef6fef5c0fc6bda2bae4d8e4cd484e973ba046",
+    "verdict_v1": "correct"
+  },
+  "completion_tokens": 528,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:14:36.014241Z",
+  "freeze_sha256": "b4f644cfb5370e1ae3f1b0aa4a736d7cdb7a1ae58b6d9bc2a7cb3430b3b6c4cf",
+  "incident_id": "SC-01_20261003T090022Z",
+  "latency_ms": 17273,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-01_20261003T090022Z/sc01/units/M2/R0/k3/model.json",
+  "model_record_sha256": "04049a8b88c0b3a5dc4ba4c0731d81f319d55033a199d7c1399365304ae27377",
+  "outcome": "accepted",
+  "prompt_sha256": "9b09806d7b4911455deafc30adebe4ff1871f967851dac4b3945b6737e703645",
+  "prompt_tokens": 26406,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the sequence of operations. The \"damaging activity\" refers to the `D` (Delete) operations that occur after the initial sequence of `D` operations.\n\nLooking at the log, the first set of `D` operations (IDs 1-120) are part of a continuous stream. However, the log contains a significant jump in LSN and timestamps. The most critical transition occurs when the `action` changes from `D` (Delete) to `U` (Update) or `I` (Insert) in a way that suggests a state change or a point of divergence.\n\nThe sequence of `D` operations (IDs 1-120) ends at `lsn_int: 721443096` (`0/2B005918`).\nThe next operation is an `U` (Update) at `lsn_int: 721443176` (`0/2B005968`).\nHowever, looking further down, there is a large block of `U` and `I` operations with much lower LSNs (e.g., `lsn_int: 637536120`) and earlier timestamps (`09:00:55`).\n\nThe \"damaging activity\" in this context is the series of `D` (Delete) operations. The last `D` operation in the primary sequence (the one with the highest LSN/latest time) is:\n`{\"action\":\"D\",\"detail\":{\"id\":120,\"v\":\"seed120\"},\"lsn_int\":721443096,\"lsn_text\":\"0/2B005918\",\"natural_key\":120,\"object\":\"p2_probe\",\"wall_clock\":\"2026-10-03T09:01:05.351822Z\",\"xid\":1138}`\n\nThe very next operation is an `U` (Update) at `lsn_int: 721443176`. Therefore, the last safe point before the next type of activity (or the end of the `D` sequence) is the LSN of the last `D` operation.\n\nCOORDINATE: lsn=0/2B005918",
+  "replicate_index": 3,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|3"
+}

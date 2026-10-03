@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 257260169202280,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 257260169202280,
+        "token": "lsn=E9FA/D000A68",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      257260169202280
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T04:51:43.662243Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 0,
+    "legit_rows_lost": 87,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/var/restore/SC-03_20261003T044214Z/ab-257260169202280/report.json",
+    "report_sha256": "506e19f0f5910f662a83df2a85a65fd8f20493fc005481d25036ef5610cf7702",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 5200,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:52:19.497215Z",
+  "freeze_sha256": "591ea221bfca0e08a82140caa940f2246700cf9a3183a42fa25f9a7463b885b6",
+  "incident_id": "SC-03_20261003T044214Z",
+  "latency_ms": 35440,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-03_20261003T044214Z/sc03/units/M3/R0/k2/model.json",
+  "model_record_sha256": "d35c785962dcf0badd29044d8a832dbb433bf8709f0434f3bd6c5259517dd49b",
+  "outcome": "accepted",
+  "prompt_sha256": "bb493135f559acdd59b9251e4ecec135a2e1639a47236f735e958925332ae452",
+  "prompt_tokens": 7456,
+  "raw_completion": "\n\nLooking at the evidence, I need to identify the first \"damaging\" operation and then name the last safe LSN immediately before it.\n\n**Identifying the damaging activity:**\nScanning the log in LSN order, the first destructive operation is the **D (delete)** on `p2_probe` (id 88000700) at LSN `E9FA/D000B08` (lsn_int 257260169202440, xid 892). A DELETE is the clearest \"damaging\" write in this sequence.\n\n**Latest safe point before it:**\nThe operation immediately preceding that D is the U on `p2_probe` id 88000701b at LSN `E9FA/D000A68` (lsn_int 257260169202280, xid 891, wall_clock 2026-10-03T04:42:59.723851Z).\n\nThis is the last safe coordinate before the first delete (damaging) activity began.\n\nCOORDINATE: lsn=E9FA/D000A68",
+  "replicate_index": 2,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R0|2"
+}

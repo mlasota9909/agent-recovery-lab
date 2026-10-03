@@ -1,0 +1,165 @@
+{
+  "controls": [
+    {
+      "checks_complete": true,
+      "control": "reference",
+      "damage_rows_retained": 0,
+      "expected": "correct",
+      "legit_rows_lost": 0,
+      "report": "/home/mlasota/agent-recovery-lab-examiner2/var/restore/SC-01_20261003T051727Z/ab-721421880/report.json",
+      "report_sha256": "bc9f55f84ee1ed0abd631f8cd4b180b2fc6f977822f9f585e263aabab23f1c59",
+      "verdict_v1": "correct"
+    },
+    {
+      "checks_complete": true,
+      "control": "earliest",
+      "damage_rows_retained": 0,
+      "expected": "incorrect_safe",
+      "legit_rows_lost": 92,
+      "report": "/home/mlasota/agent-recovery-lab-examiner2/var/restore/SC-01_20261003T051727Z/ab-520131928/report.json",
+      "report_sha256": "5d10ab7b3362afa91e30903e6ec90f9b433a263370c1848d0df70400d5e63a8a",
+      "verdict_v1": "incorrect_safe"
+    },
+    {
+      "checks_complete": true,
+      "control": "post_damage",
+      "damage_rows_retained": 200,
+      "expected": "incorrect_corrupt",
+      "legit_rows_lost": 0,
+      "report": "/home/mlasota/agent-recovery-lab-examiner2/var/restore/SC-01_20261003T051727Z/ab-738232312/report.json",
+      "report_sha256": "9128a6ef7e56b59618789257dacb2043c8d89a11db60cd38589fabab6d745e19",
+      "verdict_v1": "incorrect_corrupt"
+    }
+  ],
+  "files": {
+    "etc/arm-b-prompt.txt": "c661ec7a959a657993607c59047a3e1167b08966309a9964b8982e73a0708a46",
+    "evidence/SC-01/SC-01_20261003T051727Z/db.jsonl": "ca7dc651d989f17eb9801f7fa4436f4c139dcfb2f5b01958fddeaf006fdb95a1",
+    "evidence/SC-01/SC-01_20261003T051727Z/fs_hashes.tsv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/SC-01/SC-01_20261003T051727Z/incident.json": "230952e282ddd5cd495ded327909d31c0f3befa99c7aa36708c62873b5524e34",
+    "evidence/SC-01/SC-01_20261003T051727Z/oracle-manifest.json": "5ecb57d34740be83f67413417a8cfc448c23d1f5f4fd62c5e7ad68ca0067ff0f",
+    "evidence/SC-01/SC-01_20261003T051727Z/oracle.json": "1e533fcc1ccd80c39a5f9f10b4bc7b63f1907b7854ac8852b87713d56dceb7a5",
+    "evidence/SC-01/SC-01_20261003T051727Z/p3/analytics.jsonl": "eeccca9189dd08e0445685df6dcf618f4dc12a1256ca1043266722fe64af344e",
+    "evidence/SC-01/SC-01_20261003T051727Z/p3/anomaly.jsonl": "1a39fe5a9de126bf8244ab30d190c0951d730641ee3716e228f3158ff33a9757",
+    "evidence/SC-01/SC-01_20261003T051727Z/p3/candidates.jsonl": "c0ef573f75eda1dacf42ecd48c37377e2f6ec882e8f8d23beb0c2974e0211bb8",
+    "evidence/SC-01/SC-01_20261003T051727Z/snapshots.json": "7a3294f566b27e321994721adce5b1a4442dd3b36abcc70b7d55ce9b47eac599",
+    "evidence/SC-01/SC-01_20261003T051727Z/workload-manifest.jsonl": "e2f4db3ff219dda7d31774b343d9bc33251817be1d4700168aba32799240759e",
+    "lib/lab_arm_b_score.py": "f612a2e356944110131a384d7f9eac56d2cdb8f9de0cb1c75e2bab15dbb7fe2b",
+    "lib/lab_fl_study.py": "b7a4bcc559c6ef2312c81cc5173dba46a6a7074ed545cc6c2140dd1496e73f28",
+    "lib/lab_regrammar.py": "02af89358bbfc28699be8419aed6e3e1d2f377921bf578898c535376a0edea5a",
+    "lib/lab_sc01_replication.py": "fd0acc849f224964802afb0fd9019fc1786bffd94eff94f6aa979a9414385856",
+    "logs/run/SC-01_20261003T051727Z/sc01/R0/model-view.json": "ec63a4421f5c54340ee17f7712fd63f020f2f43be6eca6b3020cf41bbf3947dd",
+    "logs/run/SC-01_20261003T051727Z/sc01/R0/prompt.txt": "e9f79e171040bb2aad3b8db528251355ee0b7cbf4eaf0b8d76a5ac31f5a045d4",
+    "logs/run/SC-01_20261003T051727Z/sc01/R1/model-view.json": "25169ef5a57f146d52826e9051237d7d731afc1e090700f3ad79c55eb7842484",
+    "logs/run/SC-01_20261003T051727Z/sc01/R1/prompt.txt": "2e66605fea2f08b8fdaeec9c322708b125be23369a076f3c6ed51bbf032c67c3",
+    "logs/run/SC-01_20261003T051727Z/sc01/R2/model-view.json": "f191d59785f19e4257f8ec3b98dbdbaa9a051fe67af75ba789615d59aa407159",
+    "logs/run/SC-01_20261003T051727Z/sc01/R2/prompt.txt": "a68fa36bdc072ac3fbba82356cefd76389b3cd27c8f806d377d3cfa775da5240",
+    "run/optional/sc01-analysis-plan.md": "b77e709d1d547644ee9ca10e0b70de67f40249a4c37469de63f4c5017dd9ef9e",
+    "runtime/p9-model-set.json": "257a0e92f924f4fcdaf3c740c823ea5a8605f221ac8099bc155af351d564c8c9",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.amendment-1.md": "ab0e09252464bfe357c51a988378f5985bdbae8ed375419b4370f68077cdc538",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.md": "f1e1916a544f05efbc7eb2567ff2624fa5df6e1ffdf15ab307a671bab67d6769"
+  },
+  "incident_id": "SC-01_20261003T051727Z",
+  "ledger": {
+    "changed": false,
+    "duplicate_detail": [],
+    "duplicates": 0,
+    "gap_detail": [],
+    "gaps": 0,
+    "incident": "SC-01_20261003T051727Z",
+    "mapped": 335,
+    "mapping_sample": [
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          1041,
+          "p2_probe",
+          "I",
+          88000703
+        ],
+        "lsn": "0/25000028",
+        "op_index": 0,
+        "table": "p2_probe",
+        "xid": 1041
+      },
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          1042,
+          "p2_probe",
+          "I",
+          88000701
+        ],
+        "lsn": "0/250025F0",
+        "op_index": 1,
+        "table": "p2_probe",
+        "xid": 1042
+      },
+      {
+        "action": "I",
+        "key": [
+          "DML",
+          1043,
+          "p2_probe",
+          "I",
+          88000700
+        ],
+        "lsn": "0/250026B0",
+        "op_index": 2,
+        "table": "p2_probe",
+        "xid": 1043
+      }
+    ],
+    "ok": true,
+    "ops": 335,
+    "principal_read": false,
+    "rules": {
+      "C-1": {
+        "duplicates": [],
+        "gaps": [],
+        "mapped": 335,
+        "ok": true,
+        "ops": 335
+      },
+      "C-2": {
+        "ok": true,
+        "rule": "C-2"
+      },
+      "C-3": {
+        "ddl_mapped": 3,
+        "ddl_ops": 3,
+        "ok": true,
+        "rule": "C-3"
+      },
+      "C-4": {
+        "ok": true,
+        "rule": "C-4"
+      },
+      "C-5": {
+        "failed": [],
+        "n": 5,
+        "ok": true,
+        "rule": "C-5"
+      },
+      "C-6": {
+        "ok": true,
+        "rule": "C-6"
+      },
+      "C-7": {
+        "errors": [],
+        "fs_ops": 0,
+        "invisible": 0,
+        "matched": 0,
+        "ok": true,
+        "rule": "C-7",
+        "unexplained_captured": 0,
+        "unexplained_captured_detail": [],
+        "unmatched_recorded": 0,
+        "unmatched_recorded_detail": [],
+        "vacuous": true
+      }
+    }
+  },
+  "ok": true
+}

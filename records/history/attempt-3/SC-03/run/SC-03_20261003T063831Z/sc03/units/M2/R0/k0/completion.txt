@@ -1,0 +1,18 @@
+To identify the latest safe point before damaging activity began, we look for the last transaction before the first "D" (Delete) action.
+
+Scanning the evidence for "D" actions:
+1. `{"action":"D", ... "lsn_text":"E160/180003B8", ... "xid":1061}` (This is a later transaction)
+2. `{"action":"D", ... "lsn_text":"E160/14000B58", ... "xid":1000}` (This is an earlier transaction)
+3. `{"action":"D", ... "lsn_text":"E160/150003B8", ... "xid":1009}`
+4. `{"action":"D", ... "lsn_text":"E160/15000B08", ... "xid":1019}`
+5. `{"action":"D", ... "lsn_text":"E160/16000AE8", ... "xid":1037}`
+6. `{"action":"D", ... "lsn_text":"E160/170003B8", ... "xid":1045}`
+
+The earliest "D" action in the chronological sequence (based on `lsn_int` or `wall_clock`) is at `lsn_int: 247802768657240` (`E160/14000B58`).
+
+The transaction immediately preceding this "D" action is:
+`{"action":"U","detail":{"id":88000701,"v":"u88000701b"},"lsn_int":247802768657080,"lsn_text":"E160/14000AB8","natural_key":88000701,"object":"p2_probe","wall_clock":"2026-10-03T06:39:28.852092Z","xid":999}`
+
+The latest safe point is the LSN of this transaction.
+
+COORDINATE: lsn=E160/14000AB8

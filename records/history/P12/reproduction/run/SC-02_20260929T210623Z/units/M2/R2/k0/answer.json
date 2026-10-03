@@ -1,0 +1,6 @@
+{
+  "locators": [],
+  "outcome": "declined",
+  "reason": "The evidence does not provide any snapshots recorded before the first instance of damaging file activity.",
+  "snapshot": null
+}

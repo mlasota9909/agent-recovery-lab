@@ -1,0 +1,23 @@
+{
+  "coordinate": {
+    "arm": "arm_b",
+    "chosen_candidate_id": null,
+    "incident_id": "i_20261003T051727Z_cd8087",
+    "lsn_int": 654314576,
+    "lsn_text": "0/27000C50",
+    "rationale": "visible locator",
+    "representation": "R1",
+    "selection_inputs": {
+      "approx_incident_time": null,
+      "incident_time_error_seconds": null,
+      "ledger_view": "views.analysis_view",
+      "read_injection_log": false,
+      "read_oracle_optimum": false,
+      "read_provenance": false
+    },
+    "selector_version": "revised-grammar",
+    "snapshot": "s_20261003T051800790Z_000008",
+    "wall_clock": "2026-10-03T05:18:01.414807Z"
+  },
+  "started_utc": "2026-10-03T05:26:46.073055Z"
+}

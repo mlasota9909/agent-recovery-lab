@@ -1,0 +1,12 @@
+To identify the latest safe point before damaging activity began, we look for the last transaction before the first "D" (Delete) or "I" (Insert) action that might represent the start of the damaging sequence.
+
+Reviewing the sequence of actions:
+1. The first "D" action occurs at `lsn_text: E9FA/D000B08` (xid 892).
+2. The last transaction before this "D" action is the "U" (Update) action at `lsn_text: E9FA/D000A68` (xid 895).
+
+However, looking at the chronological flow of the entire log, the transactions are grouped by LSN. The first "D" action in the entire log is at `lsn_text: E9FA/D000B08`. The transaction immediately preceding it is:
+`{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":257260169202920,"lsn_text":"E9FA/D000CE8","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T04:42:59.765154Z","xid":895}`
+
+The LSN of the last safe transaction before the first deletion is `E9FA/D000CE8`.
+
+COORDINATE: lsn=E9FA/D000CE8

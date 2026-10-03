@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 244598739828840,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 244598739828840,
+        "token": "lsn=244598739828840",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      244598739828840
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:44:52.621442Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 2,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-04_20261003T093358Z/ab-244598739828840/report.json",
+    "report_sha256": "ba33d69b7c64186a1bb079bd4294a553e692e18002390da47910de344889e424",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 2080,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:45:07.950254Z",
+  "freeze_sha256": "711616cfd451192c165ded9385af03bdc6e4d378325d86ad78a303dae005f7f7",
+  "incident_id": "SC-04_20261003T093358Z",
+  "latency_ms": 14852,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-04_20261003T093358Z/sc04/units/M3/R2/k4/model.json",
+  "model_record_sha256": "ac4f0dafece93a2e082c894da99f1c8b9ea1d4a248c187375956cb7e7b22e532",
+  "outcome": "accepted",
+  "prompt_sha256": "b1b1aa63bbeeb67ed3eb79a538d6d21412a8713b96438a8241f3ae3c4179271a",
+  "prompt_tokens": 453,
+  "raw_completion": "\n\nLooking at the evidence, all three windows (17, 22, 25) show the same operation pattern: 2 INSERT, 18 UPDATE, and 2 DELETE on relation p2_probe, with a constant anomaly value of 1.5438492109583586.\n\nThe \"damaging activity\" is the DELETE operations (2 DELETE per window). These appear starting from Window 17. The latest safe point *before* that damaging activity began is the lower LSN of Window 17, i.e., the boundary at the start of the first window where the deletes appear.\n\nCOORDINATE: lsn=244598739828840",
+  "replicate_index": 4,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|4"
+}

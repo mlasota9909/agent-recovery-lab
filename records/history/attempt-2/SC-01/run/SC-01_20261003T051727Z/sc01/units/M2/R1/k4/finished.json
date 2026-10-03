@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 704644504,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 704644504,
+        "token": "lsn=704644504",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      704644504
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T05:23:48.512140Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 16,
+    "report": "/home/mlasota/agent-recovery-lab-examiner2/var/restore/SC-01_20261003T051727Z/ab-704644504/report.json",
+    "report_sha256": "f2cacdcba87099da314cda70502c806b2fffde8ac2da9e6501fae520e33a3e5b",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 317,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:23:59.087381Z",
+  "freeze_sha256": "d7d34aed2d8ad6768330edf061f74360fdbe9a03ab1ff54d2d1a644acca3dc56",
+  "incident_id": "SC-01_20261003T051727Z",
+  "latency_ms": 10163,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-01_20261003T051727Z/sc01/units/M2/R1/k4/model.json",
+  "model_record_sha256": "390f37fe6d6e3b3f290e1cc2706c503791d39e08b498799de856ed92e190acfe",
+  "outcome": "accepted",
+  "prompt_sha256": "2e66605fea2f08b8fdaeec9c322708b125be23369a076f3c6ed51bbf032c67c3",
+  "prompt_tokens": 363,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we must look for the entry with the highest `anomaly_score` (indicating the onset of damage) and identify the `last_safe_lsn_int` or `window_index` associated with the state immediately preceding that anomaly.\n\nLooking at the evidence:\n1. `anomaly_score`: 231.6234266319059, `last_safe_lsn_int`: 704644504, `window_index`: 15\n2. `anomaly_score`: 1.8588976617071877, `last_safe_lsn_int`: 654314576, `window_index`: 12\n3. `anomaly_score`: 1.845672866881607, `last_safe_lsn_int`: 738231992, `window_index`: 16\n\nThe highest anomaly score is 231.6234266319059, which occurs at `window_index` 15. The `last_safe_lsn_int` provided for this state is 704644504.\n\nCOORDINATE: lsn=704644504",
+  "replicate_index": 4,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|4"
+}

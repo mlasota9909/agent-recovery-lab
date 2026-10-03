@@ -1,0 +1,16 @@
+{
+  "call_started_utc": "2026-10-03T04:17:47.414503Z",
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "freeze_sha256": "48c5817e689ea641b1b2b863f4ff44fba88969be814f9719d7f66cf8eca0c029",
+  "incident_id": "SC-02_20261003T041237Z",
+  "model_alias": "gb10a-deepseek-v4-flash",
+  "replicate_index": 1,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gb10a-deepseek-v4-flash|R1|1"
+}

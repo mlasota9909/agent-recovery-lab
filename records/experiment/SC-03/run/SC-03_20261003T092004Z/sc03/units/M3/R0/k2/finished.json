@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 248992474597080,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 248992474597080,
+        "token": "lsn=E275/140006D8",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      248992474597080
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:30:43.153822Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 1,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-03_20261003T092004Z/ab-248992474597080/report.json",
+    "report_sha256": "17940ab19331ec4e1262fb89dfda66dbd0e89688bb08f3a12b91b94d50f1aecd",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 3762,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:31:08.557863Z",
+  "freeze_sha256": "83711a5b1db0ffdf7f633718e658d13f3bb4c300026a08ab1191ed9376feac7b",
+  "incident_id": "SC-03_20261003T092004Z",
+  "latency_ms": 24914,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-03_20261003T092004Z/sc03/units/M3/R0/k2/model.json",
+  "model_record_sha256": "d5ea304d6c30a34ad4a896ad82a7618df390853bf837f37b1ff5113b0fba5c3a",
+  "outcome": "accepted",
+  "prompt_sha256": "8cf6a4ae14e58f05c33dc28ec2d42390cf146a792a47f535c2f4b049ef660274",
+  "prompt_tokens": 7514,
+  "raw_completion": "\n\nLooking at the evidence, I need to identify the \"damaging activity\" and find the last safe record before it.\n\n**Identifying the damaging activity:**\nThe `ALTER TABLE` on `public.sc03_orders` (LSN `E275/14000B68`, xid 1002) is a schema-modifying DDL statement \u2014 this is the damaging activity.\n\n**Finding the latest safe point before it:**\nThe record immediately preceding the ALTER TABLE is:\n\n- Action: `U` on `sc03_orders` (id=24, amount=10.01)\n- LSN: `E275/140006D8` (lsn_int 248992474597080)\n- Wall clock: `2026-10-03T09:21:00.474739Z`\n- xid: 1003\n\nThis is the last safe write before the schema-altering DDL.\n\nCOORDINATE: lsn=E275/140006D8",
+  "replicate_index": 2,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R0|2"
+}

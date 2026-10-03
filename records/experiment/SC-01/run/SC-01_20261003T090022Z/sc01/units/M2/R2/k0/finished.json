@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 654312856,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 654312856,
+        "token": "window=11",
+        "type": "window"
+      }
+    ],
+    "locators_offered": [
+      "window"
+    ],
+    "locators_resolved_to": [
+      654312856
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:16:17.639957Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 64,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-01_20261003T090022Z/ab-654312856/report.json",
+    "report_sha256": "fd024608a6c679131d9c2f84167a62e5e698913d4a509d62a30d8fb53a0e7bab",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 166,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:16:23.534565Z",
+  "freeze_sha256": "b4f644cfb5370e1ae3f1b0aa4a736d7cdb7a1ae58b6d9bc2a7cb3430b3b6c4cf",
+  "incident_id": "SC-01_20261003T090022Z",
+  "latency_ms": 5545,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-01_20261003T090022Z/sc01/units/M2/R2/k0/model.json",
+  "model_record_sha256": "b82cc0c2f500473841018ab1dff6eeac54a8c01a05b8867301d5720adca53149",
+  "outcome": "accepted",
+  "prompt_sha256": "978e39007caa724867f03048a5cf9c63cf5e46e370db3bbd396ba494a6396912",
+  "prompt_tokens": 429,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the windows provided:\n\n- Window 10: Contains INSERT, UPDATE, and DELETE operations.\n- Window 11: Contains INSERT, UPDATE, and DELETE operations.\n- Window 15: Contains a high volume of DELETE operations (201) and a significant anomaly (215.67).\n\nThe damaging activity (the high-volume deletion/anomaly) is present in Window 15. The latest safe point before this activity began is the end of the window preceding the damage. Window 11 is the last window before the significant anomaly in Window 15. The end of Window 11 is 671090072.\n\nCOORDINATE: window=11",
+  "replicate_index": 0,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|0"
+}

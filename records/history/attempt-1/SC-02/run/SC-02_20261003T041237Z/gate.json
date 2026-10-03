@@ -1,0 +1,185 @@
+{
+  "capture": {
+    "captured_pairs": 43,
+    "differences": 156,
+    "fingerprints": {
+      "s_20261003T041302450Z_000001": 14,
+      "s_20261003T041311576Z_000002": 14,
+      "s_20261003T041313538Z_000003": 14,
+      "s_20261003T041315561Z_000004": 14,
+      "s_20261003T041317539Z_000005": 14,
+      "s_20261003T041319534Z_000006": 14,
+      "s_20261003T041321867Z_000007": 16,
+      "s_20261003T041323573Z_000008": 17,
+      "s_20261003T041325958Z_000009": 17,
+      "s_20261003T041327706Z_000010": 17,
+      "s_20261003T041329743Z_000011": 17,
+      "s_20261003T041331779Z_000012": 17,
+      "s_20261003T041333674Z_000013": 17,
+      "s_20261003T041335682Z_000014": 17,
+      "s_20261003T041337630Z_000015": 17,
+      "s_20261003T041339987Z_000016": 17,
+      "s_20261003T041341636Z_000017": 17,
+      "s_20261003T041343658Z_000018": 17,
+      "s_20261003T041346023Z_000019": 17,
+      "s_20261003T041347722Z_000020": 17,
+      "s_20261003T041349725Z_000021": 17,
+      "s_20261003T041351787Z_000022": 17,
+      "s_20261003T041353753Z_000023": 17,
+      "s_20261003T041355652Z_000024": 17,
+      "s_20261003T041358494Z_000025": 17,
+      "s_20261003T041400289Z_000026": 17,
+      "s_20261003T041402288Z_000027": 17,
+      "s_20261003T041404293Z_000028": 17,
+      "s_20261003T041406344Z_000029": 17,
+      "s_20261003T041408643Z_000030": 17,
+      "s_20261003T041410971Z_000031": 17,
+      "s_20261003T041412645Z_000032": 17,
+      "s_20261003T041414476Z_000033": 17,
+      "s_20261003T041416689Z_000034": 17,
+      "s_20261003T041418591Z_000035": 17,
+      "s_20261003T041420484Z_000036": 17,
+      "s_20261003T041421749Z_000037": 17,
+      "s_20261003T041423369Z_000038": 17,
+      "s_20261003T041425695Z_000039": 5,
+      "s_20261003T041427472Z_000040": 5,
+      "s_20261003T041429436Z_000041": 5,
+      "s_20261003T041431341Z_000042": 5,
+      "s_20261003T041432921Z_000043": 5,
+      "s_20261003T041434660Z_000044": 5
+    },
+    "ledger_C7": {
+      "errors": [],
+      "fs_ops": 122,
+      "invisible": 0,
+      "matched": 122,
+      "ok": true,
+      "rule": "C-7",
+      "unexplained_captured": 0,
+      "unexplained_captured_detail": [],
+      "unmatched_recorded": 0,
+      "unmatched_recorded_detail": [],
+      "vacuous": false
+    },
+    "pure_C7": {
+      "errors": [],
+      "fs_ops": 122,
+      "invisible": 0,
+      "matched": 122,
+      "ok": true,
+      "rule": "C-7",
+      "unexplained_captured": 0,
+      "unexplained_captured_detail": [],
+      "unmatched_recorded": 0,
+      "unmatched_recorded_detail": [],
+      "vacuous": false
+    },
+    "snapshots": 44
+  },
+  "controls": {
+    "controls": [
+      {
+        "actual": "correct",
+        "control": "reference",
+        "expected": "correct",
+        "ok": true,
+        "snapshot": "s_20261003T041423369Z_000038",
+        "summary": {
+          "damage_files_retained": 0,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "checked_damage_remains",
+        "control": "first_post_damage",
+        "expected": "checked_damage_remains",
+        "ok": true,
+        "snapshot": "s_20261003T041425695Z_000039",
+        "summary": {
+          "damage_files_retained": 13,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "extra_work_lost",
+        "control": "earliest",
+        "expected": "extra_work_lost",
+        "ok": true,
+        "snapshot": "s_20261003T041302450Z_000001",
+        "summary": {
+          "damage_files_retained": 0,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 95,
+          "legit_rows_lost": 372,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "checked_damage_remains",
+        "control": "tampered",
+        "expected": "checked_damage_remains",
+        "ok": true,
+        "snapshot": "s_20261003T041423369Z_000038",
+        "summary": {
+          "damage_files_retained": 1,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 1,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      }
+    ],
+    "incident_id": "SC-02_20261003T041237Z",
+    "ok": true,
+    "schema_version": 1
+  },
+  "evidence_sha256": {
+    "fl-controls.json": "c2e6448b012527fcccc45b6dff8f6d40f6effede51f215bce9a57d02828523fe",
+    "fl-intervals.json": "dbd69315dd59fdb2231cbcc99023c5cabb5a54b87be709eaaf52ad3280200294",
+    "fl-reference.json": "2f6cf68379c2024ad069e94bafb1c9ad9bba5715967aa0a45867c56e747068d2",
+    "fs-workload.jsonl": "5fe87c840027621441e5525cd821aed002e21c47bb4df3f7c286adccae4babe6",
+    "fs_diff.tsv": "f472e7f0a353e4ffd001d5226d312bc8671697ebf65becef219377c19283ba1f",
+    "fs_hashes.tsv": "6b34950f73914331a452d739f76c9243a3a6e6fa96ea1930687bbf122767ff36",
+    "generate-commands.json": "2a3e6607b6069353baa8962898201baaec7d8dcf35e49e4e58bd6645af356cad",
+    "incident.json": "e2f35331bb9f32f229b5c5f8b530c7b59e36596f77edc62c9bd1099f022bb467",
+    "injection.json": "955f72fc8d3529b12e02ea663b40b6533bc595a174583fd6f609d5185c9b8593",
+    "oracle-manifest.json": "02eec3ea27b4e3d82f197f22587d4bdea54517fa1325eeb884b2a5c8afceb0c1",
+    "snapshots.json": "5402b9201c92786c4730156357190c80c27b7dbd110c977662d46846c8e93c55",
+    "workload-manifest.jsonl": "09333c949f6fe2263d157ae369c84781c03b77af00ffeaed4e1cfd75497faeac"
+  },
+  "finished_utc": "2026-10-03T04:17:09.700064Z",
+  "incident_id": "SC-02_20261003T041237Z",
+  "inputs": [
+    {
+      "content_sha256": "c55fa5c76ab64996c053d4d781b8a1218ff0958c80a2c29816fdfc2d3d0c504a",
+      "guard": true,
+      "representation": "R0"
+    },
+    {
+      "content_sha256": "e9a0040333c5ec2e85ec316231ee8bb3ad9705d1915f7282fbe3770f47027517",
+      "guard": true,
+      "representation": "R1"
+    },
+    {
+      "content_sha256": "89bf578947f787b070ba6d4143ffb6743bfd09e50554bb6bf2c8e765bda5ff68",
+      "guard": true,
+      "representation": "R2"
+    }
+  ],
+  "ok": true,
+  "started_utc": "2026-10-03T04:15:34.519317Z"
+}

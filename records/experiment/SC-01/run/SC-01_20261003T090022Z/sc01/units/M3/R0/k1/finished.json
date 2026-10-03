@@ -1,0 +1,69 @@
+{
+  "answer": {
+    "chosen_lsn_int": 671090072,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 671090072,
+        "token": "lsn=0/28000598",
+        "type": "lsn_hex"
+      },
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 671090072,
+        "token": "lsn=671090072",
+        "type": "lsn_int"
+      },
+      {
+        "discard_reason": "no explicit visible commit in this UTC second",
+        "resolved_lsn_int": null,
+        "token": "ts=2026-10-03T09:00:58.440396Z",
+        "type": "ts"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex",
+      "lsn_int",
+      "ts"
+    ],
+    "locators_resolved_to": [
+      671090072,
+      671090072
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:17:23.684801Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 48,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-01_20261003T090022Z/ab-671090072/report.json",
+    "report_sha256": "cdc2ab6e28261289cbd1cfbfb8fce0c7838462ab709de67e02cf923308054b24",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 1913,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:17:37.814373Z",
+  "freeze_sha256": "b4f644cfb5370e1ae3f1b0aa4a736d7cdb7a1ae58b6d9bc2a7cb3430b3b6c4cf",
+  "incident_id": "SC-01_20261003T090022Z",
+  "latency_ms": 13794,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-01_20261003T090022Z/sc01/units/M3/R0/k1/model.json",
+  "model_record_sha256": "b9e8deb1ed934929e7c5cfe0f1a75e9633f3981ec24387260731b1d9e1472d67",
+  "outcome": "accepted",
+  "prompt_sha256": "9b09806d7b4911455deafc30adebe4ff1871f967851dac4b3945b6737e703645",
+  "prompt_tokens": 24718,
+  "raw_completion": "\n\nLooking at the evidence, the \"damaging activity\" is the batch of 200 seed-row deletions (action \"D\", xid 1138, LSNs 721425360\u2013721448400, wall_clock 09:01:05.351822Z).\n\nThe last operation recorded **before** that batch is the update on natural_key 88000702 (action \"U\", xid 1088) at LSN 671090072 (hex 0/28000598), wall_clock 2026-10-03T09:00:58.440396Z. No other operation in the evidence falls between that LSN and the first seed deletion at 721425360.\n\nTherefore the latest safe point before the damaging deletions began is:\n\nCOORDINATE: lsn=0/28000598 lsn=671090072 ts=2026-10-03T09:00:58.440396Z",
+  "replicate_index": 1,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R0|1"
+}

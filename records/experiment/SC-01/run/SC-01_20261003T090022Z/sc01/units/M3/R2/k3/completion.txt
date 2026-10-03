@@ -1,0 +1,11 @@
+
+
+Looking at the evidence:
+
+- **Window 10** [637536120..654312856]: normal activity (anomaly ≈ 1.36)
+- **Window 11** [654313440..671090072]: normal activity (anomaly ≈ 1.36)
+- **Window 15** [721425360..738197544]: 201 DELETEs, anomaly ≈ 215.67 — this is the damaging activity.
+
+The last window confirmed safe (normal anomaly, low delete count) is **Window 11**, which ends at LSN **671090072**. This is the latest safe point before the damaging activity in Window 15.
+
+COORDINATE: lsn=671090072

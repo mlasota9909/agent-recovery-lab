@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "bin/lab-p9-model",
+    "--alias",
+    "gympc-gemma4-26b",
+    "--prompt-file",
+    "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-01_20261003T062658Z/sc01/R1/prompt.txt",
+    "--out",
+    "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-01_20261003T062658Z/sc01/units/M2/R1/k3/model.json"
+  ],
+  "exit_code": 0,
+  "stderr": "",
+  "stdout": "{\"alias\": \"gympc-gemma4-26b\", \"completion_tokens\": 283, \"containment_verified\": true, \"finish_reason\": \"stop\", \"latency_ms\": 9120, \"ok\": true, \"out\": \"/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-01_20261003T062658Z/sc01/units/M2/R1/k3/model.json\"}\n"
+}

@@ -1,0 +1,16 @@
+{
+  "call_started_utc": "2026-10-03T09:42:37.971049Z",
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "freeze_sha256": "711616cfd451192c165ded9385af03bdc6e4d378325d86ad78a303dae005f7f7",
+  "incident_id": "SC-04_20261003T093358Z",
+  "model_alias": "alienware-qwen38-27b",
+  "replicate_index": 3,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R0|3"
+}

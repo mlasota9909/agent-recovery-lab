@@ -1,0 +1,17 @@
+{
+  "locators": [
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_snapshot": null,
+      "token": "s_20261003T050324873Z_000009"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_snapshot": null,
+      "token": "2026-10-03T05:03:25.374460Z"
+    }
+  ],
+  "outcome": "rule_rejection",
+  "reason": "no locator resolves from the visible evidence",
+  "snapshot": null
+}

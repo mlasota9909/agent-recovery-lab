@@ -1,0 +1,8 @@
+To identify the latest safe point before the damaging activity began, we must look for the first instance of a "damaging" action (such as `ALTER TABLE` or `D` for Delete) and find the state immediately preceding it.
+
+Looking at the evidence:
+1. The `ALTER TABLE` action occurs at `lsn_int: 248992474598248` (`E275/14000B68`).
+2. The transaction immediately preceding this damaging activity is the `U` (Update) action on `sc03_orders` with `id: 24`.
+3. The LSN for that safe point is `248992474597080` (`E275/140006D8`).
+
+COORDINATE: lsn=248992474597080

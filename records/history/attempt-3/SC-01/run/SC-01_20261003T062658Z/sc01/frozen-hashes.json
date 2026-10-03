@@ -1,0 +1,38 @@
+{
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "files": {
+    "etc/arm-b-prompt.txt": "c661ec7a959a657993607c59047a3e1167b08966309a9964b8982e73a0708a46",
+    "evidence/SC-01/SC-01_20261003T062658Z/db.jsonl": "44dbdd8dc5181cc9188f4a4ea626830bf5c7c391a056a02a76787927691cd9c5",
+    "evidence/SC-01/SC-01_20261003T062658Z/fs_hashes.tsv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/SC-01/SC-01_20261003T062658Z/incident.json": "40edce57eaa17b3c3d69eea7a812df2ea5fc19a3d805dfb01e677663c4cfc54b",
+    "evidence/SC-01/SC-01_20261003T062658Z/oracle-manifest.json": "e2dd8ffbcec159a90d0ddba3a89c43c396f5015776f7cc6a4ab4e18d7184523a",
+    "evidence/SC-01/SC-01_20261003T062658Z/oracle.json": "9efc613b418f2755086caba7610799b8db6ff4f6a7ccf0e62e6d65d9f5d32d76",
+    "evidence/SC-01/SC-01_20261003T062658Z/p3/analytics.jsonl": "e09778226258379d81fbde8ff222a158681a089d60fc63ebcd59754c64ba8547",
+    "evidence/SC-01/SC-01_20261003T062658Z/p3/anomaly.jsonl": "0c58824e15a0fe7ea08db8b691abe5b14bbe4f38ae0127cf19ee64ccd3ba8911",
+    "evidence/SC-01/SC-01_20261003T062658Z/p3/candidates.jsonl": "0b69b9e2f11897747459e3c65fe0fd5107f14e889b9c5a6e4fcc964d4e70374f",
+    "evidence/SC-01/SC-01_20261003T062658Z/snapshots.json": "fffd2290fdd858cb216c3f76fcb5a70707541f707753a8a2f58cec490a3563eb",
+    "evidence/SC-01/SC-01_20261003T062658Z/workload-manifest.jsonl": "fb87e635a54e551328821885def4978a49a0c904913802bb1885e966fcc107a5",
+    "lib/lab_arm_b_score.py": "f612a2e356944110131a384d7f9eac56d2cdb8f9de0cb1c75e2bab15dbb7fe2b",
+    "lib/lab_fl_study.py": "b7a4bcc559c6ef2312c81cc5173dba46a6a7074ed545cc6c2140dd1496e73f28",
+    "lib/lab_regrammar.py": "02af89358bbfc28699be8419aed6e3e1d2f377921bf578898c535376a0edea5a",
+    "lib/lab_sc01_replication.py": "fd0acc849f224964802afb0fd9019fc1786bffd94eff94f6aa979a9414385856",
+    "logs/run/SC-01_20261003T062658Z/sc01/R0/model-view.json": "be73e3b42b81fcca2ffaeffdb70b38e7e0d90822938dff9c56f1dafb1be1fc12",
+    "logs/run/SC-01_20261003T062658Z/sc01/R0/prompt.txt": "e3d07fd9f95b13c84a937096738f43ba7bbfc29744eb6ed42f0cc51dea563634",
+    "logs/run/SC-01_20261003T062658Z/sc01/R1/model-view.json": "1a51069efb55e75c899fbf9608d3b053fc287de7b6f0f0797fdfbb692353d7bb",
+    "logs/run/SC-01_20261003T062658Z/sc01/R1/prompt.txt": "ccd3b24fec57638e6c68fa43532034c51c3609555139fc9df7a2e1f14f27d40c",
+    "logs/run/SC-01_20261003T062658Z/sc01/R2/model-view.json": "6af880ee2af17ff07650343ceba17b2504a0659fd6c8782b3a7736bff073a9ee",
+    "logs/run/SC-01_20261003T062658Z/sc01/R2/prompt.txt": "f435750445f1db079a8a35198ca58626b911fde161ff9d818bf726eabe56b85f",
+    "run/optional/sc01-analysis-plan.md": "b77e709d1d547644ee9ca10e0b70de67f40249a4c37469de63f4c5017dd9ef9e",
+    "runtime/p9-model-set.json": "257a0e92f924f4fcdaf3c740c823ea5a8605f221ac8099bc155af351d564c8c9",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.amendment-1.md": "ab0e09252464bfe357c51a988378f5985bdbae8ed375419b4370f68077cdc538",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.md": "f1e1916a544f05efbc7eb2567ff2624fa5df6e1ffdf15ab307a671bab67d6769"
+  },
+  "frozen_utc": "2026-10-03T06:29:25.714559Z",
+  "incident_id": "SC-01_20261003T062658Z",
+  "planned_units": 45
+}

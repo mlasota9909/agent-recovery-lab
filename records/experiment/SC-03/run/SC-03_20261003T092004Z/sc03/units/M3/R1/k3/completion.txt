@@ -1,0 +1,13 @@
+
+
+Looking at the three evidence records, each provides a `last_safe_lsn_int` and a `window_index`. To find the **latest** safe point before damaging activity, I need the record with the greatest LSN (most recent in time).
+
+| window_index | last_safe_lsn_int | anomaly_score |
+|---|---|---|
+| 12 | 248992390710840 | 1.464… |
+| 13 | 24892407488216 | 1.382… |
+| 15 | 248992457819704 | 1.488… |
+
+The highest LSN is **248992457819704** at **window 15**, making it the latest safe point before the damaging activity began.
+
+COORDINATE: lsn=248992457819704 window=15

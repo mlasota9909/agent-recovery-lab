@@ -1,0 +1,11 @@
+To identify the latest safe point before damaging activity began, we look for the last transaction before the `ALTER TABLE` command (which is a structural/damaging change) or the first transaction in the sequence.
+
+The `ALTER TABLE` command occurs at:
+`{"action":"ALTER TABLE","detail":{"command_tag":"ALTER TABLE","object_identity":"public.sc03_orders"},"lsn_int":248966671241632,"lsn_text":"E26F/120011A0","natural_key":"public.sc03_orders","object":"public.sc03_orders","wall_clock":"2026-10-03T05:29:51.476694Z","xid":975}`
+
+The transaction immediately preceding this damaging activity is:
+`{"action":"U","detail":{"amount":10.01,"id":20,"status":"open"},"lsn_int":248966671238872,"lsn_text":"E26F/120006D8","natural_key":20,"object":"sc03_orders","wall_clock":"2026-10-03T05:29:51.252010Z","xid":973}`
+
+The LSN for this safe point is `E26F/120006D8` (or the integer `248966671238872`).
+
+COORDINATE: lsn=E26F/120006D8

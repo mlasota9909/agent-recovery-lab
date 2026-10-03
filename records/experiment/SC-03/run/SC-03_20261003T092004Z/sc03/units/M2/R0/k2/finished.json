@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 248992474597080,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 248992474597080,
+        "token": "lsn=248992474597080",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      248992474597080
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:25:41.099506Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 1,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-03_20261003T092004Z/ab-248992474597080/report.json",
+    "report_sha256": "17940ab19331ec4e1262fb89dfda66dbd0e89688bb08f3a12b91b94d50f1aecd",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 314,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:25:52.156849Z",
+  "freeze_sha256": "83711a5b1db0ffdf7f633718e658d13f3bb4c300026a08ab1191ed9376feac7b",
+  "incident_id": "SC-03_20261003T092004Z",
+  "latency_ms": 10695,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-03_20261003T092004Z/sc03/units/M2/R0/k2/model.json",
+  "model_record_sha256": "3f1e4de4965c4f98f2d57e3db489d81ecad5ba84349fd714d9f2ae869ad25109",
+  "outcome": "accepted",
+  "prompt_sha256": "8cf6a4ae14e58f05c33dc28ec2d42390cf146a792a47f535c2f4b049ef660274",
+  "prompt_tokens": 7955,
+  "raw_completion": "To identify the latest safe point before the damaging activity began, we must look for the first instance of a \"damaging\" action (such as `ALTER TABLE`) and find the most recent record preceding it.\n\n1.  The damaging activity is the `ALTER TABLE` command on `public.sc03_orders` at `lsn_int: 248992474598248` (`E275/14000B68`).\n2.  The record immediately preceding this `ALTER TABLE` action is:\n    `{\"action\":\"U\",\"detail\":{\"amount\":10.01,\"id\":24},\"lsn_int\":248992474597080,\"lsn_text\":\"E275/140006D8\",\"natural_key\":24,\"object\":\"sc03_orders\",\"wall_clock\":\"2026-10-03T09:21:00.474739Z\",\"xid\":1003}`\n3.  The LSN for this safe point is `248992474597080` (integer) or `E275/140006D8` (text).\n\nCOORDINATE: lsn=248992474597080",
+  "replicate_index": 2,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|2"
+}

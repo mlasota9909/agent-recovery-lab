@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 248992474597080,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 248992474597080,
+        "token": "lsn=248992474597080",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      248992474597080
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:25:03.295457Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 1,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-03_20261003T092004Z/ab-248992474597080/report.json",
+    "report_sha256": "17940ab19331ec4e1262fb89dfda66dbd0e89688bb08f3a12b91b94d50f1aecd",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 205,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:25:33.757042Z",
+  "freeze_sha256": "83711a5b1db0ffdf7f633718e658d13f3bb4c300026a08ab1191ed9376feac7b",
+  "incident_id": "SC-03_20261003T092004Z",
+  "latency_ms": 9982,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-03_20261003T092004Z/sc03/units/M2/R0/k0/model.json",
+  "model_record_sha256": "c8a70b4fcb3d976f8918834c7796d09b00dce064ab5cd8d92e90e87ace617ebe",
+  "outcome": "accepted",
+  "prompt_sha256": "8cf6a4ae14e58f05c33dc28ec2d42390cf146a792a47f535c2f4b049ef660274",
+  "prompt_tokens": 7955,
+  "raw_completion": "To identify the latest safe point before the damaging activity began, we must look for the first instance of a \"damaging\" action (such as `ALTER TABLE` or `D` for Delete) and find the state immediately preceding it.\n\nLooking at the evidence:\n1. The `ALTER TABLE` action occurs at `lsn_int: 248992474598248` (`E275/14000B68`).\n2. The transaction immediately preceding this damaging activity is the `U` (Update) action on `sc03_orders` with `id: 24`.\n3. The LSN for that safe point is `248992474597080` (`E275/140006D8`).\n\nCOORDINATE: lsn=248992474597080",
+  "replicate_index": 0,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|0"
+}

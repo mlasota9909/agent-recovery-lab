@@ -1,0 +1,25 @@
+{
+  "chosen_lsn_int": null,
+  "grammar_outcome": "refusal_parser",
+  "locators": [
+    {
+      "discard_reason": "named window is not visible",
+      "resolved_lsn_int": null,
+      "token": "window=16",
+      "type": "window"
+    },
+    {
+      "discard_reason": "position not present in the visible evidence",
+      "resolved_lsn_int": null,
+      "token": "lsn=738229728",
+      "type": "lsn_int"
+    }
+  ],
+  "locators_offered": [
+    "window",
+    "lsn_int"
+  ],
+  "locators_resolved_to": [],
+  "outcome": "rule_rejection",
+  "reason": "no locator resolves from the supplied view"
+}

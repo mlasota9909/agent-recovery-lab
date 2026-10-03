@@ -1,0 +1,12 @@
+
+
+Looking at the evidence:
+
+- Intervals 10 and 14 have a low anomaly score (~1.16), indicating normal/safe activity.
+- Interval 38 has a sharply elevated anomaly score (~12.16), marking the onset of damaging file activity.
+- The `last_safe_snapshot` for interval 38 is explicitly given as `s_20261003T084651729Z_000038`, which is the `from_snapshot` of that interval.
+- The corresponding `from_time` is `2026-10-03T08:46:52.543642Z`.
+
+All three locators (interval index, snapshot name, and timestamp) resolve to the same snapshot — the last safe recorded snapshot before the damaging activity at interval 38.
+
+COORDINATE: interval=38 snapshot=s_20261003T084651729Z_000038 ts=2026-10-03T08:46:52.543642Z

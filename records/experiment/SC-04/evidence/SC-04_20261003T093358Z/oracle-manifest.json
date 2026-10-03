@@ -1,0 +1,83 @@
+{
+  "damage": {
+    "table": "sc04_items",
+    "units": [
+      {
+        "commit_lsn": "DE76/13000248",
+        "damaging_value": "mal-71",
+        "row_id": 71,
+        "unit": "row_71"
+      },
+      {
+        "commit_lsn": "DE76/140005D8",
+        "damaging_value": "mal-190",
+        "row_id": 190,
+        "unit": "row_190"
+      },
+      {
+        "commit_lsn": "DE76/15000000",
+        "damaging_value": "mal-7",
+        "row_id": 7,
+        "unit": "row_7"
+      },
+      {
+        "commit_lsn": "DE76/16000000",
+        "damaging_value": "mal-174",
+        "row_id": 174,
+        "unit": "row_174"
+      },
+      {
+        "commit_lsn": "DE76/16000AB0",
+        "damaging_value": "mal-63",
+        "row_id": 63,
+        "unit": "row_63"
+      },
+      {
+        "commit_lsn": "DE76/17000AB8",
+        "damaging_value": "mal-140",
+        "row_id": 140,
+        "unit": "row_140"
+      },
+      {
+        "commit_lsn": "DE76/18000938",
+        "damaging_value": "mal-36",
+        "row_id": 36,
+        "unit": "row_36"
+      },
+      {
+        "commit_lsn": "DE76/190005D8",
+        "damaging_value": "mal-189",
+        "row_id": 189,
+        "unit": "row_189"
+      },
+      {
+        "commit_lsn": "DE76/1A000000",
+        "damaging_value": "mal-164",
+        "row_id": 164,
+        "unit": "row_164"
+      },
+      {
+        "commit_lsn": "DE76/1A000F88",
+        "damaging_value": "mal-58",
+        "row_id": 58,
+        "unit": "row_58"
+      },
+      {
+        "commit_lsn": "DE76/1B0007F8",
+        "damaging_value": "mal-27",
+        "row_id": 27,
+        "unit": "row_27"
+      },
+      {
+        "commit_lsn": "DE76/1C000718",
+        "damaging_value": "mal-29",
+        "row_id": 29,
+        "unit": "row_29"
+      }
+    ]
+  },
+  "first_damage_commit_lsn": "DE76/13000248",
+  "incident": "SC-04_20261003T093358Z",
+  "optimum_lsn": "DE76/12000978",
+  "scenario_id": "SC-04"
+}

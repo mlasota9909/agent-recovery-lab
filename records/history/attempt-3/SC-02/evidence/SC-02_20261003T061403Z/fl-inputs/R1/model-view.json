@@ -1,0 +1,10 @@
+{
+  "content": "{\"intervals\":[{\"interval\":9,\"from_snapshot\":\"s_20261003T061453264Z_000009\",\"to_snapshot\":\"s_20261003T061455267Z_000010\",\"from_time\":\"2026-10-03T06:14:53.829871Z\",\"to_time\":\"2026-10-03T06:14:55.864526Z\"},{\"interval\":10,\"from_snapshot\":\"s_20261003T061455267Z_000010\",\"to_snapshot\":\"s_20261003T061457346Z_000011\",\"from_time\":\"2026-10-03T06:14:55.864526Z\",\"to_time\":\"2026-10-03T06:14:57.873047Z\"},{\"interval\":37,\"from_snapshot\":\"s_20261003T061549544Z_000037\",\"to_snapshot\":\"s_20261003T061552778Z_000038\",\"from_time\":\"2026-10-03T06:15:50.224567Z\",\"to_time\":\"2026-10-03T06:15:53.318514Z\"}]}\n{\"interval\":9,\"anomaly_score\":0.25,\"last_safe_snapshot\":\"s_20261003T061453264Z_000009\"}\n{\"interval\":10,\"anomaly_score\":0.25,\"last_safe_snapshot\":\"s_20261003T061455267Z_000010\"}\n{\"interval\":37,\"anomaly_score\":12.25,\"last_safe_snapshot\":\"s_20261003T061549544Z_000037\"}",
+  "incident_id": "SC-02_20261003T061403Z",
+  "params": {
+    "top_n": 3
+  },
+  "probe_id": "FL-intervals",
+  "representation": "R1",
+  "telemetry": {}
+}

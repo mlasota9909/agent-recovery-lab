@@ -1,0 +1,2 @@
+Retired SC-04 attempt (no incident) before any freeze on 2026-10-03T06:52:55Z.
+Reason: Stage 20 refused: the generator's guard found the reference (E788/13000108) not before the first update's recorded commit position (E788/13000108, read before COMMIT); the change log shows that update committing at E788/130002D0. Retired before any freeze; a new incident is captured.

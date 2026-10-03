@@ -1,0 +1,34 @@
+{
+  "computed_from": "injection ops[0].lsn_before, resolved with lab-coordinate",
+  "coordinate": {
+    "lsn": "E160/12000598",
+    "resolved_by": "live_heartbeat",
+    "skew_bytes": 16776680,
+    "skew_ms": 1083,
+    "snapshot": "s_20261003T063923449Z_000012",
+    "wall_clock": "2026-10-03T06:39:25.139960Z"
+  },
+  "damage": {
+    "table": "sc03_orders",
+    "units": [
+      {
+        "commit_lsn": "E160/12000778",
+        "statement": "ALTER TABLE public.sc03_orders DROP COLUMN status",
+        "unit": "status_column_dropped"
+      },
+      {
+        "commit_lsn": "E160/140002A8",
+        "statement": "ALTER TABLE public.sc03_orders DROP CONSTRAINT sc03_amount_positive",
+        "unit": "amount_rule_dropped"
+      },
+      {
+        "commit_lsn": "E160/15000E28",
+        "statement": "ALTER TABLE public.sc03_orders ALTER COLUMN amount TYPE text USING amount::text",
+        "unit": "amount_type_changed"
+      }
+    ]
+  },
+  "first_damage_commit_lsn": "E160/12000778",
+  "incident": "SC-03_20261003T063831Z",
+  "scenario_id": "SC-03"
+}

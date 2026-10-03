@@ -1,0 +1,60 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T041319534Z_000006",
+        "token": "interval=6"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T041319534Z_000006",
+        "token": "snapshot=s_20261003T041319534Z_000006"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20261003T041319534Z_000006"
+  },
+  "call_started_utc": "2026-10-03T04:19:09.463576Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/evidence/SC-02/SC-02_20261003T041237Z/fl-checks/s_20261003T041319534Z_000006.json",
+    "report_sha256": "6a06e1a493e1dd5b4de67cf6541f64f6edb3262693d57077b01d2b257494e065",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 95,
+      "legit_rows_lost": 372,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "extra_work_lost"
+  },
+  "completion_tokens": 414,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:19:23.296351Z",
+  "freeze_sha256": "48c5817e689ea641b1b2b863f4ff44fba88969be814f9719d7f66cf8eca0c029",
+  "incident_id": "SC-02_20261003T041237Z",
+  "latency_ms": 13320,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-02_20261003T041237Z/units/M2/R0/k2/model.json",
+  "model_record_sha256": "4c8d6812f4148a11c54b606710b52a2a5255411406d8e19bdb2c60f2bf3a7eeb",
+  "outcome": "accepted",
+  "prompt_sha256": "5bc73cfec72e3037bf0355f582cd20e216d375d1c9c795672530a9e7637e961e",
+  "prompt_tokens": 5105,
+  "raw_completion": "To identify the latest safe recorded snapshot before damaging file activity began, we examine the provided evidence:\n\n1.  **Identify damaging activity:** The evidence shows file activity (changes) occurring in several intervals:\n    *   Interval 6: `workspace/build` (M, +)\n    *   Interval 15: `workspace/build` (M, +, -, -)\n    *   Interval 38: `workspace` (M, M, -, M, +, M, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -)\n\n2.  **Determine the first interval with damaging activity:** The first instance of file modification/addition/deletion is in **Interval 6**.\n\n3.  **Locate the latest safe snapshot before Interval 6:**\n    *   The interval catalogue shows that Interval 6 starts at `s_20261003T041319534Z_000006`.\n    *   The snapshot immediately preceding the start of the first damaging interval (Interval 6) is not explicitly listed as a \"from_snapshot\" for a previous interval in the provided catalogue, but the task asks for the latest safe snapshot recorded *at or before* the activity.\n    *   Looking at the interval definitions, Interval 6 is the first interval containing changes. Therefore, the snapshot that represents the state *before* Interval 6 begins is the `from_snapshot` of the first interval that contains changes.\n\nWait, looking closer at the logic: The first interval with changes is Interval 6. The snapshot that represents the state *before* these changes is the `from_snapshot` of Interval 6.\n\nCOORDINATE: interval=6 snapshot=s_20261003T041319534Z_000006",
+  "replicate_index": 2,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|2"
+}

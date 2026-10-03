@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 244598739832704,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 244598739832704,
+        "token": "lsn=DE76/15000F80",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      244598739832704
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:40:31.270889Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 3,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-04_20261003T093358Z/ab-244598739832704/report.json",
+    "report_sha256": "30d0fd6f66351c264c774376a831692d320558d97173afe6aa4140cd1758fb7b",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 397,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:40:44.653658Z",
+  "freeze_sha256": "711616cfd451192c165ded9385af03bdc6e4d378325d86ad78a303dae005f7f7",
+  "incident_id": "SC-04_20261003T093358Z",
+  "latency_ms": 13046,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-04_20261003T093358Z/sc04/units/M2/R0/k3/model.json",
+  "model_record_sha256": "5baeb205773fa70b4730d825e2c7e4717b523c127b970bb51dee14a8ee37ae9f",
+  "outcome": "accepted",
+  "prompt_sha256": "b80d0bca11ffb700bd5ca33a634a0d1c6669bacc35b0dfd150e02e89746917bc",
+  "prompt_tokens": 8644,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the `action` and `detail` fields in the provided evidence.\n\n1.  The first instance of damaging activity is found in the entry:\n    `{\"action\":\"U\",\"detail\":{\"id\":174,\"payload\":\"mal-174\"},\"lsn_int\":244598756606048,\"lsn_text\":\"DE76/16000060\",\"natural_key\":174,\"object\":\"sc04_items\",\"wall_clock\":\"2026-10-03T09:34:59.025975Z\",\"xid\":1037}`\n    This entry contains a payload labeled `\"mal-174\"`.\n\n2.  The entry immediately preceding this damaging activity is:\n    `{\"action\":\"U\",\"detail\":{\"id\":88000702,\"v\":\"u88000702b\"},\"lsn_int\":244598739832704,\"lsn_text\":\"DE76/15000F80\",\"natural_key\":88000702,\"object\":\"p2_probe\",\"wall_clock\":\"2026-10-03T09:34:58.539792Z\",\"xid\":1036}`\n    This entry is a legitimate update (`action: U`) with a payload `\"u88000702b\"`.\n\nThe latest safe point is the LSN of the entry immediately before the first \"mal-\" payload.\n\nCOORDINATE: lsn=DE76/15000F80",
+  "replicate_index": 3,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|3"
+}

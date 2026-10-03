@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 257260169202280,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 257260169202280,
+        "token": "lsn=E9FA/D000A68",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      257260169202280
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T04:47:34.314289Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 0,
+    "legit_rows_lost": 87,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/var/restore/SC-03_20261003T044214Z/ab-257260169202280/report.json",
+    "report_sha256": "506e19f0f5910f662a83df2a85a65fd8f20493fc005481d25036ef5610cf7702",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 373,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:47:47.236775Z",
+  "freeze_sha256": "591ea221bfca0e08a82140caa940f2246700cf9a3183a42fa25f9a7463b885b6",
+  "incident_id": "SC-03_20261003T044214Z",
+  "latency_ms": 12628,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-03_20261003T044214Z/sc03/units/M2/R0/k2/model.json",
+  "model_record_sha256": "b32875e55c9e46eb04bd7930b8c86a193c3839bf82d3d4a1a029d1d95ae079ec",
+  "outcome": "accepted",
+  "prompt_sha256": "bb493135f559acdd59b9251e4ecec135a2e1639a47236f735e958925332ae452",
+  "prompt_tokens": 7901,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we look for the last transaction before the first \"D\" (Delete) or \"I\" (Insert) action that might represent the start of the damaging sequence.\n\nReviewing the sequence of actions:\n1. The first \"D\" action occurs at `lsn_text: E9FA/D000B08` (xid 892).\n2. The last transaction before this \"D\" action is at `lsn_text: E9FA/D000A68` (xid 895).\n3. However, looking at the entire log, there are multiple sequences of deletions and insertions. The prompt asks for the latest safe point before \"damaging activity began\". In database logs, \"damaging activity\" typically refers to the start of the transaction block containing deletions/inserts that deviate from the standard update pattern.\n4. The very first transaction in the log is `lsn_text: E9FA/D0006D8` (xid 887).\n5. The first \"D\" (Delete) action is at `lsn_text: E9FA/D000B08`.\n6. The transaction immediately preceding the first \"D\" action is `lsn_text: E9FA/D000A68`.\n\nWait, looking closer at the log, the first \"D\" action is at `lsn_text: E9FA/D000B08`. The transaction before it is `lsn_text: E9FA/D000A68`.\n\nCOORDINATE: lsn=E9FA/D000A68",
+  "replicate_index": 2,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|2"
+}

@@ -1,0 +1,55 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T041319534Z_000006",
+        "token": "snapshot=s_20261003T041319534Z_000006"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20261003T041319534Z_000006"
+  },
+  "call_started_utc": "2026-10-03T04:18:41.282310Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/evidence/SC-02/SC-02_20261003T041237Z/fl-checks/s_20261003T041319534Z_000006.json",
+    "report_sha256": "6a06e1a493e1dd5b4de67cf6541f64f6edb3262693d57077b01d2b257494e065",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 95,
+      "legit_rows_lost": 372,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "extra_work_lost"
+  },
+  "completion_tokens": 852,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:19:09.404241Z",
+  "freeze_sha256": "48c5817e689ea641b1b2b863f4ff44fba88969be814f9719d7f66cf8eca0c029",
+  "incident_id": "SC-02_20261003T041237Z",
+  "latency_ms": 27679,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-02_20261003T041237Z/units/M2/R0/k1/model.json",
+  "model_record_sha256": "4fdbdf5ddddfdb9d8c79d4bf47993d76885c27ec2aa60e8816ec130a97661325",
+  "outcome": "accepted",
+  "prompt_sha256": "5bc73cfec72e3037bf0355f582cd20e216d375d1c9c795672530a9e7637e961e",
+  "prompt_tokens": 5105,
+  "raw_completion": "To identify the latest safe recorded snapshot before damaging file activity began, we examine the provided evidence:\n\n1.  **Identify damaging activity:** The evidence shows file activity (changes) occurring in several intervals:\n    *   Interval 6: `workspace/build` (M, +)\n    *   Interval 15: `workspace/build` (M, +, -, -)\n    *   Interval 38: `workspace` (M, M, -, M, +, M, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -)\n\n2.  **Determine the first interval with damaging activity:** The first instance of file modification/addition/deletion is in **Interval 6**.\n\n3.  **Locate the latest safe snapshot before Interval 6:**\n    *   The interval catalogue shows that Interval 6 starts at `s_20261003T041319534Z_000006`.\n    *   The snapshot immediately preceding the start of the first damaging interval (Interval 6) is not explicitly listed as a \"from_snapshot\" for a previous interval in the provided catalogue, but the task asks for the latest safe recorded snapshot.\n    *   Looking at the interval definitions, Interval 6 is the first interval containing changes. Therefore, the snapshot at the very beginning of Interval 6 is the first point of change. However, the snapshot *before* the activity in Interval 6 is the state captured by the snapshot that ends where Interval 6 begins.\n    *   Wait, the instructions state: \"An interval locator means its start snapshot.\"\n    *   The first damaging activity occurs within Interval 6. The snapshot that represents the state *before* the changes in Interval 6 is the snapshot that exists at the start of that interval.\n    *   However, looking at the interval list, the first interval is 6. The snapshot at the start of interval 6 is `s_20261003T041319534Z_000006`.\n    *   Wait, the instructions say: \"identify the latest safe recorded snapshot before damaging file activity began.\"\n    *   The activity in Interval 6 is the first activity. The snapshot that represents the state *before* this activity is the snapshot that is the `to_snapshot` of the interval preceding it, or the state at the start of the first interval.\n    *   Since Interval 6 is the first interval listed and it contains the first changes, the snapshot that represents the state *before* these changes is the snapshot that exists at the start of Interval 6.\n\nLet's re-evaluate:\nInterval 6 contains changes. The snapshot at the start of Interval 6 is `s_20261003T041319534Z_000006`.\nThe snapshot at the end of the interval *before* the first change would be the safe one. Since Interval 6 is the first interval, the snapshot `s_20261003T041319534Z_000006` is the state at the start of the first change.\n\nWait, looking at the interval list:\nInterval 6: `from_snapshot`: `s_20261003T041319534Z_000006`\nThe changes in Interval 6 are the first changes. Therefore, the snapshot `s_20261003T041319534Z_000006` is the state before the changes in that interval.\n\nCOORDINATE: snapshot=s_20261003T041319534Z_000006",
+  "replicate_index": 1,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|1"
+}

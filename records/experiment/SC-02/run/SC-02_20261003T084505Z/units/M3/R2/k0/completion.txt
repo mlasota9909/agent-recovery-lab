@@ -1,0 +1,15 @@
+
+
+Looking at the evidence:
+
+- **Interval 10** and **Interval 14**: minor activity (2 files deleted, anomaly ≈ 1.16) under "workspace/build" — low-level, not clearly "damaging."
+- **Interval 38**: 13 files deleted, 2 modified, 1 created under "workspace/records"; anomaly jumps to ≈ 12.16. This is the onset of clearly damaging file activity.
+
+The latest safe recorded snapshot **before** the damaging activity in interval 38 is the interval's start snapshot:
+
+- `from_snapshot` of interval 38 → `s_20261003T084651729Z_000038`
+- `from_time` of interval 38 → `2026-10-03T08:46:52.543642Z`
+
+All three locators (interval index, snapshot name, timestamp) resolve to the same snapshot.
+
+COORDINATE: interval=38 snapshot=s_20261003T084651729Z_000038 ts=2026-10-03T08:46:52.543642Z

@@ -1,0 +1,7 @@
+
+
+Looking at the evidence, all three windows (17, 22, 25) show the same operation pattern: 2 INSERT, 18 UPDATE, and 2 DELETE on relation p2_probe, with a constant anomaly value of 1.5438492109583586.
+
+The "damaging activity" is the DELETE operations (2 DELETE per window). These appear starting from Window 17. The latest safe point *before* that damaging activity began is the lower LSN of Window 17, i.e., the boundary at the start of the first window where the deletes appear.
+
+COORDINATE: lsn=244598739828840

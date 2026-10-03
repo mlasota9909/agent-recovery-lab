@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 247802768657720,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 247802768657720,
+        "token": "lsn=E160/14000D38",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      247802768657720
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T06:47:06.827490Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 2,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner3/var/restore/SC-03_20261003T063831Z/ab-247802768657720/report.json",
+    "report_sha256": "97046828f250f49bdb85f7cac61c756ace07228952fbd06a3f1eae51155672ee",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 2848,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T06:47:26.312267Z",
+  "freeze_sha256": "b1e25fb0d21f4d35ea00288a34b68e6f0c9f4c2dc06853d85b6dd4bc1fd0a598",
+  "incident_id": "SC-03_20261003T063831Z",
+  "latency_ms": 19016,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-03_20261003T063831Z/sc03/units/M3/R0/k4/model.json",
+  "model_record_sha256": "99e2fa3f571c41f692b63931814478f66247ecb61a5b82317f2073bccbbc7607",
+  "outcome": "accepted",
+  "prompt_sha256": "31c66b061291f84312ba7f0ea776054b07051a44ca39f686c7249b097251b30c",
+  "prompt_tokens": 7440,
+  "raw_completion": "\n\nLooking at the evidence, I need to identify the \"damaging activity\" and find the last safe point before it began.\n\n**Identifying damaging activity:**\nThe `sc03_orders` updates (amount 10.01, ids 25, 26, 27) represent changes to a real business table. These are the damaging activity. The first such update appears at LSN `E160/14000DD8` (xid 1004, wall_clock 2026-10-03T06:39:29.194868Z).\n\n**Finding the latest safe point before that:**\nThe entry immediately preceding the first `sc03_orders` update is:\n- LSN `E160/14000D38` (xid 1003, wall_clock 2026-10-03T06:39:28.884299Z) \u2014 a `p2_probe` update on id 88000702.\n\nThis is the last safe point before the damaging `sc03_orders` activity began.\n\nCOORDINATE: lsn=E160/14000D38",
+  "replicate_index": 4,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R0|4"
+}

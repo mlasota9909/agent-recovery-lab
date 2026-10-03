@@ -1,0 +1,5 @@
+| model | comparison | point | ci_low | ci_high | n_blocks | n_resamples | seed | alpha | delta | magnitude | missing_units | execution_failures | excluded_blocks | ci_lower_exceeds_zero | observed_direction |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| gb10a-deepseek-v4-flash | R2-R0 | -1 | -1 | -1 | 5 | 10000 | 42 | 0.05 | -1.0 | large | 0 | 0 | 0 | False | R2<R0 |
+| gympc-gemma4-26b | R2-R0 | -0.2 | -0.6 | 0 | 5 | 10000 | 42 | 0.05 | -0.2 | small | 0 | 0 | 0 | False | R2<R0 |
+| alienware-qwen38-27b | R2-R0 | 1 | 1 | 1 | 5 | 10000 | 42 | 0.05 | 1.0 | large | 0 | 0 | 0 | True | R2>R0 |

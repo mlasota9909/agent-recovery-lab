@@ -1,0 +1,12 @@
+
+
+Looking at the three evidence records, I need to find the **latest** safe point (highest LSN / highest window index) before damaging activity began.
+
+Comparing the `last_safe_lsn_int` values:
+- Window 16 → 247802768656488
+- Window 18 → 247802802210488
+- Window 19 → 247802818988328
+
+The largest LSN is **247802818988328** at **window 19**, making it the latest safe point before the damaging activity.
+
+COORDINATE: window=19 lsn=247802818988328

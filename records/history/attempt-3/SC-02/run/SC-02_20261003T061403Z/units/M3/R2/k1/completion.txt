@@ -1,0 +1,14 @@
+
+
+Looking at the evidence:
+
+- **Intervals 9 & 10**: Low anomaly (0.25), minor file activity (1 deleted, 1 modified, 1 created under "workspace/build"). These are safe.
+- **Interval 37**: High anomaly (12.25), 13 files deleted under "workspace/records". This is the **damaging file activity**.
+
+The latest safe recorded snapshot before the damaging activity (interval 37) began is the start snapshot of that interval:
+
+**s_20261003T061549544Z_000037**
+
+This is the `from_snapshot` of interval 37, recorded at 2026-10-03T06:15:50.224567Z.
+
+COORDINATE: snapshot=s_20261003T061549544Z_000037

@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 248966671238872,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 248966671238872,
+        "token": "lsn=E26F/120006D8",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      248966671238872
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T05:33:56.649062Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 0,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner2/var/restore/SC-03_20261003T052858Z/ab-248966671238872/report.json",
+    "report_sha256": "cdc6095bf932d2570e089ffe34ee947c7f05c75148098a5ada4b3a88ddd4500f",
+    "verdict_v1": "correct"
+  },
+  "completion_tokens": 381,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:34:09.844021Z",
+  "freeze_sha256": "d7ae2134f83be2f5a431e2e790c7501d65c381edda98ace3d594cf268ed38c3a",
+  "incident_id": "SC-03_20261003T052858Z",
+  "latency_ms": 12800,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-03_20261003T052858Z/sc03/units/M2/R0/k3/model.json",
+  "model_record_sha256": "db26ec60d96431c2a6030a2e5e33c5f9b4d7af4bfa2cb6e978b6ccf6bbedd5ea",
+  "outcome": "accepted",
+  "prompt_sha256": "cc36ccac05e10943783e4a9c86371738e5e9c4a9bf66a61406f5ad9b1be32b76",
+  "prompt_tokens": 6337,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we look for the last transaction before the `ALTER TABLE` command (which is a structural/damaging change) or the first transaction in the sequence.\n\nThe `ALTER TABLE` command occurs at:\n`{\"action\":\"ALTER TABLE\",\"detail\":{\"command_tag\":\"ALTER TABLE\",\"object_identity\":\"public.sc03_orders\"},\"lsn_int\":248966671241632,\"lsn_text\":\"E26F/120011A0\",\"natural_key\":\"public.sc03_orders\",\"object\":\"public.sc03_orders\",\"wall_clock\":\"2026-10-03T05:29:51.476694Z\",\"xid\":975}`\n\nThe transaction immediately preceding this damaging activity is:\n`{\"action\":\"U\",\"detail\":{\"amount\":10.01,\"id\":20,\"status\":\"open\"},\"lsn_int\":248966671238872,\"lsn_text\":\"E26F/120006D8\",\"natural_key\":20,\"object\":\"sc03_orders\",\"wall_clock\":\"2026-10-03T05:29:51.252010Z\",\"xid\":973}`\n\nThe LSN for this safe point is `E26F/120006D8` (or the integer `248966671238872`).\n\nCOORDINATE: lsn=E26F/120006D8",
+  "replicate_index": 3,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|3"
+}

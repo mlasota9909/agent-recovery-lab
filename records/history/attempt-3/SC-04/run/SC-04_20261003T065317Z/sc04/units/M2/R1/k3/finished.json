@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 250070595274432,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 250070595274432,
+        "token": "lsn=250070595274432",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      250070595274432
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T07:13:52.049044Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 8,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner3/var/restore/SC-04_20261003T065317Z/ab-250070595274432/report.json",
+    "report_sha256": "cdb5a2c46ae6c09f06634d5796ac8fa31f306088678d54515f773061de2621db",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 159,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T07:13:57.666719Z",
+  "freeze_sha256": "ccec7e32e55abd9166e4fa731bbbc1746d419a11acd51ec1f755e75803e0e665",
+  "incident_id": "SC-04_20261003T065317Z",
+  "latency_ms": 5294,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-04_20261003T065317Z/sc04/units/M2/R1/k3/model.json",
+  "model_record_sha256": "95119ce375ba917c32438a08706c3a58ac9b3df2d8a2e95f13441db5d781227e",
+  "outcome": "accepted",
+  "prompt_sha256": "7824ea3c91b1edb8e1222b7638c9e39f7afafbf5c3753e568887c6d0648e3a00",
+  "prompt_tokens": 383,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the `last_safe_lsn_int` values provided in the evidence:\n\n1. `250070511388504` (window=16)\n2. `250070578497368` (window=20)\n3. `250070595274432` (window=21)\n\nThe highest (latest) LSN value is `250070595274432`.\n\nCOORDINATE: lsn=250070595274432",
+  "replicate_index": 3,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|3"
+}

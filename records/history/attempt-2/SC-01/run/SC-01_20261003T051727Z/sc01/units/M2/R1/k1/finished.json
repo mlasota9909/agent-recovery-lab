@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 738231992,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 738231992,
+        "token": "lsn=738231992",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      738231992
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T05:23:17.772812Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 200,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner2/var/restore/SC-01_20261003T051727Z/ab-738231992/report.json",
+    "report_sha256": "31e812262327c6bbe39e5ed65b1c93e218423aab9ad423b205d4c8a21509f632",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 247,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:23:26.164931Z",
+  "freeze_sha256": "d7d34aed2d8ad6768330edf061f74360fdbe9a03ab1ff54d2d1a644acca3dc56",
+  "incident_id": "SC-01_20261003T051727Z",
+  "latency_ms": 8070,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-01_20261003T051727Z/sc01/units/M2/R1/k1/model.json",
+  "model_record_sha256": "8915ccb2278a9032abc42a7d2fd834abd0e682b25c1b7dbf5c67cb9c99cb9436",
+  "outcome": "accepted",
+  "prompt_sha256": "2e66605fea2f08b8fdaeec9c322708b125be23369a076f3c6ed51bbf032c67c3",
+  "prompt_tokens": 363,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we must look for the entry with the highest `last_safe_lsn_int` (representing the most recent point in time/sequence) that is associated with a low `anomaly_score` (indicating the state before the anomaly/damage occurred).\n\nLooking at the evidence:\n1. `lsn=704644504`, `anomaly_score=231.6234266319059` (High anomaly)\n2. `lsn=654314576`, `anomaly_score=1.8588976617071877` (Low anomaly)\n3. `lsn=738231992`, `anomaly_score=1.845672866881607` (Low anomaly)\n\nThe latest safe point (highest LSN with a low anomaly score) is 738231992.\n\nCOORDINATE: lsn=738231992",
+  "replicate_index": 1,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|1"
+}

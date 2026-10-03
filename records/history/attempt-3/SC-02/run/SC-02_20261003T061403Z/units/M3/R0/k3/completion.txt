@@ -1,0 +1,17 @@
+
+
+Looking at the evidence, I need to identify the "damaging file activity" and find the latest safe snapshot before it began.
+
+**Identifying the damaging activity:**
+- Intervals 9 and 10 show routine build-file modifications (modifying/creating/deleting individual build files) — normal activity.
+- Interval 37 shows a mass deletion: the entire `workspace/records` directory and all 12 files (f1–f12) plus `nested` are deleted. This is the damaging activity.
+
+**Locating the safe snapshot:**
+The damaging activity begins at interval 37. The start snapshot of interval 37 is `s_20261003T061549544Z_000037`, recorded at `2026-10-03T06:15:50.224567Z`. This is the latest safe recorded snapshot before the mass deletions.
+
+All three locator forms resolve to the same snapshot:
+- `interval=37` → its start snapshot is `s_20261003T061549544Z_000037`
+- `snapshot=s_20261003T061549544Z_000037`
+- `ts=2026-10-03T06:15:50.224567Z` → the latest visible snapshot at or before this time is `s_20261003T061549544Z_000037`
+
+COORDINATE: interval=37 snapshot=s_20261003T061549544Z_000037 ts=2026-10-03T06:15:50.224567Z

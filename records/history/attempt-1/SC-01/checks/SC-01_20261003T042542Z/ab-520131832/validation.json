@@ -1,0 +1,62 @@
+{
+  "db_validation": {
+    "mismatches": [
+      {
+        "actual": "missing",
+        "classification": "legit_lost",
+        "expected": "88000700",
+        "kind": "content_hash",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing",
+        "classification": "legit_lost",
+        "expected": "88000701",
+        "kind": "content_hash",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing",
+        "classification": "legit_lost",
+        "expected": "88000702",
+        "kind": "content_hash",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing",
+        "classification": "legit_lost",
+        "expected": "88000703",
+        "kind": "content_hash",
+        "object": "public.p2_probe"
+      }
+    ],
+    "p3_analytical_legit_rows_lost": 116,
+    "relations": {
+      "p2_probe": {
+        "content_hash": "659b7a9d71c7a0bb41467c74cfe3d8be4bbbc6a2f15962a315b1c95de975b6a2",
+        "row_count": 400
+      }
+    },
+    "relations_checked": 1,
+    "relations_matched": 0
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261003T042623227Z_000012",
+    "files_checked": 0,
+    "files_compared": 0,
+    "files_matched": 0,
+    "mismatches": []
+  },
+  "schema_validation": {
+    "ddl": "id bigint\nv text",
+    "ddl_match": true,
+    "diffs": []
+  },
+  "summary": {
+    "damage_rows_retained": 0,
+    "files_mismatched": 0,
+    "legit_rows_lost": 76,
+    "p3_analytical_legit_rows_lost": 116,
+    "schema_diffs": 0
+  }
+}

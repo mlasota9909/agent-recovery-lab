@@ -1,0 +1,26 @@
+To identify the latest safe point before damaging activity began, we must examine the `action` and `payload` fields in the provided evidence.
+
+1.  **Identify damaging activity:**
+    *   `{"action":"U","detail":{"id":164,"payload":"mal-164"}...}` (LSN: `E370/1A000068`)
+    *   `{"action":"U","detail":{"id":190,"payload":"mal-190"}...}` (LSN: `E370/140007F8`)
+    *   `{"action":"U","detail":{"id":36,"payload":"mal-36"}...}` (LSN: `E370/18000918`)
+    *   `{"action":"U","detail":{"id":7,"payload":"mal-7"}...}` (LSN: `E370/15000758`)
+    *   `{"action":"U","detail":{"id":189,"payload":"mal-189"}...}` (LSN: `E370/190005E0`)
+
+2.  **Locate the latest safe point before the first damaging activity:**
+    The damaging activities occur at various LSNs. We need to find the highest LSN (latest timestamp/sequence) that occurs *before* any of these "mal-" payloads.
+
+    Looking at the chronological order of the logs (by `wall_clock` or `lsn_int`):
+    *   `mal-189` is at `250070595274208` (`E370/190005E0`).
+    *   `mal-190` is at `250070511388664` (`E370/140007F8`).
+    *   `mal-36` is at `250070578497816` (`E370/18000918`).
+    *   `mal-7` is at `250070528165720` (`E370/15000758`).
+    *   `mal-164` is at `250070612050024` (`E370/1A000068`).
+
+    The earliest damaging activity in the sequence is `mal-189` at LSN `E370/190005E0`.
+    The log entry immediately preceding `mal-189` is:
+    `{"action":"U","detail":{"id":88000702,"v":"u88000702b"},"lsn_int":250070595274048,"lsn_text":"E370/19000540","natural_key":88000702,"object":"p2_probe","wall_clock":"2026-10-03T06:54:26.015417Z","xid":1108}`
+
+    The LSN for this safe point is `E370/19000540`.
+
+COORDINATE: lsn=E370/19000540

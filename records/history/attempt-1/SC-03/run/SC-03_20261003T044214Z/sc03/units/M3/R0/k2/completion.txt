@@ -1,0 +1,13 @@
+
+
+Looking at the evidence, I need to identify the first "damaging" operation and then name the last safe LSN immediately before it.
+
+**Identifying the damaging activity:**
+Scanning the log in LSN order, the first destructive operation is the **D (delete)** on `p2_probe` (id 88000700) at LSN `E9FA/D000B08` (lsn_int 257260169202440, xid 892). A DELETE is the clearest "damaging" write in this sequence.
+
+**Latest safe point before it:**
+The operation immediately preceding that D is the U on `p2_probe` id 88000701b at LSN `E9FA/D000A68` (lsn_int 257260169202280, xid 891, wall_clock 2026-10-03T04:42:59.723851Z).
+
+This is the last safe coordinate before the first delete (damaging) activity began.
+
+COORDINATE: lsn=E9FA/D000A68

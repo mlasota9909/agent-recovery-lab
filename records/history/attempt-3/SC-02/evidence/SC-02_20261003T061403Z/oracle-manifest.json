@@ -1,0 +1,11 @@
+{
+  "destroyed_bytes": 0,
+  "destroyed_row_count": 0,
+  "destroyed_row_ids": [],
+  "legitimate_bytes": 0,
+  "legitimate_commits_at_or_before": 356,
+  "legitimate_row_count": 0,
+  "legitimate_row_ids": [],
+  "malicious_lsn": "DEC1/2B000638",
+  "optimum_lsn": "DEC1/2A033C00"
+}

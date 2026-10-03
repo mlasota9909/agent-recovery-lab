@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 247802768657080,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 247802768657080,
+        "token": "lsn=E160/14000AB8",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      247802768657080
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T06:43:29.155258Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 2,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner3/var/restore/SC-03_20261003T063831Z/ab-247802768657080/report.json",
+    "report_sha256": "3eefedca46dd652c288a8db75efccf56d11566e15c30448c19346201cb6f645f",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 283,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T06:43:38.514488Z",
+  "freeze_sha256": "b1e25fb0d21f4d35ea00288a34b68e6f0c9f4c2dc06853d85b6dd4bc1fd0a598",
+  "incident_id": "SC-03_20261003T063831Z",
+  "latency_ms": 9063,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-03_20261003T063831Z/sc03/units/M2/R0/k1/model.json",
+  "model_record_sha256": "9a9403d6e7cfa6c81f055a277dac0e8bfeee84c4b9788456902ea97f367ad23c",
+  "outcome": "accepted",
+  "prompt_sha256": "31c66b061291f84312ba7f0ea776054b07051a44ca39f686c7249b097251b30c",
+  "prompt_tokens": 7851,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we look for the last transaction before the first \"D\" (Delete) action.\n\nScanning the evidence:\n1. The first \"D\" action occurs at `lsn_int: 247802768657240` (`E160/14000B58`) with `xid: 1000`.\n2. The transaction immediately preceding this \"D\" action is:\n   `{\"action\":\"U\",\"detail\":{\"id\":88000701,\"v\":\"u88000701b\"},\"lsn_int\":247802768657080,\"lsn_text\":\"E160/14000AB8\",\"natural_key\":88000701,\"object\":\"p2_probe\",\"wall_clock\":\"2026-10-03T06:39:28.852092Z\",\"xid\":999}`\n\nThe latest safe point is the LSN of the last non-damaging transaction before the first deletion.\n\nCOORDINATE: lsn=E160/14000AB8",
+  "replicate_index": 1,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|1"
+}

@@ -1,0 +1,27 @@
+{
+  "chosen_lsn_int": 250070578497368,
+  "grammar_outcome": "accepted",
+  "locators": [
+    {
+      "discard_reason": "named window is not visible",
+      "resolved_lsn_int": null,
+      "token": "window=20",
+      "type": "window"
+    },
+    {
+      "discard_reason": null,
+      "resolved_lsn_int": 250070578497368,
+      "token": "lsn=250070578497368",
+      "type": "lsn_int"
+    }
+  ],
+  "locators_offered": [
+    "window",
+    "lsn_int"
+  ],
+  "locators_resolved_to": [
+    250070578497368
+  ],
+  "outcome": "accepted",
+  "reason": "all resolved locators agree"
+}

@@ -1,0 +1,907 @@
+Stage experiment; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T083816.698212507Z-1779750-experiment.log
+Experiment: sc02 (run/all.sh)
+Stage all; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T083816.733195502Z-1779764-all.log
+Stage 00-provision; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T083816.780217616Z-1779774-00-provision.log
+OK: site configuration
+OK: configuration
+OK: virsh
+OK: virt-install
+OK: qemu-img
+OK: cloud-localds
+OK: genisoimage
+OK: curl
+OK: python3
+OK: ssh
+OK: ssh-keygen
+OK: pg_recvlogical
+OK: psql
+OK: pg_basebackup
+OK: duckdb
+OK: rg
+OK: ip
+OK: flock
+OK: sudo
+OK: systemctl
+OK: sha256sum
+OK: rsync
+OK: Ubuntu 26.04
+OK: passwordless sudo
+OK: libvirt group
+OK: KVM device
+OK: libvirt KVM support
+OK: libvirt >= 11
+OK: virt-install >= 5.1
+OK: pg_recvlogical 18
+OK: psql 18
+OK: pg_basebackup 18
+OK: DuckDB version: v1.3.2 (Ossivalis) 0b83e5d2f6
+OK: system libvirt access
+OK: libvirt NAT network: 192.168.122.1
+OK: storage pool and free space: will create directory pool reclab06 at /var/lib/libvirt/images/reclab06
+OK: checkout free space
+OK: host SSH key
+OK: host SSH public key format
+OK: host SSH service
+OK: host SSH public key
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0
+  0      0   0      0   0      0      0      0           00:01              0
+100    342 100    342   0      0    264      0   00:01   00:01            264
+100    342 100    342   0      0    264      0   00:01   00:01            264
+
+  0      0   0      0   0      0      0      0           00:01              0
+100   8788 100   8788   0      0   5304      0   00:01   00:01              0
+100   8788 100   8788   0      0   5303      0   00:01   00:01              0
+100   8788 100   8788   0      0   5302      0   00:01   00:01              0
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0
+  0      0   0      0   0      0      0      0           00:01              0
+100    370 100    370   0      0    288      0   00:01   00:01            288
+100    370 100    370   0      0    288      0   00:01   00:01            288
+
+  0      0   0      0   0      0      0      0           00:01              0
+  0 825.0M   0  81920   0      0  35747      0 6:43:21   00:02 6:43:19  81108
+  0 825.0M   0 960.0k   0      0 291.5k      0   48:17   00:03   48:14 477.3k
+  1 825.0M   1  9.09M   0      0  2.11M      0   06:30   00:04   06:26  3.00M
+  6 825.0M   6 56.29M   0      0 10.61M      0   01:17   00:05   01:12 13.99M
+ 14 825.0M  14 121.7M   0      0 18.66M      0   00:44   00:06   00:38 23.22M
+ 17 825.0M  17 148.1M   0      0 18.45M      0   00:44   00:08   00:36 25.81M
+ 20 825.0M  20 165.0M   0      0 17.87M      0   00:46   00:09   00:37 27.62M
+ 23 825.0M  23 191.6M   0      0 17.82M      0   00:46   00:10   00:36 28.32M
+ 25 825.0M  25 212.0M   0      0 17.78M      0   00:46   00:11   00:35 23.51M
+ 28 825.0M  28 237.4M   0      0 18.03M      0   00:45   00:13   00:32 17.40M
+ 31 825.0M  31 259.4M   0      0 18.06M      0   00:45   00:14   00:31 17.56M
+ 31 825.0M  31 261.7M   0      0 16.84M      0   00:48   00:15   00:33 15.33M
+ 32 825.0M  32 267.1M   0      0 15.98M      0   00:51   00:16   00:35 12.66M
+ 33 825.0M  33 275.9M   0      0 15.42M      0   00:53   00:17   00:36 10.69M
+ 34 825.0M  34 286.9M   0      0 15.04M      0   00:54   00:19   00:35  8.39M
+ 36 825.0M  36 300.7M   0      0 14.85M      0   00:55   00:20   00:35  7.01M
+ 38 825.0M  38 317.2M   0      0 14.81M      0   00:55   00:21   00:34  9.43M
+ 40 825.0M  40 335.2M   0      0 14.83M      0   00:55   00:22   00:33 11.55M
+ 43 825.0M  43 356.0M   0      0 15.08M      0   00:54   00:23   00:31 14.03M
+ 45 825.0M  45 376.6M   0      0 15.26M      0   00:54   00:24   00:30 16.02M
+ 49 825.0M  49 404.6M   0      0 15.76M      0   00:52   00:25   00:27 19.18M
+ 51 825.0M  51 428.8M   0      0 16.04M      0   00:51   00:26   00:25 21.01M
+ 54 825.0M  54 452.5M   0      0 16.31M      0   00:50   00:27   00:23 22.85M
+ 57 825.0M  57 478.1M   0      0 16.60M      0   00:49   00:28   00:21 23.49M
+ 61 825.0M  61 510.1M   0      0 17.11M      0   00:48   00:29   00:19 26.00M
+ 66 825.0M  66 546.8M   0      0 17.71M      0   00:46   00:30   00:16 27.35M
+ 71 825.0M  71 587.5M   0      0 18.43M      0   00:44   00:31   00:13 30.94M
+ 75 825.0M  75 621.7M   0      0 18.91M      0   00:43   00:32   00:11 32.98M
+ 78 825.0M  78 644.0M   0      0 19.00M      0   00:43   00:33   00:10 32.64M
+ 80 825.0M  80 666.4M   0      0 19.09M      0   00:43   00:34   00:09 30.69M
+ 83 825.0M  83 691.5M   0      0 19.26M      0   00:42   00:35   00:07 28.77M
+ 88 825.0M  88 728.7M   0      0 19.75M      0   00:41   00:36   00:05 28.08M
+ 95 825.0M  95 789.5M   0      0 20.83M      0   00:39   00:37   00:02 33.38M
+100 825.0M 100 825.0M   0      0 21.30M      0   00:38   00:38         33.38M
+100 825.0M 100 825.0M   0      0 21.30M      0   00:38   00:38         33.38M
+100 825.0M 100 825.0M   0      0 21.30M      0   00:38   00:38         33.38M
+SHA256 verified: ubuntu-26.04-server-cloudimg-amd64.img 8800651811af9a85465ad1d552add729947bb16488dddb4a9b5305a3d97332b2
+Image resized.
+WARNING  Failed to detect osinfo OS name from install media, using fallback name 'generic'.
+Please file a bug against virt-install if you expected the detection to succeed.
+WARNING  Using --osinfo generic, VM performance may suffer. Specify an accurate OS for optimal results.
+
+Starting install...
+
+Allocating 'virtinst-w_m9d068-cloudinit.iso'                | 370 kB  00:00     
+
+Transferring 'virtinst-w_m9d068-cloudinit.iso'              | 370 kB  00:00     
+
+Creating domain...                                          |         00:00     
+
+Domain is still running. Installation may be in progress.
+You can reconnect to the console to complete the installation process.
+Guest ready: lab-provision-reclab06-ddbb862c (192.168.122.148); host source 192.168.122.1
+status: done
+Created symlink '/etc/systemd/system/multi-user.target.wants/postgresql@18-main.service' → '/usr/lib/systemd/system/postgresql@.service'.
+1
+{
+  "DEV_A": "/dev/vdb",
+  "DEV_B": "/dev/vdc",
+  "DEV_LOCATION": "guest",
+  "LAB_HOST": "192.168.122.1",
+  "LAB_ROOT": "/home/mlasota/agent-recovery-lab-examiner4",
+  "PG_DATA": "/var/lib/postgresql/18/main",
+  "PG_PORT": "5432",
+  "PG_VERSION": "18",
+  "VM_ADDR": "192.168.122.148",
+  "VM_NAME": "reclab06",
+  "VM_SSH": "lab-provision-reclab06-ddbb862c",
+  "ZFS_VERSION": "2.4.1-1ubuntu5.1",
+  "changed": true,
+  "ok": true
+}
+{
+  "DS_PARENT": "labpool/victim",
+  "DS_PGDATA": "labpool/victim/pgdata",
+  "DS_PROTECTED": "labpool/victim/protected",
+  "MNT_PROTECTED": "/srv/protected",
+  "ZPOOL": "labpool",
+  "changed": true,
+  "ok": true,
+  "rollback_sec": 0.287750261,
+  "snap_sec": 0.160853943,
+  "topology": "stripe",
+  "topology_reason": "stripe maximises space/speed; mirror unused because ground truth lives on host, not victim disks"
+}
+{
+  "ok": true,
+  "changed": true,
+  "PG_DATA": "/var/lib/postgresql/18/main",
+  "DS_PGDATA": "labpool/victim/pgdata",
+  "aside": "/var/lib/postgresql/18/main.relocated-original",
+  "stdout_tail": [
+    "RSYNC_VERIFY_EMPTY",
+    "Ver Cluster Port Status Owner    Data directory              Log file",
+    "18  main    5432 online postgres /var/lib/postgresql/18/main /var/log/postgresql/postgresql-18-main.log",
+    "labpool/victim/pgdata zfs",
+    "postgres:postgres 700"
+  ]
+}
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE TABLE
+ALTER TABLE
+ALTER TABLE
+INSERT 0 100
+INSERT 0 1000000
+CREATE FUNCTION
+ALTER FUNCTION
+REVOKE
+CREATE EVENT TRIGGER
+CREATE FUNCTION
+ALTER FUNCTION
+REVOKE
+CREATE EVENT TRIGGER
+COMMIT
+{"ok":true,"changed":true,"DB_NAME":"labdb","DDL_AUDIT_TABLE":"lab_ddl_audit","seed_rows":1000000,"seed_started":"2026-10-03T08:41:18Z","seed_finished":"2026-10-03T08:41:38Z","seed_elapsed_seconds":20}
+{"archive_timeout": "1min", "changed": true, "host_replication_source": "192.168.122.1", "ok": true, "slot_name": "lab_slot", "slot_plugin": "wal2json", "wal2json_version": "2.6-3", "wal_keep_size": "64MB"}
+{"changed": true, "max_slot_wal_keep_size": "8GB", "ok": true, "plugin": "wal2json", "slot_name": "lab_slot"}
+NOTICE:  trigger "lab_provenance_marker_on_ledger" for relation "public.lab_ledger" does not exist, skipping
+NOTICE:  trigger "lab_provenance_marker_on_reference" for relation "public.lab_reference" does not exist, skipping
+{"ok":true,"changed":true,"ROLE_APP":"lab_app","ROLE_AGENT":"lab_agent","OS_USER_APP":"lab_app","OS_USER_AGENT":"lab_agent"}
+Created symlink '/etc/systemd/system/multi-user.target.wants/lab-heartbeat.service' → '/etc/systemd/system/lab-heartbeat.service'.
+{"action": "start", "changed": true, "heartbeat_hz": 1, "heartbeat_table": "lab_heartbeat", "newest": {"at": "2026-10-03T08:41:59.916412+00", "lsn": "0/116AACE8"}, "observed_rate_hz_last_60s": 0.05, "ok": true, "rows_last_60s": 3, "running": true}
+{"incident": "SC-01_20261003T084202Z", "ok": true, "snapshots": [{"changed": true, "created_at": "2026-10-03T08:42:04.662497Z", "incident": "SC-01_20261003T084202Z", "label": "pristine", "lsn": "0/116AB4A0", "lsn_recorded_at": "2026-10-03T08:42:05.089421Z", "ok": true, "operations": ["zfs_snapshot", "pg_current_wal_lsn", "pg_switch_wal"], "recorded_lsn": "0/116AB4A0", "sequence": 1, "snapshot": "s_20261003T084204130Z_000001", "wal_switch_lsn": "0/116AB4B8", "wall_clock": "2026-10-03T08:42:04.662497Z"}, {"changed": true, "created_at": "2026-10-03T08:42:06.268853Z", "incident": "SC-01_20261003T084202Z", "label": "pre_injection", "lsn": "0/12000168", "lsn_recorded_at": "2026-10-03T08:42:06.695719Z", "ok": true, "operations": ["zfs_snapshot", "pg_current_wal_lsn", "pg_switch_wal"], "recorded_lsn": "0/12000168", "sequence": 2, "snapshot": "s_20261003T084205480Z_000002", "wal_switch_lsn": "0/12000180", "wall_clock": "2026-10-03T08:42:06.268853Z"}, {"changed": true, "created_at": "2026-10-03T08:42:07.926958Z", "incident": "SC-01_20261003T084202Z", "label": "post_capture", "lsn": "0/130002A8", "lsn_recorded_at": "2026-10-03T08:42:08.346872Z", "ok": true, "operations": ["zfs_snapshot", "pg_current_wal_lsn", "pg_switch_wal"], "recorded_lsn": "0/130002A8", "sequence": 3, "snapshot": "s_20261003T084207241Z_000003", "wal_switch_lsn": "0/130002C0", "wall_clock": "2026-10-03T08:42:07.926958Z"}]}
+{"assertions": [{"assertion": "archive_append", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c append-through-forced-channel", "expected": "append succeeds only through forced channel", "observed": "{\"ok\":true,\"segment\":\"C299BC74BCD90B74736C757E\"} (exit 0)", "principal": "postgres", "result": "PASS"}, {"assertion": "evidence_read", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "cat: /home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "evidence_list", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence\\'", "expected": "access denied (not file-not-found)", "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner4/evidence': Permission denied (exit 2)", "principal": "lab_app", "result": "PASS"}, {"assertion": "evidence_create", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-create-lab_app\\'", "expected": "access denied (not file-not-found)", "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-create-lab_app': Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "evidence_modify", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "evidence_delete", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe': Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "results_read", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "cat: /home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "results_list", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results\\'", "expected": "access denied (not file-not-found)", "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner4/results': Permission denied (exit 2)", "principal": "lab_app", "result": "PASS"}, {"assertion": "results_create", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-create-lab_app\\'", "expected": "access denied (not file-not-found)", "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-create-lab_app': Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "results_modify", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "results_delete", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe': Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "archive_read", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "cat: /home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "archive_list_incident", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z\\'", "expected": "access denied (not file-not-found)", "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z': Permission denied (exit 2)", "principal": "lab_app", "result": "PASS"}, {"assertion": "archive_create", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-create-lab_app\\'", "expected": "access denied (not file-not-found)", "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-create-lab_app': Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "archive_modify", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "archive_delete", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe': Permission denied (exit 1)", "principal": "lab_app", "result": "PASS"}, {"assertion": "archive_overwrite", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ C299BC74BCD90B74736C757E\\'", "expected": "access denied (not file-not-found)", "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)", "principal": "lab_app", "result": "PASS"}, {"assertion": "deploy_root_reach", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner4/etc/lab.env\\'", "expected": "access denied (not file-not-found)", "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)", "principal": "lab_app", "result": "PASS"}, {"assertion": "evidence_read_forced_channel", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_app bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'\\\"", "expected": "access denied (not file-not-found)", "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)", "principal": "lab_app", "result": "PASS"}, {"assertion": "evidence_read", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "cat: /home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "evidence_list", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence\\'", "expected": "access denied (not file-not-found)", "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner4/evidence': Permission denied (exit 2)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "evidence_create", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-create-lab_agent\\'", "expected": "access denied (not file-not-found)", "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-create-lab_agent': Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "evidence_modify", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "evidence_delete", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe': Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "results_read", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "cat: /home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "results_list", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results\\'", "expected": "access denied (not file-not-found)", "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner4/results': Permission denied (exit 2)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "results_create", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-create-lab_agent\\'", "expected": "access denied (not file-not-found)", "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-create-lab_agent': Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "results_modify", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "results_delete", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe': Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "archive_read", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "cat: /home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "archive_list_incident", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z\\'", "expected": "access denied (not file-not-found)", "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z': Permission denied (exit 2)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "archive_create", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-create-lab_agent\\'", "expected": "access denied (not file-not-found)", "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-create-lab_agent': Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "archive_modify", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe: Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "archive_delete", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe': Permission denied (exit 1)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "archive_overwrite", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ C299BC74BCD90B74736C757E\\'", "expected": "access denied (not file-not-found)", "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "deploy_root_reach", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner4/etc/lab.env\\'", "expected": "access denied (not file-not-found)", "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "evidence_read_forced_channel", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u lab_agent bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'\\\"", "expected": "access denied (not file-not-found)", "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)", "principal": "lab_agent", "result": "PASS"}, {"assertion": "evidence_read", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "cat: /home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe: Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "evidence_list", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence\\'", "expected": "access denied (not file-not-found)", "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner4/evidence': Permission denied (exit 2)", "principal": "postgres", "result": "PASS"}, {"assertion": "evidence_create", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-create-postgres\\'", "expected": "access denied (not file-not-found)", "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-create-postgres': Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "evidence_modify", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe: Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "evidence_delete", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe': Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "results_read", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "cat: /home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe: Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "results_list", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results\\'", "expected": "access denied (not file-not-found)", "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner4/results': Permission denied (exit 2)", "principal": "postgres", "result": "PASS"}, {"assertion": "results_create", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-create-postgres\\'", "expected": "access denied (not file-not-found)", "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-create-postgres': Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "results_modify", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe: Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "results_delete", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner4/results/.lab-isolation-probe': Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "archive_read", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "cat: /home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe: Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "archive_list_incident", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z\\'", "expected": "access denied (not file-not-found)", "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z': Permission denied (exit 2)", "principal": "postgres", "result": "PASS"}, {"assertion": "archive_create", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-create-postgres\\'", "expected": "access denied (not file-not-found)", "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-create-postgres': Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "archive_modify", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe: Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "archive_delete", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe\\'", "expected": "access denied (not file-not-found)", "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner4/archive/SC-01_20261003T084202Z/.lab-isolation-probe': Permission denied (exit 1)", "principal": "postgres", "result": "PASS"}, {"assertion": "archive_overwrite", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ C299BC74BCD90B74736C757E\\'", "expected": "access denied (not file-not-found)", "observed": "wal receive refused: overwrite refused for C299BC74BCD90B74736C757E (exit 42)", "principal": "postgres", "result": "PASS"}, {"assertion": "deploy_root_reach", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner4/etc/lab.env\\'", "expected": "access denied (not file-not-found)", "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)", "principal": "postgres", "result": "PASS"}, {"assertion": "evidence_read_forced_channel", "command": "ssh lab-provision-reclab06-ddbb862c sudo -u postgres bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner4/evidence/.lab-isolation-probe\\'\\\"", "expected": "access denied (not file-not-found)", "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted (exit 1)", "principal": "postgres", "result": "PASS"}], "summary": {"ERROR": 0, "FAIL": 0, "PASS": 55, "result": "PASS", "total": 55}}
+{"archive_timeout": "1min", "changed": false, "host_replication_source": "192.168.122.1", "ok": true, "slot_name": "lab_slot", "slot_plugin": "wal2json", "wal2json_version": "2.6-3", "wal_keep_size": "64MB"}
+{"changed": false, "max_slot_wal_keep_size": "8GB", "ok": true, "plugin": "wal2json", "slot_name": "lab_slot"}
+{"incident": "SC-01_20261003T084202Z", "ok": true, "snapshots": [{"created_at": "2026-10-03T08:42:04.662497Z", "incident": "SC-01_20261003T084202Z", "label": "pristine", "lsn": "0/116AB4A0", "lsn_recorded_at": "2026-10-03T08:42:05.089421Z", "operations": ["zfs_snapshot", "pg_current_wal_lsn", "pg_switch_wal"], "recorded_lsn": "0/116AB4A0", "sequence": 1, "snapshot": "s_20261003T084204130Z_000001", "wal_switch_lsn": "0/116AB4B8", "wall_clock": "2026-10-03T08:42:04.662497Z"}, {"created_at": "2026-10-03T08:42:06.268853Z", "incident": "SC-01_20261003T084202Z", "label": "pre_injection", "lsn": "0/12000168", "lsn_recorded_at": "2026-10-03T08:42:06.695719Z", "operations": ["zfs_snapshot", "pg_current_wal_lsn", "pg_switch_wal"], "recorded_lsn": "0/12000168", "sequence": 2, "snapshot": "s_20261003T084205480Z_000002", "wal_switch_lsn": "0/12000180", "wall_clock": "2026-10-03T08:42:06.268853Z"}, {"created_at": "2026-10-03T08:42:07.926958Z", "incident": "SC-01_20261003T084202Z", "label": "post_capture", "lsn": "0/130002A8", "lsn_recorded_at": "2026-10-03T08:42:08.346872Z", "operations": ["zfs_snapshot", "pg_current_wal_lsn", "pg_switch_wal"], "recorded_lsn": "0/130002A8", "sequence": 3, "snapshot": "s_20261003T084207241Z_000003", "wal_switch_lsn": "0/130002C0", "wall_clock": "2026-10-03T08:42:07.926958Z"}]}
+PASS: AC-1: Current configuration and replica ownership
+PASS: AC-2: Live discovery confirms guest device attachment
+PASS: AC-6: Decoded UPDATE and DELETE carry before-images
+PASS: archive: PostgreSQL WAL segment reaches the host
+PASS: AC-8: Restricted append channel refuses overwrite and invalid commands
+PASS: AC-10: Slot active, valid, bounded and below retention/free-space limits
+PASS: AC-12: Victim principals cannot access host stores
+PASS: AC-13: Deliberate isolation regression fails, then passes after revoke
+PASS: AC-14: Live heartbeat cadence and monotonic LSNs
+PASS: AC-15: All reset labels have ordered snapshot/LSN/WAL anchors
+PASS: AC-16: LSN resolves to the newest snapshot with reported skew
+PASS: AC-18: Repeated P0 setup reports changed:false
+PASS: lab-ready: Read-only readiness gate
+{"ok": true, "summary": "/home/mlasota/agent-recovery-lab-examiner4/logs/provision/health-20261003T084458.717573Z.json"}
+provision exit=0 log=/home/mlasota/agent-recovery-lab-examiner4/logs/provision/all-20261003T083817Z-EK49Dj.log
+
+Exit 0 at 2026-10-03T08:44:58Z
+Stage 10-preflight; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T084458.936348139Z-1794492-10-preflight.log
+ARCHIVE_CURRENT=/home/mlasota/agent-recovery-lab-examiner4/archive/current
+ARCHIVE_MOUNT_IN_VM=/var/lib/postgresql/archive_sink
+ARCHIVE_ROOT=/home/mlasota/agent-recovery-lab-examiner4/archive
+ARM_B_K=5
+ARM_B_PROMPT_TEMPLATE=/home/mlasota/agent-recovery-lab-examiner4/etc/arm-b-prompt.txt
+BARRIER_TIMEOUT_S=120
+BASEBACKUP_ROOT=/home/mlasota/agent-recovery-lab-examiner4/basebackup
+CONSUMER_UNIT=reclab6-consumer
+DB_NAME=labdb
+DDL_AUDIT_TABLE=lab_ddl_audit
+DEV_A=/dev/vdb
+DEV_B=/dev/vdc
+DEV_LOCATION=guest
+DEV_SYSTEM=/dev/vda
+DS_PARENT=labpool/victim
+DS_PGDATA=labpool/victim/pgdata
+DS_PROTECTED=labpool/victim/protected
+DUCKDB_BIN=duckdb
+EVIDENCE_ROOT=/home/mlasota/agent-recovery-lab-examiner4/evidence
+GUEST_KERNEL=
+GUEST_OS=
+HARNESS_COMMIT_AT_P1_OPEN=
+HEARTBEAT_HZ=1
+HEARTBEAT_TABLE=lab_heartbeat
+HOST_ARCHIVE_USER=mlasota
+HOST_KERNEL=
+HOST_OS=
+HOST_PG_CIDR=192.168.122.1/32
+INCIDENT_PORT_BASE=56000
+INCIDENT_PORT_COUNT=4000
+LAB_FORBIDDEN_CLOUD_ALIAS=deepseek-v4-pro
+LAB_HOST=192.168.122.1
+LAB_HOSTS=localhost,reclab06
+LAB_PRIVATE_CIDRS=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,100.64.0.0/10,fd00::/8,fe80::/10
+LAB_ROOT=/home/mlasota/agent-recovery-lab-examiner4
+LAB_SNAPSHOT_LOOP_HOOK=lsn
+MNT_PROTECTED=/srv/protected
+MODEL_API_KEY_FILE=/home/mlasota/agent-recovery-lab-examiner4/var/model/litellm.key
+MODEL_API_KEY_VAR=MODEL_API_KEY
+MODEL_CONTEXT=262144
+MODEL_ENDPOINT=http://model-gateway:4001
+MODEL_ID=gb10a-deepseek-v4-flash
+MODEL_LITELLM_HOST=model-gateway
+MODEL_LITELLM_PORT=4001
+MODEL_MAX_TOKENS=512
+MODEL_QUANT=exl3-k2
+MODEL_RUNTIME=litellm+vllm
+MODEL_RUNTIME_JSON=/home/mlasota/agent-recovery-lab-examiner4/var/model/model-runtime.json
+MODEL_SEED=42
+MODEL_WEIGHTS_SHA256=c5da6dd1f48fc7eed95333921709c5139bb0c59a5a616417094088dd81a31187
+OS_USER_AGENT=lab_agent
+OS_USER_APP=lab_app
+P9_BACKEND_M1=http://192.168.1.237:8000/v1
+P9_BACKEND_M2=http://100.70.64.14:8090/v1
+P9_BACKEND_M3=http://192.168.1.168:8010/v1
+P9_ENDPOINT=http://127.0.0.1:4001
+P9_SERVED_M1=deepseek-v4-flash-0731-exl3-k2
+P9_SERVED_M2=gemma4-26b-a4b-it-qat-q4
+P9_SERVED_M3=qwen38-27b-mtp-nvfp4
+PG_BIN=/usr/lib/postgresql/18/bin
+PG_DATA=/var/lib/postgresql/18/main
+PG_PORT=5432
+PG_SERVER_VERSION=
+PG_VERSION=18
+PROVISION_DATA_A_VOLUME=reclab06-data-a.qcow2
+PROVISION_DATA_B_VOLUME=reclab06-data-b.qcow2
+PROVISION_IMAGE_BASE=https://cloud-images.ubuntu.com/releases/26.04/release
+PROVISION_NETWORK=default
+PROVISION_SSH_KEY=/home/mlasota/.ssh/id_ed25519
+PROVISION_STORAGE_PATH=/var/lib/libvirt/images/reclab06
+PROVISION_STORAGE_POOL=reclab06
+PROVISION_SYSTEM_VOLUME=reclab06-system.qcow2
+PROVISION_URI=qemu:///system
+PROVISION_USER=mlasota
+PROVISION_VM_UUID=ddbb862c-b6b4-4ed8-8279-fa86dd0e87d4
+RESULTS_FILE_MODE=0444
+RESULTS_GLOB=results/*.jsonl
+RESULTS_ROOT=/home/mlasota/agent-recovery-lab-examiner4/results
+RESULTS_SCHEMA=/home/mlasota/agent-recovery-lab-examiner4/etc/results-row.schema.json
+ROLE_AGENT=lab_agent
+ROLE_APP=lab_app
+SANDBOX_DATASET=labpool/sandbox
+SANDBOX_MNT=/labpool/sandbox
+SANDBOX_PORT=55432
+SC01_BASELINE_S=10
+SC01_INJECT_ROWS=200
+SC01_MIX=insert:60,update:30,delete:10
+SC01_MIX_TOLERANCE=0.15
+SC01_SCENARIO_CONFIG=/home/mlasota/agent-recovery-lab-examiner4/etc/scenarios/sc01.env
+SC01_SEED_ROWS=50000
+SC01_TPS=20
+SC01_TPS_TOLERANCE=0.25
+SLOT_MAX_WAL_KEEP=8GB
+SLOT_MIN_FREE=20GB
+SLOT_NAME=lab_slot
+SLOT_PLUGIN=wal2json
+SLOT_STEADY_RETAINED_BYTES=
+SLOT_WARN_RETAINED=64MB
+SNAP_INTERVAL_S=2
+SNAP_POST_CAPTURE=post_capture
+SNAP_PREFIX=s_
+SNAP_PRE_INJECTION=pre_injection
+SNAP_PRISTINE=pristine
+TOKENIZER_NAME=lab-ws-punct
+TOKENIZER_PATH=/home/mlasota/agent-recovery-lab-examiner4/vendor/tokenizer/lab-ws-punct-1.json
+TOKENIZER_VERSION=1
+VM_ADDR=192.168.122.148
+VM_NAME=reclab06
+VM_SSH=lab-provision-reclab06-ddbb862c
+WAL2JSON_VERSION=2.6-3
+ZFS_KMOD_VERSION=
+ZFS_VERSION=2.4.1-1ubuntu5.1
+ZPOOL=labpool
+Preflight passed: three matching identities, contained gateway calls and lab health.
+Exit 0 at 2026-10-03T08:45:01Z
+Stage 20-incident; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T084501.717776147Z-1794588-20-incident.log
+SC-02_20261003T084505Z
+Exit 0 at 2026-10-03T08:48:06Z
+Stage 30-incident-gate; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T084806.311254917Z-1804254-30-incident-gate.log
+{"ok": true, "gate": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-02_20261003T084505Z/gate.json"}
+Exit 0 at 2026-10-03T08:49:42Z
+Stage 40-freeze; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T084942.664460042Z-1806723-40-freeze.log
+{"decoding": {"max_tokens": 8192, "seed": 42, "temperature": 0, "top_p": 1}, "files": {"contract:fl-analysis-plan.md": {"path": "sdd/specs/P12-file-level-test/contracts/fl-analysis-plan.md", "sha256": "eed4525f3575d00e34deffaef94a67cae88595ec68cb847bfada35bce7cfcad6"}, "contract:fl-answer-rules.md": {"path": "sdd/specs/P12-file-level-test/contracts/fl-answer-rules.md", "sha256": "6d8b1701a614b1d558a3927c5d0dc7b16f763f1c86897c06b05ca88639e60b8f"}, "contract:fl-checks.md": {"path": "sdd/specs/P12-file-level-test/contracts/fl-checks.md", "sha256": "c98505f864d06d51a5e53481fef1ab8405dd5d4241601e569112530930b7a012"}, "contract:fl-inputs.md": {"path": "sdd/specs/P12-file-level-test/contracts/fl-inputs.md", "sha256": "e85d01f38d3b58048b969c5c15b7371adc86de5390082baee01e0abd3174d667"}, "contract:fl-prompt.md": {"path": "sdd/specs/P12-file-level-test/contracts/fl-prompt.md", "sha256": "c82119e77241c2e9b2745252a11f47224147b5820ea1f9068ebb272c3ed33eb1"}, "design:plan": {"path": "sdd/specs/P12-file-level-test/plan.md", "sha256": "4f4fe199592f5070510722df1369de992e1ded051e3ef67f3e1a17da8caf3302"}, "design:spec": {"path": "sdd/specs/P12-file-level-test/spec.md", "sha256": "20bc1d27e8c8971503cdbc4f63cb2f8d5d07c409890a26387316f27cfb2a6541"}, "input:R0/content.txt": {"path": "evidence/SC-02/SC-02_20261003T084505Z/fl-inputs/R0/content.txt", "sha256": "04df37322dc1dfe3f7581bf4c0e4c8d1e839ec086735e9cb2bcf72525d059694"}, "input:R0/model-view.json": {"path": "evidence/SC-02/SC-02_20261003T084505Z/fl-inputs/R0/model-view.json", "sha256": "b2450e54ee4355c68d46f9eff25c9a0afc0f6f5ade317cbf4f37007959b9ba50"}, "input:R0/prompt.txt": {"path": "evidence/SC-02/SC-02_20261003T084505Z/fl-inputs/R0/prompt.txt", "sha256": "b6b416ccc9f1b7a646c4f4b87af8bb70168eb12c7ffe35bcb727ab69d41167ff"}, "input:R1/content.txt": {"path": "evidence/SC-02/SC-02_20261003T084505Z/fl-inputs/R1/content.txt", "sha256": "8a956d538f8634cce574d58863479c7333fee893da8cc7cef2037987875ed6a1"}, "input:R1/model-view.json": {"path": "evidence/SC-02/SC-02_20261003T084505Z/fl-inputs/R1/model-view.json", "sha256": "db9ac413e4caea23f002178f1efa5769ea11ccb9119457affc6922001516219e"}, "input:R1/prompt.txt": {"path": "evidence/SC-02/SC-02_20261003T084505Z/fl-inputs/R1/prompt.txt", "sha256": "112631173cd4c4883e28314de7da7e1917261f0314c10de6a782826ff90985ae"}, "input:R2/content.txt": {"path": "evidence/SC-02/SC-02_20261003T084505Z/fl-inputs/R2/content.txt", "sha256": "0904a84e7b9a9e3e6a9f6cc1a1155500cc5970a60effca41fa1b7549ae3bb362"}, "input:R2/model-view.json": {"path": "evidence/SC-02/SC-02_20261003T084505Z/fl-inputs/R2/model-view.json", "sha256": "7fddb01998a4e9036211855e47167a96a27fdddd86dfe590e243d2f504469b03"}, "input:R2/prompt.txt": {"path": "evidence/SC-02/SC-02_20261003T084505Z/fl-inputs/R2/prompt.txt", "sha256": "e3abbbbb55cb6a1d841569cde0ff80c430fa87f1d64c2c5b862791a6eb751a68"}, "models": {"path": "runtime/p9-model-set.json", "sha256": "257a0e92f924f4fcdaf3c740c823ea5a8605f221ac8099bc155af351d564c8c9"}}, "frozen_utc": "2026-10-03T08:49:42.870492Z", "incident_id": "SC-02_20261003T084505Z", "planned_units": 45, "schema_version": 1, "study_output": "fl-study-runs.jsonl", "study_output_present": false}
+
+Exit 0 at 2026-10-03T08:49:42Z
+Stage 50-study; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T084942.987394633Z-1806741-50-study.log
+Recorded gb10a-deepseek-v4-flash|R0|0: accepted
+Recorded gb10a-deepseek-v4-flash|R0|1: accepted
+Recorded gb10a-deepseek-v4-flash|R0|2: accepted
+Recorded gb10a-deepseek-v4-flash|R0|3: accepted
+Recorded gb10a-deepseek-v4-flash|R0|4: accepted
+Recorded gb10a-deepseek-v4-flash|R1|0: accepted
+Recorded gb10a-deepseek-v4-flash|R1|1: accepted
+Recorded gb10a-deepseek-v4-flash|R1|2: accepted
+Recorded gb10a-deepseek-v4-flash|R1|3: accepted
+Recorded gb10a-deepseek-v4-flash|R1|4: accepted
+Recorded gb10a-deepseek-v4-flash|R2|0: accepted
+Recorded gb10a-deepseek-v4-flash|R2|1: accepted
+Recorded gb10a-deepseek-v4-flash|R2|2: accepted
+Recorded gb10a-deepseek-v4-flash|R2|3: accepted
+Recorded gb10a-deepseek-v4-flash|R2|4: accepted
+Recorded gympc-gemma4-26b|R0|0: declined
+Recorded gympc-gemma4-26b|R0|1: accepted
+Recorded gympc-gemma4-26b|R0|2: accepted
+Recorded gympc-gemma4-26b|R0|3: declined
+Recorded gympc-gemma4-26b|R0|4: accepted
+Recorded gympc-gemma4-26b|R1|0: accepted
+Recorded gympc-gemma4-26b|R1|1: accepted
+Recorded gympc-gemma4-26b|R1|2: accepted
+Recorded gympc-gemma4-26b|R1|3: accepted
+Recorded gympc-gemma4-26b|R1|4: accepted
+Recorded gympc-gemma4-26b|R2|0: declined
+Recorded gympc-gemma4-26b|R2|1: declined
+Recorded gympc-gemma4-26b|R2|2: declined
+Recorded gympc-gemma4-26b|R2|3: rule_rejection
+Recorded gympc-gemma4-26b|R2|4: declined
+Recorded alienware-qwen38-27b|R0|0: accepted
+Recorded alienware-qwen38-27b|R0|1: accepted
+Recorded alienware-qwen38-27b|R0|2: accepted
+Recorded alienware-qwen38-27b|R0|3: accepted
+Recorded alienware-qwen38-27b|R0|4: accepted
+Recorded alienware-qwen38-27b|R1|0: accepted
+Recorded alienware-qwen38-27b|R1|1: accepted
+Recorded alienware-qwen38-27b|R1|2: accepted
+Recorded alienware-qwen38-27b|R1|3: accepted
+Recorded alienware-qwen38-27b|R1|4: accepted
+Recorded alienware-qwen38-27b|R2|0: accepted
+Recorded alienware-qwen38-27b|R2|1: accepted
+Recorded alienware-qwen38-27b|R2|2: accepted
+Recorded alienware-qwen38-27b|R2|3: accepted
+Recorded alienware-qwen38-27b|R2|4: accepted
+Exit 0 at 2026-10-03T08:59:49Z
+Stage 60-comparators; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T085949.796764208Z-1821325-60-comparators.log
+Recorded comparator rank: accepted
+Recorded comparator naive: accepted
+Exit 0 at 2026-10-03T09:00:14Z
+Stage 70-analysis; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T090014.710068296Z-1821959-70-analysis.log
+{"complete": true, "output": "/home/mlasota/agent-recovery-lab-examiner4/analysis-out/fl", "totals": {"accepted": 38, "checked_damage_remains": 0, "cleanup_failures": 0, "correct": 30, "declined": 6, "execution_failure": 0, "extra_work_lost": 8, "missing": 0, "not_recovered": 0, "pending_checks": 0, "planned": 45, "recorded": 45, "rule_rejection": 1}}
+Exit 0 at 2026-10-03T09:00:15Z
+Exit 0 at 2026-10-03T09:00:15Z
+Experiment: sc01 (run/optional/sc01-replication.sh)
+Stage sc01-replication; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T090015.367726849Z-1821982-sc01-replication.log
+Stage 00-provision; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T090015.536990117Z-1821993-00-provision.log
+Provisioning skipped: the replica already holds experiment incidents; stage 10 checks the lab.
+Exit 0 at 2026-10-03T09:00:15Z
+
+Stage 10-preflight; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T090015.697742487Z-1822006-10-preflight.log
+ARCHIVE_CURRENT=/home/mlasota/agent-recovery-lab-examiner4/archive/current
+ARCHIVE_MOUNT_IN_VM=/var/lib/postgresql/archive_sink
+ARCHIVE_ROOT=/home/mlasota/agent-recovery-lab-examiner4/archive
+ARM_B_K=5
+ARM_B_PROMPT_TEMPLATE=/home/mlasota/agent-recovery-lab-examiner4/etc/arm-b-prompt.txt
+BARRIER_TIMEOUT_S=120
+BASEBACKUP_ROOT=/home/mlasota/agent-recovery-lab-examiner4/basebackup
+CONSUMER_UNIT=reclab6-consumer
+DB_NAME=labdb
+DDL_AUDIT_TABLE=lab_ddl_audit
+DEV_A=/dev/vdb
+DEV_B=/dev/vdc
+DEV_LOCATION=guest
+DEV_SYSTEM=/dev/vda
+DS_PARENT=labpool/victim
+DS_PGDATA=labpool/victim/pgdata
+DS_PROTECTED=labpool/victim/protected
+DUCKDB_BIN=duckdb
+EVIDENCE_ROOT=/home/mlasota/agent-recovery-lab-examiner4/evidence
+GUEST_KERNEL=
+GUEST_OS=
+HARNESS_COMMIT_AT_P1_OPEN=
+HEARTBEAT_HZ=1
+HEARTBEAT_TABLE=lab_heartbeat
+HOST_ARCHIVE_USER=mlasota
+HOST_KERNEL=
+HOST_OS=
+HOST_PG_CIDR=192.168.122.1/32
+INCIDENT_PORT_BASE=56000
+INCIDENT_PORT_COUNT=4000
+LAB_FORBIDDEN_CLOUD_ALIAS=deepseek-v4-pro
+LAB_HOST=192.168.122.1
+LAB_HOSTS=localhost,reclab06
+LAB_PRIVATE_CIDRS=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,100.64.0.0/10,fd00::/8,fe80::/10
+LAB_ROOT=/home/mlasota/agent-recovery-lab-examiner4
+LAB_SNAPSHOT_LOOP_HOOK=lsn
+MNT_PROTECTED=/srv/protected
+MODEL_API_KEY_FILE=/home/mlasota/agent-recovery-lab-examiner4/var/model/litellm.key
+MODEL_API_KEY_VAR=MODEL_API_KEY
+MODEL_CONTEXT=262144
+MODEL_ENDPOINT=http://model-gateway:4001
+MODEL_ID=gb10a-deepseek-v4-flash
+MODEL_LITELLM_HOST=model-gateway
+MODEL_LITELLM_PORT=4001
+MODEL_MAX_TOKENS=512
+MODEL_QUANT=exl3-k2
+MODEL_RUNTIME=litellm+vllm
+MODEL_RUNTIME_JSON=/home/mlasota/agent-recovery-lab-examiner4/var/model/model-runtime.json
+MODEL_SEED=42
+MODEL_WEIGHTS_SHA256=c5da6dd1f48fc7eed95333921709c5139bb0c59a5a616417094088dd81a31187
+OS_USER_AGENT=lab_agent
+OS_USER_APP=lab_app
+P9_BACKEND_M1=http://192.168.1.237:8000/v1
+P9_BACKEND_M2=http://100.70.64.14:8090/v1
+P9_BACKEND_M3=http://192.168.1.168:8010/v1
+P9_ENDPOINT=http://127.0.0.1:4001
+P9_SERVED_M1=deepseek-v4-flash-0731-exl3-k2
+P9_SERVED_M2=gemma4-26b-a4b-it-qat-q4
+P9_SERVED_M3=qwen38-27b-mtp-nvfp4
+PG_BIN=/usr/lib/postgresql/18/bin
+PG_DATA=/var/lib/postgresql/18/main
+PG_PORT=5432
+PG_SERVER_VERSION=
+PG_VERSION=18
+PROVISION_DATA_A_VOLUME=reclab06-data-a.qcow2
+PROVISION_DATA_B_VOLUME=reclab06-data-b.qcow2
+PROVISION_IMAGE_BASE=https://cloud-images.ubuntu.com/releases/26.04/release
+PROVISION_NETWORK=default
+PROVISION_SSH_KEY=/home/mlasota/.ssh/id_ed25519
+PROVISION_STORAGE_PATH=/var/lib/libvirt/images/reclab06
+PROVISION_STORAGE_POOL=reclab06
+PROVISION_SYSTEM_VOLUME=reclab06-system.qcow2
+PROVISION_URI=qemu:///system
+PROVISION_USER=mlasota
+PROVISION_VM_UUID=ddbb862c-b6b4-4ed8-8279-fa86dd0e87d4
+RESULTS_FILE_MODE=0444
+RESULTS_GLOB=results/*.jsonl
+RESULTS_ROOT=/home/mlasota/agent-recovery-lab-examiner4/results
+RESULTS_SCHEMA=/home/mlasota/agent-recovery-lab-examiner4/etc/results-row.schema.json
+ROLE_AGENT=lab_agent
+ROLE_APP=lab_app
+SANDBOX_DATASET=labpool/sandbox
+SANDBOX_MNT=/labpool/sandbox
+SANDBOX_PORT=55432
+SC01_BASELINE_S=10
+SC01_INJECT_ROWS=200
+SC01_MIX=insert:60,update:30,delete:10
+SC01_MIX_TOLERANCE=0.15
+SC01_SCENARIO_CONFIG=/home/mlasota/agent-recovery-lab-examiner4/etc/scenarios/sc01.env
+SC01_SEED_ROWS=50000
+SC01_TPS=20
+SC01_TPS_TOLERANCE=0.25
+SLOT_MAX_WAL_KEEP=8GB
+SLOT_MIN_FREE=20GB
+SLOT_NAME=lab_slot
+SLOT_PLUGIN=wal2json
+SLOT_STEADY_RETAINED_BYTES=
+SLOT_WARN_RETAINED=64MB
+SNAP_INTERVAL_S=2
+SNAP_POST_CAPTURE=post_capture
+SNAP_PREFIX=s_
+SNAP_PRE_INJECTION=pre_injection
+SNAP_PRISTINE=pristine
+TOKENIZER_NAME=lab-ws-punct
+TOKENIZER_PATH=/home/mlasota/agent-recovery-lab-examiner4/vendor/tokenizer/lab-ws-punct-1.json
+TOKENIZER_VERSION=1
+VM_ADDR=192.168.122.148
+VM_NAME=reclab06
+VM_SSH=lab-provision-reclab06-ddbb862c
+WAL2JSON_VERSION=2.6-3
+ZFS_KMOD_VERSION=
+ZFS_VERSION=2.4.1-1ubuntu5.1
+ZPOOL=labpool
+Preflight passed: three matching identities, contained gateway calls and lab health.
+Exit 0 at 2026-10-03T09:00:18Z
+
+SC-01_20261003T090022Z
+Recorded SC-01 gb10a-deepseek-v4-flash|R0|0: accepted
+Recorded SC-01 gb10a-deepseek-v4-flash|R0|1: accepted
+Recorded SC-01 gb10a-deepseek-v4-flash|R0|2: accepted
+Recorded SC-01 gb10a-deepseek-v4-flash|R0|3: accepted
+Recorded SC-01 gb10a-deepseek-v4-flash|R0|4: accepted
+Recorded SC-01 gb10a-deepseek-v4-flash|R1|0: accepted
+Recorded SC-01 gb10a-deepseek-v4-flash|R1|1: accepted
+Recorded SC-01 gb10a-deepseek-v4-flash|R1|2: accepted
+Recorded SC-01 gb10a-deepseek-v4-flash|R1|3: accepted
+Recorded SC-01 gb10a-deepseek-v4-flash|R1|4: accepted
+Recorded SC-01 gb10a-deepseek-v4-flash|R2|0: rule_rejection
+Recorded SC-01 gb10a-deepseek-v4-flash|R2|1: rule_rejection
+Recorded SC-01 gb10a-deepseek-v4-flash|R2|2: rule_rejection
+Recorded SC-01 gb10a-deepseek-v4-flash|R2|3: rule_rejection
+Recorded SC-01 gb10a-deepseek-v4-flash|R2|4: rule_rejection
+Recorded SC-01 gympc-gemma4-26b|R0|0: accepted
+Recorded SC-01 gympc-gemma4-26b|R0|1: rule_rejection
+Recorded SC-01 gympc-gemma4-26b|R0|2: rule_rejection
+Recorded SC-01 gympc-gemma4-26b|R0|3: accepted
+Recorded SC-01 gympc-gemma4-26b|R0|4: accepted
+Recorded SC-01 gympc-gemma4-26b|R1|0: accepted
+Recorded SC-01 gympc-gemma4-26b|R1|1: accepted
+Recorded SC-01 gympc-gemma4-26b|R1|2: accepted
+Recorded SC-01 gympc-gemma4-26b|R1|3: accepted
+Recorded SC-01 gympc-gemma4-26b|R1|4: accepted
+Recorded SC-01 gympc-gemma4-26b|R2|0: accepted
+Recorded SC-01 gympc-gemma4-26b|R2|1: accepted
+Recorded SC-01 gympc-gemma4-26b|R2|2: accepted
+Recorded SC-01 gympc-gemma4-26b|R2|3: accepted
+Recorded SC-01 gympc-gemma4-26b|R2|4: accepted
+Recorded SC-01 alienware-qwen38-27b|R0|0: accepted
+Recorded SC-01 alienware-qwen38-27b|R0|1: accepted
+Recorded SC-01 alienware-qwen38-27b|R0|2: accepted
+Recorded SC-01 alienware-qwen38-27b|R0|3: accepted
+Recorded SC-01 alienware-qwen38-27b|R0|4: accepted
+Recorded SC-01 alienware-qwen38-27b|R1|0: accepted
+Recorded SC-01 alienware-qwen38-27b|R1|1: accepted
+Recorded SC-01 alienware-qwen38-27b|R1|2: accepted
+Recorded SC-01 alienware-qwen38-27b|R1|3: accepted
+Recorded SC-01 alienware-qwen38-27b|R1|4: accepted
+Recorded SC-01 alienware-qwen38-27b|R2|0: accepted
+Recorded SC-01 alienware-qwen38-27b|R2|1: accepted
+Recorded SC-01 alienware-qwen38-27b|R2|2: accepted
+Recorded SC-01 alienware-qwen38-27b|R2|3: accepted
+Recorded SC-01 alienware-qwen38-27b|R2|4: accepted
+
+Exit 0 at 2026-10-03T09:19:57Z
+Experiment: sc03 (run/optional/sc03-study.sh)
+Stage sc03-study; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T091957.748275902Z-1854687-sc03-study.log
+Stage 00-provision; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T091957.915068930Z-1854702-00-provision.log
+Provisioning skipped: the replica already holds experiment incidents; stage 10 checks the lab.
+Exit 0 at 2026-10-03T09:19:58Z
+
+Stage 10-preflight; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T091958.077746885Z-1854715-10-preflight.log
+ARCHIVE_CURRENT=/home/mlasota/agent-recovery-lab-examiner4/archive/current
+ARCHIVE_MOUNT_IN_VM=/var/lib/postgresql/archive_sink
+ARCHIVE_ROOT=/home/mlasota/agent-recovery-lab-examiner4/archive
+ARM_B_K=5
+ARM_B_PROMPT_TEMPLATE=/home/mlasota/agent-recovery-lab-examiner4/etc/arm-b-prompt.txt
+BARRIER_TIMEOUT_S=120
+BASEBACKUP_ROOT=/home/mlasota/agent-recovery-lab-examiner4/basebackup
+CONSUMER_UNIT=reclab6-consumer
+DB_NAME=labdb
+DDL_AUDIT_TABLE=lab_ddl_audit
+DEV_A=/dev/vdb
+DEV_B=/dev/vdc
+DEV_LOCATION=guest
+DEV_SYSTEM=/dev/vda
+DS_PARENT=labpool/victim
+DS_PGDATA=labpool/victim/pgdata
+DS_PROTECTED=labpool/victim/protected
+DUCKDB_BIN=duckdb
+EVIDENCE_ROOT=/home/mlasota/agent-recovery-lab-examiner4/evidence
+GUEST_KERNEL=
+GUEST_OS=
+HARNESS_COMMIT_AT_P1_OPEN=
+HEARTBEAT_HZ=1
+HEARTBEAT_TABLE=lab_heartbeat
+HOST_ARCHIVE_USER=mlasota
+HOST_KERNEL=
+HOST_OS=
+HOST_PG_CIDR=192.168.122.1/32
+INCIDENT_PORT_BASE=56000
+INCIDENT_PORT_COUNT=4000
+LAB_FORBIDDEN_CLOUD_ALIAS=deepseek-v4-pro
+LAB_HOST=192.168.122.1
+LAB_HOSTS=localhost,reclab06
+LAB_PRIVATE_CIDRS=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,100.64.0.0/10,fd00::/8,fe80::/10
+LAB_ROOT=/home/mlasota/agent-recovery-lab-examiner4
+LAB_SNAPSHOT_LOOP_HOOK=lsn
+MNT_PROTECTED=/srv/protected
+MODEL_API_KEY_FILE=/home/mlasota/agent-recovery-lab-examiner4/var/model/litellm.key
+MODEL_API_KEY_VAR=MODEL_API_KEY
+MODEL_CONTEXT=262144
+MODEL_ENDPOINT=http://model-gateway:4001
+MODEL_ID=gb10a-deepseek-v4-flash
+MODEL_LITELLM_HOST=model-gateway
+MODEL_LITELLM_PORT=4001
+MODEL_MAX_TOKENS=512
+MODEL_QUANT=exl3-k2
+MODEL_RUNTIME=litellm+vllm
+MODEL_RUNTIME_JSON=/home/mlasota/agent-recovery-lab-examiner4/var/model/model-runtime.json
+MODEL_SEED=42
+MODEL_WEIGHTS_SHA256=c5da6dd1f48fc7eed95333921709c5139bb0c59a5a616417094088dd81a31187
+OS_USER_AGENT=lab_agent
+OS_USER_APP=lab_app
+P9_BACKEND_M1=http://192.168.1.237:8000/v1
+P9_BACKEND_M2=http://100.70.64.14:8090/v1
+P9_BACKEND_M3=http://192.168.1.168:8010/v1
+P9_ENDPOINT=http://127.0.0.1:4001
+P9_SERVED_M1=deepseek-v4-flash-0731-exl3-k2
+P9_SERVED_M2=gemma4-26b-a4b-it-qat-q4
+P9_SERVED_M3=qwen38-27b-mtp-nvfp4
+PG_BIN=/usr/lib/postgresql/18/bin
+PG_DATA=/var/lib/postgresql/18/main
+PG_PORT=5432
+PG_SERVER_VERSION=
+PG_VERSION=18
+PROVISION_DATA_A_VOLUME=reclab06-data-a.qcow2
+PROVISION_DATA_B_VOLUME=reclab06-data-b.qcow2
+PROVISION_IMAGE_BASE=https://cloud-images.ubuntu.com/releases/26.04/release
+PROVISION_NETWORK=default
+PROVISION_SSH_KEY=/home/mlasota/.ssh/id_ed25519
+PROVISION_STORAGE_PATH=/var/lib/libvirt/images/reclab06
+PROVISION_STORAGE_POOL=reclab06
+PROVISION_SYSTEM_VOLUME=reclab06-system.qcow2
+PROVISION_URI=qemu:///system
+PROVISION_USER=mlasota
+PROVISION_VM_UUID=ddbb862c-b6b4-4ed8-8279-fa86dd0e87d4
+RESULTS_FILE_MODE=0444
+RESULTS_GLOB=results/*.jsonl
+RESULTS_ROOT=/home/mlasota/agent-recovery-lab-examiner4/results
+RESULTS_SCHEMA=/home/mlasota/agent-recovery-lab-examiner4/etc/results-row.schema.json
+ROLE_AGENT=lab_agent
+ROLE_APP=lab_app
+SANDBOX_DATASET=labpool/sandbox
+SANDBOX_MNT=/labpool/sandbox
+SANDBOX_PORT=55432
+SC01_BASELINE_S=10
+SC01_INJECT_ROWS=200
+SC01_MIX=insert:60,update:30,delete:10
+SC01_MIX_TOLERANCE=0.15
+SC01_SCENARIO_CONFIG=/home/mlasota/agent-recovery-lab-examiner4/etc/scenarios/sc01.env
+SC01_SEED_ROWS=50000
+SC01_TPS=20
+SC01_TPS_TOLERANCE=0.25
+SLOT_MAX_WAL_KEEP=8GB
+SLOT_MIN_FREE=20GB
+SLOT_NAME=lab_slot
+SLOT_PLUGIN=wal2json
+SLOT_STEADY_RETAINED_BYTES=
+SLOT_WARN_RETAINED=64MB
+SNAP_INTERVAL_S=2
+SNAP_POST_CAPTURE=post_capture
+SNAP_PREFIX=s_
+SNAP_PRE_INJECTION=pre_injection
+SNAP_PRISTINE=pristine
+TOKENIZER_NAME=lab-ws-punct
+TOKENIZER_PATH=/home/mlasota/agent-recovery-lab-examiner4/vendor/tokenizer/lab-ws-punct-1.json
+TOKENIZER_VERSION=1
+VM_ADDR=192.168.122.148
+VM_NAME=reclab06
+VM_SSH=lab-provision-reclab06-ddbb862c
+WAL2JSON_VERSION=2.6-3
+ZFS_KMOD_VERSION=
+ZFS_VERSION=2.4.1-1ubuntu5.1
+ZPOOL=labpool
+Preflight passed: three matching identities, contained gateway calls and lab health.
+Exit 0 at 2026-10-03T09:20:00Z
+
+SC-03_20261003T092004Z
+Recorded SC-03 gb10a-deepseek-v4-flash|R0|0: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R0|1: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R0|2: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R0|3: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R0|4: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R1|0: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R1|1: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R1|2: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R1|3: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R1|4: accepted
+Recorded SC-03 gb10a-deepseek-v4-flash|R2|0: rule_rejection
+Recorded SC-03 gb10a-deepseek-v4-flash|R2|1: rule_rejection
+Recorded SC-03 gb10a-deepseek-v4-flash|R2|2: rule_rejection
+Recorded SC-03 gb10a-deepseek-v4-flash|R2|3: rule_rejection
+Recorded SC-03 gb10a-deepseek-v4-flash|R2|4: rule_rejection
+Recorded SC-03 gympc-gemma4-26b|R0|0: accepted
+Recorded SC-03 gympc-gemma4-26b|R0|1: accepted
+Recorded SC-03 gympc-gemma4-26b|R0|2: accepted
+Recorded SC-03 gympc-gemma4-26b|R0|3: accepted
+Recorded SC-03 gympc-gemma4-26b|R0|4: accepted
+Recorded SC-03 gympc-gemma4-26b|R1|0: accepted
+Recorded SC-03 gympc-gemma4-26b|R1|1: accepted
+Recorded SC-03 gympc-gemma4-26b|R1|2: accepted
+Recorded SC-03 gympc-gemma4-26b|R1|3: accepted
+Recorded SC-03 gympc-gemma4-26b|R1|4: accepted
+Recorded SC-03 gympc-gemma4-26b|R2|0: accepted
+Recorded SC-03 gympc-gemma4-26b|R2|1: declined
+Recorded SC-03 gympc-gemma4-26b|R2|2: declined
+Recorded SC-03 gympc-gemma4-26b|R2|3: rule_rejection
+Recorded SC-03 gympc-gemma4-26b|R2|4: declined
+Recorded SC-03 alienware-qwen38-27b|R0|0: accepted
+Recorded SC-03 alienware-qwen38-27b|R0|1: accepted
+Recorded SC-03 alienware-qwen38-27b|R0|2: accepted
+Recorded SC-03 alienware-qwen38-27b|R0|3: accepted
+Recorded SC-03 alienware-qwen38-27b|R0|4: accepted
+Recorded SC-03 alienware-qwen38-27b|R1|0: accepted
+Recorded SC-03 alienware-qwen38-27b|R1|1: accepted
+Recorded SC-03 alienware-qwen38-27b|R1|2: accepted
+Recorded SC-03 alienware-qwen38-27b|R1|3: accepted
+Recorded SC-03 alienware-qwen38-27b|R1|4: accepted
+Recorded SC-03 alienware-qwen38-27b|R2|0: accepted
+Recorded SC-03 alienware-qwen38-27b|R2|1: accepted
+Recorded SC-03 alienware-qwen38-27b|R2|2: accepted
+Recorded SC-03 alienware-qwen38-27b|R2|3: accepted
+Recorded SC-03 alienware-qwen38-27b|R2|4: accepted
+Exit 0 at 2026-10-03T09:33:49Z
+Experiment: sc04 (run/optional/sc04-study.sh)
+Stage sc04-study; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T093349.548456469Z-1879317-sc04-study.log
+Stage 00-provision; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T093349.720881330Z-1879328-00-provision.log
+Provisioning skipped: the replica already holds experiment incidents; stage 10 checks the lab.
+Exit 0 at 2026-10-03T09:33:49Z
+
+Stage 10-preflight; log /home/mlasota/agent-recovery-lab-examiner4/logs/run/20261003T093349.879629413Z-1879341-10-preflight.log
+ARCHIVE_CURRENT=/home/mlasota/agent-recovery-lab-examiner4/archive/current
+ARCHIVE_MOUNT_IN_VM=/var/lib/postgresql/archive_sink
+ARCHIVE_ROOT=/home/mlasota/agent-recovery-lab-examiner4/archive
+ARM_B_K=5
+ARM_B_PROMPT_TEMPLATE=/home/mlasota/agent-recovery-lab-examiner4/etc/arm-b-prompt.txt
+BARRIER_TIMEOUT_S=120
+BASEBACKUP_ROOT=/home/mlasota/agent-recovery-lab-examiner4/basebackup
+CONSUMER_UNIT=reclab6-consumer
+DB_NAME=labdb
+DDL_AUDIT_TABLE=lab_ddl_audit
+DEV_A=/dev/vdb
+DEV_B=/dev/vdc
+DEV_LOCATION=guest
+DEV_SYSTEM=/dev/vda
+DS_PARENT=labpool/victim
+DS_PGDATA=labpool/victim/pgdata
+DS_PROTECTED=labpool/victim/protected
+DUCKDB_BIN=duckdb
+EVIDENCE_ROOT=/home/mlasota/agent-recovery-lab-examiner4/evidence
+GUEST_KERNEL=
+GUEST_OS=
+HARNESS_COMMIT_AT_P1_OPEN=
+HEARTBEAT_HZ=1
+HEARTBEAT_TABLE=lab_heartbeat
+HOST_ARCHIVE_USER=mlasota
+HOST_KERNEL=
+HOST_OS=
+HOST_PG_CIDR=192.168.122.1/32
+INCIDENT_PORT_BASE=56000
+INCIDENT_PORT_COUNT=4000
+LAB_FORBIDDEN_CLOUD_ALIAS=deepseek-v4-pro
+LAB_HOST=192.168.122.1
+LAB_HOSTS=localhost,reclab06
+LAB_PRIVATE_CIDRS=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,100.64.0.0/10,fd00::/8,fe80::/10
+LAB_ROOT=/home/mlasota/agent-recovery-lab-examiner4
+LAB_SNAPSHOT_LOOP_HOOK=lsn
+MNT_PROTECTED=/srv/protected
+MODEL_API_KEY_FILE=/home/mlasota/agent-recovery-lab-examiner4/var/model/litellm.key
+MODEL_API_KEY_VAR=MODEL_API_KEY
+MODEL_CONTEXT=262144
+MODEL_ENDPOINT=http://model-gateway:4001
+MODEL_ID=gb10a-deepseek-v4-flash
+MODEL_LITELLM_HOST=model-gateway
+MODEL_LITELLM_PORT=4001
+MODEL_MAX_TOKENS=512
+MODEL_QUANT=exl3-k2
+MODEL_RUNTIME=litellm+vllm
+MODEL_RUNTIME_JSON=/home/mlasota/agent-recovery-lab-examiner4/var/model/model-runtime.json
+MODEL_SEED=42
+MODEL_WEIGHTS_SHA256=c5da6dd1f48fc7eed95333921709c5139bb0c59a5a616417094088dd81a31187
+OS_USER_AGENT=lab_agent
+OS_USER_APP=lab_app
+P9_BACKEND_M1=http://192.168.1.237:8000/v1
+P9_BACKEND_M2=http://100.70.64.14:8090/v1
+P9_BACKEND_M3=http://192.168.1.168:8010/v1
+P9_ENDPOINT=http://127.0.0.1:4001
+P9_SERVED_M1=deepseek-v4-flash-0731-exl3-k2
+P9_SERVED_M2=gemma4-26b-a4b-it-qat-q4
+P9_SERVED_M3=qwen38-27b-mtp-nvfp4
+PG_BIN=/usr/lib/postgresql/18/bin
+PG_DATA=/var/lib/postgresql/18/main
+PG_PORT=5432
+PG_SERVER_VERSION=
+PG_VERSION=18
+PROVISION_DATA_A_VOLUME=reclab06-data-a.qcow2
+PROVISION_DATA_B_VOLUME=reclab06-data-b.qcow2
+PROVISION_IMAGE_BASE=https://cloud-images.ubuntu.com/releases/26.04/release
+PROVISION_NETWORK=default
+PROVISION_SSH_KEY=/home/mlasota/.ssh/id_ed25519
+PROVISION_STORAGE_PATH=/var/lib/libvirt/images/reclab06
+PROVISION_STORAGE_POOL=reclab06
+PROVISION_SYSTEM_VOLUME=reclab06-system.qcow2
+PROVISION_URI=qemu:///system
+PROVISION_USER=mlasota
+PROVISION_VM_UUID=ddbb862c-b6b4-4ed8-8279-fa86dd0e87d4
+RESULTS_FILE_MODE=0444
+RESULTS_GLOB=results/*.jsonl
+RESULTS_ROOT=/home/mlasota/agent-recovery-lab-examiner4/results
+RESULTS_SCHEMA=/home/mlasota/agent-recovery-lab-examiner4/etc/results-row.schema.json
+ROLE_AGENT=lab_agent
+ROLE_APP=lab_app
+SANDBOX_DATASET=labpool/sandbox
+SANDBOX_MNT=/labpool/sandbox
+SANDBOX_PORT=55432
+SC01_BASELINE_S=10
+SC01_INJECT_ROWS=200
+SC01_MIX=insert:60,update:30,delete:10
+SC01_MIX_TOLERANCE=0.15
+SC01_SCENARIO_CONFIG=/home/mlasota/agent-recovery-lab-examiner4/etc/scenarios/sc01.env
+SC01_SEED_ROWS=50000
+SC01_TPS=20
+SC01_TPS_TOLERANCE=0.25
+SLOT_MAX_WAL_KEEP=8GB
+SLOT_MIN_FREE=20GB
+SLOT_NAME=lab_slot
+SLOT_PLUGIN=wal2json
+SLOT_STEADY_RETAINED_BYTES=
+SLOT_WARN_RETAINED=64MB
+SNAP_INTERVAL_S=2
+SNAP_POST_CAPTURE=post_capture
+SNAP_PREFIX=s_
+SNAP_PRE_INJECTION=pre_injection
+SNAP_PRISTINE=pristine
+TOKENIZER_NAME=lab-ws-punct
+TOKENIZER_PATH=/home/mlasota/agent-recovery-lab-examiner4/vendor/tokenizer/lab-ws-punct-1.json
+TOKENIZER_VERSION=1
+VM_ADDR=192.168.122.148
+VM_NAME=reclab06
+VM_SSH=lab-provision-reclab06-ddbb862c
+WAL2JSON_VERSION=2.6-3
+ZFS_KMOD_VERSION=
+ZFS_VERSION=2.4.1-1ubuntu5.1
+ZPOOL=labpool
+Preflight passed: three matching identities, contained gateway calls and lab health.
+Exit 0 at 2026-10-03T09:33:52Z
+
+SC-04_20261003T093358Z
+Recorded SC-04 gb10a-deepseek-v4-flash|R0|0: accepted
+Recorded SC-04 gb10a-deepseek-v4-flash|R0|1: accepted
+Recorded SC-04 gb10a-deepseek-v4-flash|R0|2: accepted
+Recorded SC-04 gb10a-deepseek-v4-flash|R0|3: accepted
+Recorded SC-04 gb10a-deepseek-v4-flash|R0|4: accepted
+Recorded SC-04 gb10a-deepseek-v4-flash|R1|0: accepted
+Recorded SC-04 gb10a-deepseek-v4-flash|R1|1: accepted
+Recorded SC-04 gb10a-deepseek-v4-flash|R1|2: accepted
+Recorded SC-04 gb10a-deepseek-v4-flash|R1|3: accepted
+Recorded SC-04 gb10a-deepseek-v4-flash|R1|4: accepted
+Recorded SC-04 gb10a-deepseek-v4-flash|R2|0: rule_rejection
+Recorded SC-04 gb10a-deepseek-v4-flash|R2|1: rule_rejection
+Recorded SC-04 gb10a-deepseek-v4-flash|R2|2: rule_rejection
+Recorded SC-04 gb10a-deepseek-v4-flash|R2|3: rule_rejection
+Recorded SC-04 gb10a-deepseek-v4-flash|R2|4: rule_rejection
+Recorded SC-04 gympc-gemma4-26b|R0|0: declined
+Recorded SC-04 gympc-gemma4-26b|R0|1: declined
+Recorded SC-04 gympc-gemma4-26b|R0|2: accepted
+Recorded SC-04 gympc-gemma4-26b|R0|3: accepted
+Recorded SC-04 gympc-gemma4-26b|R0|4: accepted
+Recorded SC-04 gympc-gemma4-26b|R1|0: accepted
+Recorded SC-04 gympc-gemma4-26b|R1|1: accepted
+Recorded SC-04 gympc-gemma4-26b|R1|2: accepted
+Recorded SC-04 gympc-gemma4-26b|R1|3: accepted
+Recorded SC-04 gympc-gemma4-26b|R1|4: accepted
+Recorded SC-04 gympc-gemma4-26b|R2|0: declined
+Recorded SC-04 gympc-gemma4-26b|R2|1: rule_rejection
+Recorded SC-04 gympc-gemma4-26b|R2|2: rule_rejection
+Recorded SC-04 gympc-gemma4-26b|R2|3: rule_rejection
+Recorded SC-04 gympc-gemma4-26b|R2|4: rule_rejection
+Recorded SC-04 alienware-qwen38-27b|R0|0: declined
+Recorded SC-04 alienware-qwen38-27b|R0|1: declined
+Recorded SC-04 alienware-qwen38-27b|R0|2: declined
+Recorded SC-04 alienware-qwen38-27b|R0|3: declined
+Recorded SC-04 alienware-qwen38-27b|R0|4: declined
+Recorded SC-04 alienware-qwen38-27b|R1|0: accepted
+Recorded SC-04 alienware-qwen38-27b|R1|1: accepted
+Recorded SC-04 alienware-qwen38-27b|R1|2: accepted
+Recorded SC-04 alienware-qwen38-27b|R1|3: accepted
+Recorded SC-04 alienware-qwen38-27b|R1|4: accepted
+Recorded SC-04 alienware-qwen38-27b|R2|0: accepted
+Recorded SC-04 alienware-qwen38-27b|R2|1: accepted
+Recorded SC-04 alienware-qwen38-27b|R2|2: accepted
+Recorded SC-04 alienware-qwen38-27b|R2|3: accepted
+Recorded SC-04 alienware-qwen38-27b|R2|4: accepted
+Exit 0 at 2026-10-03T09:45:28Z
+Experiment: all four studies complete
+Exit 0 at 2026-10-03T09:45:28Z

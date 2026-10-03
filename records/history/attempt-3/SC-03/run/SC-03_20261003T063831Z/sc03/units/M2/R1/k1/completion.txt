@@ -1,0 +1,10 @@
+To identify the latest safe point before damaging activity began, we must find the highest `last_safe_lsn_int` among the provided entries.
+
+Comparing the `last_safe_lsn_int` values:
+1. 247802818988328
+2. 247802768656488
+3. 247802802210488
+
+The highest value is 247802818988328.
+
+COORDINATE: lsn=247802818988328

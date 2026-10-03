@@ -1,0 +1,45 @@
+{
+  "answer": {
+    "chosen_lsn_int": null,
+    "grammar_outcome": "refusal_parser",
+    "locators": [
+      {
+        "discard_reason": "immediately preceding window is not visible",
+        "resolved_lsn_int": null,
+        "token": "window=20",
+        "type": "window"
+      }
+    ],
+    "locators_offered": [
+      "window"
+    ],
+    "locators_resolved_to": [],
+    "outcome": "rule_rejection",
+    "reason": "no locator resolves from the supplied view"
+  },
+  "call_started_utc": "2026-10-03T07:14:11.600000Z",
+  "check": null,
+  "completion_tokens": 9,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T07:14:12.283977Z",
+  "freeze_sha256": "ccec7e32e55abd9166e4fa731bbbc1746d419a11acd51ec1f755e75803e0e665",
+  "incident_id": "SC-04_20261003T065317Z",
+  "latency_ms": 373,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-04_20261003T065317Z/sc04/units/M2/R2/k3/model.json",
+  "model_record_sha256": "7b5e68f4358406b8e16733447dbb09e50f8022059aa615064773e0c4c72767e9",
+  "outcome": "rule_rejection",
+  "prompt_sha256": "27989a4ce38907aece83aa8788a94558814da355e597b8839a78e0fbaa14dee6",
+  "prompt_tokens": 431,
+  "raw_completion": "COORDINATE: window=20",
+  "replicate_index": 3,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|3"
+}

@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "bin/lab-generate-dbscen",
+    "--scenario",
+    "SC-04"
+  ],
+  "exit_code": 1,
+  "stderr": "assertion failed: reference is not before the first damaging commit\n",
+  "stdout": ""
+}

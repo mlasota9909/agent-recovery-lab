@@ -116,7 +116,7 @@ Result (verdict v2): 33 correct, 7 extra work lost, 0 checked damage remains, 5 
 rejections, 0 execution failures. Qwen 15 of 15 correct; Gemma correct only with R1 (R0 all extra work
 lost, R2 all declined); DeepSeek R0 and R1 correct, R2 3 correct and 2 extra work lost. Ranker correct;
 time estimate kept the damage. The incident matched the study's shape (44 snapshots, 156 differences,
-C-7 122 of 122, only interval 38 flagged at 12.19). Records: `records/P12/reproduction/`.
+C-7 122 of 122, only interval 38 flagged at 12.19). Records: `records/history/P12/reproduction/`.
 
 Findings that bear on the study of record:
 - Rule C-5 (heartbeat) in the study of record read the site cluster's latest heartbeats, which also exist
@@ -132,7 +132,7 @@ Findings that bear on the study of record:
 
 The mass-deletion incident was run again through `run/optional/sc01-replication.sh` in the reference
 lab: incident `SC-01_20260929T213925Z`, frozen 2026-09-29T21:42:11Z (95eaa4b) before the first call,
-45 of 45 units, revised answer grammar, verdict v1. Records: `records/SC01-replication/`.
+45 of 45 units, revised answer grammar, verdict v1. Records: `records/history/SC01-replication/`.
 
 | Model | R0 | R1 | R2 |
 | --- | --- | --- | --- |
@@ -158,7 +158,7 @@ snapshot times, 59ecae4). Every attempt and rehearsal is kept with its reason.
 ## Frozen contracts
 
 The freeze (first committed at `sdd/specs/P12-file-level-test/contracts/frozen-hashes.json`, now kept at
-`records/P12/study/frozen-hashes.json`) pins the five contracts, `spec.md`,
+`records/history/P12/study/frozen-hashes.json`) pins the five contracts, `spec.md`,
 `plan.md`, the model set and the nine built input files (content, model view and prompt for R0, R1 and
 R2), with decoding and 45 planned units. Stage 50 and stage 70 re-verify the frozen bytes.
 
@@ -179,7 +179,7 @@ R2), with decoding and 45 planned units. Stage 50 and stage 70 re-verify the fro
 - `bin/lab-p9-modelset --build --served-identities`, then `run/all.sh` (provisioning to analysis), or the
   stages one at a time. `run/dry-run.sh` rehearses stages 20 and 30 in a separate scope.
 - Run outputs (`logs/`, `evidence/`, `archive/`, `results/`, `analysis-out/`) are local and not tracked. The
-  study's records are kept in `records/P12/`; `python3 records/P12/verify.py` checks them against the freeze.
+  study's records are kept in `records/history/P12/`; `python3 records/history/P12/verify.py` checks them against the freeze.
 
 ## Open operator decisions
 

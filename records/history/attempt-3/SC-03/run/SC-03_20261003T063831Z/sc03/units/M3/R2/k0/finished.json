@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 247802768656648,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 247802768656648,
+        "token": "lsn=247802768656648",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      247802768656648
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T06:47:58.539761Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 2,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner3/var/restore/SC-03_20261003T063831Z/ab-247802768656648/report.json",
+    "report_sha256": "f98c35c2cb58d22081a2cafad80bfdf8da42f7a2629d4807c5f64d4b496263f8",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 1247,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T06:48:28.225997Z",
+  "freeze_sha256": "b1e25fb0d21f4d35ea00288a34b68e6f0c9f4c2dc06853d85b6dd4bc1fd0a598",
+  "incident_id": "SC-03_20261003T063831Z",
+  "latency_ms": 8685,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-03_20261003T063831Z/sc03/units/M3/R2/k0/model.json",
+  "model_record_sha256": "dc27ad43531ad6da5aa96083ff1c04a385195a403a6361acefeffe76559f46bd",
+  "outcome": "accepted",
+  "prompt_sha256": "b0bdc56c81d1081d6098a325c7657f0f15bf75734056e46485f0c0bf68866bee",
+  "prompt_tokens": 420,
+  "raw_completion": "\n\nLooking at the evidence, all three windows (16, 18, 19) contain DELETE operations on relation `p2_probe`, which constitute the damaging activity. The earliest window with DELETEs is Window 16, meaning the damaging activity began at the start of Window 16.\n\nThe latest safe point before that damaging activity began is the LSN at the start of Window 16: **247802768656648**.\n\nCOORDINATE: lsn=247802768656648",
+  "replicate_index": 0,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|0"
+}

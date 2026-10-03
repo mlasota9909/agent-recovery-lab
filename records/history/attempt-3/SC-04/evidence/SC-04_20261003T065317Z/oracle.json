@@ -1,0 +1,91 @@
+{
+  "computed_from": "injection ops[0].lsn_before, resolved with lab-coordinate",
+  "coordinate": {
+    "lsn": "E370/13000000",
+    "resolved_by": "live_heartbeat",
+    "skew_bytes": 16774632,
+    "skew_ms": 167,
+    "snapshot": "s_20261003T065413325Z_000013",
+    "wall_clock": "2026-10-03T06:54:14.143374Z"
+  },
+  "damage": {
+    "table": "sc04_items",
+    "units": [
+      {
+        "commit_lsn": "E370/130005D8",
+        "damaging_value": "mal-71",
+        "row_id": 71,
+        "unit": "row_71"
+      },
+      {
+        "commit_lsn": "E370/140007F8",
+        "damaging_value": "mal-190",
+        "row_id": 190,
+        "unit": "row_190"
+      },
+      {
+        "commit_lsn": "E370/15000718",
+        "damaging_value": "mal-7",
+        "row_id": 7,
+        "unit": "row_7"
+      },
+      {
+        "commit_lsn": "E370/16000000",
+        "damaging_value": "mal-174",
+        "row_id": 174,
+        "unit": "row_174"
+      },
+      {
+        "commit_lsn": "E370/16000F88",
+        "damaging_value": "mal-63",
+        "row_id": 63,
+        "unit": "row_63"
+      },
+      {
+        "commit_lsn": "E370/170008D8",
+        "damaging_value": "mal-140",
+        "row_id": 140,
+        "unit": "row_140"
+      },
+      {
+        "commit_lsn": "E370/180008D8",
+        "damaging_value": "mal-36",
+        "row_id": 36,
+        "unit": "row_36"
+      },
+      {
+        "commit_lsn": "E370/190005E0",
+        "damaging_value": "mal-189",
+        "row_id": 189,
+        "unit": "row_189"
+      },
+      {
+        "commit_lsn": "E370/1A000000",
+        "damaging_value": "mal-164",
+        "row_id": 164,
+        "unit": "row_164"
+      },
+      {
+        "commit_lsn": "E370/1A000E48",
+        "damaging_value": "mal-58",
+        "row_id": 58,
+        "unit": "row_58"
+      },
+      {
+        "commit_lsn": "E370/1B000108",
+        "damaging_value": "mal-27",
+        "row_id": 27,
+        "unit": "row_27"
+      },
+      {
+        "commit_lsn": "E370/1C000108",
+        "damaging_value": "mal-29",
+        "row_id": 29,
+        "unit": "row_29"
+      }
+    ]
+  },
+  "first_damage_commit_lsn": "E370/130005D8",
+  "incident": "SC-04_20261003T065317Z",
+  "scenario_id": "SC-04"
+}

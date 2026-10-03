@@ -1,0 +1,65 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T084651729Z_000038",
+        "token": "interval=38"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T084651729Z_000038",
+        "token": "snapshot=s_20261003T084651729Z_000038"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T084651729Z_000038",
+        "token": "ts=2026-10-03T08:46:52.543642Z"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20261003T084651729Z_000038"
+  },
+  "call_started_utc": "2026-10-03T08:59:08.981227Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/evidence/SC-02/SC-02_20261003T084505Z/fl-checks/s_20261003T084651729Z_000038.json",
+    "report_sha256": "1482d5f9eb718ddc0f3696ccc663168013cb2ebc26271e47059524e7063e2276",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 0,
+      "legit_rows_lost": 0,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "correct"
+  },
+  "completion_tokens": 1405,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T08:59:19.263385Z",
+  "freeze_sha256": "bf978d8c7308a7b5805b08ef9d1d543d6ad25d991ca20cd588f86ae434ef9f93",
+  "incident_id": "SC-02_20261003T084505Z",
+  "latency_ms": 9574,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-02_20261003T084505Z/units/M3/R2/k1/model.json",
+  "model_record_sha256": "d96a5c30f596b311ff30cd83dacc762f674727c4e579c51474d0bda95ed4f8f2",
+  "outcome": "accepted",
+  "prompt_sha256": "e3abbbbb55cb6a1d841569cde0ff80c430fa87f1d64c2c5b862791a6eb751a68",
+  "prompt_tokens": 961,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- **Interval 10** and **Interval 14**: minor activity (2 files deleted, anomaly \u2248 1.16) under \"workspace/build\" \u2014 low-level, not clearly \"damaging.\"\n- **Interval 38**: 13 files deleted, 2 modified, 1 created under \"workspace/records\"; anomaly jumps to \u2248 12.16. This is the onset of clearly damaging file activity.\n\nThe latest safe recorded snapshot **before** the damaging activity in interval 38 is the interval's start snapshot:\n\n- `from_snapshot` of interval 38 \u2192 `s_20261003T084651729Z_000038`\n- `from_time` of interval 38 \u2192 `2026-10-03T08:46:52.543642Z`\n\nAll three locators (interval index, snapshot name, timestamp) resolve to the same snapshot.\n\nCOORDINATE: interval=38 snapshot=s_20261003T084651729Z_000038 ts=2026-10-03T08:46:52.543642Z",
+  "replicate_index": 1,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|1"
+}

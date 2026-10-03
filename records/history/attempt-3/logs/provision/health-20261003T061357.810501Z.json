@@ -1,0 +1,2493 @@
+{
+  "criteria": [
+    {
+      "description": "Current configuration and replica ownership",
+      "id": "AC-1",
+      "observed": {
+        "incident": "SC-01_20261003T061104Z",
+        "vm_uuid": "68effc08-1c74-4ee5-a32c-a21fc308884c"
+      },
+      "result": "PASS"
+    },
+    {
+      "description": "Live discovery confirms guest device attachment",
+      "id": "AC-2",
+      "observed": {
+        "command": [
+          "lab-discover"
+        ],
+        "exit_code": 0,
+        "output": {
+          "DEV_A": "/dev/vdb",
+          "DEV_B": "/dev/vdc",
+          "DEV_LOCATION": "guest",
+          "LAB_HOST": "192.168.122.1",
+          "LAB_ROOT": "/home/mlasota/agent-recovery-lab-examiner3",
+          "PG_DATA": "/var/lib/postgresql/18/main",
+          "PG_PORT": "5432",
+          "PG_VERSION": "18",
+          "VM_ADDR": "192.168.122.246",
+          "VM_NAME": "reclab05",
+          "VM_SSH": "lab-provision-reclab05-68effc08",
+          "ZFS_VERSION": "2.4.1-1ubuntu5.1",
+          "changed": false,
+          "ok": true
+        },
+        "stderr": ""
+      },
+      "result": "PASS"
+    },
+    {
+      "description": "Decoded UPDATE and DELETE carry before-images",
+      "id": "AC-6",
+      "observed": {
+        "delete": {
+          "action": "D",
+          "identity": [
+            {
+              "name": "id",
+              "type": "bigint",
+              "value": 1000001
+            },
+            {
+              "name": "created_at",
+              "type": "timestamp with time zone",
+              "value": "2026-10-03 06:11:43.284257+00"
+            },
+            {
+              "name": "amount",
+              "type": "numeric(14,2)",
+              "value": 9.09
+            },
+            {
+              "name": "payload",
+              "type": "text",
+              "value": "r004-ac6-1791007902-new"
+            },
+            {
+              "name": "row_version",
+              "type": "integer",
+              "value": 1
+            }
+          ],
+          "lsn": "0/18A02C78",
+          "pk": [
+            {
+              "name": "id",
+              "type": "bigint"
+            }
+          ],
+          "schema": "public",
+          "table": "lab_ledger",
+          "timestamp": "2026-10-03 06:11:44.59738+00",
+          "xid": 840
+        },
+        "delete_identity_payload": "r004-ac6-1791007902-new",
+        "new_payload": "r004-ac6-1791007902-new",
+        "old_payload": "r004-ac6-1791007902-old",
+        "row_id": "1000001",
+        "update": {
+          "action": "U",
+          "columns": [
+            {
+              "name": "id",
+              "type": "bigint",
+              "value": 1000001
+            },
+            {
+              "name": "created_at",
+              "type": "timestamp with time zone",
+              "value": "2026-10-03 06:11:43.284257+00"
+            },
+            {
+              "name": "amount",
+              "type": "numeric(14,2)",
+              "value": 9.09
+            },
+            {
+              "name": "payload",
+              "type": "text",
+              "value": "r004-ac6-1791007902-new"
+            },
+            {
+              "name": "row_version",
+              "type": "integer",
+              "value": 1
+            }
+          ],
+          "identity": [
+            {
+              "name": "id",
+              "type": "bigint",
+              "value": 1000001
+            },
+            {
+              "name": "created_at",
+              "type": "timestamp with time zone",
+              "value": "2026-10-03 06:11:43.284257+00"
+            },
+            {
+              "name": "amount",
+              "type": "numeric(14,2)",
+              "value": 9.09
+            },
+            {
+              "name": "payload",
+              "type": "text",
+              "value": "r004-ac6-1791007902-old"
+            },
+            {
+              "name": "row_version",
+              "type": "integer",
+              "value": 1
+            }
+          ],
+          "lsn": "0/185D7458",
+          "pk": [
+            {
+              "name": "id",
+              "type": "bigint"
+            }
+          ],
+          "schema": "public",
+          "table": "lab_ledger",
+          "timestamp": "2026-10-03 06:11:43.848834+00",
+          "xid": 838
+        },
+        "update_identity_payload": "r004-ac6-1791007902-old"
+      },
+      "result": "PASS"
+    },
+    {
+      "description": "PostgreSQL WAL segment reaches the host",
+      "id": "archive",
+      "observed": {
+        "bytes": 16777216,
+        "segment": "000000010000000000000019"
+      },
+      "result": "PASS"
+    },
+    {
+      "description": "Restricted append channel refuses overwrite and invalid commands",
+      "id": "AC-8",
+      "observed": {
+        "command": [
+          "lab-isolation-test",
+          "--enumerate"
+        ],
+        "exit_code": 0,
+        "output": {
+          "candidates": [
+            {
+              "command": "t009-read-evidence-probe",
+              "exit_code": 1,
+              "expected": "refused, non-zero",
+              "kind": "removed_probe",
+              "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted",
+              "result": "PASS"
+            },
+            {
+              "command": "append <new-segment>",
+              "exit_code": 0,
+              "expected": "succeeds",
+              "kind": "append_new",
+              "observed": "{\"ok\":true,\"segment\":\"F9AF23EF49EA92F0D7869057\"}",
+              "result": "PASS"
+            },
+            {
+              "command": "append <segment-that-already-exists>",
+              "exit_code": 42,
+              "expected": "refused as overwrite",
+              "kind": "append_overwrite",
+              "observed": "wal receive refused: overwrite refused for BE5038180BD7F48B6A828FB8",
+              "result": "PASS"
+            },
+            {
+              "command": "append ../../../etc/passwd",
+              "exit_code": 1,
+              "expected": "refused",
+              "kind": "traversal",
+              "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted",
+              "result": "PASS"
+            },
+            {
+              "command": "append /etc/passwd",
+              "exit_code": 1,
+              "expected": "refused",
+              "kind": "absolute",
+              "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted",
+              "result": "PASS"
+            },
+            {
+              "command": "append",
+              "exit_code": 1,
+              "expected": "refused",
+              "kind": "no_argument",
+              "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted",
+              "result": "PASS"
+            },
+            {
+              "command": "read <path>",
+              "exit_code": 1,
+              "expected": "refused",
+              "kind": "read",
+              "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted",
+              "result": "PASS"
+            },
+            {
+              "command": "cat <path>",
+              "exit_code": 1,
+              "expected": "refused",
+              "kind": "cat",
+              "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted",
+              "result": "PASS"
+            },
+            {
+              "command": "list",
+              "exit_code": 1,
+              "expected": "refused",
+              "kind": "list",
+              "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted",
+              "result": "PASS"
+            },
+            {
+              "command": "",
+              "exit_code": 1,
+              "expected": "refused",
+              "kind": "empty",
+              "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted",
+              "result": "PASS"
+            },
+            {
+              "command": "append x; cat /etc/passwd",
+              "exit_code": 1,
+              "expected": "refused",
+              "kind": "compound",
+              "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted",
+              "result": "PASS"
+            },
+            {
+              "command": "append x\ncat /etc/passwd",
+              "exit_code": 1,
+              "expected": "refused",
+              "kind": "newline",
+              "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted",
+              "result": "PASS"
+            }
+          ],
+          "summary": {
+            "ERROR": 0,
+            "FAIL": 0,
+            "PASS": 12,
+            "result": "PASS",
+            "total": 12
+          }
+        },
+        "stderr": ""
+      },
+      "result": "PASS"
+    },
+    {
+      "description": "Slot active, valid, bounded and below retention/free-space limits",
+      "id": "AC-10",
+      "observed": {
+        "command": [
+          "lab-slot",
+          "--assert-healthy"
+        ],
+        "exit_code": 0,
+        "output": {
+          "active": true,
+          "configured_max_slot_wal_keep_size": "8GB",
+          "confirmed_flush_lsn": "0/1A0007E0",
+          "free_bytes": 102673391616,
+          "free_floor_bytes": 21474836480,
+          "healthy": true,
+          "invalidation_reason": null,
+          "low_free_space": false,
+          "max_slot_wal_keep_size": "8GB",
+          "over_threshold": false,
+          "plugin": "wal2json",
+          "restart_lsn": "0/1A000168",
+          "retained_bytes": 3576,
+          "retention_bounded": true,
+          "slot_name": "lab_slot",
+          "wal_status": "reserved",
+          "warn_threshold_bytes": 67108864
+        },
+        "stderr": ""
+      },
+      "result": "PASS"
+    },
+    {
+      "description": "Victim principals cannot access host stores",
+      "id": "AC-12",
+      "observed": {
+        "command": [
+          "lab-isolation-test"
+        ],
+        "exit_code": 0,
+        "output": {
+          "assertions": [
+            {
+              "assertion": "archive_append",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c append-through-forced-channel",
+              "expected": "append succeeds only through forced channel",
+              "observed": "{\"ok\":true,\"segment\":\"FFBBB4E7B24AD63E2617B363\"} (exit 0)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_read",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_list",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_create",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_app\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_modify",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_delete",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_read",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_list",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_create",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_app\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_modify",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_delete",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_read",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_list_incident",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_create",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_app\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_modify",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_delete",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_overwrite",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ FFBBB4E7B24AD63E2617B363\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "deploy_root_reach",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_read_forced_channel",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+              "expected": "access denied (not file-not-found)",
+              "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+              "principal": "lab_app",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_read",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_list",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_create",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_agent\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_modify",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_delete",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_read",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_list",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_create",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_agent\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_modify",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_delete",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_read",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_list_incident",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_create",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_agent\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_modify",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_delete",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_overwrite",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ FFBBB4E7B24AD63E2617B363\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "deploy_root_reach",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_read_forced_channel",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+              "expected": "access denied (not file-not-found)",
+              "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+              "principal": "lab_agent",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_read",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_list",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_create",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-postgres\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-postgres': Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_modify",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_delete",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_read",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_list",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_create",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-postgres\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-postgres': Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_modify",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "results_delete",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_read",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_list_incident",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_create",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-postgres\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-postgres': Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_modify",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_delete",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "archive_overwrite",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ FFBBB4E7B24AD63E2617B363\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "wal receive refused: overwrite refused for FFBBB4E7B24AD63E2617B363 (exit 42)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "deploy_root_reach",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+              "expected": "access denied (not file-not-found)",
+              "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+              "principal": "postgres",
+              "result": "PASS"
+            },
+            {
+              "assertion": "evidence_read_forced_channel",
+              "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+              "expected": "access denied (not file-not-found)",
+              "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted (exit 1)",
+              "principal": "postgres",
+              "result": "PASS"
+            }
+          ],
+          "summary": {
+            "ERROR": 0,
+            "FAIL": 0,
+            "PASS": 55,
+            "result": "PASS",
+            "total": 55
+          }
+        },
+        "stderr": ""
+      },
+      "result": "PASS"
+    },
+    {
+      "description": "Deliberate isolation regression fails, then passes after revoke",
+      "id": "AC-13",
+      "observed": {
+        "command": [
+          "lab-isolation-test",
+          "--regression"
+        ],
+        "exit_code": 0,
+        "output": {
+          "mechanism": 2,
+          "mechanism_reason": "mechanism 1 cannot produce a genuine red: victim principals on the guest have no path to host EVIDENCE_ROOT (guest home is 0750 and the host evidence tree is absent from the guest namespace). chmod of a host scratch file is unreachable. Falling back to ADR-P01-2 mechanism 2.",
+          "phases": [
+            {
+              "exit_code": 0,
+              "expected": "PASS",
+              "observed": "PASS",
+              "phase": "baseline",
+              "result": "PASS",
+              "suite": {
+                "assertions": [
+                  {
+                    "assertion": "archive_append",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c append-through-forced-channel",
+                    "expected": "append succeeds only through forced channel",
+                    "observed": "{\"ok\":true,\"segment\":\"DC243BEB0425ABC6E0425922\"} (exit 0)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_app\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_app\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_list_incident",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_app\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_overwrite",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ DC243BEB0425ABC6E0425922\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "deploy_root_reach",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read_forced_channel",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_agent\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_agent\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_list_incident",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_agent\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_overwrite",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ DC243BEB0425ABC6E0425922\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "deploy_root_reach",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read_forced_channel",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-postgres\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-postgres': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-postgres\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-postgres': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_list_incident",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-postgres\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-postgres': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_overwrite",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ DC243BEB0425ABC6E0425922\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "wal receive refused: overwrite refused for DC243BEB0425ABC6E0425922 (exit 42)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "deploy_root_reach",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read_forced_channel",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  }
+                ],
+                "summary": {
+                  "ERROR": 0,
+                  "FAIL": 0,
+                  "PASS": 55,
+                  "result": "PASS",
+                  "total": 55
+                }
+              }
+            },
+            {
+              "exit_code": 1,
+              "expected": "FAIL",
+              "observed": "FAIL",
+              "phase": "grant",
+              "result": "PASS",
+              "suite": {
+                "assertions": [
+                  {
+                    "assertion": "archive_append",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c append-through-forced-channel",
+                    "expected": "append succeeds only through forced channel",
+                    "observed": "bash: line 1: append: command not found (exit 127)",
+                    "principal": "postgres",
+                    "result": "FAIL"
+                  },
+                  {
+                    "assertion": "evidence_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_app\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_app\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_list_incident",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_app\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_overwrite",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/.lab-isolation-temp-ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ 070053C476D8BBBA602640D3\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/.lab-isolation-temp-ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "deploy_root_reach",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read_forced_channel",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/.lab-isolation-temp-ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/.lab-isolation-temp-ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_agent\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_agent\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_list_incident",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_agent\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_overwrite",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/.lab-isolation-temp-ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ 070053C476D8BBBA602640D3\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/.lab-isolation-temp-ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "deploy_root_reach",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read_forced_channel",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/.lab-isolation-temp-ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/.lab-isolation-temp-ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-postgres\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-postgres': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-postgres\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-postgres': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_list_incident",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-postgres\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-postgres': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_overwrite",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/.lab-isolation-temp-ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ 070053C476D8BBBA602640D3\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: append: command not found (exit 127)",
+                    "principal": "postgres",
+                    "result": "ERROR"
+                  },
+                  {
+                    "assertion": "deploy_root_reach",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read_forced_channel",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/.lab-isolation-temp-ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "isolation probe; host-owned and intentionally unreadable to victim principals. (exit 0)",
+                    "principal": "postgres",
+                    "result": "FAIL"
+                  }
+                ],
+                "summary": {
+                  "ERROR": 1,
+                  "FAIL": 2,
+                  "PASS": 52,
+                  "result": "FAIL",
+                  "total": 55
+                }
+              }
+            },
+            {
+              "exit_code": 0,
+              "expected": "PASS",
+              "observed": "PASS",
+              "phase": "revoke",
+              "result": "PASS",
+              "suite": {
+                "assertions": [
+                  {
+                    "assertion": "archive_append",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c append-through-forced-channel",
+                    "expected": "append succeeds only through forced channel",
+                    "observed": "{\"ok\":true,\"segment\":\"2430E44BE744C80999FE112C\"} (exit 0)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_app\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_app\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_list_incident",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_app\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_app': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_overwrite",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ 2430E44BE744C80999FE112C\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "deploy_root_reach",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read_forced_channel",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_app bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_app",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_agent\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_agent\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_list_incident",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_agent\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-lab_agent': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_overwrite",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ 2430E44BE744C80999FE112C\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "deploy_root_reach",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read_forced_channel",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u lab_agent bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Identity file /var/lib/postgresql/archive_sink/wal_append_ed25519 not accessible: Permission denied.\nHost key verification failed.\r (exit 255)",
+                    "principal": "lab_agent",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/evidence': Permission denied (exit 2)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-postgres\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-create-postgres': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_list",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/results': Permission denied (exit 2)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-postgres\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-create-postgres': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "results_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/results/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_read",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "cat: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_list_incident",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ls\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "ls: cannot open file '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z': Permission denied (exit 2)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_create",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c touch\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-postgres\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "touch: setting times of '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-create-postgres': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_modify",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ x\\ \\>\\>\\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "bash: line 1: /home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe: Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_delete",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c rm\\ \\'/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "rm: cannot remove '/home/mlasota/agent-recovery-lab-examiner3/archive/SC-01_20261003T061104Z/.lab-isolation-probe': Permission denied (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "archive_overwrite",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c printf\\ overwrite\\ \\|\\ ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\'append\\ 2430E44BE744C80999FE112C\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "wal receive refused: overwrite refused for 2430E44BE744C80999FE112C (exit 42)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "deploy_root_reach",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ ConnectTimeout=5\\ -o\\ IdentitiesOnly=yes\\ -o\\ StrictHostKeyChecking=no\\ -o\\ UserKnownHostsFile=/dev/null\\ \\'mlasota@192.168.122.1\\'\\ \\'cat\\ /home/mlasota/agent-recovery-lab-examiner3/etc/lab.env\\'",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "Warning: Permanently added '192.168.122.1' (ED25519) to the list of known hosts.\r\nmlasota@192.168.122.1: Permission denied (publickey,password).\r (exit 255)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  },
+                  {
+                    "assertion": "evidence_read_forced_channel",
+                    "command": "ssh lab-provision-reclab05-68effc08 sudo -u postgres bash -c ssh\\ -o\\ BatchMode=yes\\ -o\\ IdentitiesOnly=yes\\ -i\\ \\'/var/lib/postgresql/archive_sink/wal_append_ed25519\\'\\ \\'mlasota@192.168.122.1\\'\\ \\\"cat\\ \\'/home/mlasota/agent-recovery-lab-examiner3/evidence/.lab-isolation-probe\\'\\\"",
+                    "expected": "access denied (not file-not-found)",
+                    "observed": "wal receive refused: only append <24-uppercase-hex-segment> is permitted (exit 1)",
+                    "principal": "postgres",
+                    "result": "PASS"
+                  }
+                ],
+                "summary": {
+                  "ERROR": 0,
+                  "FAIL": 0,
+                  "PASS": 55,
+                  "result": "PASS",
+                  "total": 55
+                }
+              }
+            }
+          ],
+          "summary": {
+            "FAIL": 0,
+            "PASS": 3,
+            "result": "PASS",
+            "total": 3
+          }
+        },
+        "stderr": ""
+      },
+      "result": "PASS"
+    },
+    {
+      "description": "Live heartbeat cadence and monotonic LSNs",
+      "id": "AC-14",
+      "observed": {
+        "count": 20,
+        "first_lsn": "0/1B002698",
+        "last_lsn": "0/1B003E90",
+        "lsn_strictly_monotonic": true,
+        "max_interval_s": 1.030708,
+        "mean_interval_s": 1.0180095789473684,
+        "newest_age_s": 0.728003
+      },
+      "result": "PASS"
+    },
+    {
+      "description": "All reset labels have ordered snapshot/LSN/WAL anchors",
+      "id": "AC-15",
+      "observed": [
+        {
+          "created_at": "2026-10-03T06:11:07.316963Z",
+          "incident": "SC-01_20261003T061104Z",
+          "label": "pristine",
+          "lsn": "0/116AB4A0",
+          "lsn_recorded_at": "2026-10-03T06:11:07.721020Z",
+          "operations": [
+            "zfs_snapshot",
+            "pg_current_wal_lsn",
+            "pg_switch_wal"
+          ],
+          "recorded_lsn": "0/116AB4A0",
+          "sequence": 1,
+          "snapshot": "s_20261003T061106802Z_000001",
+          "wal_switch_lsn": "0/116AB4B8",
+          "wall_clock": "2026-10-03T06:11:07.316963Z"
+        },
+        {
+          "created_at": "2026-10-03T06:11:08.801052Z",
+          "incident": "SC-01_20261003T061104Z",
+          "label": "pre_injection",
+          "lsn": "0/12000168",
+          "lsn_recorded_at": "2026-10-03T06:11:09.195767Z",
+          "operations": [
+            "zfs_snapshot",
+            "pg_current_wal_lsn",
+            "pg_switch_wal"
+          ],
+          "recorded_lsn": "0/12000168",
+          "sequence": 2,
+          "snapshot": "s_20261003T061108141Z_000002",
+          "wal_switch_lsn": "0/12000180",
+          "wall_clock": "2026-10-03T06:11:08.801052Z"
+        },
+        {
+          "created_at": "2026-10-03T06:11:10.351708Z",
+          "incident": "SC-01_20261003T061104Z",
+          "label": "post_capture",
+          "lsn": "0/130002A8",
+          "lsn_recorded_at": "2026-10-03T06:11:10.744903Z",
+          "operations": [
+            "zfs_snapshot",
+            "pg_current_wal_lsn",
+            "pg_switch_wal"
+          ],
+          "recorded_lsn": "0/130002A8",
+          "sequence": 3,
+          "snapshot": "s_20261003T061109730Z_000003",
+          "wal_switch_lsn": "0/130002C0",
+          "wall_clock": "2026-10-03T06:11:10.351708Z"
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "description": "LSN resolves to the newest snapshot with reported skew",
+      "id": "AC-16",
+      "observed": {
+        "command": [
+          "lab-coordinate",
+          "--lsn",
+          "0/130002A8"
+        ],
+        "exit_code": 0,
+        "output": {
+          "incident": "SC-01_20261003T061104Z",
+          "lsn": "0/130002A8",
+          "resolved_by": "lsn_first",
+          "skew_bytes": 0,
+          "skew_ms": 316,
+          "snapshot": "s_20261003T061109730Z_000003",
+          "wall_clock": "2026-10-03T06:11:10.666963Z"
+        },
+        "stderr": ""
+      },
+      "result": "PASS"
+    },
+    {
+      "description": "Repeated P0 setup reports changed:false",
+      "id": "AC-18",
+      "observed": [
+        {
+          "command": [
+            "lab-discover"
+          ],
+          "exit_code": 0,
+          "ok": true,
+          "output": {
+            "DEV_A": "/dev/vdb",
+            "DEV_B": "/dev/vdc",
+            "DEV_LOCATION": "guest",
+            "LAB_HOST": "192.168.122.1",
+            "LAB_ROOT": "/home/mlasota/agent-recovery-lab-examiner3",
+            "PG_DATA": "/var/lib/postgresql/18/main",
+            "PG_PORT": "5432",
+            "PG_VERSION": "18",
+            "VM_ADDR": "192.168.122.246",
+            "VM_NAME": "reclab05",
+            "VM_SSH": "lab-provision-reclab05-68effc08",
+            "ZFS_VERSION": "2.4.1-1ubuntu5.1",
+            "changed": false,
+            "ok": true
+          },
+          "stderr": ""
+        },
+        {
+          "command": [
+            "lab-zfs-init"
+          ],
+          "exit_code": 0,
+          "ok": true,
+          "output": {
+            "DS_PARENT": "labpool/victim",
+            "DS_PGDATA": "labpool/victim/pgdata",
+            "DS_PROTECTED": "labpool/victim/protected",
+            "MNT_PROTECTED": "/srv/protected",
+            "ZPOOL": "labpool",
+            "changed": false,
+            "ok": true,
+            "topology": "stripe"
+          },
+          "stderr": ""
+        },
+        {
+          "command": [
+            "lab-pgdata-relocate"
+          ],
+          "exit_code": 0,
+          "ok": true,
+          "output": {
+            "DS_PGDATA": "labpool/victim/pgdata",
+            "PG_DATA": "/var/lib/postgresql/18/main",
+            "aside_present": true,
+            "changed": false,
+            "ok": true
+          },
+          "stderr": ""
+        },
+        {
+          "command": [
+            "lab-schema-init"
+          ],
+          "exit_code": 0,
+          "ok": true,
+          "output": {
+            "DB_NAME": "labdb",
+            "DDL_AUDIT_TABLE": "lab_ddl_audit",
+            "changed": false,
+            "ok": true,
+            "seed_rows": 1000000
+          },
+          "stderr": ""
+        },
+        {
+          "command": [
+            "lab-wal-config"
+          ],
+          "exit_code": 0,
+          "ok": true,
+          "output": {
+            "archive_timeout": "1min",
+            "changed": false,
+            "host_replication_source": "192.168.122.1",
+            "ok": true,
+            "slot_name": "lab_slot",
+            "slot_plugin": "wal2json",
+            "wal2json_version": "2.6-3",
+            "wal_keep_size": "64MB"
+          },
+          "stderr": ""
+        },
+        {
+          "command": [
+            "lab-slot",
+            "--create"
+          ],
+          "exit_code": 0,
+          "ok": true,
+          "output": {
+            "changed": false,
+            "max_slot_wal_keep_size": "8GB",
+            "ok": true,
+            "plugin": "wal2json",
+            "slot_name": "lab_slot"
+          },
+          "stderr": ""
+        },
+        {
+          "command": [
+            "lab-identities"
+          ],
+          "exit_code": 0,
+          "ok": true,
+          "output": {
+            "OS_USER_AGENT": "lab_agent",
+            "OS_USER_APP": "lab_app",
+            "ROLE_AGENT": "lab_agent",
+            "ROLE_APP": "lab_app",
+            "changed": false,
+            "ok": true
+          },
+          "stderr": ""
+        },
+        {
+          "command": [
+            "lab-heartbeat",
+            "--start"
+          ],
+          "exit_code": 0,
+          "ok": true,
+          "output": {
+            "action": "start",
+            "changed": false,
+            "heartbeat_hz": 1,
+            "heartbeat_table": "lab_heartbeat",
+            "newest": {
+              "at": "2026-10-03T06:13:50.577066+00",
+              "lsn": "0/1C000000"
+            },
+            "observed_rate_hz_last_60s": 0.9666666666666667,
+            "ok": true,
+            "rows_last_60s": 58,
+            "running": true
+          },
+          "stderr": "NOTICE:  relation \"lab_heartbeat\" already exists, skipping\nNOTICE:  relation \"lab_heartbeat_at_idx\" already exists, skipping\nNOTICE:  relation \"lab_heartbeat_lsn_idx\" already exists, skipping\n"
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "description": "Read-only readiness gate",
+      "id": "lab-ready",
+      "observed": {
+        "command": [
+          "lab-ready"
+        ],
+        "exit_code": 0,
+        "output": {
+          "changed": false,
+          "consumer": {
+            "confirmed_flush_lsn": "0/1B008860",
+            "healthy": true,
+            "incident": "SC-01_20261003T061104Z",
+            "invalidation_reason": null,
+            "slot_active": true,
+            "stream": "/home/mlasota/agent-recovery-lab-examiner3/evidence/SC-01/SC-01_20261003T061104Z/db.jsonl",
+            "unit": "reclab5-consumer@SC-01_20261003T061104Z.service",
+            "unit_state": "active"
+          },
+          "consumer_unit_state": "active",
+          "db_jsonl_bytes_after": 132196,
+          "db_jsonl_bytes_before": 131032,
+          "db_jsonl_growing": true,
+          "db_jsonl_path": "/home/mlasota/agent-recovery-lab-examiner3/evidence/SC-01/SC-01_20261003T061104Z/db.jsonl",
+          "db_jsonl_present": true,
+          "failed": [],
+          "growth_signal": "size",
+          "growth_window_s": 2.0,
+          "incident": "SC-01_20261003T061104Z",
+          "invalidation_reason": null,
+          "ok": true,
+          "ready": true,
+          "retained_bytes": 16762272,
+          "retention_below_warn": true,
+          "slot_active": true,
+          "slot_after": {
+            "confirmed_flush_lsn": "0/1B008860"
+          },
+          "slot_check": "ok",
+          "slot_check_exit": 0,
+          "slot_name": "lab_slot",
+          "warn_threshold_bytes": 67108864
+        },
+        "stderr": ""
+      },
+      "result": "PASS"
+    }
+  ],
+  "historical_attestations_used": false,
+  "ok": true,
+  "omitted": {
+    "AC-11": "Historical two-principal provenance review is not reused.",
+    "AC-17": "Destructive reset review is deferred; the three undamaged reset labels are provisioned.",
+    "AC-3": "Snapshot/rollback timing review is not imported from the original lab.",
+    "AC-4": "Historical snapshot-read proof; run T013 for a new review bundle.",
+    "AC-5": "Historical filesystem difference proof; run T013 for a new review bundle.",
+    "AC-7": "Historical interleaved DDL/DML review; run T014 for a new review bundle.",
+    "AC-9": "Successive incident/reset archive scoping is outside this one fresh provisioning scope."
+  },
+  "recorded_at": "2026-10-03T06:13:57.810353+00:00",
+  "suite": "P0 fresh-lab subset"
+}

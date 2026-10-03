@@ -1,0 +1,54 @@
+You are an experimental subject. Locate a recovery snapshot from the evidence below.
+Use only this evidence. You are not given a reference answer.
+
+Task: identify the latest safe recorded snapshot before damaging file activity began.
+Name that snapshot using whichever locator the evidence provides: an interval index,
+a snapshot name, or an ISO-8601 UTC timestamp. An interval locator means its start
+snapshot. A timestamp means the latest visible snapshot recorded at or before it.
+The interval catalogue lists the visible snapshot names and their recorded times.
+Refuse only when the evidence does not let you localise a safe snapshot.
+
+Evidence:
+<<<FL_CONTENT
+{"intervals":[{"interval":10,"from_snapshot":"s_20261003T084555851Z_000010","to_snapshot":"s_20261003T084558311Z_000011","from_time":"2026-10-03T08:45:56.378136Z","to_time":"2026-10-03T08:45:58.793244Z"},{"interval":14,"from_snapshot":"s_20261003T084603776Z_000014","to_snapshot":"s_20261003T084606053Z_000015","from_time":"2026-10-03T08:46:04.276622Z","to_time":"2026-10-03T08:46:06.616987Z"},{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z"}]}
+{"interval":10,"from_snapshot":"s_20261003T084555851Z_000010","to_snapshot":"s_20261003T084558311Z_000011","from_time":"2026-10-03T08:45:56.378136Z","to_time":"2026-10-03T08:45:58.793244Z","change_type":"M","path":"workspace/build"}
+{"interval":10,"from_snapshot":"s_20261003T084555851Z_000010","to_snapshot":"s_20261003T084558311Z_000011","from_time":"2026-10-03T08:45:56.378136Z","to_time":"2026-10-03T08:45:58.793244Z","change_type":"-","path":"workspace/build/t1.txt"}
+{"interval":10,"from_snapshot":"s_20261003T084555851Z_000010","to_snapshot":"s_20261003T084558311Z_000011","from_time":"2026-10-03T08:45:56.378136Z","to_time":"2026-10-03T08:45:58.793244Z","change_type":"-","path":"workspace/build/t2.txt"}
+{"interval":10,"from_snapshot":"s_20261003T084555851Z_000010","to_snapshot":"s_20261003T084558311Z_000011","from_time":"2026-10-03T08:45:56.378136Z","to_time":"2026-10-03T08:45:58.793244Z","change_type":"M","path":"workspace/build/t3.txt"}
+{"interval":10,"from_snapshot":"s_20261003T084555851Z_000010","to_snapshot":"s_20261003T084558311Z_000011","from_time":"2026-10-03T08:45:56.378136Z","to_time":"2026-10-03T08:45:58.793244Z","change_type":"+","path":"workspace/build/t4.txt"}
+{"interval":10,"from_snapshot":"s_20261003T084555851Z_000010","to_snapshot":"s_20261003T084558311Z_000011","from_time":"2026-10-03T08:45:56.378136Z","to_time":"2026-10-03T08:45:58.793244Z","change_type":"+","path":"workspace/build/t5.txt"}
+{"interval":14,"from_snapshot":"s_20261003T084603776Z_000014","to_snapshot":"s_20261003T084606053Z_000015","from_time":"2026-10-03T08:46:04.276622Z","to_time":"2026-10-03T08:46:06.616987Z","change_type":"M","path":"workspace/build"}
+{"interval":14,"from_snapshot":"s_20261003T084603776Z_000014","to_snapshot":"s_20261003T084606053Z_000015","from_time":"2026-10-03T08:46:04.276622Z","to_time":"2026-10-03T08:46:06.616987Z","change_type":"+","path":"workspace/build/t10.txt"}
+{"interval":14,"from_snapshot":"s_20261003T084603776Z_000014","to_snapshot":"s_20261003T084606053Z_000015","from_time":"2026-10-03T08:46:04.276622Z","to_time":"2026-10-03T08:46:06.616987Z","change_type":"-","path":"workspace/build/t6.txt"}
+{"interval":14,"from_snapshot":"s_20261003T084603776Z_000014","to_snapshot":"s_20261003T084606053Z_000015","from_time":"2026-10-03T08:46:04.276622Z","to_time":"2026-10-03T08:46:06.616987Z","change_type":"-","path":"workspace/build/t7.txt"}
+{"interval":14,"from_snapshot":"s_20261003T084603776Z_000014","to_snapshot":"s_20261003T084606053Z_000015","from_time":"2026-10-03T08:46:04.276622Z","to_time":"2026-10-03T08:46:06.616987Z","change_type":"M","path":"workspace/build/t8.txt"}
+{"interval":14,"from_snapshot":"s_20261003T084603776Z_000014","to_snapshot":"s_20261003T084606053Z_000015","from_time":"2026-10-03T08:46:04.276622Z","to_time":"2026-10-03T08:46:06.616987Z","change_type":"+","path":"workspace/build/t9.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"M","path":"workspace"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"M","path":"workspace/build"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/build/t31.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"M","path":"workspace/build/t33.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"+","path":"workspace/build/t34.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"M","path":"workspace/config/settings.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f1.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f10.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f11.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f12.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f2.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f3.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f4.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f5.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f6.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f7.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f8.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/f9.txt"}
+{"interval":38,"from_snapshot":"s_20261003T084651729Z_000038","to_snapshot":"s_20261003T084654405Z_000039","from_time":"2026-10-03T08:46:52.543642Z","to_time":"2026-10-03T08:46:54.848290Z","change_type":"-","path":"workspace/records/nested"}
+FL_CONTENT>>>
+
+End with exactly one tagged line and nothing after it, in one of these two forms:
+COORDINATE: <locator> [<locator> ...]
+where each locator is one of interval=<N>, snapshot=<name>, ts=<ISO-8601 UTC>
+REFUSAL: <reason>
+
+All locators that resolve must identify the same snapshot. Timestamps must include Z or +00:00.
+If the evidence does not localise a safe snapshot, refuse. Do not guess.

@@ -1,0 +1,15 @@
+To identify the latest safe recorded snapshot before damaging file activity began, we examine the intervals:
+
+1.  **Interval 6**: 0 files deleted, 0 modified, 2 created. Anomaly: 1.108... (Safe)
+2.  **Interval 15**: 2 files deleted, 1 modified, 2 created. Anomaly: 1.189... (Damaging activity begins here)
+3.  **Interval 38**: 13 files deleted, 2 modified, 1 created. Anomaly: 12.189... (Damaging activity)
+
+The last safe interval is Interval 6. The latest visible snapshot recorded at or before the start of the damaging activity (Interval 15) is the end of the safe interval (Interval 6).
+
+The end of Interval 6 is `s_20261003T041321867Z_000007`.
+The start of Interval 6 is `s_20261003T041319534Z_000006`.
+The time at the end of Interval 6 is `2026-10-03T04:13:22.530569Z`.
+
+The latest safe snapshot is the one recorded at the end of the last safe interval.
+
+COORDINATE: snapshot=s_20261003T041321867Z_000007 ts=2026-10-03T04:13:22.530569Z

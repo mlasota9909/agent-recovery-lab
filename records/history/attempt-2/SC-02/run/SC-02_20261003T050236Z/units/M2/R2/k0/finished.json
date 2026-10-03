@@ -1,0 +1,39 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": "snapshot is not visible",
+        "resolved_snapshot": null,
+        "token": "snapshot=s_20261003T050325374460Z_000009"
+      }
+    ],
+    "outcome": "rule_rejection",
+    "reason": "no locator resolves from the visible evidence",
+    "snapshot": null
+  },
+  "call_started_utc": "2026-10-03T05:12:09.673118Z",
+  "check": null,
+  "completion_tokens": 461,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:12:25.859655Z",
+  "freeze_sha256": "77963583b8969336180415230812d884bbe50168f675899ec279021e65f5f9dc",
+  "incident_id": "SC-02_20261003T050236Z",
+  "latency_ms": 15754,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-02_20261003T050236Z/units/M2/R2/k0/model.json",
+  "model_record_sha256": "dc1efc2f891e4200be601e487b96a1527bb040136cefe6bf38f6cc8c0acb7190",
+  "outcome": "rule_rejection",
+  "prompt_sha256": "553ff5be5b03fe0d2c9e6db63542ee4b5e0125d0405d847d1339a70824d62283",
+  "prompt_tokens": 974,
+  "raw_completion": "To identify the latest safe recorded snapshot before damaging file activity began, we examine the intervals:\n\n1.  **Interval 6**: 0 files deleted, 0 modified, 2 created. Anomaly: 1.135...\n2.  **Interval 8**: 1 file deleted, 1 modified, 1 created. Anomaly: 0.216...\n3.  **Interval 38**: 13 files deleted, 2 modified, 1 created. Anomaly: 12.216... (High anomaly/damaging activity).\n\nThe damaging activity begins in Interval 38. The latest safe interval before this is Interval 8. \n\nThe instructions state: \"An interval locator means its start snapshot. A timestamp means the latest visible snapshot recorded at or before it.\"\n\nThe end of Interval 8 is `s_20261003T050325374460Z_000009` (derived from the `to_snapshot` field) or the `to_time` `2026-10-03T05:03:25.374460Z`. However, the prompt asks for the latest safe recorded snapshot *before* the damaging activity. The damaging activity starts at the beginning of Interval 38. The snapshot immediately preceding the start of Interval 38 is the `to_snapshot` of Interval 8.\n\nLooking at the interval definitions:\nInterval 8 ends at `s_20261003T050325374460Z_000009`.\nInterval 38 starts at `s_20261003T050423123Z_000038`.\n\nThe latest safe snapshot recorded before the activity in Interval 38 is the end of Interval 8.\n\nCOORDINATE: snapshot=s_20261003T050325374460Z_000009",
+  "replicate_index": 0,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|0"
+}

@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "bin/lab-fl-rank",
+    "SC-02_20261003T061403Z"
+  ],
+  "exit_code": 0,
+  "stderr": "",
+  "stdout": "{\"comparator\": \"rank\", \"coordinate\": {\"lsn\": \"DEC1/2B000778\", \"lsn_int\": 244921231476600, \"snapshot\": \"s_20261003T061549544Z_000037\", \"time\": \"2026-10-03T06:15:50.224567Z\"}, \"first_flagged_interval\": 37, \"incident_id\": \"SC-02_20261003T061403Z\", \"outcome\": \"accepted\", \"reason\": \"start snapshot of first flagged interval\", \"schema_version\": 1}\n"
+}

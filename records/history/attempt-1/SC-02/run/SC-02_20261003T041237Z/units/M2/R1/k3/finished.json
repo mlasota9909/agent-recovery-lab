@@ -1,0 +1,55 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T041423369Z_000038",
+        "token": "snapshot=s_20261003T041423369Z_000038"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20261003T041423369Z_000038"
+  },
+  "call_started_utc": "2026-10-03T04:20:21.626579Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/evidence/SC-02/SC-02_20261003T041237Z/fl-checks/s_20261003T041423369Z_000038.json",
+    "report_sha256": "16a798dc39e83e38026e8239fd72e0c3dafcfa798b8c4ed964e9bde4aa421573",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 0,
+      "legit_rows_lost": 0,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "correct"
+  },
+  "completion_tokens": 304,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:20:32.445354Z",
+  "freeze_sha256": "48c5817e689ea641b1b2b863f4ff44fba88969be814f9719d7f66cf8eca0c029",
+  "incident_id": "SC-02_20261003T041237Z",
+  "latency_ms": 10339,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-02_20261003T041237Z/units/M2/R1/k3/model.json",
+  "model_record_sha256": "58b543d77942eeb1a491125239d58bc322a9e5576ba062e46d5bbc4c03a6615d",
+  "outcome": "accepted",
+  "prompt_sha256": "d225d512f134f9cde146c589914b987ce5a6a273ab3370904ebf86bf64ef3ee6",
+  "prompt_tokens": 862,
+  "raw_completion": "To identify the latest safe recorded snapshot before damaging file activity began, we examine the provided evidence.\n\nThe evidence contains three intervals with anomaly scores:\n1. Interval 6: Anomaly score 1.108... (Last safe snapshot: `s_20261003T041319534Z_000006`)\n2. Interval 15: Anomaly score 1.189... (Last safe snapshot: `s_20261003T041337630Z_000015`)\n3. Interval 38: Anomaly score 12.189... (Last safe snapshot: `s_20261003T041423369Z_000038`)\n\nThe task is to find the latest safe recorded snapshot before damaging file activity began. The highest anomaly score (12.189...) indicates the onset of damaging activity in Interval 38. The last safe snapshot recorded for that interval is `s_20261003T041423369Z_000038`.\n\nCOORDINATE: snapshot=s_20261003T041423369Z_000038",
+  "replicate_index": 3,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|3"
+}

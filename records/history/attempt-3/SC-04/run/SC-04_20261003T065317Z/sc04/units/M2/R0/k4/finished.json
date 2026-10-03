@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 250070595274048,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 250070595274048,
+        "token": "lsn=E370/19000540",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      250070595274048
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T07:12:46.306659Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 7,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner3/var/restore/SC-04_20261003T065317Z/ab-250070595274048/report.json",
+    "report_sha256": "c17b7e360b0d512672b2467fed6ba1d699a5d423ee60ac59ebb348d58ca3dab6",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 802,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T07:13:33.864107Z",
+  "freeze_sha256": "ccec7e32e55abd9166e4fa731bbbc1746d419a11acd51ec1f755e75803e0e665",
+  "incident_id": "SC-04_20261003T065317Z",
+  "latency_ms": 26770,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-04_20261003T065317Z/sc04/units/M2/R0/k4/model.json",
+  "model_record_sha256": "0cb89e70a89f9b7c863204184a33c011108a1a52294ff1934b69bc2ffb1bb07f",
+  "outcome": "accepted",
+  "prompt_sha256": "1eb32fd21f3c020b213a263a08137cc13a24659d0ed398dc3af5e6d7e905eff6",
+  "prompt_tokens": 9741,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we must examine the `action` and `payload` fields in the provided evidence.\n\n1.  **Identify damaging activity:**\n    *   `{\"action\":\"U\",\"detail\":{\"id\":164,\"payload\":\"mal-164\"}...}` (LSN: `E370/1A000068`)\n    *   `{\"action\":\"U\",\"detail\":{\"id\":190,\"payload\":\"mal-190\"}...}` (LSN: `E370/140007F8`)\n    *   `{\"action\":\"U\",\"detail\":{\"id\":36,\"payload\":\"mal-36\"}...}` (LSN: `E370/18000918`)\n    *   `{\"action\":\"U\",\"detail\":{\"id\":7,\"payload\":\"mal-7\"}...}` (LSN: `E370/15000758`)\n    *   `{\"action\":\"U\",\"detail\":{\"id\":189,\"payload\":\"mal-189\"}...}` (LSN: `E370/190005E0`)\n\n2.  **Locate the latest safe point before the first damaging activity:**\n    The damaging activities occur at various LSNs. We need to find the highest LSN (latest timestamp/sequence) that occurs *before* any of these \"mal-\" payloads.\n\n    Looking at the chronological order of the logs (by `wall_clock` or `lsn_int`):\n    *   `mal-189` is at `250070595274208` (`E370/190005E0`).\n    *   `mal-190` is at `250070511388664` (`E370/140007F8`).\n    *   `mal-36` is at `250070578497816` (`E370/18000918`).\n    *   `mal-7` is at `250070528165720` (`E370/15000758`).\n    *   `mal-164` is at `250070612050024` (`E370/1A000068`).\n\n    The earliest damaging activity in the sequence is `mal-189` at LSN `E370/190005E0`.\n    The log entry immediately preceding `mal-189` is:\n    `{\"action\":\"U\",\"detail\":{\"id\":88000702,\"v\":\"u88000702b\"},\"lsn_int\":250070595274048,\"lsn_text\":\"E370/19000540\",\"natural_key\":88000702,\"object\":\"p2_probe\",\"wall_clock\":\"2026-10-03T06:54:26.015417Z\",\"xid\":1108}`\n\n    The LSN for this safe point is `E370/19000540`.\n\nCOORDINATE: lsn=E370/19000540",
+  "replicate_index": 4,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|4"
+}

@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 257260169202920,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 257260169202920,
+        "token": "lsn=E9FA/D000CE8",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      257260169202920
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T04:47:00.589184Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 0,
+    "legit_rows_lost": 87,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/var/restore/SC-03_20261003T044214Z/ab-257260169202920/report.json",
+    "report_sha256": "bcc0467e7a06ba66647624bb8262b30bda569dad79c8005aa7aced0399194119",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 370,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:47:34.211156Z",
+  "freeze_sha256": "591ea221bfca0e08a82140caa940f2246700cf9a3183a42fa25f9a7463b885b6",
+  "incident_id": "SC-03_20261003T044214Z",
+  "latency_ms": 12524,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-03_20261003T044214Z/sc03/units/M2/R0/k1/model.json",
+  "model_record_sha256": "7ce9b025c1ac7182037735ed5979353a4a36d730126dcb5b0b0fdf871646e5ab",
+  "outcome": "accepted",
+  "prompt_sha256": "bb493135f559acdd59b9251e4ecec135a2e1639a47236f735e958925332ae452",
+  "prompt_tokens": 7901,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we look for the last transaction before the first \"D\" (Delete) or \"I\" (Insert) action that might represent the start of the damaging sequence.\n\nReviewing the sequence of actions:\n1. The first \"D\" action occurs at `lsn_text: E9FA/D000B08` (xid 892).\n2. The last transaction before this \"D\" action is the \"U\" (Update) action at `lsn_text: E9FA/D000A68` (xid 895).\n\nHowever, looking at the chronological flow of the entire log, the transactions are grouped by LSN. The first \"D\" action in the entire log is at `lsn_text: E9FA/D000B08`. The transaction immediately preceding it is:\n`{\"action\":\"U\",\"detail\":{\"id\":88000702,\"v\":\"u88000702b\"},\"lsn_int\":257260169202920,\"lsn_text\":\"E9FA/D000CE8\",\"natural_key\":88000702,\"object\":\"p2_probe\",\"wall_clock\":\"2026-10-03T04:42:59.765154Z\",\"xid\":895}`\n\nThe LSN of the last safe transaction before the first deletion is `E9FA/D000CE8`.\n\nCOORDINATE: lsn=E9FA/D000CE8",
+  "replicate_index": 1,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|1"
+}

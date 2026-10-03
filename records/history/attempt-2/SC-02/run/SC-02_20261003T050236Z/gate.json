@@ -1,0 +1,186 @@
+{
+  "capture": {
+    "captured_pairs": 44,
+    "differences": 158,
+    "fingerprints": {
+      "s_20261003T050301196Z_000001": 14,
+      "s_20261003T050310754Z_000002": 14,
+      "s_20261003T050312788Z_000003": 14,
+      "s_20261003T050314772Z_000004": 14,
+      "s_20261003T050316756Z_000005": 14,
+      "s_20261003T050318742Z_000006": 14,
+      "s_20261003T050321058Z_000007": 16,
+      "s_20261003T050322783Z_000008": 17,
+      "s_20261003T050324873Z_000009": 17,
+      "s_20261003T050326799Z_000010": 17,
+      "s_20261003T050328784Z_000011": 17,
+      "s_20261003T050330859Z_000012": 17,
+      "s_20261003T050332855Z_000013": 17,
+      "s_20261003T050334748Z_000014": 17,
+      "s_20261003T050336744Z_000015": 17,
+      "s_20261003T050338795Z_000016": 17,
+      "s_20261003T050340761Z_000017": 17,
+      "s_20261003T050342745Z_000018": 17,
+      "s_20261003T050344754Z_000019": 17,
+      "s_20261003T050346939Z_000020": 17,
+      "s_20261003T050349944Z_000021": 17,
+      "s_20261003T050351471Z_000022": 17,
+      "s_20261003T050353494Z_000023": 17,
+      "s_20261003T050355615Z_000024": 17,
+      "s_20261003T050357288Z_000025": 17,
+      "s_20261003T050359328Z_000026": 17,
+      "s_20261003T050401301Z_000027": 17,
+      "s_20261003T050403529Z_000028": 17,
+      "s_20261003T050405345Z_000029": 17,
+      "s_20261003T050407288Z_000030": 17,
+      "s_20261003T050409420Z_000031": 17,
+      "s_20261003T050411622Z_000032": 17,
+      "s_20261003T050413394Z_000033": 17,
+      "s_20261003T050415303Z_000034": 17,
+      "s_20261003T050417365Z_000035": 17,
+      "s_20261003T050419673Z_000036": 17,
+      "s_20261003T050421691Z_000037": 17,
+      "s_20261003T050423123Z_000038": 17,
+      "s_20261003T050425601Z_000039": 5,
+      "s_20261003T050427433Z_000040": 5,
+      "s_20261003T050429097Z_000041": 5,
+      "s_20261003T050431059Z_000042": 5,
+      "s_20261003T050433009Z_000043": 5,
+      "s_20261003T050434289Z_000044": 5,
+      "s_20261003T050435873Z_000045": 5
+    },
+    "ledger_C7": {
+      "errors": [],
+      "fs_ops": 122,
+      "invisible": 0,
+      "matched": 122,
+      "ok": true,
+      "rule": "C-7",
+      "unexplained_captured": 0,
+      "unexplained_captured_detail": [],
+      "unmatched_recorded": 0,
+      "unmatched_recorded_detail": [],
+      "vacuous": false
+    },
+    "pure_C7": {
+      "errors": [],
+      "fs_ops": 122,
+      "invisible": 0,
+      "matched": 122,
+      "ok": true,
+      "rule": "C-7",
+      "unexplained_captured": 0,
+      "unexplained_captured_detail": [],
+      "unmatched_recorded": 0,
+      "unmatched_recorded_detail": [],
+      "vacuous": false
+    },
+    "snapshots": 45
+  },
+  "controls": {
+    "controls": [
+      {
+        "actual": "correct",
+        "control": "reference",
+        "expected": "correct",
+        "ok": true,
+        "snapshot": "s_20261003T050423123Z_000038",
+        "summary": {
+          "damage_files_retained": 0,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "checked_damage_remains",
+        "control": "first_post_damage",
+        "expected": "checked_damage_remains",
+        "ok": true,
+        "snapshot": "s_20261003T050425601Z_000039",
+        "summary": {
+          "damage_files_retained": 13,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "extra_work_lost",
+        "control": "earliest",
+        "expected": "extra_work_lost",
+        "ok": true,
+        "snapshot": "s_20261003T050301196Z_000001",
+        "summary": {
+          "damage_files_retained": 0,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 92,
+          "legit_rows_lost": 380,
+          "probe_mismatches": 0,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      },
+      {
+        "actual": "checked_damage_remains",
+        "control": "tampered",
+        "expected": "checked_damage_remains",
+        "ok": true,
+        "snapshot": "s_20261003T050423123Z_000038",
+        "summary": {
+          "damage_files_retained": 1,
+          "damage_rows_retained": 0,
+          "legit_file_operations_lost": 0,
+          "legit_rows_lost": 0,
+          "probe_mismatches": 1,
+          "schema_damage": 0,
+          "schema_loss": 0
+        }
+      }
+    ],
+    "incident_id": "SC-02_20261003T050236Z",
+    "ok": true,
+    "schema_version": 1
+  },
+  "evidence_sha256": {
+    "fl-controls.json": "832d067b80075af29c2154caef4df5ac39357a47fbb7b14fd85c7837eee6cbbe",
+    "fl-intervals.json": "19dc35686e8e8e55f5792026fdc1e367a245fdf4df17693ee8d5d9a51639717c",
+    "fl-reference.json": "28d110f41d40b374872089be419dc55f8bc6381c7e917c0c1195bbecace106c6",
+    "fs-workload.jsonl": "3bfd5d0704a78ac7607cc66dba4e9e52e1cbeee0873bea560bd1f5f332134f96",
+    "fs_diff.tsv": "6a0aa3ab106eee5e416e6b17ea8d81da86cc96953394c9ab2e67ede62e5dce57",
+    "fs_hashes.tsv": "0ade7e232fe36952a32c0d42e630f08d38690c88332e20e09276b9e3541ed712",
+    "generate-commands.json": "616b22ac446b67708edce7ea6c04ee26b65f6b021022325ad0bd6e963e79b79c",
+    "incident.json": "f406313ccff2ab7e656668b3a95a10c2f3cace4369f9532fc8e8c5e2d6a3861b",
+    "injection.json": "1a811cc207dcfea5d453d5aa6889c2b7051af452f3f3e44001e28db226b96781",
+    "oracle-manifest.json": "fe0791da4013b47ed1b6b2e7a29c9ba7ef70883fb9c65faa9b6571bdc9272322",
+    "snapshots.json": "d1f0deee65a9bbd5b4d6468d785fed3f6ca5cba6dc2180d7fc0388662132e091",
+    "workload-manifest.jsonl": "861b832bbfb1b18329f564291e3b6359a98ea3cc36d662fddba8cdb6fe72640d"
+  },
+  "finished_utc": "2026-10-03T05:07:15.883302Z",
+  "incident_id": "SC-02_20261003T050236Z",
+  "inputs": [
+    {
+      "content_sha256": "3d9a85b3cf80324a56fda2bb72d0764cda78f13ed73b3acdbb293f5dc25f100a",
+      "guard": true,
+      "representation": "R0"
+    },
+    {
+      "content_sha256": "2bb0e3c3b53e2ebf5c358544bd3870a479666fd38c7ad41acb59b53a9eec43ba",
+      "guard": true,
+      "representation": "R1"
+    },
+    {
+      "content_sha256": "379f3ead383fbd57681011eaffb5362138945552500d75dd9b0ef7e86cff91f5",
+      "guard": true,
+      "representation": "R2"
+    }
+  ],
+  "ok": true,
+  "started_utc": "2026-10-03T05:05:38.928692Z"
+}

@@ -1,0 +1,18 @@
+
+
+Looking at the evidence, I need to find the first "damaging" (malicious) activity and identify the last safe entry before it.
+
+**Identifying damaging activity:**
+The entries with `"payload":"mal-..."` are the damaging/malicious ones:
+- mal-190 → LSN 250070511388664 (E370/140007F8), ts 06:54:17.027303Z
+- mal-7 → LSN 250070528165720 (E370/15000758), ts 06:54:18.507495Z
+- mal-36 → LSN 250070578497816 (E370/18000918), ts 06:54:25.018917Z
+- mal-189 → LSN 250070595274208 (E370/190005E0), ts 06:54:26.232247Z
+- mal-164 → LSN 250070612050024 (E370/1A000068), ts 06:54:27.677523Z
+
+**First damaging activity:** mal-190 at LSN 250070511388664 (E370/140007F8).
+
+**Is there a safe point before it?**
+Scanning all LSNs in the evidence, 250070511388664 is the **smallest** LSN present. There is no entry with a smaller LSN, meaning no prior safe point exists in the provided data.
+
+REFUSAL: The first damaging entry (mal-190, LSN E370/140007F8) is the earliest record in the evidence; no prior safe point is available to localise a recovery coordinate before damaging activity began.

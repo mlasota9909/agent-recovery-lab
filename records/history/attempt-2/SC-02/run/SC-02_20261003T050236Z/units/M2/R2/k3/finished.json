@@ -1,0 +1,60 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T050324873Z_000009",
+        "token": "snapshot=s_20261003T050324873Z_000009"
+      },
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T050324873Z_000009",
+        "token": "ts=2026-10-03T05:03:25.374460Z"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20261003T050324873Z_000009"
+  },
+  "call_started_utc": "2026-10-03T05:13:11.797057Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner2/evidence/SC-02/SC-02_20261003T050236Z/fl-checks/s_20261003T050324873Z_000009.json",
+    "report_sha256": "50ae6e17cdaa5e54ebea5f9686161108f4cb0e01672b627e8be8181cc7d094c3",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 84,
+      "legit_rows_lost": 344,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "extra_work_lost"
+  },
+  "completion_tokens": 529,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:13:30.247102Z",
+  "freeze_sha256": "77963583b8969336180415230812d884bbe50168f675899ec279021e65f5f9dc",
+  "incident_id": "SC-02_20261003T050236Z",
+  "latency_ms": 17907,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-02_20261003T050236Z/units/M2/R2/k3/model.json",
+  "model_record_sha256": "5352eb7accff351207b620dcd0ce47ac7046757f5e4f10dd2665733b322291f1",
+  "outcome": "accepted",
+  "prompt_sha256": "553ff5be5b03fe0d2c9e6db63542ee4b5e0125d0405d847d1339a70824d62283",
+  "prompt_tokens": 974,
+  "raw_completion": "To identify the latest safe recorded snapshot before damaging file activity began, we examine the intervals:\n\n1.  **Interval 6**: 0 files deleted, 0 modified, 2 created. Anomaly: 1.135...\n2.  **Interval 8**: 1 file deleted, 1 modified, 1 created. Anomaly: 0.216...\n3.  **Interval 38**: 13 files deleted, 2 modified, 1 created. Anomaly: 12.216... (High anomaly/damaging activity).\n\nThe damaging activity begins in Interval 38. The latest safe interval before this is Interval 8. \n\nThe instructions state: \"An interval locator means its start snapshot. A timestamp means the latest visible snapshot recorded at or before it.\"\n\nThe end of Interval 8 is `s_20261003T050325374460Z_000009` (derived from the `to_snapshot` field) or the `to_time` `2026-10-03T05:03:25.374460Z`. However, the prompt asks for the latest safe recorded snapshot *before* the damaging activity. The damaging activity starts at the beginning of Interval 38. The snapshot immediately preceding the start of Interval 38 is the `to_snapshot` of Interval 8.\n\nLooking at the interval definitions:\nInterval 8 ends at `s_20261003T050324873Z_000009` (Note: the `to_snapshot` in the JSON for interval 8 is `s_20261003T050324873Z_000009`).\nThe `to_time` for Interval 8 is `2026-10-03T05:03:25.374460Z`.\n\nThe latest safe snapshot is the one at the end of Interval 8.\n\nCOORDINATE: snapshot=s_20261003T050324873Z_000009 ts=2026-10-03T05:03:25.374460Z",
+  "replicate_index": 3,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|3"
+}

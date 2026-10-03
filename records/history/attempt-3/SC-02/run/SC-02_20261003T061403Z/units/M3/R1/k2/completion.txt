@@ -1,0 +1,16 @@
+
+
+Looking at the evidence:
+
+- Intervals 9 and 10 have low anomaly scores (0.25), indicating safe activity.
+- Interval 37 has a high anomaly score (12.25), indicating damaging file activity.
+- The `last_safe_snapshot` for interval 37 is `s_20261003T061549544Z_000037`, which is the latest safe snapshot before the damaging activity in that interval.
+
+Cross-checking locators:
+- **interval=37** → its start (from_snapshot) is `s_20261003T061549544Z_000037`
+- **snapshot=s_20261003T061549544Z_000037** → directly names the snapshot
+- **ts=2026-10-03T06:15:50.224567Z** → the from_time of interval 37; the latest visible snapshot at or before this time is `s_20261003T061549544Z_000037`
+
+All three locators resolve to the same snapshot.
+
+COORDINATE: interval=37 [snapshot=s_20261003T061549544Z_000037] [ts=2026-10-03T06:15:50.224567Z]

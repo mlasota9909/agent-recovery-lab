@@ -1,0 +1,67 @@
+{
+  "consistency_verdict": "not-recovered",
+  "coordinate": {
+    "lsn_int": 738229984,
+    "lsn_text": "0/2C007EE0",
+    "skew_ms": 192,
+    "snapshot": "s_20261003T042624551Z_000013"
+  },
+  "db_validation": {
+    "mismatches": [],
+    "p3_analytical_legit_rows_lost": 40,
+    "relations": {
+      "p2_probe": {
+        "content_hash": "80dbcb9b45c13191adff11cc0c1854bc5510f91259cb18d1a6553e143b60c9d4",
+        "row_count": 404
+      }
+    },
+    "relations_checked": 1,
+    "relations_matched": 1
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261003T042623227Z_000012",
+    "files_checked": 0,
+    "files_compared": 0,
+    "files_matched": 0,
+    "mismatches": []
+  },
+  "harness_commit": "09eb0ece809159eb464e20a2ca69e9190bde2e23",
+  "incident_id": "SC-01_20261003T042542Z",
+  "promotion": {
+    "authorized_by": null,
+    "clean_verdict": false,
+    "decision": "withheld",
+    "simulated": false
+  },
+  "restore_of": "ab-738229984",
+  "restore_target": {
+    "fs_clone_dataset": "labpool/sandbox/SC-01_20261003T042542Z/ab-738229984/protected",
+    "fs_mount": "/labpool/sandbox/SC-01_20261003T042542Z/ab-738229984/protected",
+    "pgdata_dataset": "labpool/sandbox/SC-01_20261003T042542Z/ab-738229984/pgdata",
+    "sandbox_pgdata": "/labpool/sandbox/SC-01_20261003T042542Z/ab-738229984/pgdata",
+    "sandbox_port": 55499,
+    "tag": "ab-738229984"
+  },
+  "safety": {
+    "evidence_untouched": true,
+    "manifest_after": "7060a632463dc25a80750f401d131ad4d636de13eaec76d3d90491ec7ac16f5c",
+    "manifest_before": "7060a632463dc25a80750f401d131ad4d636de13eaec76d3d90491ec7ac16f5c",
+    "victim_untouched": true
+  },
+  "schema_validation": {
+    "ddl": "id bigint\nv text",
+    "ddl_match": true,
+    "diffs": []
+  },
+  "selector_provenance": {
+    "arm_no_peek_ok": true,
+    "restored_against_arm": "ab-738229984"
+  },
+  "summary": {
+    "damage_rows_retained": 0,
+    "files_mismatched": 0,
+    "legit_rows_lost": 0,
+    "p3_analytical_legit_rows_lost": 40,
+    "schema_diffs": 0
+  }
+}

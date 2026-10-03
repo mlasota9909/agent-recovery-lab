@@ -1,0 +1,5 @@
+The evidence provided contains three windows (17, 22, and 25) that all describe the same pattern of damaging activity (INSERT, UPDATE, and DELETE operations on relation p2_probe). To find the latest safe point before this activity began, we must look at the timestamp/index immediately preceding the first recorded window of damage.
+
+The first window of damage is Window 17, which begins at index 244598739828840. Therefore, the latest safe point is the index immediately preceding the start of Window 17.
+
+COORDINATE: window=16

@@ -1,0 +1,67 @@
+{
+  "consistency_verdict": "correct",
+  "coordinate": {
+    "lsn_int": 721421880,
+    "lsn_text": "0/2B000638",
+    "skew_ms": 297,
+    "snapshot": "s_20261003T051810338Z_000013"
+  },
+  "db_validation": {
+    "mismatches": [],
+    "p3_analytical_legit_rows_lost": 40,
+    "relations": {
+      "p2_probe": {
+        "content_hash": "80dbcb9b45c13191adff11cc0c1854bc5510f91259cb18d1a6553e143b60c9d4",
+        "row_count": 404
+      }
+    },
+    "relations_checked": 1,
+    "relations_matched": 1
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261003T051810338Z_000013",
+    "files_checked": 0,
+    "files_compared": 0,
+    "files_matched": 0,
+    "mismatches": []
+  },
+  "harness_commit": "1e81d9eeba6c4c49abc09e92976d35c11d2332a1",
+  "incident_id": "SC-01_20261003T051727Z",
+  "promotion": {
+    "authorized_by": null,
+    "clean_verdict": true,
+    "decision": "withheld",
+    "simulated": false
+  },
+  "restore_of": "ab-721421880",
+  "restore_target": {
+    "fs_clone_dataset": "labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/protected",
+    "fs_mount": "/labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/protected",
+    "pgdata_dataset": "labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/pgdata",
+    "sandbox_pgdata": "/labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/pgdata",
+    "sandbox_port": 55458,
+    "tag": "ab-721421880"
+  },
+  "safety": {
+    "evidence_untouched": true,
+    "manifest_after": "715589638dc33e88c75dc2d3f479ca576ac2225ace7d06d45a789d692a2176dd",
+    "manifest_before": "715589638dc33e88c75dc2d3f479ca576ac2225ace7d06d45a789d692a2176dd",
+    "victim_untouched": true
+  },
+  "schema_validation": {
+    "ddl": "id bigint\nv text",
+    "ddl_match": true,
+    "diffs": []
+  },
+  "selector_provenance": {
+    "arm_no_peek_ok": true,
+    "restored_against_arm": "ab-721421880"
+  },
+  "summary": {
+    "damage_rows_retained": 0,
+    "files_mismatched": 0,
+    "legit_rows_lost": 0,
+    "p3_analytical_legit_rows_lost": 40,
+    "schema_diffs": 0
+  }
+}

@@ -1,0 +1,3 @@
+Stage 30-incident-gate; log /home/mlasota/agent-recovery-lab-examiner2/logs/run/20261003T050538.833520568Z-1420117-30-incident-gate.log
+{"ok": true, "gate": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-02_20261003T050236Z/gate.json"}
+Exit 0 at 2026-10-03T05:07:15Z

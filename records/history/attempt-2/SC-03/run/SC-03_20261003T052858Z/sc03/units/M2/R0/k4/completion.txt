@@ -1,0 +1,13 @@
+To identify the latest safe point before damaging activity began, we look for the last transaction before the `ALTER TABLE` command (which is a structural/damaging change) or the first instance of the `D` (Delete) or `I` (Insert) actions that might be considered part of a damaging sequence.
+
+Reviewing the sequence of events:
+1. The `ALTER TABLE` command occurs at `lsn_text: E26F/120011A0` (lsn_int: 248966671241632).
+2. Before this, the last successful `U` (Update) action on the `sc03_orders` table was at `lsn_text: E26F/120006D8` (lsn_int: 248966671238872).
+3. However, looking at the `p2_probe` object, there are several `D` (Delete) and `I` (Insert) actions occurring throughout the log.
+4. The `ALTER TABLE` command is the most significant "damaging" or structural activity. The latest safe point before this specific command is the last transaction recorded before it.
+5. The transaction immediately preceding the `ALTER TABLE` is:
+   `{"action":"U","detail":{"amount":10.01,"id":20,"status":"open"},"lsn_int":248966671238872,"lsn_text":"E26F/120006D8","natural_key":20,"object":"sc03_orders","wall_clock":"2026-10-03T05:29:51.252010Z","xid":973}`
+
+The LSN for this safe point is `E26F/120006D8`.
+
+COORDINATE: lsn=E26F/120006D8

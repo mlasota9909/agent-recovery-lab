@@ -1,0 +1,68 @@
+{
+  "analytics_version": "p3-analytics-1",
+  "approx_incident_time": "2026-10-03T09:34:51.405564Z",
+  "archive_incident": "SC-04_20261003T093358Z",
+  "close_coordinate": {
+    "lsn": "DE76/1F0002A8",
+    "resolved_by": "snapshot_first",
+    "skew_bytes": 0,
+    "skew_ms": 0,
+    "snapshot": "s_20261003T093517527Z_000026",
+    "wall_clock": "2026-10-03T09:35:18.203171Z"
+  },
+  "definition_path": "/home/mlasota/agent-recovery-lab-examiner4/scenarios/sc04/definition.json",
+  "generator": "lab-generate-dbscen",
+  "incident_id": "i_20261003T093358Z_332501",
+  "incident_runtime": {
+    "INC_DS": "labpool/victim/inc_i_20261003T093358Z_332501",
+    "INC_HEARTBEAT_PORT": "56950",
+    "INC_ID": "i_20261003T093358Z_332501",
+    "INC_PGDATA": "/var/lib/postgresql/18/lab-incidents/i_20261003T093358Z_332501/data",
+    "INC_PG_PORT": "56950",
+    "INC_PG_SOCKET": "/var/run/postgresql",
+    "INC_PROTECTED": "/srv/lab-incidents/i_20261003T093358Z_332501/protected",
+    "INC_SLOT": "lab_20261003t093358z_332501"
+  },
+  "injected_operations": 12,
+  "ledger_account": {
+    "duplicates": 0,
+    "gaps": 0,
+    "mapped": 355,
+    "ops": 355
+  },
+  "ledger_integrity_ok": true,
+  "naive_time_error_seconds": 20,
+  "open_coordinate": {
+    "lsn": "DE76/696E9E8",
+    "resolved_by": "snapshot_first",
+    "skew_bytes": 0,
+    "skew_ms": 0,
+    "snapshot": "s_20261003T093421912Z_000001",
+    "wall_clock": "2026-10-03T09:34:22.475085Z"
+  },
+  "oracle_coordinate": {
+    "lsn": "DE76/12000978",
+    "resolved_by": "live_heartbeat",
+    "skew_bytes": 0,
+    "skew_ms": 571,
+    "snapshot": "s_20261003T093452233Z_000013",
+    "wall_clock": "2026-10-03T09:34:52.826261Z"
+  },
+  "quiescent_baseline": {
+    "baseline_s": 10,
+    "declared_in": "etc/scenarios/sc01.env",
+    "lsn_end_exclusive": "DE76/12000978",
+    "lsn_start": "DE76/696E9E8",
+    "t_end": "2026-10-03T09:34:53.998469Z",
+    "t_start": "2026-10-03T09:34:40.611081Z",
+    "window_s": 2
+  },
+  "scenario_id": "SC-04",
+  "snapshot_open": "s_20261003T093421912Z_000001",
+  "snapshot_post_capture": "s_20261003T093517527Z_000026",
+  "snapshot_pre_injection": "s_20261003T093450779Z_000012",
+  "timing_pattern": "randomized",
+  "workload_mix": "repeated-keys:lab_app+lab_app-high-volume-update+lab_agent-randomized-small-update",
+  "workload_rate_tps": 8.0,
+  "workload_seed": 7
+}

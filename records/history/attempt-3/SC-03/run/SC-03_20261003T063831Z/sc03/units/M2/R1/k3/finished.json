@@ -1,0 +1,61 @@
+{
+  "answer": {
+    "chosen_lsn_int": 247802818988328,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 247802818988328,
+        "token": "lsn=247802818988328",
+        "type": "lsn_int"
+      },
+      {
+        "discard_reason": "named window is not visible",
+        "resolved_lsn_int": null,
+        "token": "window=19",
+        "type": "window"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int",
+      "window"
+    ],
+    "locators_resolved_to": [
+      247802818988328
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T06:45:01.965357Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 3,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner3/var/restore/SC-03_20261003T063831Z/ab-247802818988328/report.json",
+    "report_sha256": "2d62283d6006e92905117ea157e7e58fcc0dbc2e276ddee4bbc892d72c44d638",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 195,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T06:45:08.574598Z",
+  "freeze_sha256": "b1e25fb0d21f4d35ea00288a34b68e6f0c9f4c2dc06853d85b6dd4bc1fd0a598",
+  "incident_id": "SC-03_20261003T063831Z",
+  "latency_ms": 6254,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-03_20261003T063831Z/sc03/units/M2/R1/k3/model.json",
+  "model_record_sha256": "a6d0d6e82a80a04925fe8b4b877d6d8a10d45bbf22b188717bf6a45bb8f66f48",
+  "outcome": "accepted",
+  "prompt_sha256": "05616c98481864587444d6c6d0339870f3c06722040cbea1f9e6cb2bdb383734",
+  "prompt_tokens": 383,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we must find the entry with the highest `last_safe_lsn_int` (which represents the most recent point in time/sequence) among the provided data.\n\nComparing the `last_safe_lsn_int` values:\n1. 247802818988328 (window_index: 19)\n2. 247802768656488 (window_index: 16)\n3. 247802802210488 (window_index: 18)\n\nThe highest value is 247802818988328.\n\nCOORDINATE: lsn=247802818988328 window=19",
+  "replicate_index": 3,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|3"
+}

@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 248992424265432,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 248992424265432,
+        "token": "lsn=248992424265432",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      248992424265432
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:33:14.646233Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 0,
+    "legit_rows_lost": 10,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-03_20261003T092004Z/ab-248992424265432/report.json",
+    "report_sha256": "d92f286d6b491febb311f538315de0b19ca2e595f4bfbcd1b5c92f6261f7492e",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 870,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:33:20.951530Z",
+  "freeze_sha256": "83711a5b1db0ffdf7f633718e658d13f3bb4c300026a08ab1191ed9376feac7b",
+  "incident_id": "SC-03_20261003T092004Z",
+  "latency_ms": 5964,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-03_20261003T092004Z/sc03/units/M3/R2/k3/model.json",
+  "model_record_sha256": "db69b2952168beadf23974a26f79c49c2f2cedd181b65ed859905ae69b84c276",
+  "outcome": "accepted",
+  "prompt_sha256": "cf032e6ad65bda7a59a7ff0bb8ae6662d90df012a8985cfd9756a86bf4906258",
+  "prompt_tokens": 463,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- **Window 12** and **Window 13** show normal DML activity on `p2_probe` with **no schema change** \u2014 these are safe.\n- **Window 15** introduces a **schema change** (`ALTER TABLE on public.sc03_orders`), which is the damaging activity.\n\nThe latest safe point before the damaging activity began is the **end of Window 13**, at LSN `248992424265432`.\n\nCOORDINATE: lsn=248992424265432",
+  "replicate_index": 3,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|3"
+}

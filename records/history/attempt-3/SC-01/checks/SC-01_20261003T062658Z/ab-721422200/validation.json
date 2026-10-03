@@ -1,0 +1,33 @@
+{
+  "db_validation": {
+    "mismatches": [],
+    "p3_analytical_legit_rows_lost": 40,
+    "relations": {
+      "p2_probe": {
+        "content_hash": "80dbcb9b45c13191adff11cc0c1854bc5510f91259cb18d1a6553e143b60c9d4",
+        "row_count": 404
+      }
+    },
+    "relations_checked": 1,
+    "relations_matched": 1
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261003T062739724Z_000013",
+    "files_checked": 0,
+    "files_compared": 0,
+    "files_matched": 0,
+    "mismatches": []
+  },
+  "schema_validation": {
+    "ddl": "id bigint\nv text",
+    "ddl_match": true,
+    "diffs": []
+  },
+  "summary": {
+    "damage_rows_retained": 0,
+    "files_mismatched": 0,
+    "legit_rows_lost": 0,
+    "p3_analytical_legit_rows_lost": 40,
+    "schema_diffs": 0
+  }
+}

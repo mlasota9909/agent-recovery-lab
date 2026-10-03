@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 704643112,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 704643112,
+        "token": "lsn=704643112",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      704643112
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T06:32:41.499258Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 24,
+    "report": "/home/mlasota/agent-recovery-lab-examiner3/var/restore/SC-01_20261003T062658Z/ab-704643112/report.json",
+    "report_sha256": "67492299cc471070d07ee7f89193542e1d9c16ee20d7ed718b754051bbcb1a6d",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 272,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T06:33:10.273044Z",
+  "freeze_sha256": "52fbcedb3845ea6c16315cfe2b526ed730cb697d8f32566d2e53c04311f4394d",
+  "incident_id": "SC-01_20261003T062658Z",
+  "latency_ms": 9093,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-01_20261003T062658Z/sc01/units/M2/R1/k0/model.json",
+  "model_record_sha256": "b8848a93b104d791998085926b320d91d5fdc204daff01319e6cd40f090226dc",
+  "outcome": "accepted",
+  "prompt_sha256": "ccd3b24fec57638e6c68fa43532034c51c3609555139fc9df7a2e1f14f27d40c",
+  "prompt_tokens": 361,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we must look for the entry with the lowest anomaly score (indicating the most \"normal\" or \"safe\" state) and identify its corresponding recovery coordinate.\n\nLooking at the evidence:\n1. `{\"anomaly_score\":198.143832255434, \"last_safe_lsn_int\":721421368, \"window_index\":15}`\n2. `{\"anomaly_score\":2.996067602553106, \"last_safe_lsn_int\":754975832, \"window_index\":17}`\n3. `{\"anomaly_score\":2.307831656885255, \"last_safe_lsn_int\":704643112, \"window_index\":14}`\n\nThe lowest anomaly score is `2.307831656885255`, which corresponds to the LSN `704643112`.\n\nCOORDINATE: lsn=704643112",
+  "replicate_index": 0,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|0"
+}

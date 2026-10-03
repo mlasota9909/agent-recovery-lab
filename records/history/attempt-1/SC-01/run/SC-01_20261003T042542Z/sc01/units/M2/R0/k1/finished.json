@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 721422632,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 721422632,
+        "token": "lsn=0/2B000928",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      721422632
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T04:30:35.592152Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner/var/restore/SC-01_20261003T042542Z/ab-721422632/report.json",
+    "report_sha256": "b2ece2068053f66300f2313041e69f066bf50f75255f6e82ad01fb3aa8e3ee3f",
+    "verdict_v1": "correct"
+  },
+  "completion_tokens": 404,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T04:30:48.845346Z",
+  "freeze_sha256": "ebece73ddaa9d903167040e4dc37ef2ab22068ed64e6d85b25acadf7cf412c5e",
+  "incident_id": "SC-01_20261003T042542Z",
+  "latency_ms": 12908,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner/logs/run/SC-01_20261003T042542Z/sc01/units/M2/R0/k1/model.json",
+  "model_record_sha256": "d7275c9c4078aeae8eb7809faeae787c15e6ea093aca4eebe41ea56b4e12863a",
+  "outcome": "accepted",
+  "prompt_sha256": "55d34cb8702e1b4ef136af69814d9067d0bb6deaed126dcb88769bce92791eb4",
+  "prompt_tokens": 26410,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we look for the last transaction before the first \"D\" (Delete) action that is part of the damaging sequence.\n\nLooking at the evidence:\n1. The first \"D\" action occurs at `lsn_int: 721422792` (`0/2B0009C8`) with `xid: 1123`.\n2. The transaction immediately preceding this is an \"U\" (Update) action at `lsn_int: 721422632` (`0/2B000928`) with `xid: 1122`.\n3. However, the sequence of \"D\" actions starting from `xid: 1126` (at `lsn_int: 738197544`) represents a massive deletion of many records.\n4. Looking at the very first \"D\" action in the log: `{\"action\":\"D\",\"detail\":{\"id\":88000700,\"v\":\"s88000700\"},\"lsn_int\":721422792,\"lsn_text\":\"0/2B0009C8\",...}`.\n5. The transaction immediately before this first \"D\" is: `{\"action\":\"U\",\"detail\":{\"id\":88000701,\"v\":\"u88000701b\"},\"lsn_int\":721422632,\"lsn_text\":\"0/2B000928\",...}`.\n\nThe latest safe point before the first \"D\" action is the LSN of the preceding transaction.\n\nCOORDINATE: lsn=0/2B000928",
+  "replicate_index": 1,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|1"
+}

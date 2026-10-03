@@ -1,0 +1,15 @@
+
+
+Looking at the evidence:
+
+- Interval 38 has a high anomaly score (12.189), indicating damaging file activity.
+- The `last_safe_snapshot` for interval 38 is `s_20261003T041423369Z_000038`.
+- This is also the `from_snapshot` of interval 38, with `from_time` = `2026-10-03T04:14:23.802955Z`.
+
+All three locators (interval index, snapshot name, and timestamp) resolve to the same snapshot:
+
+- `interval=38` → start snapshot is `s_20261003T041423369Z_000038`
+- `snapshot=s_20261003T041423369Z_000038`
+- `ts=2026-10-03T04:14:23.802955Z` → latest visible snapshot at or before this time is `s_20261003T041423369Z_000038`
+
+COORDINATE: interval=38 snapshot=s_20261003T041423369Z_000038 ts=2026-10-03T04:14:23.802955Z

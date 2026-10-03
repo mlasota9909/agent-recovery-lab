@@ -1,0 +1,3 @@
+
+
+COORDINATE: window=25 lsn=244598874046840

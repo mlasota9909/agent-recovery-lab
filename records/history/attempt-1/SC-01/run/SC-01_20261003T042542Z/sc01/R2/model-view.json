@@ -1,0 +1,14 @@
+{
+  "content": "Window 15 [721422200..738229984]: 201 DELETE on relation p2_probe, 1 INSERT; anomaly 250.5.\nWindow 16 [738231016..754976696]: 2 DELETE on relation p2_probe, 2 INSERT; anomaly 1.7851020517273075.\nWindow 17 [771752296..771754920]: 2 DELETE on relation p2_probe, 2 INSERT; anomaly 1.767704580390564.\n",
+  "incident_id": "SC-01_20261003T042542Z",
+  "params": {
+    "top_n": 3
+  },
+  "probe_id": "PB-6-candidate-windows",
+  "representation": "R2",
+  "telemetry": {
+    "evidence_bytes": 297,
+    "token_estimate": 69,
+    "tokenizer": "lab-ws-punct-1"
+  }
+}

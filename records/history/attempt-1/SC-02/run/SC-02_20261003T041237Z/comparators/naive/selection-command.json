@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "bin/lab-fl-naive",
+    "SC-02_20261003T041237Z"
+  ],
+  "exit_code": 0,
+  "stderr": "",
+  "stdout": "{\"approx_incident_time\": \"2026-10-03T04:14:22.259062Z\", \"comparator\": \"naive\", \"coordinate\": {\"lsn\": \"DDEE/320002A8\", \"lsn_int\": 244015110816424, \"snapshot\": \"s_20261003T041434660Z_000044\", \"time\": \"2026-10-03T04:14:35.370955Z\"}, \"cutoff\": \"2026-10-03T04:14:42.259062Z\", \"declared_error_seconds\": 20, \"incident_id\": \"SC-02_20261003T041237Z\", \"outcome\": \"accepted\", \"reason\": \"latest snapshot at or before estimate\", \"schema_version\": 1}\n"
+}

@@ -1,0 +1,52 @@
+{
+  "answer": {
+    "chosen_lsn_int": null,
+    "grammar_outcome": "refusal_parser",
+    "locators": [
+      {
+        "discard_reason": "immediately preceding window is not visible",
+        "resolved_lsn_int": null,
+        "token": "window=17",
+        "type": "window"
+      },
+      {
+        "discard_reason": "malformed locator: expected key=value",
+        "resolved_lsn_int": null,
+        "token": "[244598739828840]",
+        "type": "unknown"
+      }
+    ],
+    "locators_offered": [
+      "window",
+      "unknown"
+    ],
+    "locators_resolved_to": [],
+    "outcome": "rule_rejection",
+    "reason": "no locator resolves from the supplied view"
+  },
+  "call_started_utc": "2026-10-03T09:41:30.320951Z",
+  "check": null,
+  "completion_tokens": 139,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:41:35.361090Z",
+  "freeze_sha256": "711616cfd451192c165ded9385af03bdc6e4d378325d86ad78a303dae005f7f7",
+  "incident_id": "SC-04_20261003T093358Z",
+  "latency_ms": 4752,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-04_20261003T093358Z/sc04/units/M2/R2/k3/model.json",
+  "model_record_sha256": "ff0dd7e07397ef078ca1deb69bdc0ab010cb39bae0f345c46715309c35e6a08d",
+  "outcome": "rule_rejection",
+  "prompt_sha256": "b1b1aa63bbeeb67ed3eb79a538d6d21412a8713b96438a8241f3ae3c4179271a",
+  "prompt_tokens": 464,
+  "raw_completion": "The evidence provided contains three windows (17, 22, and 25) that all describe the same pattern of damaging activity (INSERT, UPDATE, and DELETE operations on relation p2_probe). To find the latest safe point before this activity began, we must look at the start of the earliest window containing the damage.\n\nWindow 17 begins at 244598739828840. Therefore, the point immediately preceding the start of the first recorded damaging window is the latest safe point.\n\nCOORDINATE: window=17 [244598739828840]",
+  "replicate_index": 3,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R2|3"
+}

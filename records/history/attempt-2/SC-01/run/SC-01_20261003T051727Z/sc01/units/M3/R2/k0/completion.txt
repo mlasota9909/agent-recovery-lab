@@ -1,0 +1,11 @@
+
+
+Looking at the evidence:
+
+- **Window 12** [671088760..671091624]: 2 DELETE, 2 INSERT, anomaly ≈ 1.86 → **safe**
+- **Window 15** [721420328..738231992]: 202 DELETE, 2 INSERT, anomaly ≈ 231.62 → **damaging activity** (massive spike in DELETEs)
+- **Window 16** [738232152..754977384]: 2 DELETE, 2 INSERT, anomaly ≈ 1.85 → safe
+
+The damaging activity is clearly Window 15 (202 DELETEs, anomaly 231.62). The latest safe point *before* that activity began is the end of the last safe window preceding it, which is the end of Window 12 at LSN 671091624.
+
+COORDINATE: lsn=671091624

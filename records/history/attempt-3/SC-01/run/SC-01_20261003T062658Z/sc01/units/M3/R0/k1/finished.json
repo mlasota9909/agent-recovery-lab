@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 721421720,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 721421720,
+        "token": "lsn=0/2B000598",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      721421720
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T06:34:32.043002Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 8,
+    "report": "/home/mlasota/agent-recovery-lab-examiner3/var/restore/SC-01_20261003T062658Z/ab-721421720/report.json",
+    "report_sha256": "bc174febe7d1c0ea118fbfc39785eca9073f8ffeb675e0b65086858b87be431f",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 2138,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T06:34:47.520536Z",
+  "freeze_sha256": "52fbcedb3845ea6c16315cfe2b526ed730cb697d8f32566d2e53c04311f4394d",
+  "incident_id": "SC-01_20261003T062658Z",
+  "latency_ms": 15115,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-01_20261003T062658Z/sc01/units/M3/R0/k1/model.json",
+  "model_record_sha256": "ac46ee88cbe067db2e7890ca4996e1178c66707e54eb3b9a460f3cffc8cb99d2",
+  "outcome": "accepted",
+  "prompt_sha256": "e3d07fd9f95b13c84a937096738f43ba7bbfc29744eb6ed42f0cc51dea563634",
+  "prompt_tokens": 25644,
+  "raw_completion": "\n\nLooking at the evidence, the damaging activity is the mass deletion of 200 seed rows (ids 1\u2013200), all sharing xid 1127 and wall_clock 2026-10-03T06:27:40.884534Z. The first deletion (seed1) occurs at LSN 0/2C000028 (lsn_int 738197544).\n\nThe last event in LSN order immediately before that mass deletion is the UPDATE of 88000702b at LSN 0/2B000598 (lsn_int 721421720), wall_clock 2026-10-03T06:27:40.054381Z, xid 1125. This is the latest safe point before the damaging bulk DELETE began.\n\nCOORDINATE: lsn=0/2B000598",
+  "replicate_index": 1,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R0|1"
+}

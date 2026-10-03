@@ -1,0 +1,7 @@
+
+
+Looking at the evidence, the damaging activity (DELETE on relation p2_probe) first appears in **Window 10**, whose LSN range is [257260169201368..257260185978584].
+
+The latest safe point before that damaging activity began is the LSN at the start of Window 10 — the boundary just before the first DELETE operations.
+
+COORDINATE: lsn=257260169201368

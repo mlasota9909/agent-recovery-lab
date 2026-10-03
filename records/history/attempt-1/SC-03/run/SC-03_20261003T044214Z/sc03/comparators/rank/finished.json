@@ -1,0 +1,8 @@
+{
+  "check": null,
+  "failure_reason": "bin/lab-rank exited 2: precondition failed: candidates.jsonl missing; run lab-candidates first\n",
+  "freeze_sha256": "591ea221bfca0e08a82140caa940f2246700cf9a3183a42fa25f9a7463b885b6",
+  "incident_id": "SC-03_20261003T044214Z",
+  "outcome": "execution_failure",
+  "unit_id": "rank"
+}

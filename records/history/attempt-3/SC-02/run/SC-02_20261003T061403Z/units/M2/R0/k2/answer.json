@@ -1,0 +1,17 @@
+{
+  "locators": [
+    {
+      "discard_reason": null,
+      "resolved_snapshot": "s_20261003T061455267Z_000010",
+      "token": "interval=10"
+    },
+    {
+      "discard_reason": null,
+      "resolved_snapshot": "s_20261003T061457346Z_000011",
+      "token": "snapshot=s_20261003T061457346Z_000011"
+    }
+  ],
+  "outcome": "rule_rejection",
+  "reason": "resolved locators identify distinct snapshots",
+  "snapshot": null
+}

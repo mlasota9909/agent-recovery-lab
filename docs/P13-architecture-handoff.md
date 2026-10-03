@@ -59,8 +59,8 @@ snapshot incorrect safe (114 rows); first snapshot after the damage incorrect co
   windows 18 and 10; SC-04: window 14). The declines read the routine deletions in every window shown as damage.
 - Every input showed a position at or after the first damaging commit (gate record `damage_shown`).
 - Exploratory tests (on acceptance), identical in both studies: Cochran's Q 10.0 (p = 0.007) for DeepSeek and
-  for Gemma, no variation for Qwen, pooled 20.0 (p < 0.001). Tables: `records/SC03-study/analysis/` and
-  `records/SC04-study/analysis/`.
+  for Gemma, no variation for Qwen, pooled 20.0 (p < 0.001). Tables: `records/history/SC03-study/analysis/` and
+  `records/history/SC04-study/analysis/`.
 
 ## The incidents
 
@@ -90,7 +90,7 @@ snapshot incorrect safe (114 rows); first snapshot after the damage incorrect co
 
 ## Models and settings
 
-The model set of `records/SC03-study/model-set.json` (identical to the SC-01 replication's), preflight passed
+The model set of `records/history/SC03-study/model-set.json` (identical to the SC-01 replication's), preflight passed
 2026-10-02T21:00:37Z: `gb10a-deepseek-v4-flash`, `gympc-gemma4-26b`, `alienware-qwen38-27b`. Temperature 0,
 top-p 1, seed 42, 8,192 output tokens. Containment verified on every call. An earlier preflight that day (20:47)
 failed while the Gemma host served a different identity.
@@ -113,5 +113,5 @@ failed while the Gemma host served a different identity.
   stages 20 and 30 run.
 - `run/retire-attempt.sh --sc03|--sc04 "<reason>"` retires an unfrozen attempt; `--after-freeze` records the
   calls already made.
-- `python3 records/SC03-study/verify.py` and `python3 records/SC04-study/verify.py` check each freeze, the 45
+- `python3 records/history/SC03-study/verify.py` and `python3 records/history/SC04-study/verify.py` check each freeze, the 45
   rows and every check report against the kept records.

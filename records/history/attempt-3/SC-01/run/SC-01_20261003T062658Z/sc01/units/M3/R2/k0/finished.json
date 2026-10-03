@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 721421368,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 721421368,
+        "token": "lsn=721421368",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      721421368
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T06:36:31.460125Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 8,
+    "report": "/home/mlasota/agent-recovery-lab-examiner3/var/restore/SC-01_20261003T062658Z/ab-721421368/report.json",
+    "report_sha256": "ff53997b72c28ea5310bee50d063ac663d67887d265dde43c4c1cc16d13cf8ad",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 878,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T06:36:37.828777Z",
+  "freeze_sha256": "52fbcedb3845ea6c16315cfe2b526ed730cb697d8f32566d2e53c04311f4394d",
+  "incident_id": "SC-01_20261003T062658Z",
+  "latency_ms": 6025,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-01_20261003T062658Z/sc01/units/M3/R2/k0/model.json",
+  "model_record_sha256": "6322094f055faf8b4848c7dc73c24c0ab9988d544e058baccbab605eb7c48e68",
+  "outcome": "accepted",
+  "prompt_sha256": "f435750445f1db079a8a35198ca58626b911fde161ff9d818bf726eabe56b85f",
+  "prompt_tokens": 382,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- **Window 14** [704643272..721421368]: 3 DELETE, 3 INSERT, anomaly \u2248 2.31 \u2014 normal/safe activity.\n- **Window 15** [721421560..738231608]: 201 DELETE, 1 INSERT, anomaly \u2248 198.14 \u2014 this is the damaging activity (massive DELETE burst with a very high anomaly score).\n- **Window 17** [754976312..771924568]: 2 DELETE, 2 INSERT, anomaly \u2248 3.0 \u2014 back to normal.\n\nThe damaging activity is clearly Window 15 (201 DELETEs, anomaly ~198). The latest safe point *before* that damaging activity began is the end of the preceding safe window, Window 14, which ends at LSN **721421368**.\n\nCOORDINATE: lsn=721421368",
+  "replicate_index": 0,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|0"
+}

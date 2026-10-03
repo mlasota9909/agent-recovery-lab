@@ -1,0 +1,11 @@
+
+
+Looking at the evidence, the "damaging activity" is the bulk deletion of 200 seed records (ids 1–200), all under xid 1135, beginning at LSN `0/2C000028` (lsn_int 738197544).
+
+Tracing the LSN sequence in order, the last operation **before** that first seed deletion is:
+
+- LSN `0/2B000458` (lsn_int 721421400) — an UPDATE of `88000702b` (xid 1133, wall_clock 2026-10-03T05:18:10.612771Z).
+
+This is the latest safe point: all prior operations (updates and the single delete/insert of 88000700) are normal probe activity. The next LSN in the WAL stream jumps to `0/2C000028`, which is the first of the 200 seed deletions.
+
+COORDINATE: lsn=0/2B000458

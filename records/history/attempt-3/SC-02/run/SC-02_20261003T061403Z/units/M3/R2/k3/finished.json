@@ -1,0 +1,55 @@
+{
+  "answer": {
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_snapshot": "s_20261003T061549544Z_000037",
+        "token": "snapshot=s_20261003T061549544Z_000037"
+      }
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree",
+    "snapshot": "s_20261003T061549544Z_000037"
+  },
+  "call_started_utc": "2026-10-03T06:25:56.097361Z",
+  "check": {
+    "checks_complete": true,
+    "cleanup_error": null,
+    "failure_reason": null,
+    "report": "/home/mlasota/agent-recovery-lab-examiner3/evidence/SC-02/SC-02_20261003T061403Z/fl-checks/s_20261003T061549544Z_000037.json",
+    "report_sha256": "b5048ee631b64eeb8dbe78b5f8c834d07aab2dd8a51a15ec725a10315374105c",
+    "summary": {
+      "damage_files_retained": 0,
+      "damage_rows_retained": 0,
+      "legit_file_operations_lost": 0,
+      "legit_rows_lost": 0,
+      "probe_mismatches": 0,
+      "schema_damage": 0,
+      "schema_loss": 0
+    },
+    "verdict_v2": "correct"
+  },
+  "completion_tokens": 877,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T06:26:02.582451Z",
+  "freeze_sha256": "31cf6fdf4b0ff77477af8edaae1983749810bbaad8b75b406c05bcbc771f0b7c",
+  "incident_id": "SC-02_20261003T061403Z",
+  "latency_ms": 5919,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner3/logs/run/SC-02_20261003T061403Z/units/M3/R2/k3/model.json",
+  "model_record_sha256": "93b40cb059278d007aa3f82ee00a5f64f5767cf8502a41f9c0183747082c6e86",
+  "outcome": "accepted",
+  "prompt_sha256": "26ce0e472e0e06ad330a1f398c60e103c1f0d50cde16c1b7cd6e277608ee7cc3",
+  "prompt_tokens": 918,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- **Intervals 9 & 10**: Low anomaly (0.25), minor file activity (1 deleted, 1 modified, 1 created under \"workspace/build\"). These are safe.\n- **Interval 37**: High anomaly (12.25), 13 files deleted under \"workspace/records\". This is the **damaging file activity**.\n\nThe latest safe recorded snapshot before the damaging activity (interval 37) began is the start snapshot of that interval:\n\n**s_20261003T061549544Z_000037**\n\nThis is the `from_snapshot` of interval 37, recorded at 2026-10-03T06:15:50.224567Z.\n\nCOORDINATE: snapshot=s_20261003T061549544Z_000037",
+  "replicate_index": 3,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|3"
+}

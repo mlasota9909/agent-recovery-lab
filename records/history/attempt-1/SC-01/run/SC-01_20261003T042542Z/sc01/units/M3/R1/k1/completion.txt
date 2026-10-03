@@ -1,0 +1,11 @@
+
+
+Looking at the evidence:
+
+- **Window 15**: anomaly_score = 250.5 (very high → damaging activity present), last_safe_lsn_int = 721421720
+- **Window 16**: anomaly_score ≈ 1.79 (normal), last_safe_lsn_int = 738229984
+- **Window 17**: anomaly_score ≈ 1.77 (normal), last_safe_lsn_int = 754976696
+
+The damaging activity is clearly flagged in window 15 (anomaly score 250.5 vs. ~1.8 in the other windows). The `last_safe_lsn_int` recorded in that window (721421720) represents the last safe LSN before the damage began.
+
+COORDINATE: lsn=721421720

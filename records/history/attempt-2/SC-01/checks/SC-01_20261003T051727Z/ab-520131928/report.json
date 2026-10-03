@@ -1,0 +1,96 @@
+{
+  "consistency_verdict": "incorrect-safe",
+  "coordinate": {
+    "lsn_int": 520131928,
+    "lsn_text": "0/1F009558",
+    "skew_ms": 20,
+    "snapshot": "s_20261003T051738660Z_000001"
+  },
+  "db_validation": {
+    "mismatches": [
+      {
+        "actual": "missing",
+        "classification": "legit_lost",
+        "expected": "88000700",
+        "kind": "content_hash",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing",
+        "classification": "legit_lost",
+        "expected": "88000701",
+        "kind": "content_hash",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing",
+        "classification": "legit_lost",
+        "expected": "88000702",
+        "kind": "content_hash",
+        "object": "public.p2_probe"
+      },
+      {
+        "actual": "missing",
+        "classification": "legit_lost",
+        "expected": "88000703",
+        "kind": "content_hash",
+        "object": "public.p2_probe"
+      }
+    ],
+    "p3_analytical_legit_rows_lost": 132,
+    "relations": {
+      "p2_probe": {
+        "content_hash": "659b7a9d71c7a0bb41467c74cfe3d8be4bbbc6a2f15962a315b1c95de975b6a2",
+        "row_count": 400
+      }
+    },
+    "relations_checked": 1,
+    "relations_matched": 0
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261003T051810338Z_000013",
+    "files_checked": 0,
+    "files_compared": 0,
+    "files_matched": 0,
+    "mismatches": []
+  },
+  "harness_commit": "1e81d9eeba6c4c49abc09e92976d35c11d2332a1",
+  "incident_id": "SC-01_20261003T051727Z",
+  "promotion": {
+    "authorized_by": null,
+    "clean_verdict": false,
+    "decision": "withheld",
+    "simulated": false
+  },
+  "restore_of": "ab-520131928",
+  "restore_target": {
+    "fs_clone_dataset": "labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/protected",
+    "fs_mount": "/labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/protected",
+    "pgdata_dataset": "labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/pgdata",
+    "sandbox_pgdata": "/labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/pgdata",
+    "sandbox_port": 55596,
+    "tag": "ab-520131928"
+  },
+  "safety": {
+    "evidence_untouched": true,
+    "manifest_after": "715589638dc33e88c75dc2d3f479ca576ac2225ace7d06d45a789d692a2176dd",
+    "manifest_before": "715589638dc33e88c75dc2d3f479ca576ac2225ace7d06d45a789d692a2176dd",
+    "victim_untouched": true
+  },
+  "schema_validation": {
+    "ddl": "id bigint\nv text",
+    "ddl_match": true,
+    "diffs": []
+  },
+  "selector_provenance": {
+    "arm_no_peek_ok": true,
+    "restored_against_arm": "ab-520131928"
+  },
+  "summary": {
+    "damage_rows_retained": 0,
+    "files_mismatched": 0,
+    "legit_rows_lost": 92,
+    "p3_analytical_legit_rows_lost": 132,
+    "schema_diffs": 0
+  }
+}

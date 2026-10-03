@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 721421400,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 721421400,
+        "token": "lsn=0/2B000458",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      721421400
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T05:22:31.672148Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 8,
+    "report": "/home/mlasota/agent-recovery-lab-examiner2/var/restore/SC-01_20261003T051727Z/ab-721421400/report.json",
+    "report_sha256": "b545e3dc32ca5b541d8f29a915edd188c8a756df1736bb84f64543151b62b060",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 341,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T05:22:42.945585Z",
+  "freeze_sha256": "d7d34aed2d8ad6768330edf061f74360fdbe9a03ab1ff54d2d1a644acca3dc56",
+  "incident_id": "SC-01_20261003T051727Z",
+  "latency_ms": 10934,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner2/logs/run/SC-01_20261003T051727Z/sc01/units/M2/R0/k2/model.json",
+  "model_record_sha256": "944d4ff2e871f7fb5b73573988b2d63e83a585e62914186532e4c3b8628facd8",
+  "outcome": "accepted",
+  "prompt_sha256": "e9f79e171040bb2aad3b8db528251355ee0b7cbf4eaf0b8d76a5ac31f5a045d4",
+  "prompt_tokens": 27400,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we look for the first instance of a \"D\" (Delete) action that represents the start of the damaging activity.\n\nIn the provided evidence, the first \"D\" action occurs at:\n`{\"action\":\"D\",\"detail\":{\"id\":1,\"v\":\"seed1\"},\"lsn_int\":738197544,\"lsn_text\":\"0/2C000028\",\"natural_key\":1,\"object\":\"p2_probe\",\"wall_clock\":\"2026-10-03T05:18:11.659608Z\",\"xid\":1135}`\n\nThe safe point is the last transaction before this event. The transaction immediately preceding this \"D\" action is:\n`{\"action\":\"U\",\"detail\":{\"id\":88000702,\"v\":\"u88000702b\"},\"lsn_int\":721421400,\"lsn_text\":\"0/2B000458\",\"natural_key\":88000702,\"object\":\"p2_probe\",\"wall_clock\":\"2026-10-03T05:18:10.612771Z\",\"xid\":1133}`\n\nThe LSN for this safe point is `0/2B000458`.\n\nCOORDINATE: lsn=0/2B000458",
+  "replicate_index": 2,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|2"
+}

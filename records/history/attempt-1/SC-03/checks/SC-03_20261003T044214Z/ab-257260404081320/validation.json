@@ -1,0 +1,57 @@
+{
+  "db_validation": {
+    "mismatches": [
+      {
+        "actual": "status_column_dropped",
+        "classification": "damage_retained",
+        "expected": "absent",
+        "kind": "schema_change",
+        "object": "public.sc03_orders"
+      },
+      {
+        "actual": "amount_rule_dropped",
+        "classification": "damage_retained",
+        "expected": "absent",
+        "kind": "schema_change",
+        "object": "public.sc03_orders"
+      },
+      {
+        "actual": "amount_type_changed",
+        "classification": "damage_retained",
+        "expected": "absent",
+        "kind": "schema_change",
+        "object": "public.sc03_orders"
+      }
+    ],
+    "p3_analytical_legit_rows_lost": 0,
+    "relations": {
+      "sc03_orders": {
+        "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "row_count": 0
+      }
+    },
+    "relations_checked": 1,
+    "relations_matched": 0
+  },
+  "fs_validation": {
+    "expected_snapshot": "s_20261003T044306348Z_000012",
+    "files_checked": 0,
+    "files_compared": 0,
+    "files_matched": 0,
+    "mismatches": []
+  },
+  "schema_validation": {
+    "ddl": "id bigint\namount text",
+    "ddl_match": false,
+    "diffs": []
+  },
+  "summary": {
+    "damage_rows_retained": 3,
+    "damage_units_retained": 3,
+    "damage_units_total": 3,
+    "files_mismatched": 0,
+    "legit_rows_lost": 0,
+    "p3_analytical_legit_rows_lost": 0,
+    "schema_diffs": 0
+  }
+}

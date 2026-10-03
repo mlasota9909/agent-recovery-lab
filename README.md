@@ -6,10 +6,10 @@ as one study:
 
 | Study | Damage | Entry point | Design and analysis plan | Records |
 | --- | --- | --- | --- | --- |
-| SC-01, deletion | One transaction deletes 200 rows | `run/optional/sc01-replication.sh` | [sc01-analysis-plan.md](run/optional/sc01-analysis-plan.md) | `records/SC01-replication/` |
-| SC-02, files | Twelve files and their directory deleted, one retained file overwritten | `run/all.sh` | [P12](sdd/specs/P12-file-level-test/spec.md), [plan](sdd/specs/P12-file-level-test/plan.md), [contracts](sdd/specs/P12-file-level-test/contracts/fl-analysis-plan.md) | `records/P12/` |
-| SC-03, schema changes | Three schema changes to one table | `run/optional/sc03-study.sh` | [P13](sdd/specs/P13-schema-and-update-studies/spec.md), [sc03-sc04-analysis-plan.md](run/optional/sc03-sc04-analysis-plan.md) | `records/SC03-study/` |
-| SC-04, scattered updates | Twelve rows given damaging values, one update at a time | `run/optional/sc04-study.sh` | [P13](sdd/specs/P13-schema-and-update-studies/spec.md), [sc03-sc04-analysis-plan.md](run/optional/sc03-sc04-analysis-plan.md) | `records/SC04-study/` |
+| SC-01, row deletion | One transaction deletes 200 rows | `run/optional/sc01-replication.sh` | [sc01-analysis-plan.md](run/optional/sc01-analysis-plan.md) | `records/experiment/SC-01/` |
+| SC-02, file deletion | Twelve files and their directory deleted, one retained file overwritten | `run/all.sh` | [P12](sdd/specs/P12-file-level-test/spec.md), [plan](sdd/specs/P12-file-level-test/plan.md), [contracts](sdd/specs/P12-file-level-test/contracts/fl-analysis-plan.md) | `records/experiment/SC-02/` |
+| SC-03, schema change | Three schema changes to one table | `run/optional/sc03-study.sh` | [P13](sdd/specs/P13-schema-and-update-studies/spec.md), [sc03-sc04-analysis-plan.md](run/optional/sc03-sc04-analysis-plan.md) | `records/experiment/SC-03/` |
+| SC-04, row updates | Twelve rows given damaging values, one update at a time | `run/optional/sc04-study.sh` | [P13](sdd/specs/P13-schema-and-update-studies/spec.md), [sc03-sc04-analysis-plan.md](run/optional/sc03-sc04-analysis-plan.md) | `records/experiment/SC-04/` |
 
 Every study runs the same stages: provisioning (00), preflight (10), incident (20), gate with control restores
 (30), freeze (40), 45 model calls (50), comparators (60) and analysis (70). The captured evidence supports three
@@ -17,7 +17,8 @@ input constructions: raw excerpts (R0), structured summaries (R1) and written su
 receive each input five times. Accepted answers, a fixed-rule ranker and a time estimate are restored in
 isolation and checked against a script-derived reference. Checked damage and lost legitimate work are reported
 separately. The baseline uses known damage onset; each study is a single-incident feasibility experiment, not a
-population study. `python3 records/<study>/verify.py` checks a kept study against its freeze. The database
+population study. `run/experiment.sh` runs all four studies on one VM, and `python3 records/experiment/verify.py`
+checks the kept run against its freezes. The database
 studies' entry points are under `run/optional/` because their frozen analysis plans are pinned there.
 
 ## Prerequisites and configuration
@@ -203,8 +204,10 @@ For the spec's manual evidence review, run stages 00–30 separately and inspect
 log scope, `logs/dry-run/<UTC time>/`, after stage 10. A dry-run incident has
 its own evidence folder and is never frozen, studied or compared: stages other
 than 20 and 30 refuse a dry-run scope. `logs/run/` holds the one study incident.
-The file-level study of record is kept in `records/P12/`; a clone runs its own
-independent study, and its freeze stays untracked.
+A checkout holds one file study: once it is frozen, stage 30 refuses to rebuild inputs
+("incident gate cannot rebuild inputs after freezing"), rehearsals included, so rehearse
+before the study or in a fresh checkout. The kept run is in `records/experiment/`; a clone
+runs its own independent experiment, and its freezes stay untracked.
 
 `run/all.sh` always uses `logs/run/` and does not rehearse. If a rehearsal
 fails after allocating its incident, run `bin/lab-incident --close` (it closes
@@ -283,13 +286,15 @@ reconciliation of every operation, injected ones included, ordered windows and
 four controls before the freeze: the reference, a point inside the damage's first
 open transaction, the earliest snapshot and the first snapshot after the damage. An
 unfrozen attempt is retired with `run/retire-attempt.sh --sc01|--sc03|--sc04
-"<reason>"`.
+"<reason>"`. Stage 20 of SC-03 and SC-04 occasionally refuses a capture with "reference is not
+before the first damaging commit": the generator compares two recorded log positions,
+which can be equal when the log has not moved between the two reads. The refusal never
+admits a bad incident; retire the attempt and run the study again.
 
 Output is separate per study: `logs/run/<incident>/sc0N/`,
 `results/sc01-replication-<incident>.jsonl` or `results/sc0N-study-<incident>.jsonl`,
 `results/sc0N-comparators-<incident>.jsonl` and `analysis-out/sc0N/<incident>/`.
-The kept studies are `records/SC01-replication/`, `records/SC03-study/` and
-`records/SC04-study/`.
+The kept studies are in `records/experiment/` (SC-01, SC-03 and SC-04).
 
 ## Teardown and verification limits
 
@@ -303,7 +308,7 @@ configuration; see `provision/README.md` for the exact scope.
 
 Offline checks (`tests/`) cover run journals, interruption handling, frozen-byte
 rejection, capture/C-7 gating, accounting, damage counting and statistics with
-simulated responses, and run no lab commands. The live runs are the four studies
-kept in `records/`, with the fresh-clone reproduction of the file study in
-`records/P12/reproduction/`. The P0 health suite explicitly reports its omitted
+simulated responses, and run no lab commands. The live run is the experiment kept
+in `records/experiment/`: one fresh clone, one VM and all four studies. Earlier runs
+are kept in `records/history/`, each with the reason it was set aside. The P0 health suite explicitly reports its omitted
 historical review criteria; those are not fresh acceptance evidence.

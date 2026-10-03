@@ -1,0 +1,14 @@
+To identify the latest safe recorded snapshot before damaging file activity began, we examine the provided intervals and the subsequent file changes:
+
+1.  **Interval 6**: Contains changes to `workspace/build` and its contents.
+2.  **Interval 8**: Contains changes to `workspace/build` and its contents (deleting `t0.txt`, modifying `t2.txt`, adding `t3.txt`).
+3.  **Interval 38**: Contains extensive damaging activity, including deleting `workspace/records` and its subfiles (`f1.txt`, `f2.txt`, etc.), and modifying `workspace/build/t31.txt`.
+
+The damaging activity (deletions and mass modifications) begins in **Interval 38**. Therefore, the latest safe snapshot is the one that concludes the last known safe interval (Interval 8).
+
+The `to_snapshot` of Interval 8 is `s_20261003T050324873Z_000009`.
+The `to_time` of Interval 8 is `2026-10-03T05:03:25.374460Z`.
+
+The latest safe snapshot is the one recorded at the end of the last safe interval.
+
+COORDINATE: snapshot=s_20261003T050324873Z_000009 ts=2026-10-03T05:03:25.374460Z

@@ -1,0 +1,25 @@
+{
+  "chosen_lsn_int": null,
+  "grammar_outcome": "refusal_parser",
+  "locators": [
+    {
+      "discard_reason": "immediately preceding window is not visible",
+      "resolved_lsn_int": null,
+      "token": "window=12",
+      "type": "window"
+    },
+    {
+      "discard_reason": "malformed locator: expected key=value",
+      "resolved_lsn_int": null,
+      "token": "[248992390711000]",
+      "type": "unknown"
+    }
+  ],
+  "locators_offered": [
+    "window",
+    "unknown"
+  ],
+  "locators_resolved_to": [],
+  "outcome": "rule_rejection",
+  "reason": "no locator resolves from the supplied view"
+}

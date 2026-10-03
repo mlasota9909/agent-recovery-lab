@@ -1,0 +1,22 @@
+You are an experimental subject. Locate a recovery coordinate from the evidence below.
+Use only this evidence. You are not given a reference answer.
+
+Task: identify the latest safe point before damaging activity began. Name that point
+using whichever locator the evidence provides — a window index, a PostgreSQL LSN in
+whatever form it appears (hex HIGH/LOW or integer), or a timestamp. Refuse only when
+the evidence genuinely does not let you localise a safe point.
+
+Evidence:
+<<<ARM_B_CONTENT
+Window 16 [247802768656648..247802785434696]: 3 DELETE on relation p2_probe, 3 INSERT; anomaly 3.1243679725448845.
+Window 18 [247802802210968..247802818988328]: 2 DELETE on relation p2_probe, 2 INSERT; anomaly 2.5368993717054296.
+Window 19 [247802818988488..247802835764632]: 2 DELETE on relation p2_probe, 2 INSERT; anomaly 3.3343121978698878.
+
+ARM_B_CONTENT>>>
+
+End with exactly one tagged line and nothing after it, in one of these two forms:
+COORDINATE: <locator> [<locator> ...]
+where each locator is one of window=<int>, lsn=<hex-or-int>, ts=<iso8601>
+REFUSAL: <reason>
+
+If the evidence does not localise a safe point, refuse. Do not guess.

@@ -1,0 +1,11 @@
+
+
+Looking at the evidence:
+
+- **Interval 6** (05:03:19 – 05:03:21): 0 deleted, 0 modified, 2 created → **safe**
+- **Interval 8** (05:03:23 – 05:03:25): 1 deleted, 1 modified → **damaging activity begins here**
+- **Interval 38** (05:04:23 – 05:04:26): 13 deleted, 2 modified → clearly damaging
+
+The latest safe recorded snapshot before damaging file activity (interval 8) began is the **to_snapshot of interval 6**: `s_20261003T050321058Z_000007`, recorded at `2026-10-03T05:03:21.724856Z`.
+
+COORDINATE: snapshot=s_20261003T050321058Z_000007 ts=2026-10-03T05:03:21.724856Z

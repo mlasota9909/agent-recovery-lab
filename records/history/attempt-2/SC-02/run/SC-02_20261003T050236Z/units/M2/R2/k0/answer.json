@@ -1,0 +1,12 @@
+{
+  "locators": [
+    {
+      "discard_reason": "snapshot is not visible",
+      "resolved_snapshot": null,
+      "token": "snapshot=s_20261003T050325374460Z_000009"
+    }
+  ],
+  "outcome": "rule_rejection",
+  "reason": "no locator resolves from the visible evidence",
+  "snapshot": null
+}

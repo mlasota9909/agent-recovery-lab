@@ -1,0 +1,3 @@
+The evidence provides a series of data points with `last_safe_lsn_int` and `window_index`. The latest safe point provided in the sequence is the one with the highest value.
+
+COORDINATE: lsn=244598874046840 window=25

@@ -1,0 +1,3 @@
+Stage 70-analysis; log /home/mlasota/agent-recovery-lab-examiner3/logs/run/20261003T062634.811291131Z-1571589-70-analysis.log
+{"complete": true, "output": "/home/mlasota/agent-recovery-lab-examiner3/analysis-out/fl", "totals": {"accepted": 42, "checked_damage_remains": 0, "cleanup_failures": 0, "correct": 26, "declined": 1, "execution_failure": 0, "extra_work_lost": 16, "missing": 0, "not_recovered": 0, "pending_checks": 0, "planned": 45, "recorded": 45, "rule_rejection": 2}}
+Exit 0 at 2026-10-03T06:26:35Z

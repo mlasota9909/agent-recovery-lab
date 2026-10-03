@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 637536552,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 637536552,
+        "token": "lsn=0/26000928",
+        "type": "lsn_hex"
+      }
+    ],
+    "locators_offered": [
+      "lsn_hex"
+    ],
+    "locators_resolved_to": [
+      637536552
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:14:36.078352Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 72,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-01_20261003T090022Z/ab-637536552/report.json",
+    "report_sha256": "a3ba4c06ab81e45d0bf71bd6ef6f80b437c0c80dadec69e9bb12f6c978a55551",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 915,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:15:07.155416Z",
+  "freeze_sha256": "b4f644cfb5370e1ae3f1b0aa4a736d7cdb7a1ae58b6d9bc2a7cb3430b3b6c4cf",
+  "incident_id": "SC-01_20261003T090022Z",
+  "latency_ms": 30759,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-01_20261003T090022Z/sc01/units/M2/R0/k4/model.json",
+  "model_record_sha256": "a53dc857418bae66d5d858f91ab505ef111c64c34c7c096b10ccdd62cf078833",
+  "outcome": "accepted",
+  "prompt_sha256": "9b09806d7b4911455deafc30adebe4ff1871f967851dac4b3945b6737e703645",
+  "prompt_tokens": 26406,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the sequence of operations.\n\nThe evidence contains two sets of logs. The first set (IDs 1-200) consists of `D` (Delete) actions. The second set (IDs 88000700-88000703) contains a mix of `D` (Delete), `I` (Insert), and `U` (Update) actions.\n\nThe \"damaging activity\" refers to the sequence of deletions. In the second set, the first `D` action occurs at `lsn_int: 637536712` (lsn=0/260009C8) for `id: 88000700`. However, looking at the very first `D` action in the entire log, we see a series of deletions starting from `lsn_int: 721425360`.\n\nWait, looking closer at the chronological order of the `wall_clock` timestamps:\nThe first set of logs (IDs 1-200) all have `wall_clock: 2026-10-03T09:01:05.351822Z`.\nThe second set of logs (IDs 88000700+) have timestamps ranging from `09:00:55` to `09:01:05.788`.\n\nThe earliest timestamp in the entire evidence is `2026-10-03T09:00:55.393698Z` (ID 88000703).\nThe first damaging activity (Delete) in the chronological timeline is `action: D` for `id: 88000700` at `lsn_int: 637536712` (`0/260009C8`) with timestamp `2026-10-03T09:00:55.601814Z`.\n\nThe latest safe point before this first deletion is the last `U` (Update) action before that timestamp.\nThe last `U` action before the first `D` in the second set is:\n`{\"action\":\"U\",\"detail\":{\"id\":88000702,\"v\":\"u88000702b\"},\"lsn_int\":637537192,\"lsn_text\":\"0/26000BA8\",\"natural_key\":88000702,\"object\":\"p2_probe\",\"wall_clock\":\"2026-10-03T09:00:55.639392Z\",\"xid\":1064}`.\n\nWait, checking the timestamps again. The `U` action at `09:00:55.639` actually occurs *after* the `D` action at `09:00:55.601`.\nLet's re-order the second set by timestamp:\n1. `U` (88000703a) @ 09:00:55.393\n2. `U` (88000703b) @ 09:00:55.453\n3. `U` (88000701a) @ 09:00:55.599\n4. `U` (88000701b) @ 09:00:55.599\n5. `D` (88000700) @ 09:00:55.601 <--- First Delete\n\nThe latest safe point (the last `U` action before the first `D`) is `lsn=0/26000928`.\n\nCOORDINATE: lsn=0/26000928",
+  "replicate_index": 4,
+  "representation": "R0",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R0|4"
+}

@@ -1,0 +1,1 @@
+COORDINATE: window=17 lsn=754975832

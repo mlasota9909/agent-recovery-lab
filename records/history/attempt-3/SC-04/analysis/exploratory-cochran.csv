@@ -1,0 +1,5 @@
+model,Q,df,p,blocks,col_sums,planned_blocks,excluded_blocks,missing_units,execution_failures
+gb10a-deepseek-v4-flash,10.0,2,0.006737946999085467,5,"[5, 5, 0]",5,0,0,0
+gympc-gemma4-26b,8.4,2,0.014995576820477703,5,"[1, 5, 0]",5,0,0,0
+alienware-qwen38-27b,10.0,2,0.006737946999085467,5,"[0, 5, 5]",5,0,0,0
+pooled,12.133333333333333,2,0.0023188899754337054,15,"[6, 15, 5]",15,0,0,0

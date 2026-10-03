@@ -1,0 +1,8 @@
+To identify the latest safe point before the damaging activity began, we must look for the first instance of a "damaging" action (such as `ALTER TABLE`) and find the most recent record preceding it.
+
+1.  The damaging activity is the `ALTER TABLE` command on `public.sc03_orders` at `lsn_int: 248992474598248` (`E275/14000B68`).
+2.  The record immediately preceding this `ALTER TABLE` action is:
+    `{"action":"U","detail":{"amount":10.01,"id":24},"lsn_int":248992474597080,"lsn_text":"E275/140006D8","natural_key":24,"object":"sc03_orders","wall_clock":"2026-10-03T09:21:00.474739Z","xid":1003}`
+3.  The LSN for this safe point is `248992474597080` (integer) or `E275/140006D8` (text).
+
+COORDINATE: lsn=248992474597080

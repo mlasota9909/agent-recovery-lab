@@ -1,0 +1,14 @@
+To identify the latest safe recorded snapshot before damaging file activity began, we examine the provided evidence:
+
+1.  **Identify damaging activity:** The evidence shows file activity (changes) occurring in several intervals:
+    *   **Interval 6:** `workspace/build` (M), `workspace/build/t0.txt` (+), `workspace/build/t1.txt` (+).
+    *   **Interval 15:** `workspace/build` (M), `workspace/build/t10.txt` (+), `workspace/build/t11.txt` (+), `workspace/build/t7.txt` (-), etc.
+    *   **Interval 38:** `workspace` (M), `workspace/build` (M), `workspace/build/t30.txt` (-), etc.
+
+2.  **Determine the start of damaging activity:** The earliest recorded damaging activity occurs in **Interval 6**, which starts at `s_20261003T041319534Z_000006` (from_snapshot) and covers the time period starting at `2026-10-03T04:13:20.034751Z`.
+
+3.  **Locate the latest safe snapshot:** A safe snapshot is one that exists *before* the damaging activity begins. Since the damaging activity starts with the first interval (Interval 6), we must look for the snapshot that represents the state immediately preceding the start of Interval 6. 
+
+However, the evidence only provides the `intervals` catalogue which lists the snapshots *within* the intervals of activity. The `from_snapshot` of the first interval (`s_20261003T041319534Z_000006`) is the snapshot that represents the state *before* the changes in Interval 6 were applied.
+
+COORDINATE: snapshot=s_20261003T041319534Z_000006

@@ -1,0 +1,11 @@
+
+
+Looking at the evidence:
+
+- **Window 14** [704643272..721421368]: 3 DELETE, 3 INSERT, anomaly ≈ 2.31 — normal/safe activity.
+- **Window 15** [721421560..738231608]: 201 DELETE, 1 INSERT, anomaly ≈ 198.14 — this is the damaging activity (massive DELETE burst with a very high anomaly score).
+- **Window 17** [754976312..771924568]: 2 DELETE, 2 INSERT, anomaly ≈ 3.0 — back to normal.
+
+The damaging activity is clearly Window 15 (201 DELETEs, anomaly ~198). The latest safe point *before* that damaging activity began is the end of the preceding safe window, Window 14, which ends at LSN **721421368**.
+
+COORDINATE: lsn=721421368

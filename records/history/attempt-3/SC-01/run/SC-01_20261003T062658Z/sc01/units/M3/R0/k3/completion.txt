@@ -1,0 +1,7 @@
+
+
+Looking at the evidence, the damaging activity is the mass deletion of 200 seed rows (ids 1–200), all sharing xid 1127 and wall_clock 2026-10-03T06:27:40.884534Z. The first deletion (seed1) occurs at LSN 0/2C000028 (lsn_int 738197544).
+
+The last event in LSN order immediately before that mass deletion is the UPDATE of 88000702b at LSN 0/2B000598 (lsn_int 721421720), wall_clock 2026-10-03T06:27:40.054381Z, xid 1125. This is the latest safe point before the damaging bulk DELETE began.
+
+COORDINATE: lsn=0/2B000598

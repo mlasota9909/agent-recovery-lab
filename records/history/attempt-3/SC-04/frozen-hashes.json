@@ -1,0 +1,41 @@
+{
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "files": {
+    "etc/arm-b-prompt.txt": "c661ec7a959a657993607c59047a3e1167b08966309a9964b8982e73a0708a46",
+    "evidence/SC-04/SC-04_20261003T065317Z/db.jsonl": "4505d0fa3714f5e89f96e3c991777150acd05ad29b8e3ee028975d94b8003bc7",
+    "evidence/SC-04/SC-04_20261003T065317Z/fs_hashes.tsv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/SC-04/SC-04_20261003T065317Z/incident.json": "7f38c1328a22e2983fc96c106bf11c25578af63c4c8223c57768d7fed37a8f35",
+    "evidence/SC-04/SC-04_20261003T065317Z/injection.json": "21f40446c38671bf7b945e4cabca2dc1ef125c57f5db091324f00ff52e95b81c",
+    "evidence/SC-04/SC-04_20261003T065317Z/oracle-manifest.json": "084014b99ac942e7c7d9ac58d903b772eeb6d0c572e4115835aa38bba16e01ba",
+    "evidence/SC-04/SC-04_20261003T065317Z/oracle.json": "7d30d52514e08472e6f49ba4d462bdb2d11e71ee9352597c64223645aa8a5ab3",
+    "evidence/SC-04/SC-04_20261003T065317Z/p3/analytics.jsonl": "8f7aa62b37b0f0332b775b0a7558ad0a08443e3e7440f723d8544b2dcb4d9018",
+    "evidence/SC-04/SC-04_20261003T065317Z/p3/anomaly.jsonl": "142c2704738221ee5e773cb069300e25ebc663988d6f4520a747fbec45239669",
+    "evidence/SC-04/SC-04_20261003T065317Z/snapshots.json": "a23ca1fc8321761a950d33a1bbbdb948570ecb95ac7ac171200cdb782eec7ed3",
+    "evidence/SC-04/SC-04_20261003T065317Z/workload-manifest.jsonl": "f60cf8330d53bb8bf4740b5ff92482c6f0d44d82846141ef2dff037231f19140",
+    "evidence/SC-04/SC-04_20261003T065317Z/workload.jsonl": "90f1c19e4d6466e1a224f09da20f7426b76d5b97ca28d35438a4cd9dabeedf17",
+    "lib/lab_dbscen_study.py": "9007c388b9fbfcb38e257d688266070ae6048cb1c1bd5d7a549a6ef7b6da5b39",
+    "lib/lab_fl_study.py": "b7a4bcc559c6ef2312c81cc5173dba46a6a7074ed545cc6c2140dd1496e73f28",
+    "lib/lab_generate_dbscen.py": "eb6c3d6b6bd0b3dc0ba0eb357b55ed31854aa56cc5ae01732b84f15b44f0d8e2",
+    "lib/lab_regrammar.py": "02af89358bbfc28699be8419aed6e3e1d2f377921bf578898c535376a0edea5a",
+    "lib/lab_sc01_replication.py": "fd0acc849f224964802afb0fd9019fc1786bffd94eff94f6aa979a9414385856",
+    "lib/lab_validate_dbscen.py": "2903fa60daa4de7e74ff7a5574dba9a492b9e61465b58f362cec48417c0c493d",
+    "logs/run/SC-04_20261003T065317Z/sc04/R0/model-view.json": "5d47695985e922ab5a0feaeb9e35ce65d6ecec7a5c1a6b01168f513f3d619625",
+    "logs/run/SC-04_20261003T065317Z/sc04/R0/prompt.txt": "1eb32fd21f3c020b213a263a08137cc13a24659d0ed398dc3af5e6d7e905eff6",
+    "logs/run/SC-04_20261003T065317Z/sc04/R1/model-view.json": "f4fa36cec96792f0674eb5b89201925b6ca89ccc902f01a134392e178df9fb76",
+    "logs/run/SC-04_20261003T065317Z/sc04/R1/prompt.txt": "7824ea3c91b1edb8e1222b7638c9e39f7afafbf5c3753e568887c6d0648e3a00",
+    "logs/run/SC-04_20261003T065317Z/sc04/R2/model-view.json": "9f17774d82a04a307763e75693ca2d87bacab8509e52b638eec994f7de88254e",
+    "logs/run/SC-04_20261003T065317Z/sc04/R2/prompt.txt": "27989a4ce38907aece83aa8788a94558814da355e597b8839a78e0fbaa14dee6",
+    "run/optional/sc03-sc04-analysis-plan.md": "44b80870a5a978ebd1583f76684c4639a3a31d47e581e789a9232e59c5a2674a",
+    "runtime/p9-model-set.json": "257a0e92f924f4fcdaf3c740c823ea5a8605f221ac8099bc155af351d564c8c9",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.amendment-1.md": "ab0e09252464bfe357c51a988378f5985bdbae8ed375419b4370f68077cdc538",
+    "sdd/specs/P11-answer-grammar-rescore/contracts/answer-grammar.md": "f1e1916a544f05efbc7eb2567ff2624fa5df6e1ffdf15ab307a671bab67d6769"
+  },
+  "frozen_utc": "2026-10-03T06:56:50.282048Z",
+  "incident_id": "SC-04_20261003T065317Z",
+  "planned_units": 45
+}

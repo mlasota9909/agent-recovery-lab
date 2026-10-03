@@ -1,0 +1,71 @@
+{
+  "controls": [
+    {
+      "actual": "correct",
+      "control": "reference",
+      "expected": "correct",
+      "ok": true,
+      "snapshot": "s_20261003T050423123Z_000038",
+      "summary": {
+        "damage_files_retained": 0,
+        "damage_rows_retained": 0,
+        "legit_file_operations_lost": 0,
+        "legit_rows_lost": 0,
+        "probe_mismatches": 0,
+        "schema_damage": 0,
+        "schema_loss": 0
+      }
+    },
+    {
+      "actual": "checked_damage_remains",
+      "control": "first_post_damage",
+      "expected": "checked_damage_remains",
+      "ok": true,
+      "snapshot": "s_20261003T050425601Z_000039",
+      "summary": {
+        "damage_files_retained": 13,
+        "damage_rows_retained": 0,
+        "legit_file_operations_lost": 0,
+        "legit_rows_lost": 0,
+        "probe_mismatches": 0,
+        "schema_damage": 0,
+        "schema_loss": 0
+      }
+    },
+    {
+      "actual": "extra_work_lost",
+      "control": "earliest",
+      "expected": "extra_work_lost",
+      "ok": true,
+      "snapshot": "s_20261003T050301196Z_000001",
+      "summary": {
+        "damage_files_retained": 0,
+        "damage_rows_retained": 0,
+        "legit_file_operations_lost": 92,
+        "legit_rows_lost": 380,
+        "probe_mismatches": 0,
+        "schema_damage": 0,
+        "schema_loss": 0
+      }
+    },
+    {
+      "actual": "checked_damage_remains",
+      "control": "tampered",
+      "expected": "checked_damage_remains",
+      "ok": true,
+      "snapshot": "s_20261003T050423123Z_000038",
+      "summary": {
+        "damage_files_retained": 1,
+        "damage_rows_retained": 0,
+        "legit_file_operations_lost": 0,
+        "legit_rows_lost": 0,
+        "probe_mismatches": 1,
+        "schema_damage": 0,
+        "schema_loss": 0
+      }
+    }
+  ],
+  "incident_id": "SC-02_20261003T050236Z",
+  "ok": true,
+  "schema_version": 1
+}

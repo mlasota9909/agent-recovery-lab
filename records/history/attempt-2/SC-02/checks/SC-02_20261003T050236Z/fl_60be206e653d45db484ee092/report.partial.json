@@ -1,0 +1,65 @@
+{
+  "coordinate": {
+    "lsn": "E0B8/D000B08",
+    "lsn_int": 247081096710920,
+    "snapshot": "s_20261003T050322783Z_000008",
+    "time": "2026-10-03T05:03:23.316473Z"
+  },
+  "db_restore": {
+    "beyond": {
+      "absent_ok": true,
+      "inject_lsn_int": 247081633582448,
+      "inject_lsn_source": "recorded_bound",
+      "kind": "before_inject",
+      "present": null,
+      "row_id": null
+    },
+    "beyond_target_absent": true,
+    "changed": true,
+    "in_recovery": true,
+    "incident": "SC-02_20261003T050236Z",
+    "ok": true,
+    "replay_lsn": "E0B8/E000000",
+    "replay_lsn_int": 247081113485312,
+    "restore_target": {
+      "fs_clone_dataset": null,
+      "pgdata_dataset": "labpool/sandbox/SC-02_20261003T050236Z/fl_60be206e653d45db484ee092/pgdata",
+      "sandbox_pgdata": "/labpool/sandbox/SC-02_20261003T050236Z/fl_60be206e653d45db484ee092/pgdata/data",
+      "sandbox_port": 55563,
+      "tag": "fl_60be206e653d45db484ee092"
+    },
+    "snapshot": "s_20261003T050322783Z_000008",
+    "state": "created",
+    "stopped_at_target": true,
+    "target_lsn": "E0B8/D000B08",
+    "target_lsn_int": 247081096710920,
+    "victim_zfs_after": "4bd065d80fc2b4df52dac0f0ba385afe56c9779781b2ae22b34c82d3930090e4",
+    "victim_zfs_before": "4bd065d80fc2b4df52dac0f0ba385afe56c9779781b2ae22b34c82d3930090e4",
+    "wal_segments": [
+      "000000010000E0B80000000B",
+      "000000010000E0B80000000C",
+      "000000010000E0B80000000D",
+      "000000010000E0B80000000E"
+    ]
+  },
+  "fs_restore": {
+    "changed": true,
+    "clone_dataset": "labpool/sandbox/SC-02_20261003T050236Z/fl_60be206e653d45db484ee092/protected",
+    "mountpoint": "/labpool/sandbox/SC-02_20261003T050236Z/fl_60be206e653d45db484ee092/protected",
+    "ok": true,
+    "snapshot": "s_20261003T050322783Z_000008",
+    "snapshot_list_unchanged": true,
+    "victim_zfs_after": "4bd065d80fc2b4df52dac0f0ba385afe56c9779781b2ae22b34c82d3930090e4",
+    "victim_zfs_before": "4bd065d80fc2b4df52dac0f0ba385afe56c9779781b2ae22b34c82d3930090e4"
+  },
+  "incident_id": "SC-02_20261003T050236Z",
+  "restore_of": "fl_60be206e653d45db484ee092",
+  "restore_target": {
+    "fs_clone_dataset": "labpool/sandbox/SC-02_20261003T050236Z/fl_60be206e653d45db484ee092/protected",
+    "fs_mount": "/labpool/sandbox/SC-02_20261003T050236Z/fl_60be206e653d45db484ee092/protected",
+    "pgdata_dataset": "labpool/sandbox/SC-02_20261003T050236Z/fl_60be206e653d45db484ee092/pgdata",
+    "sandbox_pgdata": "/labpool/sandbox/SC-02_20261003T050236Z/fl_60be206e653d45db484ee092/pgdata/data",
+    "sandbox_port": 55563,
+    "tag": "fl_60be206e653d45db484ee092"
+  }
+}

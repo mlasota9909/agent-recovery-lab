@@ -1,0 +1,9 @@
+{
+  "chosen_lsn_int": null,
+  "grammar_outcome": "refusal_parser",
+  "locators": [],
+  "locators_offered": [],
+  "locators_resolved_to": [],
+  "outcome": "rule_rejection",
+  "reason": "expected exactly one coordinate line and no refusal line"
+}

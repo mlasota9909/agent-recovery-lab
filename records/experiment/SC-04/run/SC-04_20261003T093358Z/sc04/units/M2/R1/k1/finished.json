@@ -1,0 +1,61 @@
+{
+  "answer": {
+    "chosen_lsn_int": 244598874046840,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 244598874046840,
+        "token": "lsn=244598874046840",
+        "type": "lsn_int"
+      },
+      {
+        "discard_reason": "named window is not visible",
+        "resolved_lsn_int": null,
+        "token": "window=25",
+        "type": "window"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int",
+      "window"
+    ],
+    "locators_resolved_to": [
+      244598874046840
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:41:01.451222Z",
+  "check": {
+    "checks_complete": true,
+    "damage_units_retained": 12,
+    "legit_rows_lost": 0,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-04_20261003T093358Z/ab-244598874046840/report.json",
+    "report_sha256": "b67f3c824f461866aaf5ad1b2686f13e235a396bc3ac7614d6462ad20480bd88",
+    "verdict_v1": "incorrect_corrupt"
+  },
+  "completion_tokens": 72,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:41:04.165249Z",
+  "freeze_sha256": "711616cfd451192c165ded9385af03bdc6e4d378325d86ad78a303dae005f7f7",
+  "incident_id": "SC-04_20261003T093358Z",
+  "latency_ms": 2333,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-04_20261003T093358Z/sc04/units/M2/R1/k1/model.json",
+  "model_record_sha256": "b979abda3964398ce785b83ea9d593c4e1b0c79e92a07f1917c177149de9a8d9",
+  "outcome": "accepted",
+  "prompt_sha256": "ce8dfc5e01a2191b9abfab5fc2f7f898e49e5d7402ce1e79c9525fab8b3f9a3a",
+  "prompt_tokens": 383,
+  "raw_completion": "The evidence provides a series of data points with `last_safe_lsn_int` and `window_index`. The latest safe point in the provided sequence is the one with the highest LSN/index.\n\nCOORDINATE: lsn=244598874046840 window=25",
+  "replicate_index": 1,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|1"
+}

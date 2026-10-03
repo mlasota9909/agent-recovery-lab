@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 671090072,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 671090072,
+        "token": "lsn=671090072",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      671090072
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:19:02.480386Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 48,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-01_20261003T090022Z/ab-671090072/report.json",
+    "report_sha256": "cdc2ab6e28261289cbd1cfbfb8fce0c7838462ab709de67e02cf923308054b24",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 714,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:19:07.825230Z",
+  "freeze_sha256": "b4f644cfb5370e1ae3f1b0aa4a736d7cdb7a1ae58b6d9bc2a7cb3430b3b6c4cf",
+  "incident_id": "SC-01_20261003T090022Z",
+  "latency_ms": 5010,
+  "model_alias": "alienware-qwen38-27b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-01_20261003T090022Z/sc01/units/M3/R2/k2/model.json",
+  "model_record_sha256": "69cf836437be4632a8e2abfd37c54d129f7143411d08c0f7df2aa6051de5c4f4",
+  "outcome": "accepted",
+  "prompt_sha256": "978e39007caa724867f03048a5cf9c63cf5e46e370db3bbd396ba494a6396912",
+  "prompt_tokens": 418,
+  "raw_completion": "\n\nLooking at the evidence:\n\n- **Window 10** [637536120..654312856]: normal activity (anomaly \u2248 1.36)\n- **Window 11** [654313440..671090072]: normal activity (anomaly \u2248 1.36)\n- **Window 15** [721425360..738197544]: 201 DELETEs, anomaly \u2248 215.67 \u2014 this is the damaging activity.\n\nThe last window confirmed safe (normal anomaly, low delete count) is **Window 11**, which ends at LSN **671090072**. This is the latest safe point before the damaging activity in Window 15.\n\nCOORDINATE: lsn=671090072",
+  "replicate_index": 2,
+  "representation": "R2",
+  "schema_version": 1,
+  "unit_id": "alienware-qwen38-27b|R2|2"
+}

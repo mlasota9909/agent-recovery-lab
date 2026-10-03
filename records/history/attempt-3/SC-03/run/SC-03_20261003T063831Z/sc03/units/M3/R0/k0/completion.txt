@@ -1,0 +1,14 @@
+
+
+Looking at the evidence, I need to identify the "damaging activity" and find the last safe point before it began.
+
+**Identifying damaging activity:**
+The `sc03_orders` updates (amount 10.01, ids 25, 26, 27) represent changes to a real business table. These are the damaging activity. The first such update appears at LSN `E160/14000DD8` (xid 1004, wall_clock 2026-10-03T06:39:29.194868Z).
+
+**Finding the latest safe point before that:**
+The entry immediately preceding the first `sc03_orders` update is:
+- LSN `E160/14000D38` (xid 1003, wall_clock 2026-10-03T06:39:28.884299Z) — a `p2_probe` update on id 88000702.
+
+This is the last safe point before the damaging `sc03_orders` activity began.
+
+COORDINATE: lsn=E160/14000D38

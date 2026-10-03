@@ -1,0 +1,14 @@
+{
+  "content": "Window 12 [248992390711000..248992407488216]: 2 INSERT, 16 UPDATE and 2 DELETE, most on relation p2_probe; no schema change; anomaly 1.4644844379996889.\nWindow 13 [248992407488376..248992424265432]: 2 INSERT, 15 UPDATE and 2 DELETE, most on relation p2_probe; no schema change; anomaly 1.3827189443134063.\nWindow 15 [248992457819864..248992474598248]: 2 INSERT, 16 UPDATE and 2 DELETE, most on relation p2_probe; 1 schema change (ALTER TABLE on public.sc03_orders); anomaly 1.4882825510158784.\n",
+  "incident_id": "SC-03_20261003T092004Z",
+  "params": {
+    "top_n": 3
+  },
+  "probe_id": "PB-6-candidate-windows",
+  "representation": "R2",
+  "telemetry": {
+    "evidence_bytes": 494,
+    "token_estimate": 104,
+    "tokenizer": "lab-ws-punct-1"
+  }
+}

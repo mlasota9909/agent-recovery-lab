@@ -1,0 +1,22 @@
+To identify the latest safe recorded snapshot, we must find the last snapshot taken before the damaging file activity began.
+
+1.  **Analyze the damaging activity:**
+    The damaging activity (deletions and modifications of critical files/directories) is contained within **interval 38**.
+    The `from_snapshot` for interval 38 is `s_20261003T050423123Z_000038`.
+    The activity in interval 38 includes deleting `workspace/records` and its contents, and modifying `workspace/config/settings.txt`.
+
+2.  **Identify the preceding intervals:**
+    *   **Interval 8:** `from_snapshot`: `s_20261003T050322783Z_000008`, `to_snapshot`: `s_20261003T050324873Z_000009`.
+    *   **Interval 6:** `from_snapshot`: `s_20261003T050318742Z_000006`, `to_snapshot`: `s_20261003T050321058Z_000007`.
+
+3.  **Determine the latest safe snapshot:**
+    The damaging activity starts at the beginning of interval 38. Therefore, the latest safe snapshot is the one that marks the end of the last safe interval (interval 8).
+    The `to_snapshot` of interval 8 is `s_20261003T050324873Z_000009`.
+
+    Alternatively, looking at the timestamps:
+    The damaging activity in interval 38 starts at `2026-10-03T05:04:23.581851Z`.
+    The last safe timestamp recorded before this is the `to_time` of interval 8: `2026-10-03T05:03:25.374460Z`.
+
+The latest safe snapshot is `s_20261003T050324873Z_000009`.
+
+COORDINATE: snapshot=s_20261003T050324873Z_000009

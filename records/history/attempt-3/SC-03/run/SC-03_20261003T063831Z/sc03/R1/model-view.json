@@ -1,0 +1,14 @@
+{
+  "content": "{\"anomaly_score\":3.3343121978698878,\"last_safe_lsn_int\":247802818988328,\"window_index\":19}\n{\"anomaly_score\":3.1243679725448845,\"last_safe_lsn_int\":247802768656488,\"window_index\":16}\n{\"anomaly_score\":2.5368993717054296,\"last_safe_lsn_int\":247802802210488,\"window_index\":18}\n",
+  "incident_id": "SC-03_20261003T063831Z",
+  "params": {
+    "top_n": 3
+  },
+  "probe_id": "PB-6-candidate-windows",
+  "representation": "R1",
+  "telemetry": {
+    "evidence_bytes": 273,
+    "token_estimate": 63,
+    "tokenizer": "lab-ws-punct-1"
+  }
+}

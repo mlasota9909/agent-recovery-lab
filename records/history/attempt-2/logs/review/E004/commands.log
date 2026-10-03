@@ -1,0 +1,264 @@
+zfs clone labpool/victim/pgdata@s_20261003T051810338Z_000013 labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/pgdata
+rsync wal 000000010000000000000029..00000001000000000000002C -> /labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/pgdata port=55458
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/pgdata start (sandbox only, port 55458)
+zfs clone labpool/victim/protected@s_20261003T051810338Z_000013 labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/protected mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/pgdata port=55458
+zfs destroy -r labpool/sandbox/SC-01_20261003T051727Z/ab-721421880
+zfs destroy labpool/sandbox/SC-01_20261003T051727Z/ab-721421880/protected
+zfs clone labpool/victim/pgdata@s_20261003T051738660Z_000001 labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/pgdata
+rsync wal 00000001000000000000001F..000000010000000000000020 -> /labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/pgdata port=55596
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/pgdata start (sandbox only, port 55596)
+zfs clone labpool/victim/protected@s_20261003T051738660Z_000001 labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/protected mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/pgdata port=55596
+zfs destroy -r labpool/sandbox/SC-01_20261003T051727Z/ab-520131928
+zfs destroy labpool/sandbox/SC-01_20261003T051727Z/ab-520131928/protected
+zfs clone labpool/victim/pgdata@s_20261003T051811836Z_000014 labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/pgdata
+rsync wal 00000001000000000000002A..00000001000000000000002D -> /labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/pgdata port=55504
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/pgdata start (sandbox only, port 55504)
+zfs clone labpool/victim/protected@s_20261003T051811836Z_000014 labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/protected mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/pgdata port=55504
+zfs destroy -r labpool/sandbox/SC-01_20261003T051727Z/ab-738232312
+zfs destroy labpool/sandbox/SC-01_20261003T051727Z/ab-738232312/protected
+zfs clone labpool/victim/pgdata@s_20261003T051810338Z_000013 labpool/sandbox/SC-01_20261003T051727Z/ab-738231992/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-738231992/pgdata
+rsync wal 000000010000000000000029..00000001000000000000002D -> /labpool/sandbox/SC-01_20261003T051727Z/ab-738231992/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-738231992/pgdata port=55544
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T051727Z/ab-738231992/pgdata start (sandbox only, port 55544)
+zfs clone labpool/victim/protected@s_20261003T051810338Z_000013 labpool/sandbox/SC-01_20261003T051727Z/ab-738231992/protected mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-738231992/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-738231992/pgdata port=55544
+zfs destroy -r labpool/sandbox/SC-01_20261003T051727Z/ab-738231992
+zfs destroy labpool/sandbox/SC-01_20261003T051727Z/ab-738231992/protected
+zfs clone labpool/victim/pgdata@s_20261003T051807054Z_000011 labpool/sandbox/SC-01_20261003T051727Z/ab-704644504/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-704644504/pgdata
+rsync wal 000000010000000000000027..00000001000000000000002B -> /labpool/sandbox/SC-01_20261003T051727Z/ab-704644504/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-704644504/pgdata port=55515
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T051727Z/ab-704644504/pgdata start (sandbox only, port 55515)
+zfs clone labpool/victim/protected@s_20261003T051807054Z_000011 labpool/sandbox/SC-01_20261003T051727Z/ab-704644504/protected mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-704644504/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-704644504/pgdata port=55515
+zfs destroy -r labpool/sandbox/SC-01_20261003T051727Z/ab-704644504
+zfs destroy labpool/sandbox/SC-01_20261003T051727Z/ab-704644504/protected
+zfs clone labpool/victim/pgdata@s_20261003T051808493Z_000012 labpool/sandbox/SC-01_20261003T051727Z/ab-721420760/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-721420760/pgdata
+rsync wal 000000010000000000000028..00000001000000000000002C -> /labpool/sandbox/SC-01_20261003T051727Z/ab-721420760/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-721420760/pgdata port=55612
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T051727Z/ab-721420760/pgdata start (sandbox only, port 55612)
+zfs clone labpool/victim/protected@s_20261003T051808493Z_000012 labpool/sandbox/SC-01_20261003T051727Z/ab-721420760/protected mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-721420760/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-721420760/pgdata port=55612
+zfs destroy -r labpool/sandbox/SC-01_20261003T051727Z/ab-721420760
+zfs destroy labpool/sandbox/SC-01_20261003T051727Z/ab-721420760/protected
+zfs clone labpool/victim/pgdata@s_20261003T051808493Z_000012 labpool/sandbox/SC-01_20261003T051727Z/ab-721421400/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-721421400/pgdata
+rsync wal 000000010000000000000028..00000001000000000000002C -> /labpool/sandbox/SC-01_20261003T051727Z/ab-721421400/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-721421400/pgdata port=55582
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T051727Z/ab-721421400/pgdata start (sandbox only, port 55582)
+zfs clone labpool/victim/protected@s_20261003T051808493Z_000012 labpool/sandbox/SC-01_20261003T051727Z/ab-721421400/protected mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-721421400/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-721421400/pgdata port=55582
+zfs destroy -r labpool/sandbox/SC-01_20261003T051727Z/ab-721421400
+zfs destroy labpool/sandbox/SC-01_20261003T051727Z/ab-721421400/protected
+zfs clone labpool/victim/pgdata@s_20261003T051800790Z_000008 labpool/sandbox/SC-01_20261003T051727Z/ab-654314576/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-654314576/pgdata
+rsync wal 000000010000000000000024..000000010000000000000028 -> /labpool/sandbox/SC-01_20261003T051727Z/ab-654314576/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-654314576/pgdata port=55620
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T051727Z/ab-654314576/pgdata start (sandbox only, port 55620)
+zfs clone labpool/victim/protected@s_20261003T051800790Z_000008 labpool/sandbox/SC-01_20261003T051727Z/ab-654314576/protected mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-654314576/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-654314576/pgdata port=55620
+zfs destroy -r labpool/sandbox/SC-01_20261003T051727Z/ab-654314576
+zfs destroy labpool/sandbox/SC-01_20261003T051727Z/ab-654314576/protected
+zfs clone labpool/victim/pgdata@s_20261003T051802779Z_000009 labpool/sandbox/SC-01_20261003T051727Z/ab-671091624/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-671091624/pgdata
+rsync wal 000000010000000000000025..000000010000000000000029 -> /labpool/sandbox/SC-01_20261003T051727Z/ab-671091624/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-671091624/pgdata port=55507
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T051727Z/ab-671091624/pgdata start (sandbox only, port 55507)
+zfs clone labpool/victim/protected@s_20261003T051802779Z_000009 labpool/sandbox/SC-01_20261003T051727Z/ab-671091624/protected mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-671091624/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-671091624/pgdata port=55507
+zfs destroy -r labpool/sandbox/SC-01_20261003T051727Z/ab-671091624
+zfs destroy labpool/sandbox/SC-01_20261003T051727Z/ab-671091624/protected
+zfs clone labpool/victim/pgdata@s_20261003T051807054Z_000011 labpool/sandbox/SC-01_20261003T051727Z/ab-704644664/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-704644664/pgdata
+rsync wal 000000010000000000000027..00000001000000000000002B -> /labpool/sandbox/SC-01_20261003T051727Z/ab-704644664/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-704644664/pgdata port=55588
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T051727Z/ab-704644664/pgdata start (sandbox only, port 55588)
+zfs clone labpool/victim/protected@s_20261003T051807054Z_000011 labpool/sandbox/SC-01_20261003T051727Z/ab-704644664/protected mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-704644664/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-704644664/pgdata port=55588
+zfs destroy -r labpool/sandbox/SC-01_20261003T051727Z/ab-704644664
+zfs destroy labpool/sandbox/SC-01_20261003T051727Z/ab-704644664/protected
+zfs clone labpool/victim/pgdata@s_20261003T051820647Z_000019 labpool/sandbox/SC-01_20261003T051727Z/ab-822083944/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-822083944/pgdata
+rsync wal 00000001000000000000002F..000000010000000000000032 -> /labpool/sandbox/SC-01_20261003T051727Z/ab-822083944/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-822083944/pgdata port=55512
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T051727Z/ab-822083944/pgdata start (sandbox only, port 55512)
+zfs clone labpool/victim/protected@s_20261003T051820647Z_000019 labpool/sandbox/SC-01_20261003T051727Z/ab-822083944/protected mountpoint=/labpool/sandbox/SC-01_20261003T051727Z/ab-822083944/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T051727Z/ab-822083944/pgdata port=55512
+zfs destroy -r labpool/sandbox/SC-01_20261003T051727Z/ab-822083944
+zfs destroy labpool/sandbox/SC-01_20261003T051727Z/ab-822083944/protected
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/pgdata@s_20261003T052949255Z_000012 labpool/sandbox/SC-03_20261003T052858Z/ab-248966671238872/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966671238872/pgdata
+rsync wal 000000010000E26F0000000F..000000010000E26F00000013 -> /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671238872/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671238872/pgdata/data port=55569
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671238872/pgdata/data start (sandbox only, port 55569)
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/protected@s_20261003T052949255Z_000012 labpool/sandbox/SC-03_20261003T052858Z/ab-248966671238872/protected mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966671238872/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671238872/pgdata/data port=55569
+zfs destroy -r labpool/sandbox/SC-03_20261003T052858Z/ab-248966671238872
+zfs destroy labpool/sandbox/SC-03_20261003T052858Z/ab-248966671238872/protected
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/pgdata@s_20261003T052949255Z_000012 labpool/sandbox/SC-03_20261003T052858Z/ab-248966671241632/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966671241632/pgdata
+rsync wal 000000010000E26F0000000F..000000010000E26F00000013 -> /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671241632/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671241632/pgdata/data port=55613
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671241632/pgdata/data start (sandbox only, port 55613)
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/protected@s_20261003T052949255Z_000012 labpool/sandbox/SC-03_20261003T052858Z/ab-248966671241632/protected mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966671241632/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671241632/pgdata/data port=55613
+zfs destroy -r labpool/sandbox/SC-03_20261003T052858Z/ab-248966671241632
+zfs destroy labpool/sandbox/SC-03_20261003T052858Z/ab-248966671241632/protected
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/pgdata@s_20261003T052920622Z_000001 labpool/sandbox/SC-03_20261003T052858Z/ab-248966479719536/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966479719536/pgdata
+rsync wal 000000010000E26F00000004..000000010000E26F00000007 -> /labpool/sandbox/SC-03_20261003T052858Z/ab-248966479719536/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966479719536/pgdata/data port=55456
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T052858Z/ab-248966479719536/pgdata/data start (sandbox only, port 55456)
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/protected@s_20261003T052920622Z_000001 labpool/sandbox/SC-03_20261003T052858Z/ab-248966479719536/protected mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966479719536/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966479719536/pgdata/data port=55456
+zfs destroy -r labpool/sandbox/SC-03_20261003T052858Z/ab-248966479719536
+zfs destroy labpool/sandbox/SC-03_20261003T052858Z/ab-248966479719536/protected
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/pgdata@s_20261003T052958194Z_000017 labpool/sandbox/SC-03_20261003T052858Z/ab-248966738349128/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966738349128/pgdata
+rsync wal 000000010000E26F00000014..000000010000E26F00000017 -> /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738349128/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738349128/pgdata/data port=55495
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738349128/pgdata/data start (sandbox only, port 55495)
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/protected@s_20261003T052958194Z_000017 labpool/sandbox/SC-03_20261003T052858Z/ab-248966738349128/protected mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966738349128/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738349128/pgdata/data port=55495
+zfs destroy -r labpool/sandbox/SC-03_20261003T052858Z/ab-248966738349128
+zfs destroy labpool/sandbox/SC-03_20261003T052858Z/ab-248966738349128/protected
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/pgdata@s_20261003T052956173Z_000016 labpool/sandbox/SC-03_20261003T052858Z/ab-248966738347416/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966738347416/pgdata
+rsync wal 000000010000E26F00000013..000000010000E26F00000017 -> /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738347416/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738347416/pgdata/data port=55571
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738347416/pgdata/data start (sandbox only, port 55571)
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/protected@s_20261003T052956173Z_000016 labpool/sandbox/SC-03_20261003T052858Z/ab-248966738347416/protected mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966738347416/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738347416/pgdata/data port=55571
+zfs destroy -r labpool/sandbox/SC-03_20261003T052858Z/ab-248966738347416
+zfs destroy labpool/sandbox/SC-03_20261003T052858Z/ab-248966738347416/protected
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/pgdata@s_20261003T052948117Z_000011 labpool/sandbox/SC-03_20261003T052858Z/ab-248966654461656/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966654461656/pgdata
+rsync wal 000000010000E26F0000000E..000000010000E26F00000012 -> /labpool/sandbox/SC-03_20261003T052858Z/ab-248966654461656/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966654461656/pgdata/data port=55533
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T052858Z/ab-248966654461656/pgdata/data start (sandbox only, port 55533)
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/protected@s_20261003T052948117Z_000011 labpool/sandbox/SC-03_20261003T052858Z/ab-248966654461656/protected mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966654461656/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966654461656/pgdata/data port=55533
+zfs destroy -r labpool/sandbox/SC-03_20261003T052858Z/ab-248966654461656
+zfs destroy labpool/sandbox/SC-03_20261003T052858Z/ab-248966654461656/protected
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/pgdata@s_20261003T052949255Z_000012 labpool/sandbox/SC-03_20261003T052858Z/ab-248966671243152/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966671243152/pgdata
+rsync wal 000000010000E26F0000000F..000000010000E26F00000013 -> /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671243152/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671243152/pgdata/data port=55517
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671243152/pgdata/data start (sandbox only, port 55517)
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/protected@s_20261003T052949255Z_000012 labpool/sandbox/SC-03_20261003T052858Z/ab-248966671243152/protected mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966671243152/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966671243152/pgdata/data port=55517
+zfs destroy -r labpool/sandbox/SC-03_20261003T052858Z/ab-248966671243152
+zfs destroy labpool/sandbox/SC-03_20261003T052858Z/ab-248966671243152/protected
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/pgdata@s_20261003T052956173Z_000016 labpool/sandbox/SC-03_20261003T052858Z/ab-248966738346024/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966738346024/pgdata
+rsync wal 000000010000E26F00000013..000000010000E26F00000017 -> /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738346024/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738346024/pgdata/data port=55453
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738346024/pgdata/data start (sandbox only, port 55453)
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/protected@s_20261003T052956173Z_000016 labpool/sandbox/SC-03_20261003T052858Z/ab-248966738346024/protected mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966738346024/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966738346024/pgdata/data port=55453
+zfs destroy -r labpool/sandbox/SC-03_20261003T052858Z/ab-248966738346024
+zfs destroy labpool/sandbox/SC-03_20261003T052858Z/ab-248966738346024/protected
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/pgdata@s_20261003T053007008Z_000022 labpool/sandbox/SC-03_20261003T052858Z/ab-248966822232424/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966822232424/pgdata
+rsync wal 000000010000E26F00000019..000000010000E26F0000001B -> /labpool/sandbox/SC-03_20261003T052858Z/ab-248966822232424/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966822232424/pgdata/data port=55482
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T052858Z/ab-248966822232424/pgdata/data start (sandbox only, port 55482)
+zfs clone labpool/victim/inc_i_20261003T052858Z_ef7c74/protected@s_20261003T053007008Z_000022 labpool/sandbox/SC-03_20261003T052858Z/ab-248966822232424/protected mountpoint=/labpool/sandbox/SC-03_20261003T052858Z/ab-248966822232424/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T052858Z/ab-248966822232424/pgdata/data port=55482
+zfs destroy -r labpool/sandbox/SC-03_20261003T052858Z/ab-248966822232424
+zfs destroy labpool/sandbox/SC-03_20261003T052858Z/ab-248966822232424/protected
+zfs clone labpool/victim/pgdata@s_20261003T054922987Z_000012 labpool/sandbox/SC-01_20261003T054808Z/ab-1275070008/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T054808Z/ab-1275070008/pgdata
+rsync wal 000000010000000000000049..00000001000000000000004D -> /labpool/sandbox/SC-01_20261003T054808Z/ab-1275070008/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T054808Z/ab-1275070008/pgdata port=55594
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T054808Z/ab-1275070008/pgdata start (sandbox only, port 55594)
+zfs clone labpool/victim/protected@s_20261003T054922987Z_000012 labpool/sandbox/SC-01_20261003T054808Z/ab-1275070008/protected mountpoint=/labpool/sandbox/SC-01_20261003T054808Z/ab-1275070008/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T054808Z/ab-1275070008/pgdata port=55594
+zfs destroy -r labpool/sandbox/SC-01_20261003T054808Z/ab-1275070008
+zfs destroy labpool/sandbox/SC-01_20261003T054808Z/ab-1275070008/protected
+zfs clone labpool/victim/pgdata@s_20261003T054853476Z_000001 labpool/sandbox/SC-01_20261003T054808Z/ab-1073750744/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T054808Z/ab-1073750744/pgdata
+rsync wal 00000001000000000000003F..000000010000000000000041 -> /labpool/sandbox/SC-01_20261003T054808Z/ab-1073750744/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T054808Z/ab-1073750744/pgdata port=55548
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T054808Z/ab-1073750744/pgdata start (sandbox only, port 55548)
+zfs clone labpool/victim/protected@s_20261003T054853476Z_000001 labpool/sandbox/SC-01_20261003T054808Z/ab-1073750744/protected mountpoint=/labpool/sandbox/SC-01_20261003T054808Z/ab-1073750744/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T054808Z/ab-1073750744/pgdata port=55548
+zfs destroy -r labpool/sandbox/SC-01_20261003T054808Z/ab-1073750744
+zfs destroy labpool/sandbox/SC-01_20261003T054808Z/ab-1073750744/protected
+zfs clone labpool/victim/pgdata@s_20261003T054925737Z_000014 labpool/sandbox/SC-01_20261003T054808Z/ab-1291880280/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T054808Z/ab-1291880280/pgdata
+rsync wal 00000001000000000000004B..00000001000000000000004E -> /labpool/sandbox/SC-01_20261003T054808Z/ab-1291880280/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T054808Z/ab-1291880280/pgdata port=55459
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T054808Z/ab-1291880280/pgdata start (sandbox only, port 55459)
+zfs clone labpool/victim/protected@s_20261003T054925737Z_000014 labpool/sandbox/SC-01_20261003T054808Z/ab-1291880280/protected mountpoint=/labpool/sandbox/SC-01_20261003T054808Z/ab-1291880280/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T054808Z/ab-1291880280/pgdata port=55459
+zfs destroy -r labpool/sandbox/SC-01_20261003T054808Z/ab-1291880280
+zfs destroy labpool/sandbox/SC-01_20261003T054808Z/ab-1291880280/protected
+zfs clone labpool/victim/pgdata@s_20261003T054924442Z_000013 labpool/sandbox/SC-01_20261003T054808Z/ab-1291878000/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T054808Z/ab-1291878000/pgdata
+rsync wal 00000001000000000000004A..00000001000000000000004E -> /labpool/sandbox/SC-01_20261003T054808Z/ab-1291878000/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T054808Z/ab-1291878000/pgdata port=55507
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T054808Z/ab-1291878000/pgdata start (sandbox only, port 55507)
+zfs clone labpool/victim/protected@s_20261003T054924442Z_000013 labpool/sandbox/SC-01_20261003T054808Z/ab-1291878000/protected mountpoint=/labpool/sandbox/SC-01_20261003T054808Z/ab-1291878000/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T054808Z/ab-1291878000/pgdata port=55507
+zfs destroy -r labpool/sandbox/SC-01_20261003T054808Z/ab-1291878000
+zfs destroy labpool/sandbox/SC-01_20261003T054808Z/ab-1291878000/protected
+zfs clone labpool/victim/pgdata@s_20261003T054924442Z_000013 labpool/sandbox/SC-01_20261003T054808Z/ab-1291878080/pgdata mountpoint=/labpool/sandbox/SC-01_20261003T054808Z/ab-1291878080/pgdata
+rsync wal 00000001000000000000004A..00000001000000000000004E -> /labpool/sandbox/SC-01_20261003T054808Z/ab-1291878080/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T054808Z/ab-1291878080/pgdata port=55459
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-01_20261003T054808Z/ab-1291878080/pgdata start (sandbox only, port 55459)
+zfs clone labpool/victim/protected@s_20261003T054924442Z_000013 labpool/sandbox/SC-01_20261003T054808Z/ab-1291878080/protected mountpoint=/labpool/sandbox/SC-01_20261003T054808Z/ab-1291878080/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-01_20261003T054808Z/ab-1291878080/pgdata port=55459
+zfs destroy -r labpool/sandbox/SC-01_20261003T054808Z/ab-1291878080
+zfs destroy labpool/sandbox/SC-01_20261003T054808Z/ab-1291878080/protected
+zfs clone labpool/victim/inc_i_20261003T055256Z_3d74f2/pgdata@s_20261003T055348477Z_000012 labpool/sandbox/SC-03_20261003T055256Z/ab-252548673963096/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T055256Z/ab-252548673963096/pgdata
+rsync wal 000000010000E5B10000000F..000000010000E5B100000013 -> /labpool/sandbox/SC-03_20261003T055256Z/ab-252548673963096/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T055256Z/ab-252548673963096/pgdata/data port=55550
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T055256Z/ab-252548673963096/pgdata/data start (sandbox only, port 55550)
+zfs clone labpool/victim/inc_i_20261003T055256Z_3d74f2/protected@s_20261003T055348477Z_000012 labpool/sandbox/SC-03_20261003T055256Z/ab-252548673963096/protected mountpoint=/labpool/sandbox/SC-03_20261003T055256Z/ab-252548673963096/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T055256Z/ab-252548673963096/pgdata/data port=55550
+zfs destroy -r labpool/sandbox/SC-03_20261003T055256Z/ab-252548673963096
+zfs destroy labpool/sandbox/SC-03_20261003T055256Z/ab-252548673963096/protected
+zfs clone labpool/victim/inc_i_20261003T055256Z_3d74f2/pgdata@s_20261003T055348477Z_000012 labpool/sandbox/SC-03_20261003T055256Z/ab-252548673965856/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T055256Z/ab-252548673965856/pgdata
+rsync wal 000000010000E5B10000000F..000000010000E5B100000013 -> /labpool/sandbox/SC-03_20261003T055256Z/ab-252548673965856/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T055256Z/ab-252548673965856/pgdata/data port=55478
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T055256Z/ab-252548673965856/pgdata/data start (sandbox only, port 55478)
+zfs clone labpool/victim/inc_i_20261003T055256Z_3d74f2/protected@s_20261003T055348477Z_000012 labpool/sandbox/SC-03_20261003T055256Z/ab-252548673965856/protected mountpoint=/labpool/sandbox/SC-03_20261003T055256Z/ab-252548673965856/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T055256Z/ab-252548673965856/pgdata/data port=55478
+zfs destroy -r labpool/sandbox/SC-03_20261003T055256Z/ab-252548673965856
+zfs destroy labpool/sandbox/SC-03_20261003T055256Z/ab-252548673965856/protected
+zfs clone labpool/victim/inc_i_20261003T055256Z_3d74f2/pgdata@s_20261003T055319627Z_000001 labpool/sandbox/SC-03_20261003T055256Z/ab-252548482499552/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T055256Z/ab-252548482499552/pgdata
+rsync wal 000000010000E5B100000004..000000010000E5B100000007 -> /labpool/sandbox/SC-03_20261003T055256Z/ab-252548482499552/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T055256Z/ab-252548482499552/pgdata/data port=55557
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T055256Z/ab-252548482499552/pgdata/data start (sandbox only, port 55557)
+zfs clone labpool/victim/inc_i_20261003T055256Z_3d74f2/protected@s_20261003T055319627Z_000001 labpool/sandbox/SC-03_20261003T055256Z/ab-252548482499552/protected mountpoint=/labpool/sandbox/SC-03_20261003T055256Z/ab-252548482499552/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T055256Z/ab-252548482499552/pgdata/data port=55557
+zfs destroy -r labpool/sandbox/SC-03_20261003T055256Z/ab-252548482499552
+zfs destroy labpool/sandbox/SC-03_20261003T055256Z/ab-252548482499552/protected
+zfs clone labpool/victim/inc_i_20261003T055256Z_3d74f2/pgdata@s_20261003T055357312Z_000017 labpool/sandbox/SC-03_20261003T055256Z/ab-252548741072920/pgdata mountpoint=/labpool/sandbox/SC-03_20261003T055256Z/ab-252548741072920/pgdata
+rsync wal 000000010000E5B100000014..000000010000E5B100000017 -> /labpool/sandbox/SC-03_20261003T055256Z/ab-252548741072920/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T055256Z/ab-252548741072920/pgdata/data port=55491
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-03_20261003T055256Z/ab-252548741072920/pgdata/data start (sandbox only, port 55491)
+zfs clone labpool/victim/inc_i_20261003T055256Z_3d74f2/protected@s_20261003T055357312Z_000017 labpool/sandbox/SC-03_20261003T055256Z/ab-252548741072920/protected mountpoint=/labpool/sandbox/SC-03_20261003T055256Z/ab-252548741072920/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-03_20261003T055256Z/ab-252548741072920/pgdata/data port=55491
+zfs destroy -r labpool/sandbox/SC-03_20261003T055256Z/ab-252548741072920
+zfs destroy labpool/sandbox/SC-03_20261003T055256Z/ab-252548741072920/protected
+zfs clone labpool/victim/inc_i_20261003T055858Z_fd038c/pgdata@s_20261003T055950605Z_000013 labpool/sandbox/SC-04_20261003T055858Z/ab-241111188635648/pgdata mountpoint=/labpool/sandbox/SC-04_20261003T055858Z/ab-241111188635648/pgdata
+rsync wal 000000010000DB4A00000010..000000010000DB4A00000013 -> /labpool/sandbox/SC-04_20261003T055858Z/ab-241111188635648/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-04_20261003T055858Z/ab-241111188635648/pgdata/data port=55447
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-04_20261003T055858Z/ab-241111188635648/pgdata/data start (sandbox only, port 55447)
+zfs clone labpool/victim/inc_i_20261003T055858Z_fd038c/protected@s_20261003T055950605Z_000013 labpool/sandbox/SC-04_20261003T055858Z/ab-241111188635648/protected mountpoint=/labpool/sandbox/SC-04_20261003T055858Z/ab-241111188635648/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-04_20261003T055858Z/ab-241111188635648/pgdata/data port=55447
+zfs destroy -r labpool/sandbox/SC-04_20261003T055858Z/ab-241111188635648
+zfs destroy labpool/sandbox/SC-04_20261003T055858Z/ab-241111188635648/protected
+zfs clone labpool/victim/inc_i_20261003T055858Z_fd038c/pgdata@s_20261003T055950605Z_000013 labpool/sandbox/SC-04_20261003T055858Z/ab-241111192831512/pgdata mountpoint=/labpool/sandbox/SC-04_20261003T055858Z/ab-241111192831512/pgdata
+rsync wal 000000010000DB4A00000010..000000010000DB4A00000014 -> /labpool/sandbox/SC-04_20261003T055858Z/ab-241111192831512/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-04_20261003T055858Z/ab-241111192831512/pgdata/data port=55442
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-04_20261003T055858Z/ab-241111192831512/pgdata/data start (sandbox only, port 55442)
+zfs clone labpool/victim/inc_i_20261003T055858Z_fd038c/protected@s_20261003T055950605Z_000013 labpool/sandbox/SC-04_20261003T055858Z/ab-241111192831512/protected mountpoint=/labpool/sandbox/SC-04_20261003T055858Z/ab-241111192831512/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-04_20261003T055858Z/ab-241111192831512/pgdata/data port=55442
+zfs destroy -r labpool/sandbox/SC-04_20261003T055858Z/ab-241111192831512
+zfs destroy labpool/sandbox/SC-04_20261003T055858Z/ab-241111192831512/protected
+zfs clone labpool/victim/inc_i_20261003T055858Z_fd038c/pgdata@s_20261003T055920198Z_000001 labpool/sandbox/SC-04_20261003T055858Z/ab-241110984602016/pgdata mountpoint=/labpool/sandbox/SC-04_20261003T055858Z/ab-241110984602016/pgdata
+rsync wal 000000010000DB4A00000004..000000010000DB4A00000007 -> /labpool/sandbox/SC-04_20261003T055858Z/ab-241110984602016/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-04_20261003T055858Z/ab-241110984602016/pgdata/data port=55612
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-04_20261003T055858Z/ab-241110984602016/pgdata/data start (sandbox only, port 55612)
+zfs clone labpool/victim/inc_i_20261003T055858Z_fd038c/protected@s_20261003T055920198Z_000001 labpool/sandbox/SC-04_20261003T055858Z/ab-241110984602016/protected mountpoint=/labpool/sandbox/SC-04_20261003T055858Z/ab-241110984602016/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-04_20261003T055858Z/ab-241110984602016/pgdata/data port=55612
+zfs destroy -r labpool/sandbox/SC-04_20261003T055858Z/ab-241110984602016
+zfs destroy labpool/sandbox/SC-04_20261003T055858Z/ab-241110984602016/protected
+zfs clone labpool/victim/inc_i_20261003T055858Z_fd038c/pgdata@s_20261003T060010359Z_000023 labpool/sandbox/SC-04_20261003T055858Z/ab-241111343829000/pgdata mountpoint=/labpool/sandbox/SC-04_20261003T055858Z/ab-241111343829000/pgdata
+rsync wal 000000010000DB4A0000001A..000000010000DB4A0000001D -> /labpool/sandbox/SC-04_20261003T055858Z/ab-241111343829000/wal
+pg_ctl stop sandbox /labpool/sandbox/SC-04_20261003T055858Z/ab-241111343829000/pgdata/data port=55616
+/usr/lib/postgresql/18/bin/pg_ctl -D /labpool/sandbox/SC-04_20261003T055858Z/ab-241111343829000/pgdata/data start (sandbox only, port 55616)
+zfs clone labpool/victim/inc_i_20261003T055858Z_fd038c/protected@s_20261003T060010359Z_000023 labpool/sandbox/SC-04_20261003T055858Z/ab-241111343829000/protected mountpoint=/labpool/sandbox/SC-04_20261003T055858Z/ab-241111343829000/protected
+pg_ctl stop sandbox /labpool/sandbox/SC-04_20261003T055858Z/ab-241111343829000/pgdata/data port=55616
+zfs destroy -r labpool/sandbox/SC-04_20261003T055858Z/ab-241111343829000
+zfs destroy labpool/sandbox/SC-04_20261003T055858Z/ab-241111343829000/protected

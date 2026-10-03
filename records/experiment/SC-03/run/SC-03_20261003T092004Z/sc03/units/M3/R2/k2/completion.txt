@@ -1,0 +1,10 @@
+
+
+Looking at the evidence:
+
+- **Window 12** and **Window 13** show normal DML activity on `p2_probe` with **no schema change** — these are safe.
+- **Window 15** introduces a **schema change** (`ALTER TABLE on public.sc03_orders`), which is the damaging activity.
+
+The latest safe point before the damaging activity began is the **end of Window 13**, at LSN `248992424265432`.
+
+COORDINATE: lsn=248992424265432

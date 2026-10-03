@@ -1,0 +1,11 @@
+
+
+Looking at the evidence:
+
+- **Interval 6** (04:13:20 – 04:13:22): 0 deleted, 0 modified → safe.
+- **Interval 15** (04:13:38 – 04:13:40): 2 deleted, 1 modified → first interval with damaging file activity.
+- **Interval 38** (04:14:23 – 04:14:26): 13 deleted, 2 modified → further damage.
+
+The first interval showing damaging activity (deletions/modifications) is **Interval 15**. The latest safe snapshot before that damaging activity began is the start snapshot of Interval 15: `s_20261003T041337630Z_000015`.
+
+COORDINATE: snapshot=s_20261003T041337630Z_000015

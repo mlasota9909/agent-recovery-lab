@@ -1,0 +1,9 @@
+To identify the latest safe point before damaging activity began, we examine the `last_safe_lsn_int` values provided in the evidence:
+
+1. `250070511388504` (window=16)
+2. `250070578497368` (window=20)
+3. `250070595274432` (window=21)
+
+The highest (latest) LSN value is `250070595274432`.
+
+COORDINATE: lsn=250070595274432 window=21

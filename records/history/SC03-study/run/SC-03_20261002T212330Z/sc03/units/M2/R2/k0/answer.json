@@ -1,0 +1,9 @@
+{
+  "chosen_lsn_int": null,
+  "grammar_outcome": "refusal_genuine",
+  "locators": [],
+  "locators_offered": [],
+  "locators_resolved_to": [],
+  "outcome": "declined",
+  "reason": "declared refusal without coordinate"
+}

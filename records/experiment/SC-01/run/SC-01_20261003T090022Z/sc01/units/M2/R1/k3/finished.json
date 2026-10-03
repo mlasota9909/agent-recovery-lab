@@ -1,0 +1,54 @@
+{
+  "answer": {
+    "chosen_lsn_int": 654312856,
+    "grammar_outcome": "accepted",
+    "locators": [
+      {
+        "discard_reason": null,
+        "resolved_lsn_int": 654312856,
+        "token": "lsn=654312856",
+        "type": "lsn_int"
+      }
+    ],
+    "locators_offered": [
+      "lsn_int"
+    ],
+    "locators_resolved_to": [
+      654312856
+    ],
+    "outcome": "accepted",
+    "reason": "all resolved locators agree"
+  },
+  "call_started_utc": "2026-10-03T09:15:57.048575Z",
+  "check": {
+    "checks_complete": true,
+    "damage_rows_retained": 0,
+    "legit_rows_lost": 64,
+    "report": "/home/mlasota/agent-recovery-lab-examiner4/var/restore/SC-01_20261003T090022Z/ab-654312856/report.json",
+    "report_sha256": "fd024608a6c679131d9c2f84167a62e5e698913d4a509d62a30d8fb53a0e7bab",
+    "verdict_v1": "incorrect_safe"
+  },
+  "completion_tokens": 333,
+  "containment_verified": true,
+  "decoding": {
+    "max_tokens": 8192,
+    "seed": 42,
+    "temperature": 0,
+    "top_p": 1
+  },
+  "finished_utc": "2026-10-03T09:16:08.153964Z",
+  "freeze_sha256": "b4f644cfb5370e1ae3f1b0aa4a736d7cdb7a1ae58b6d9bc2a7cb3430b3b6c4cf",
+  "incident_id": "SC-01_20261003T090022Z",
+  "latency_ms": 10606,
+  "model_alias": "gympc-gemma4-26b",
+  "model_record": "/home/mlasota/agent-recovery-lab-examiner4/logs/run/SC-01_20261003T090022Z/sc01/units/M2/R1/k3/model.json",
+  "model_record_sha256": "9b5307151401b7e24556370533fc2b4e14a6118e67a9e70d991eea5c17ce814d",
+  "outcome": "accepted",
+  "prompt_sha256": "4c6b0e2889f189706cc3092a7eadc4e5752fff51f8a98f90bcc84d8b8e7f55ac",
+  "prompt_tokens": 365,
+  "raw_completion": "To identify the latest safe point before damaging activity began, we examine the provided evidence:\n\n1.  `{\"anomaly_score\":215.67463084876857, \"last_safe_lsn_int\":721421720, \"window_index\":15}`\n2.  `{\"anomaly_score\":1.3641205013737026, \"last_safe_lsn_int\":637535640, \"window_index\":10}`\n3.  `{\"anomaly_score\":1.3641205013737026, \"last_safe_lsn_int\":654312856, \"window_index\":11}`\n\nThe first entry shows a high anomaly score (215.67), indicating the presence of damaging activity. The `last_safe_lsn_int` associated with this anomaly is 721421720. However, the task asks for the latest safe point *before* damaging activity began. \n\nLooking at the other entries, they have low anomaly scores (1.36), indicating they are safe. The highest `last_safe_lsn_int` among the safe entries is 654312856 (window_index 11).\n\nCOORDINATE: lsn=654312856",
+  "replicate_index": 3,
+  "representation": "R1",
+  "schema_version": 1,
+  "unit_id": "gympc-gemma4-26b|R1|3"
+}

@@ -1,0 +1,11 @@
+| model | comparison | blocks | excluded_blocks | missing_units | execution_failures | b | c | n_discordant | p | note | p_raw | p_holm | reject_at_0.05 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| gb10a-deepseek-v4-flash | R0/R1 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 1.0 | no discordant pairs | 1.0 | 1.0 | False |
+| gb10a-deepseek-v4-flash | R0/R2 | 5 | 0 | 0 | 0 | 5 | 0 | 5 | 0.0625 | null | 0.0625 | 0.1875 | False |
+| gb10a-deepseek-v4-flash | R1/R2 | 5 | 0 | 0 | 0 | 5 | 0 | 5 | 0.0625 | null | 0.0625 | 0.1875 | False |
+| gympc-gemma4-26b | R0/R1 | 5 | 0 | 0 | 0 | 0 | 2 | 2 | 0.5 | null | 0.5 | 1.0 | False |
+| gympc-gemma4-26b | R0/R2 | 5 | 0 | 0 | 0 | 0 | 2 | 2 | 0.5 | null | 0.5 | 1.0 | False |
+| gympc-gemma4-26b | R1/R2 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 1.0 | no discordant pairs | 1.0 | 1.0 | False |
+| alienware-qwen38-27b | R0/R1 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 1.0 | no discordant pairs | 1.0 | 1.0 | False |
+| alienware-qwen38-27b | R0/R2 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 1.0 | no discordant pairs | 1.0 | 1.0 | False |
+| alienware-qwen38-27b | R1/R2 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 1.0 | no discordant pairs | 1.0 | 1.0 | False |
