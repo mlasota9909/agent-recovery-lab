@@ -172,7 +172,9 @@ def analytics(incident: str) -> dict:
         w = windows[idx]
         duration = window_s
         if w["t_start"] and w["t_end"]:
-            duration = max((parse_ts(w["t_end"]) - parse_ts(w["t_start"])).total_seconds(), 1e-9)
+            span = (parse_ts(w["t_end"]) - parse_ts(w["t_start"])).total_seconds()
+            if span > 0:   # a window holding one heartbeat has no span, so its own length is used
+                duration = span
         burst = w["n_changes"] / duration
         rows.append({
             "incident_id": incident,
