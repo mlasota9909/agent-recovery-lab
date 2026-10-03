@@ -45,8 +45,12 @@ wal2json; `lab-wal-config` handles this.
 cp etc/lab.local.env.example etc/lab.local.env
 # Edit the site file using the table below; keep secrets out of version control.
 bin/lab-p9-modelset --build --served-identities
-run/all.sh
+run/experiment.sh        # all four studies, one after another, on one VM
 ```
+
+`run/experiment.sh` runs `run/all.sh` (the file study, which provisions the VM on a first run) and then the three
+database studies in the same checkout and on the same VM. It stops at the first failure. After retiring a refused
+attempt with `run/retire-attempt.sh`, resume with `run/experiment.sh --from sc01`, `--from sc03` or `--from sc04`.
 
 Uncomment and set the site keys, including values that match template defaults.
 Preflight requires explicit values for the VM, SSH account, network, storage,
@@ -263,8 +267,9 @@ LAB_RUN_SCOPE=dry-run/$(date -u +%Y%m%dT%H%M%SZ) run/optional/sc03-study.sh --st
 Each entry point exposes `--stage 00|10|20|30|40|50|60|70|all`, with `all` the
 default; stages 30 to 70 need `--incident`. A dry-run scope runs only stages 20
 and 30. The three studies use the database inputs and prompt, the revised P11
-visible-locator rules, the fixed 45-unit design and verdict v1 checks. Run them
-in a separate replica checkout. SC-01 refuses the earlier headline incident
+visible-locator rules, the fixed 45-unit design and verdict v1 checks. They run
+in the same checkout and on the same VM as the file study; `run/experiment.sh`
+runs all four in order. SC-01 refuses the earlier headline incident
 named in `lib/lab_repr.py`, which stays read-only.
 
 SC-01 uses the existing SC-01 generator; its driver is `bin/lab-p9-sweep

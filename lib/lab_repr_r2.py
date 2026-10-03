@@ -12,12 +12,25 @@ from lab_repr import (
     windowing_params, write_0444, write_json_0444, write_jsonl_0444,
 )
 
-BUILDER = "p5-repr-r2-1"
+BUILDER = "p5-repr-r2-2"
 
 WINDOW_TMPL = (
-    "Window {i} [{lo}..{hi}]: {n_del} DELETE on relation {rel}, "
-    "{n_ins} INSERT; anomaly {score}."
+    "Window {i} [{lo}..{hi}]: {n_ins} INSERT, {n_upd} UPDATE and {n_del} DELETE, most on relation {rel}; "
+    "{schema}; anomaly {score}."
 )
+ROW_ACTIONS = {"I", "U", "D"}
+
+
+def schema_changes(bucket: list[dict]) -> list[dict]:
+    """Schema changes reach the change log as their command tag (CREATE TABLE, ALTER TABLE, ...)."""
+    return [e for e in bucket if e.get("action") and e["action"] not in ROW_ACTIONS | {"B", "C"}]
+
+
+def schema_phrase(changes: list[dict]) -> str:
+    if not changes:
+        return "no schema change"
+    items = ", ".join(f"{e['action']} on {e['object']}" for e in changes)
+    return f"{len(changes)} schema change{'s' if len(changes) > 1 else ''} ({items})"
 ENTITY_TMPL = (
     "Relation {rel}: {n} changes across windows {w0}..{wk}; "
     "peak {peak} in window {pw}."
@@ -85,10 +98,12 @@ def build_summaries(events: list[dict], r1_windows: list[dict], window_s: int, c
         rel = rel_counts.most_common(1)[0][0] if rel_counts else (bucket[0]["object"] if bucket else "")
         n_del = sum(1 for e in bucket if e["action"] == "D")
         n_ins = sum(1 for e in bucket if e["action"] == "I")
+        n_upd = sum(1 for e in bucket if e["action"] == "U")
+        ddl = schema_changes(bucket)
         score = w["anomaly_score"]
         text = WINDOW_TMPL.format(
-            i=idx, lo=w["first_lsn_int"], hi=w["last_lsn_int"],
-            n_del=n_del, rel=rel or "-", n_ins=n_ins, score=score,
+            i=idx, lo=w["first_lsn_int"], hi=w["last_lsn_int"], n_ins=n_ins, n_upd=n_upd,
+            n_del=n_del, rel=rel or "-", schema=schema_phrase(ddl), score=score,
         )
         rows.append({
             "kind": "window",
@@ -96,6 +111,8 @@ def build_summaries(events: list[dict], r1_windows: list[dict], window_s: int, c
             "text": text,
             "n_del": n_del,
             "n_ins": n_ins,
+            "n_upd": n_upd,
+            "n_ddl": len(ddl),
             "n_events": len(bucket),
             "anomaly_score": score,
             "relation": rel,
@@ -140,6 +157,12 @@ def reconcile_summaries(summaries: list[dict], events: list[dict], c5: list[dict
                 errors.append(f"window {idx} n_del {s['n_del']} != {actual_del}")
             if int(s["n_ins"]) != actual_ins:
                 errors.append(f"window {idx} n_ins {s['n_ins']} != {actual_ins}")
+            actual_upd = sum(1 for e in bucket if e["action"] == "U")
+            if int(s.get("n_upd", actual_upd)) != actual_upd:
+                errors.append(f"window {idx} n_upd {s['n_upd']} != {actual_upd}")
+            actual_ddl = len(schema_changes(bucket))
+            if int(s.get("n_ddl", actual_ddl)) != actual_ddl:
+                errors.append(f"window {idx} n_ddl {s['n_ddl']} != {actual_ddl}")
             if int(s["n_events"]) != len(bucket):
                 errors.append(f"window {idx} n_events {s['n_events']} != {len(bucket)}")
         elif s["kind"] == "entity":
