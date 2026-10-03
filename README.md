@@ -296,6 +296,19 @@ Output is separate per study: `logs/run/<incident>/sc0N/`,
 `results/sc0N-comparators-<incident>.jsonl` and `analysis-out/sc0N/<incident>/`.
 The kept studies are in `records/experiment/` (SC-01, SC-03 and SC-04).
 
+## Retained from the development build
+
+The lab was built in stages P0 to P13 (`sdd/specs/`, with the decision records and handoff documents under
+`docs/`). Three of them were studies run in the development repository, not in this one: P9, the three-model
+comparison on the development lab's SC-01 incident (the Primary Sweep); P10, the token-scaling study of the raw
+excerpts against the written summaries (the Scaling Study); and P11, the re-score of the P10 answers under the revised
+answer-reading rules (the Rule-Repair Phase). Their specifications, contracts, decision records, handoff documents and
+code (`bin/lab-p9-*`, `bin/lab-p10-*`, `lib/lab_p9*`, `lib/lab_p10*`) are kept because later stages reuse parts of
+them: the model registry, the SC-01 driver, the statistics library and the answer-reading rules. Their results are not
+in this repository (P12 put re-running them out of scope) and `run/experiment.sh` does not run them. The "headline
+incident" named in `lib/lab_repr.py` is the development lab's SC-01 incident, which this repository refuses to reuse.
+Earlier runs of this repository's own studies are in `records/history/`.
+
 ## Teardown and verification limits
 
 ```bash
