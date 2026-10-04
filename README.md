@@ -18,7 +18,8 @@ receive each input five times. Accepted answers, a fixed-rule ranker and a time 
 isolation and checked against a script-derived reference. Checked damage and lost legitimate work are reported
 separately. The baseline uses known damage onset; each study is a single-incident feasibility experiment, not a
 population study. `run/experiment.sh` runs all four studies on one VM, and `python3 records/experiment/verify.py`
-checks the kept run against its freezes. The database
+checks the kept run against its freezes without a VM, model or network. [records/experiment/README.md](records/experiment/README.md)
+lists what the kept run contains. The database
 studies' entry points are under `run/optional/` because their frozen analysis plans are pinned there.
 
 ## Prerequisites and configuration
@@ -75,7 +76,9 @@ study observations. Identity drift fails preflight; it never repins a model.
 
 All site values are listed in this table. Reference values were supplied as
 verified on 2026-09-29. Generated values describe that build, not a fixed address
-or a value to copy blindly. Experimental constants such as repeat count and
+or a value to copy blindly. The experiment of record in `records/experiment/` ran on
+2026-10-03 on a VM named `reclab06`, provisioned by the same scripts from a fresh clone
+at commit 633952f; the VM values in the table are those of the earlier verified build. Experimental constants such as repeat count and
 decoding are fixed by the contracts rather than configured per host.
 
 | Key | Meaning | Reference environment | How to find/set in a new environment |
